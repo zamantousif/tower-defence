@@ -58,9 +58,10 @@ preferably at a regular weekly time. In the meeting the group updates:
 It is strongly recommended to use Doxygen to document your source code.
 Please go over the *Project Guidelines* for details.
 
-# Installation Instructions
-## Linux 
-### Tested on Ubuntu 18.04
+# Prerequisites
+## Install dependencies
+### Linux 
+#### Tested on Ubuntu 18.04
 1. `sudo apt update`
 2. Install toolchain (GCC, make, etc.) `sudo apt install build-essential`
 3. Install CMake `sudo apt install cmake`
@@ -68,12 +69,14 @@ Please go over the *Project Guidelines* for details.
    1. Download the SFML 2.5.1 tar.gz from the URL
    2. Extract and keep the folder `SFML 2.5.1` in your `home` directory
    3. The path should be `/home/<username>/SFML-2.5.1`
-   4. Add the paths to `include` & `lib` directories as `SFML_INCLUDE_DIR` and `SFML_LIBRARY_DIR` respectively, in CMakeLists.txt
 
 Note: It is also possible to skip step 4. and install SFML using `sudo apt-get install libsfml-dev` but the version installed will be the latest in the apt repository, follow 4. to be sure about `SFML 2.5.1`.
+## Update CMakeLists.txt
+Add the paths to `include` & `lib` directories as `SFML_INCLUDE_DIR` and `SFML_LIBRARY_DIR` respectively, in CMakeLists.txt
 
-# Build Instructions
-Follow the below steps to build the project after the installation steps are completed.
+
+# Build and Run
+Follow the below steps to build the project after the prerequisite steps are completed.
 1. `git clone git@version.aalto.fi:cpp-autumun-2021/tower-defense/tower-defense-5.git` - to clone the project repository
 2. Open a terminal and enter the project directory
 3. `mkdir build` - make a `build` directory inside the project
