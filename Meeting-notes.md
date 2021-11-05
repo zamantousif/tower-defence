@@ -1,52 +1,34 @@
 # Meeting Notes
-In this file, you are required to take notes for your weekly meetings. 
-In each meeting, you are required to discuss:
-
-1. What each member has done during the week?
-2. Are there challenges or problems? Discuss the possible solutions
-3. Plan for the next week for everyone
-4. Deviations and changes to the project plan, if any
-
-
-# Meeting dd.mm.2021 HH::MM
+# Meeting 01.11.2021 18::00
 
 **Participants**: 
-1. Member 1
-2. Member 2
-3. Member 3
-4. Member 4 
+1. Julius Järvilinna
+2. Tousif Zaman
+3. Tomi Mikkola
+4. Konsta Kemppainen
 
 ## Summary of works
-1. Member 1 
-   
-   Implementing the class XX. Tested the class XX. 
-   Results are in `tests/<class-xx-tests>`. Resolved the identified problems.
-
-2. Member 2
-
-   Same as above
-
-3. ...
-
-## Challenges
-
-1. The integration of UI with the monsters requires an abstract interface.
-2. ...
+1. This was our very first team meeting.
+2. We had a round of basic introduction about ourselves.
+3. Discussed about towers, enemy, GUI and other parts of the game.
+4. A preliminary version of the class relationship diagram was done.
+5. Each member agreed to take up some responsibilities of the implementation.
+6. Team decided that Tuesday evening would be most appropriate for team meetings.
 
 ## Actions
-1. Member 1 is going to look into defining an abstract interface for monsters 
-   to enable easy UI integration.
-2. Member 2 is going to work with Member 1 to use abstract interface in derived 
-   monster classes.
-3. Member 2 is going to test the interface.
-4. Member 3 is going to use ...
+1. Julius agreed to implement the towers and the enemy classes.
+2. Tousif decided to add CMake support to the repository and start work on abstract classes.
+3. Tomi will decide the look of the towers and enemies.
+4. Konsta will look into map implementation and GUI.
 
-> Please reflect these action decisions in your git commit messages so that 
-> your group members and advisor can follow the progress.
-
-## Project status 
+## Project status (as of 05.11.2021 22::45)
 Short summary of current project status. 
+1. Team has been working on the project plan and the tentative schedule.
+2. Initial repository structure is added with CMake support for Linux.
+
+## Challenges
+1. We might have to render and update to GUI at the same time, there is concern about data races.
 
 ### TODOs
-1. Member 1: Write an action.
-2. ...
+1. Tousif: Add abstract class implementations so that further implementation could begin.
+2. Team: Take the repository into use and report any issues with CMake/SFML.
