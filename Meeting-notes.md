@@ -24,7 +24,7 @@
 ## Project status (as of 05.11.2021 22::45)
 Short summary of current project status. 
 1. Team has been working on the project plan and the tentative schedule.
-2. Initial repository structure is added with CMake support for Linux.
+2. Initial repository structure is added with CMake+SFML support for Linux.
 
 ## Challenges
 1. We might have to render and update to GUI at the same time, there is concern about data races.
