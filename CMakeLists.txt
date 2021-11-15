@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.6)
 project(TowerDefense5)
 
 # Set the language standard
@@ -10,6 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/)
 # Set the compiler flags
 if(MSVC)
 	message("Using MSVC!")
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TowerDefense5)
 else()
 	message("Not using MSVC!")
 	add_compile_options("-Wall" "-Wextra")
