@@ -4,3 +4,6 @@
 [submodule "libs/json"]
 	path = libs/json
 	url = https://github.com/nlohmann/json.git
+[submodule "libs/TGUI"]
+	path = libs/TGUI
+	url = https://github.com/texus/TGUI.git
