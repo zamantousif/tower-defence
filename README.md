@@ -3,11 +3,49 @@
 TODO: \<Add a brief high level description of the Game\>
 
 # Group
+
 - Julius Järvilinna
 - Tousif Zaman
 - Tomi Mikkola
 - Konsta Kemppainen
+
+# How to compile the project from source
+
+First you need to clone the repository and download all the required dependencies (git submodules). This can be achieved with Git by doing the following:
+
+1. Open your terminal in the directory where you want to download the project.
+2. Run `git clone --recurse-submodules git@version.aalto.fi:cpp-autumun-2021/tower-defense/tower-defense-5.git` in the terminal.
+
+The rest is platform-specific. Scroll down to see instructions for your platform.
+
+## Windows
+
+Tested on Windows 10.
+
+1. Install CMake from the [CMake website](https://cmake.org/download/).
+2. Install [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/).
+3. Install the `Desktop development with C++` workload.
+4. Make a build folder in the project directory.
+5. Once you have a terminal open in the build folder, run `cmake ..`
+6. If the files are created successfully, open `TowerDefense5.sln` in Visual Studio 2022.
+7. Build and run the project in Visual Studio 2022.
+
+## Linux
+
+Tested on Ubuntu 18.04.
+
+1. Run `sudo apt update` in the terminal.
+2. Install toolchain (GCC, make, etc.) by running `sudo apt install build-essential` in the terminal.
+3. Install CMake by running `sudo apt install cmake` in the terminal.
+4. Open a terminal in the project directory.
+5. `mkdir build` - make a `build` directory inside the project.
+6. `cd build` - enter the build directory.
+7. `cmake ..` - run CMake and generate a makefile inside `build`.
+8. `make` - use the makefile to build the project.
+9. `./TowerDefense5` - finally, run the executable generated inside `build`.
+
 # Repository organization
+
 The project repository is organised as the following tree:
 
 | \
@@ -34,6 +72,7 @@ The course staff should be able to easily compile the project work using makefil
 instructions provided in the git repository. The final output should be in the **master branch** of the git repository.
 
 # Working practices
+
 Each project group is assigned an advisor from the project teaching personnel. 
 There will be a dedicated Teams channel for each project topic to facilitate discussion between 
 the groups in the same topic and the advisor. 
@@ -58,37 +97,7 @@ preferably at a regular weekly time. In the meeting the group updates:
 It is strongly recommended to use Doxygen to document your source code.
 Please go over the *Project Guidelines* for details.
 
-# Prerequisites
-## Install dependencies
-### Linux 
-#### Tested on Ubuntu 18.04
-1. `sudo apt update`
-2. Install toolchain (GCC, make, etc.) `sudo apt install build-essential`
-3. Install CMake `sudo apt install cmake`
-4. Install SFML 2.5.1 and its dependencies, refer https://www.sfml-dev.org/download/sfml/2.5.1/
-   1. Download the SFML 2.5.1 tar.gz from the URL
-   2. Extract and keep the folder `SFML 2.5.1` in your `home` directory
-   3. The path should be `/home/<username>/SFML-2.5.1`
-
-Note: It is also possible to skip step 4. and install SFML using `sudo apt-get install libsfml-dev` but the version installed will be the latest in the apt repository, follow 4. to be sure about `SFML 2.5.1`.
-## Update CMakeLists.txt
-Add the paths to `include` & `lib` directories as `SFML_INCLUDE_DIR` and `SFML_LIBRARY_DIR` respectively, in CMakeLists.txt
-
-
-# Build and Run
-Follow the below steps to build the project after the prerequisite steps are completed.
-1. `git clone git@version.aalto.fi:cpp-autumun-2021/tower-defense/tower-defense-5.git` - to clone the project repository
-2. Open a terminal and enter the project directory
-3. `mkdir build` - make a `build` directory inside the project
-4. `cd build` - enter the build directory
-5. `cmake ..` - to run CMake and generate a makefile inside `build`
-6. `make` - to use the makefile to build the project
-7. `./towerdefense5` - finally, run the executable generated inside `build`
-
-
 # TODOs (04-Nov-2021)
-Assigned to `Tousif`
-- Install SFML 2.5.1 on Windows as outlined in https://www.sfml-dev.org/tutorials/2.5/ and install this repository locally
-- Update CMakeLists.txt and installation instructions accordingly
+
 - Add GTest support
 - Check how to optimize CMakeLists.txt for cross-platform compatibility
