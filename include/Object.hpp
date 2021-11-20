@@ -1,5 +1,4 @@
-#ifndef TOWER_DEFENCE_OBJECT_CLASS
-#define TOWER_DEFENCE_OBJECT_CLASS
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -19,5 +18,3 @@ namespace td
             sf::Texture sprite_;
     };
 }
-
-#endif
