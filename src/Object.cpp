@@ -1,6 +1,6 @@
 #include "Object.hpp"
 
-namespace towerdefense
+namespace td
 {
     Object::Object(sf::Vector2<unsigned int> position, sf::CircleShape hitbox, sf::Texture sprite) : 
         position_(position), hitbox_(hitbox), sprite_(sprite) {}

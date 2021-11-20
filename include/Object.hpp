@@ -3,15 +3,15 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace towerdefence
+namespace td
 {
     class Object
     {
         public:
             Object(sf::Vector2<unsigned int> position, sf::CircleShape hitbox, sf::Texture sprite);
-            sf::Vector2<unsigned int> getPosition(); 
-            sf::CircleShape getHitbox();
-            sf::Texture getSprite();
+            virtual sf::Vector2<unsigned int> getPosition(); 
+            virtual sf::CircleShape getHitbox();
+            virtual sf::Texture getSprite();
 
         protected:
             sf::Vector2<unsigned int> position_;
