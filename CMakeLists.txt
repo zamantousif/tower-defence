@@ -5,7 +5,7 @@ project (TowerDefense5)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Set the compiler flags
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Werror -O3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -O3")
 
 # Build
 # Include the directories for compilation
@@ -15,7 +15,6 @@ include_directories(src)
 set(EXECUTABLE_NAME towerdefense5)
 set(SOURCES 
     src/main.cpp
-    # add all other source files here as: src/<folder>/<filename>.cpp
     src/Object.cpp
 )
 # Add all .cpp - files under src/ directory
