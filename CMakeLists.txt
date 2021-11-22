@@ -1,44 +1,52 @@
-cmake_minimum_required (VERSION 3.10)
-project (TowerDefense5)
+cmake_minimum_required(VERSION 3.8)
+project(TowerDefense5)
 
 # Set the language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-# Set the compiler flags
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Werror -O3")
 
-# Build
-# Include the directories for compilation
-include_directories(include)
-include_directories(src)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/)
+
+# Define a grouping for source files in IDE project generation
+# (for example Visual Studio solution filters)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
+
+# Set the compiler flags
+if(MSVC)
+	message("Using MSVC!")
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TowerDefense5)
+else()
+	message("Not using MSVC!")
+	add_compile_options("-Wall" "-Wextra")
+endif()
+
 # Set the name of the executable to be produced
-set(EXECUTABLE_NAME towerdefense5)
+set(EXECUTABLE_NAME ${PROJECT_NAME})
+
 set(SOURCES 
     src/main.cpp
     # add all other source files here as: src/<folder>/<filename>.cpp
 )
-# Add all .cpp - files under src/ directory
+
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
-set(CMAKE_BUILD_TYPE Debug)
+set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-# Find Box2D library
-# find_package(Box2D REQUIRED)
-# target_link_libraries(${EXECUTABLE_NAME} Box2D)
+# Include and link the SFML library
+set(SFML_DIR "${PROJECT_SOURCE_DIR}/libs/SFML")
+add_subdirectory(${SFML_DIR})
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE sfml-audio sfml-graphics sfml-network sfml-system sfml-window)
 
-# If you want to link SFML statically
-# set(SFML_STATIC_LIBRARIES TRUE)
+# Include the json library
+option(USE_EXTERNAL_JSON "Use an external JSON library" OFF)
+if(USE_EXTERNAL_JSON)
+  find_package(nlohmann_json 3.2.0 REQUIRED)
+else()
+  set(JSON_BuildTests OFF CACHE INTERNAL "")
+  add_subdirectory("${PROJECT_SOURCE_DIR}/libs/json/")
+endif()
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-# In most cases better set in the CMake cache
-# set(SFML_DIR "<sfml root prefix>/lib/cmake/SFML")
-set(SFML_INCLUDE_DIR "/home/mtz/SFML-2.5.1/include")
-set(SFML_LIBRARY_DIR "/home/mtz/SFML-2.5.1/include/lib")
-
-link_directories(SFML_LIBRARY_DIR)
-include_directories(SFML_INCLUDE_DIR)
-
-#SFML
-find_package(SFML 2.5 COMPONENTS audio graphics network system window REQUIRED)
-target_link_libraries(${EXECUTABLE_NAME} sfml-audio sfml-graphics sfml-network sfml-system sfml-window)
-
-# For installing targets (not mandatory)
-# install (TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
+# Include the TGUI library
+set(TGUI_BACKEND SFML_GRAPHICS)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE tgui)
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/TGUI/")
