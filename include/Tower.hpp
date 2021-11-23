@@ -21,7 +21,7 @@ namespace td
             /// \brief Tower constructor
             /// \param position     Position of the tower
             /// \param attackSpeed  Attack speed of the tower
-            Tower(sf::Vector2<float> position, unsigned int attackSpeed);
+            explicit Tower(sf::Vector2<float> position, unsigned int attackSpeed);
 
             /// \brief Get the position of the tower
             /// \return Position of the tower
@@ -33,11 +33,11 @@ namespace td
 
             /// \brief Get the attack speed of the tower
             /// \return Attack speed of the tower
-            unsigned int getAttackSpeed();
+            virtual unsigned int getAttackSpeed();
 
             /// \brief Get the radius of the shape representing damage area of the tower
             /// \return Radius of the shape representing damage area of the tower
-            float getRange();
+            virtual float getRange();
 
         protected:
             unsigned int attackSpeed_;  ///< Attack speed of the tower
