@@ -17,12 +17,16 @@ if(MSVC)
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TowerDefense5)
 else()
 	message("Not using MSVC!")
-	add_compile_options("-Wall -Wextra -Wpedantic -O3")
+	add_compile_options("-Wall" "-Wextra" "-Wpedantic" "-O3")
 endif()
+
+# Build
+# Include the directories for compilation
+include_directories(include)
+include_directories(src)
 
 # Set the name of the executable to be produced
 set(EXECUTABLE_NAME ${PROJECT_NAME})
-
 set(SOURCES 
     src/main.cpp
     src/Object.cpp
