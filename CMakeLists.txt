@@ -4,36 +4,54 @@ project (TowerDefense5)
 # Set the language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-# Set the compiler flags
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -O3")
 
-# Build
-# Include the directories for compilation
-include_directories(include)
-include_directories(src)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/)
+
+# Define a grouping for source files in IDE project generation
+# (for example Visual Studio solution filters)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
+
+# Set the compiler flags
+if(MSVC)
+	message("Using MSVC!")
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TowerDefense5)
+else()
+	message("Not using MSVC!")
+	add_compile_options("-Wall -Wextra -Wpedantic -O3")
+endif()
+
 # Set the name of the executable to be produced
-set(EXECUTABLE_NAME towerdefense5)
+set(EXECUTABLE_NAME ${PROJECT_NAME})
+
 set(SOURCES 
     src/main.cpp
     src/Object.cpp
 )
-# Add all .cpp - files under src/ directory
+
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
-set(CMAKE_BUILD_TYPE Debug)
+set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-# Support external libraries
-# SFML
-# If you want to link SFML statically
-# set(SFML_STATIC_LIBRARIES TRUE)
-# In most cases better set in the CMake cache
-# set(SFML_DIR "<sfml root prefix>/lib/cmake/SFML")
-set(SFML_INCLUDE_DIR /libs/SFML/include)
-set(SFML_LIBRARY_DIR /libs/SFML/src)
-link_directories(SFML_LIBRARY_DIR)
-include_directories(SFML_INCLUDE_DIR)
-# find_package(SFML 2.5 COMPONENTS audio graphics network system window REQUIRED)
+# Include and link the SFML library
+set(SFML_DIR "${PROJECT_SOURCE_DIR}/libs/SFML")
+add_subdirectory(${SFML_DIR})
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE sfml-audio sfml-graphics sfml-network sfml-system sfml-window)
 
-# GoogleTest
+# Include the json library
+option(USE_EXTERNAL_JSON "Use an external JSON library" OFF)
+if(USE_EXTERNAL_JSON)
+  find_package(nlohmann_json 3.2.0 REQUIRED)
+else()
+  set(JSON_BuildTests OFF CACHE INTERNAL "")
+  add_subdirectory("${PROJECT_SOURCE_DIR}/libs/json/")
+endif()
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+# Include the TGUI library
+set(TGUI_BACKEND SFML_GRAPHICS)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE tgui)
+add_subdirectory("${PROJECT_SOURCE_DIR}/libs/TGUI/")
+
+# Include GoogleTest
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -43,12 +61,6 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-
-# Linking
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE sfml-audio sfml-graphics sfml-network sfml-system sfml-window)
-
-# For installing targets (not mandatory)
-# install (TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
 
 # Testing
 enable_testing()
