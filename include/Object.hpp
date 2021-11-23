@@ -4,6 +4,9 @@
 
 namespace td
 {
+    /*  Object class is an abstract class representing the basic entity of the game.
+     *  The object class shall be inherited by all other game entities such as towers, enemies, etc.
+     */ 
     class Object
     {
         public:
