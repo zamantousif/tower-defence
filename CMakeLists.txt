@@ -30,6 +30,7 @@ set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
     src/Object.cpp
+    src/Tower.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -71,6 +72,7 @@ enable_testing()
 add_executable(
     run_tests
     src/Object.cpp
+    src/Tower.cpp
     tests/ObjectTest.cpp
 )
 target_link_libraries(
