@@ -32,6 +32,8 @@ Short summary of current project status.
 ### TODOs
 1. Tousif: Add abstract class implementations so that further implementation could begin.
 2. Team: Take the repository into use and report any issues with CMake/SFML.
+
+
 # Meeting 09.11.2021 18::00
 
 **Participants**: 
@@ -68,3 +70,62 @@ Short summary of current project status.
 1. Tousif + Julius: Add abstract class implementations so that further implementation could begin.
 2. Team: Take the repository into use and report any issues with CMake/SFML.
 
+
+# Meeting 16.11.2021 18::00
+
+**Participants**: 
+1. Julius Järvilinna
+2. Tousif Zaman
+3. Tomi Mikkola
+4. Konsta Kemppainen
+
+## Discussion/ Summary of works
+1. Everyone has now been able to compile the project using CMake
+2. Basic planning of 5 towers has now been done
+3. We went over how to handle merge requests and when git rebase should be used
+
+## What’s next?
+1. Tousif will continue work on implementing abstract classes (object, tower, enemy, projectile) and a basic version of Game() class 
+2. Konsta will work on the technical implementation of maps (although he’s very very busy this week!).
+3. Julius will design what kind of enemies and an enemy theme will be used
+4. Tomi will make art for at least one map and several towers and projectiles
+
+## Project status (as of 16.11.2021 20::30)
+Short summary of current project status. 
+1. Code compiles with CMake for everyone
+2. We went cross-platform and cross-compiler way with MSVC, Linux and different set of compilers used to build the project
+3. Initial version of abstract class for game Object is added
+4. We have more clarity on the tower and enemy implementations
+
+## Challenges
+1. We might have to render and update to GUI at the same time, there is concern about data races.
+
+### TODOs
+1. Implement GUI
+
+
+# Meeting 23.11.2021 18::00
+
+**Participants**: 
+1. Julius Järvilinna
+2. Tousif Zaman
+3. Tomi Mikkola
+
+## Discussion/ Summary of works
+1. Tomi showed the artwork he’s been working on: many towers, enemies and a map.
+2. Julius has designed several enemies
+3. Tousif has worked on the abstract classes and showed us how to do unit tests
+
+## What’s next?
+1. Tomi will work on the GUI
+2. Julius will begin proper tower implementation
+3. Tousif will wrap up the Enemy class implementation and add some pending tests for other classes.
+4. We need to figure out GUI and MAP implementations.
+
+## Project status (as of 23.11.2021 20::30)
+1. We have basic versions of sprites for the game objects and the map.
+2. We added some base implementations and test cases.
+3. We revisited the class diagram and made some corrections/additions.
+
+## Challenges
+1. We need to pick up more on the implementation part of the project.
