@@ -10,13 +10,14 @@ namespace td
     class Object
     {
         public:
-            Object(sf::Vector2<unsigned int> position, sf::CircleShape hitbox, sf::Texture sprite);
-            virtual sf::Vector2<unsigned int> getPosition(); 
+            Object(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite);
+            virtual sf::Vector2<float> getPosition(); 
             virtual sf::CircleShape getHitbox();
             virtual sf::Texture getSprite();
+            virtual void setPosition(sf::Vector2<float> position);
 
         protected:
-            sf::Vector2<unsigned int> position_;
+            sf::Vector2<float> position_;
             sf::CircleShape hitbox_;
             sf::Texture sprite_;
     };

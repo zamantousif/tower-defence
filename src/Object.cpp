@@ -2,10 +2,10 @@
 
 namespace td
 {
-    Object::Object(sf::Vector2<unsigned int> position, sf::CircleShape hitbox, sf::Texture sprite) : 
+    Object::Object(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite) : 
         position_(position), hitbox_(hitbox), sprite_(sprite) {}
 
-    sf::Vector2<unsigned int> Object::getPosition()
+    sf::Vector2<float> Object::getPosition()
     {
         return position_;
     }
@@ -18,6 +18,11 @@ namespace td
     sf::Texture Object::getSprite()
     {
         return sprite_;
+    }
+
+    void Object::setPosition(sf::Vector2<float> position)
+    {
+        position_ = position;
     }
 
 }
