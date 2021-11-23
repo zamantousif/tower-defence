@@ -71,7 +71,7 @@ enable_testing()
 add_executable(
     run_tests
     src/Object.cpp
-    tests/test.cc
+    tests/ObjectTest.cpp
 )
 target_link_libraries(
     run_tests
