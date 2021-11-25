@@ -61,8 +61,9 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/libs/TGUI/")
 include(FetchContent)
 FetchContent_Declare(
     googletest
-    # Specify the commit you depend on and update it regularly
-    URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+    GIT_REPOSITORY https://github.com/google/googletest.git # URL of repository
+    GIT_TAG e2239ee6043f73722e7aa812a459f54a28552929 # hash of the commit
+    SOURCE_DIR libs/googletest # path to library inside build
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
