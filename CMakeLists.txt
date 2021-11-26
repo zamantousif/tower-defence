@@ -32,6 +32,7 @@ set(SOURCES
     src/Object.cpp
     src/Tower.cpp
     src/Enemy.cpp
+    src/Projectile.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -76,6 +77,7 @@ add_executable(
     src/Object.cpp
     src/Tower.cpp
     src/Enemy.cpp
+    src/Projectile.cpp
     tests/ObjectTest.cpp
 )
 target_link_libraries(
