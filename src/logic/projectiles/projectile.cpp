@@ -1,4 +1,4 @@
-#include "Projectile.hpp"
+#include "projectile.hpp"
 
 namespace td
 {

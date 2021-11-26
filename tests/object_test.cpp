@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
-#include <Object.hpp>
+#include "object.hpp"
 
 TEST(CreateBaseClassObjectAndTestMembers, BaseClassTest)
 {

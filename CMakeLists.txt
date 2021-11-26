@@ -29,10 +29,10 @@ include_directories(src)
 set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
-    src/Object.cpp
-    src/Tower.cpp
-    src/Enemy.cpp
-    src/Projectile.cpp
+    src/logic/object.cpp
+    src/logic/towers/tower.cpp
+    src/logic/enemies/enemy.cpp
+    src/logic/projectiles/projectile.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -74,11 +74,11 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 add_executable(
     run_tests
-    src/Object.cpp
-    src/Tower.cpp
-    src/Enemy.cpp
-    src/Projectile.cpp
-    tests/ObjectTest.cpp
+    src/logic/object.cpp
+    src/logic/towers/tower.cpp
+    src/logic/enemies/enemy.cpp
+    src/logic/projectiles/projectile.cpp
+    tests/object_test.cpp
 )
 target_link_libraries(
     run_tests

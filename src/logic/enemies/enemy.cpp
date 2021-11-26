@@ -1,4 +1,4 @@
-#include "Enemy.hpp"
+#include "enemy.hpp"
 
 namespace td
 {
