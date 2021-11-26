@@ -16,7 +16,7 @@ namespace td
             /// \param sprite       Texture of the tower
             /// \param attack_speed  Attack speed of the tower
             /// \param range        Attack range of the tower 
-            Tower(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, unsigned int attack_speed, float range);
+            Tower(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle = 0.0f, unsigned int attack_speed = 1U, float range = 1.0f);
             
             /// \brief Tower constructor
             /// \param position     Position of the tower
