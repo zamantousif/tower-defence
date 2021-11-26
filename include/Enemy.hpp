@@ -12,7 +12,7 @@ namespace td
         public:
             /// \brief Enemy constructor
             /// \param position         Position of the enemy
-            /// \param hitbox           Shape around the enemy where damage is effective
+            /// \param hitbox           Shape representing the region occupied by the enemy
             /// \param sprite           Texture of the enemy
             /// \param health           Health of the enemy
             /// \param moveSpeed        Movement speed of the enemy
