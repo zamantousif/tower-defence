@@ -19,8 +19,8 @@ namespace td
             /// \param bounty           Bounty of the enemy
             /// \param armored          Status of enemy armor
             /// \param movedDistance    Total distance moved on the path by the enemy
-            Enemy(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float health = 100.0f, int moveSpeed = 1, 
-            float bounty = 0.0f, bool armored = false, float movedDistance = 0.0f);
+            Enemy(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float health = 100.0f, int move_speed = 1, 
+            float bounty = 0.0f, bool armored = false, float moved_distance = 0.0f);
 
             /// \brief Get the position of the enemy
             /// \return Position of the enemy
@@ -50,9 +50,9 @@ namespace td
 
         protected:
             float health_;          ///< Remaining health of the enemy
-            int moveSpeed_;         ///< Movement speed of the enemy
+            int move_speed_;         ///< Movement speed of the enemy
             int bounty_;            ///< Bounty of the enemy
             bool armored_;          ///< Status of enemy armor
-            float movedDistance_;   ///< Total distance moved on the path by the enemy
+            float moved_distance_;   ///< Total distance moved on the path by the enemy
     };
 }
