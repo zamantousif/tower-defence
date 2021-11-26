@@ -15,10 +15,10 @@ namespace td
             /// \param hitbox           Shape representing the region occupied by the enemy
             /// \param sprite           Texture of the enemy
             /// \param health           Health of the enemy
-            /// \param moveSpeed        Movement speed of the enemy
+            /// \param move_speed       Movement speed of the enemy
             /// \param bounty           Bounty of the enemy
             /// \param armored          Status of enemy armor
-            /// \param movedDistance    Total distance moved on the path by the enemy
+            /// \param moved_distance   Total distance moved on the path by the enemy
             Enemy(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float health = 100.0f, int move_speed = 1, 
             float bounty = 0.0f, bool armored = false, float moved_distance = 0.0f);
 
