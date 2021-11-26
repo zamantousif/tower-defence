@@ -31,6 +31,7 @@ set(SOURCES
     src/main.cpp
     src/logic/object.cpp
     src/logic/towers/tower.cpp
+    src/logic/towers/basic_tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
 )
