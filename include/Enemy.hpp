@@ -49,10 +49,10 @@ namespace td
             virtual void setDistanceMoved(float distance);
 
         protected:
-            float health_;          ///< Remaining health of the enemy
-            int move_speed_;         ///< Movement speed of the enemy
-            int bounty_;            ///< Bounty of the enemy
-            bool armored_;          ///< Status of enemy armor
-            float moved_distance_;   ///< Total distance moved on the path by the enemy
+            float health_;              ///< Remaining health of the enemy
+            int move_speed_;            ///< Movement speed of the enemy
+            int bounty_;                ///< Bounty of the enemy
+            bool armored_;              ///< Status of enemy armor
+            float moved_distance_;      ///< Total distance moved on the path by the enemy
     };
 }

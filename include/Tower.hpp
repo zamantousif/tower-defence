@@ -32,7 +32,7 @@ namespace td
             virtual sf::CircleShape getHitbox();
 
             /// \brief Set the rotation of the tower
-            /// \param angle    Orientation of the tower
+            /// \param angle    Orientation, in radians of the tower
             virtual void setRotation(float angle);
 
             /// \brief Get the orientation of the tower
