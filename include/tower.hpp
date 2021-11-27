@@ -17,7 +17,8 @@ namespace td
             /// \param sprite       Texture of the tower
             /// \param attack_speed  Attack speed of the tower
             /// \param range        Attack range of the tower 
-            Tower(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle = 0.0f, unsigned int attack_speed = 1U, float range = 1.0f);
+            /// \param level        Level of the tower
+            Tower(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle = 0.0f, unsigned int attack_speed = 1U, float range = 1.0f, unsigned int level = 1);
             
             /// \brief Tower constructor
             /// \param position     Position of the tower
@@ -48,6 +49,10 @@ namespace td
             /// \return Attack range of the tower
             virtual float getRange();
 
+             /// \brief Get the level of the tower
+            /// \return Level of the tower
+            virtual unsigned int getLevel();
+
             /// \brief Get the shooting type of the tower
             /// \return Projectiles shoot by the tower
             virtual Projectile shoot() = 0;
@@ -55,5 +60,6 @@ namespace td
         protected:
             unsigned int attack_speed_;  ///< Attack speed of the tower
             float range_;               ///< Attack range of the tower
+            unsigned int level_;        ///< Level of the tower
     };
 }

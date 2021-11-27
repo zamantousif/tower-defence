@@ -10,8 +10,10 @@ unsigned int attack_speed = 10;  //can adjust these later
 
 float range = 10.0f;   
 
+unsigned int level = 1;
+
 Basic_tower::Basic_tower(sf::Vector2<float> position, float rotation_angle):
-Tower(position, hitbox, sprite, rotation_angle, attack_speed, range) {}
+Tower(position, hitbox, sprite, rotation_angle, attack_speed, range, level) {}
 
 Projectile Basic_tower::shoot() 
 {
