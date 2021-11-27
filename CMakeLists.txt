@@ -72,8 +72,9 @@ FetchContent_MakeAvailable(googletest)
 
 # Testing
 enable_testing()
+set(TESTS_EXE_NAME ${PROJECT_NAME}_tests)
 add_executable(
-    run_tests
+    ${TESTS_EXE_NAME}
     src/logic/object.cpp
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
@@ -81,10 +82,10 @@ add_executable(
     tests/object_test.cpp
 )
 target_link_libraries(
-    run_tests
+    ${TESTS_EXE_NAME}
     sfml-graphics
     gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(run_tests)
+gtest_discover_tests(${TESTS_EXE_NAME})
