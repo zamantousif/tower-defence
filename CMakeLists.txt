@@ -35,6 +35,7 @@ set(SOURCES
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
     src/logic/projectiles/basic_projectile.cpp
+    src/logic/projectiles/strong_projectile.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})

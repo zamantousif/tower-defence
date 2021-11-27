@@ -1,4 +1,6 @@
 #include "basic_tower.hpp"
+#include "basic_projectile.hpp"
+#include "strong_projectile.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace td{
@@ -17,7 +19,10 @@ Tower(position, hitbox, sprite, rotation_angle, attack_speed, range, level) {}
 
 Projectile Basic_tower::shoot() 
 {
-   // return basic_projectile
+  if(level != 4)
+  return Basic_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+  else
+   return Strong_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
 }
 
 }
