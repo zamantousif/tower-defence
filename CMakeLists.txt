@@ -26,6 +26,8 @@ set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
     # add all other source files here as: src/<folder>/<filename>.cpp
+    src/logic/map.cpp
+    include/map.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
