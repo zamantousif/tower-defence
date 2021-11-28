@@ -10,7 +10,7 @@ namespace td{
         
   unsigned int attack_speed = 10;  //can adjust these later
 
-  float range = 10.0f;   
+  float range = 7.0f;   
 
   unsigned int level = 1;
 
@@ -19,10 +19,7 @@ namespace td{
 
   Projectile Basic_tower::shoot() 
   {
-    if(level != 4)
-    return Basic_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
-    else
-    return Strong_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+      //add implementation here
   }
 
 }
