@@ -16,6 +16,6 @@ namespace td
             /// \param damage               Damage % of the projectile
             /// \param is_armor_piercing    Status of projectile armor
             /// \param enemy_pierced_count  Number of enemies pierced by the projectile before disappearing
-            Basic_projectile(sf::Vector2<float> position, float rotation_angle);
+            Basic_projectile(sf::Vector2<float> position, float rotation_angle, int damage);
     };
 }

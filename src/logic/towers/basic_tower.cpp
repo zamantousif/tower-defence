@@ -19,8 +19,18 @@ namespace td{
 
   std::vector<Projectile> Basic_tower::shoot(std::vector<Projectile> vector) 
   {
-    if(level3 != 4){
-      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+    if(level3 == 1){
+      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation(), 10); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+    }
+    else if(level3 == 2){
+      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation(), 20); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+    }
+    else if(level3 == 3){
+      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation(), 20); /// position has to be set to edge of the tower instead of tower centre
       vector.push_back(newProjectile);
       return vector;
     }

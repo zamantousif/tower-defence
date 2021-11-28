@@ -18,9 +18,26 @@ namespace td{
 
   std::vector<Projectile> High_damage_tower::shoot(std::vector<Projectile> vector) 
   {
-      Massive_projectile newProjectile = Massive_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+    if(this->getLevel() == 1){
+      Massive_projectile newProjectile = Massive_projectile(this->getPosition(), this->getRotation(), 200); /// position has to be set to edge of the tower instead of tower centre
       vector.push_back(newProjectile);
       return vector;
+    }
+      else if(this->getLevel() == 2){
+      Massive_projectile newProjectile = Massive_projectile(this->getPosition(), this->getRotation(), 400); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+    }
+       else if(this->getLevel() == 3){
+      Massive_projectile newProjectile = Massive_projectile(this->getPosition(), this->getRotation(), 800); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+    }
+      else{
+      Massive_projectile newProjectile = Massive_projectile(this->getPosition(), this->getRotation(), 1300); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+    }
   }
 
 }

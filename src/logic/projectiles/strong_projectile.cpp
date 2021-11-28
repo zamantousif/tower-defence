@@ -6,7 +6,7 @@ namespace td{
 
     sf::Texture sprite2 = sf::Texture();   //picture of the tower to here
 
-    int damage2 = 10;
+    int damage2 = 50;
 
     bool is_armor_piercing2 = false;
         
