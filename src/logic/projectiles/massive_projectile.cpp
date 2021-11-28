@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "massive_projectile.hpp"
 
-namespace td{
+namespace td::projectiles {
     sf::CircleShape hitbox5 = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
 
     sf::Texture sprite5 = sf::Texture();   //picture of the tower to here

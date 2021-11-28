@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "object.hpp"
 
-namespace td
+namespace td::projectiles
 {
     class Projectile : public Object
     {

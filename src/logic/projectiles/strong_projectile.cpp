@@ -1,7 +1,7 @@
 #include "strong_projectile.hpp"
 #include <SFML/Graphics.hpp>
 
-namespace td{
+namespace td::projectiles {
     sf::CircleShape hitbox2 = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
 
     sf::Texture sprite2 = sf::Texture();   //picture of the tower to here

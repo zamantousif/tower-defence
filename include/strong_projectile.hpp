@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "projectile.hpp"
 
-namespace td
+namespace td::projectiles
 {
     class Strong_projectile : public Projectile
     {

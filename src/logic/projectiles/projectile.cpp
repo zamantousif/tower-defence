@@ -1,6 +1,6 @@
 #include "projectile.hpp"
 
-namespace td
+namespace td::projectiles
 {
     Projectile::Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, unsigned int damage, 
     bool is_armor_piercing, unsigned int enemy_pierced_count) : Object(position, hitbox, sprite, rotation_angle), damage_(damage), 

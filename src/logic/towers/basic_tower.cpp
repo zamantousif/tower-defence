@@ -17,25 +17,25 @@ namespace td{
   Basic_tower::Basic_tower(sf::Vector2<float> position, float rotation_angle):
   Tower(position, hitbox3, sprite3, rotation_angle, attack_speed3, range3, level3) {}
 
-  std::vector<Projectile> Basic_tower::shoot(std::vector<Projectile> vector) 
+  std::vector<projectiles::Projectile> Basic_tower::shoot(std::vector<projectiles::Projectile> vector) 
   {
     if(level3 == 1){
-      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation(), 10); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(this->getPosition(), this->getRotation(), 10); /// position has to be set to edge of the tower instead of tower centre
       vector.push_back(newProjectile);
       return vector;
     }
     else if(level3 == 2){
-      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation(), 20); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(this->getPosition(), this->getRotation(), 20); /// position has to be set to edge of the tower instead of tower centre
       vector.push_back(newProjectile);
       return vector;
     }
     else if(level3 == 3){
-      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation(), 20); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(this->getPosition(), this->getRotation(), 30); /// position has to be set to edge of the tower instead of tower centre
       vector.push_back(newProjectile);
       return vector;
     }
     else{
-      Strong_projectile newProjectile = Strong_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Strong_projectile newProjectile = projectiles::Strong_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
       vector.push_back(newProjectile);
       return vector;
   }

@@ -13,6 +13,6 @@ namespace td
 
             /// \brief Get the shooting type of the tower
             /// \return Projectiles shoot by the tower
-            virtual Projectile shoot();
+            virtual projectiles::Projectile shoot();
     };
 }
