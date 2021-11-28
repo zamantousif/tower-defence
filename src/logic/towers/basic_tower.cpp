@@ -1,28 +1,34 @@
+#include <SFML/Graphics.hpp>
 #include "basic_tower.hpp"
 #include "basic_projectile.hpp"
 #include "strong_projectile.hpp"
-#include <SFML/Graphics.hpp>
 
 namespace td{
-  sf::CircleShape hitbox = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+  sf::CircleShape hitbox3 = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
 
-  sf::Texture sprite = sf::Texture();   //picture of the tower to here
+  sf::Texture sprite3 = sf::Texture();   //picture of the tower to here
         
-  unsigned int attack_speed = 10;  //can adjust these later
+  unsigned int attack_speed3 = 10;  //can adjust these later
 
-  float range = 10.0f;   
+  float range3 = 10.0f;   
 
-  unsigned int level = 1;
+  unsigned int level3 = 1;
 
   Basic_tower::Basic_tower(sf::Vector2<float> position, float rotation_angle):
-  Tower(position, hitbox, sprite, rotation_angle, attack_speed, range, level) {}
+  Tower(position, hitbox3, sprite3, rotation_angle, attack_speed3, range3, level3) {}
 
-  Projectile Basic_tower::shoot() 
+  std::vector<Projectile> Basic_tower::shoot(std::vector<Projectile> vector) 
   {
-    if(level != 4)
-    return Basic_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
-    else
-    return Strong_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+    if(level3 != 4){
+      Basic_projectile newProjectile = Basic_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+    }
+    else{
+      Strong_projectile newProjectile = Strong_projectile(this->getPosition(), this->getRotation()); /// position has to be set to edge of the tower instead of tower centre
+      vector.push_back(newProjectile);
+      return vector;
+  }
   }
 
 }

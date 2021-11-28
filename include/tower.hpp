@@ -55,7 +55,7 @@ namespace td
 
             /// \brief Get the shooting type of the tower
             /// \return Projectiles shoot by the tower
-            virtual Projectile shoot() = 0;
+            virtual std::vector<Projectile> shoot(std::vector<Projectile>) = 0;
 
         protected:
             unsigned int attack_speed_;  ///< Attack speed of the tower

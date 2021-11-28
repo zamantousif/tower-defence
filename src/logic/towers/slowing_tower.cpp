@@ -1,7 +1,5 @@
-#include "basic_tower.hpp"
-#include "basic_projectile.hpp"
-#include "strong_projectile.hpp"
 #include <SFML/Graphics.hpp>
+#include "slowing_tower.hpp"
 
 namespace td{
   sf::CircleShape hitbox = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
@@ -14,10 +12,10 @@ namespace td{
 
   unsigned int level = 1;
 
-  Basic_tower::Basic_tower(sf::Vector2<float> position, float rotation_angle):
+  Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle):
   Tower(position, hitbox, sprite, rotation_angle, attack_speed, range, level) {}
 
-  Projectile Basic_tower::shoot() 
+  Projectile Slowing_tower::shoot() 
   {
       //add implementation here
   }
