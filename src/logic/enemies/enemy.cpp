@@ -21,7 +21,7 @@ namespace td
         return move_speed_;
     }
 
-    void Enemy::doUponDeath()
+    void Enemy::DoUponDeath()
     {
         // do something upon death such as spawing other objects/enemies
     }

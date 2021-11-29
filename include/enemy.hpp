@@ -35,7 +35,7 @@ namespace td
             virtual int getMoveSpeed();
 
             /// \brief Do some action when the enemy dies
-            virtual void doUponDeath();
+            virtual void DoUponDeath();
 
             /// \brief Get the bounty of the enemy
             /// \return Bounty of the enemy
