@@ -36,6 +36,10 @@ namespace td
         return armored_;
     }
 
+    float Enemy::getDistanceMoved() {
+      return distance_moved_;
+    }
+
     void Enemy::setDistanceMoved(float distance)
     {
         distance_moved_ = distance;

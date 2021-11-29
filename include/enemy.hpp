@@ -45,6 +45,8 @@ namespace td
             /// \return True if the enemy is armored otherwise false
             virtual bool isArmored();
 
+            virtual float getDistanceMoved();
+
             /// \brief Set the total distance moved on the path by the enemy
             virtual void setDistanceMoved(float distance);
 
