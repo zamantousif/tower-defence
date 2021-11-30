@@ -44,6 +44,12 @@ Tested on Ubuntu 18.04.
 8. `make` - use the makefile to build the project.
 9. `./TowerDefense5` - finally, run the executable generated inside `build`.
 
+# Note on Code Formatting
+We use [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) with Google C++ style guide.
+There are shortcuts to invoke the formatter on the project source depending on the IDE/editor used.
+- In Visual Studio, open a source file and hit `Ctrl+K, Ctrl+D` to apply the formatting.
+- In VSCode, open a source file and hit `Ctrl+Shift+I` to apply the formatting.
+ 
 # Repository organization
 
 The project repository is organised as the following tree:
