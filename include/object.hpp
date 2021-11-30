@@ -14,8 +14,10 @@ namespace td {
     /// \param rotation_angle   Orientation, in radians of the object
     Object(sf::Vector2<float> position = sf::Vector2f(0.0f, 0.0f), sf::CircleShape hitbox = sf::CircleShape(),
            sf::Texture sprite = sf::Texture(), float rotation_angle = 0.0f);
-            
-    virtual void Update() = 0;
+    
+    /// \brief Update the state of the object
+    /// \param dt   Delta time, time elapsed since last update
+    virtual void Update(sf::Time dt) = 0;
 
     /// \brief Get the position of the object
     /// \return Position of the object
