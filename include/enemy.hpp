@@ -23,10 +23,6 @@ namespace td
             Enemy(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float health = 100.0f, int move_speed = 1, 
             float bounty = 0.0f, bool armored = false, float distance_moved = 0.0f);
 
-            /// \brief Get the position of the enemy
-            /// \return Position of the enemy
-            virtual sf::Vector2<float> getPosition() const;
-
             /// \brief Get the remaining health of the enemy
             /// \return Remaining health of the enemy
             virtual float getHealth() const;

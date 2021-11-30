@@ -6,11 +6,6 @@ namespace td
     float bounty, bool armored, float distance_moved) : Object(position, hitbox, sprite), 
                 health_(health), move_speed_(move_speed), bounty_(bounty), armored_(armored), distance_moved_(distance_moved) {}
 
-    sf::Vector2<float> Enemy::getPosition() const
-    {
-        return position_;
-    }
-
     float Enemy::getHealth() const
     {
         return health_;

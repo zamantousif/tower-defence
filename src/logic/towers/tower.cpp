@@ -8,26 +8,6 @@ namespace td
     Tower::Tower(sf::Vector2<float> position, float rotation_angle, unsigned int attack_speed) : 
         Object(position, sf::CircleShape(1.0f, 30UL), sf::Texture(), rotation_angle), attack_speed_(attack_speed), range_(1.0) {}
 
-    sf::Vector2<float> Tower::getPosition() const
-    {
-        return position_;
-    }
-
-    sf::CircleShape Tower::getHitbox() const
-    {
-        return hitbox_;
-    }
-    
-    void Tower::setRotation(float angle)
-    {
-        rotation_angle_ = angle;
-    }
-
-    float Tower::getRotation() const
-    {
-        return rotation_angle_;
-    }
-
     unsigned int Tower::getAttackSpeed() const
     {
         return attack_speed_;

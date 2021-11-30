@@ -19,18 +19,6 @@ namespace td
             Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, unsigned int damage, 
             bool is_armor_piercing, unsigned int enemy_pierced_count);
 
-            /// \brief Get the position of the projectile
-            /// \return Position of the projectile
-            virtual sf::Vector2<float> getPosition() const;
-
-            /// \brief Set the rotation of the projectile
-            /// \param angle    Orientation, in radians of the projectile
-            virtual void setRotation(float angle);
-
-            /// \brief Get the orientation of the projectile
-            /// \return Orientation, in radians of the projectile
-            virtual float getRotation() const;
-
             /// \brief Get the damage % of the projectile
             /// \return Damage % of the projectile
             unsigned int getDamage() const;
@@ -38,10 +26,6 @@ namespace td
             /// \brief Get the armor piercing status of the projectile
             /// \return True if projectile has armor piercing active, false otherwise
             bool isArmorPiercing() const;
-
-            /// \brief Set the number of enemies pierced by the projectile
-            /// \param count    Number of enemies pierced by the projectile
-            void setEnemyPiercedCount(unsigned int count);
 
             /// \brief Get the number of enemies pierced by the projectile
             /// \return Number of enemies pierced by the projectile
