@@ -25,28 +25,28 @@ namespace td
 
             /// \brief Get the position of the enemy
             /// \return Position of the enemy
-            virtual sf::Vector2<float> getPosition();
+            virtual sf::Vector2<float> getPosition() const;
 
             /// \brief Get the remaining health of the enemy
             /// \return Remaining health of the enemy
-            virtual float getHealth();
+            virtual float getHealth() const;
 
             /// \brief Get the movement speed of the enemy
             /// \return Movement speed of the enemy
-            virtual int getMoveSpeed();
+            virtual int getMoveSpeed() const;
 
             /// \brief Called when the enemy is hit by a projectile
             virtual void HitBy(const td::Projectile&);
 
             /// \brief Get the bounty of the enemy
             /// \return Bounty of the enemy
-            virtual float getBounty();
+            virtual float getBounty() const;
 
             /// \brief Status of enemy armor
             /// \return True if the enemy is armored otherwise false
-            virtual bool isArmored();
+            virtual bool isArmored() const;
 
-            virtual float getDistanceMoved();
+            virtual float getDistanceMoved() const;
 
             /// \brief Set the total distance moved on the path by the enemy
             virtual void setDistanceMoved(float distance);

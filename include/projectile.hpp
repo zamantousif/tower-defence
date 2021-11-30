@@ -21,7 +21,7 @@ namespace td
 
             /// \brief Get the position of the projectile
             /// \return Position of the projectile
-            virtual sf::Vector2<float> getPosition();
+            virtual sf::Vector2<float> getPosition() const;
 
             /// \brief Set the rotation of the projectile
             /// \param angle    Orientation, in radians of the projectile
@@ -29,15 +29,15 @@ namespace td
 
             /// \brief Get the orientation of the projectile
             /// \return Orientation, in radians of the projectile
-            virtual float getRotation();
+            virtual float getRotation() const;
 
             /// \brief Get the damage % of the projectile
             /// \return Damage % of the projectile
-            unsigned int getDamage();
+            unsigned int getDamage() const;
 
             /// \brief Get the armor piercing status of the projectile
             /// \return True if projectile has armor piercing active, false otherwise
-            bool isArmorPiercing();
+            bool isArmorPiercing() const;
 
             /// \brief Set the number of enemies pierced by the projectile
             /// \param count    Number of enemies pierced by the projectile
@@ -45,7 +45,7 @@ namespace td
 
             /// \brief Get the number of enemies pierced by the projectile
             /// \return Number of enemies pierced by the projectile
-            unsigned int getEnemyPiercedCount();
+            unsigned int getEnemyPiercedCount() const;
 
         protected:
             unsigned int damage_;                   ///< Damage % of the projectile

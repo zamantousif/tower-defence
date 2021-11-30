@@ -25,11 +25,11 @@ namespace td
 
             /// \brief Get the position of the tower
             /// \return Position of the tower
-            virtual sf::Vector2<float> getPosition();
+            virtual sf::Vector2<float> getPosition() const;
 
             /// \brief Get the shape representing region of the tower
             /// \return Shape representing the region occupied by the tower
-            virtual sf::CircleShape getHitbox();
+            virtual sf::CircleShape getHitbox() const;
 
             /// \brief Set the rotation of the tower
             /// \param angle    Orientation, in radians of the tower
@@ -37,15 +37,15 @@ namespace td
 
             /// \brief Get the orientation of the tower
             /// \return Orientation, in radians of the tower
-            virtual float getRotation();
+            virtual float getRotation() const;
 
             /// \brief Get the attack speed of the tower
             /// \return Attack speed of the tower
-            virtual unsigned int getAttackSpeed();
+            virtual unsigned int getAttackSpeed() const;
 
             /// \brief Get the attack range of the tower
             /// \return Attack range of the tower
-            virtual float getRange();
+            virtual float getRange() const;
 
         protected:
             unsigned int attack_speed_;  ///< Attack speed of the tower

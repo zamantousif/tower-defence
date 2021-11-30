@@ -6,17 +6,17 @@ namespace td
     float bounty, bool armored, float distance_moved) : Object(position, hitbox, sprite), 
                 health_(health), move_speed_(move_speed), bounty_(bounty), armored_(armored), distance_moved_(distance_moved) {}
 
-    sf::Vector2<float> Enemy::getPosition()
+    sf::Vector2<float> Enemy::getPosition() const
     {
         return position_;
     }
 
-    float Enemy::getHealth()
+    float Enemy::getHealth() const
     {
         return health_;
     }
 
-    int Enemy::getMoveSpeed()
+    int Enemy::getMoveSpeed() const
     {
         return move_speed_;
     }
@@ -26,17 +26,17 @@ namespace td
         health_ -= projectile.getDamage();
     }
     
-    float Enemy::getBounty()
+    float Enemy::getBounty() const
     {
         return bounty_;
     }
 
-    bool Enemy::isArmored()
+    bool Enemy::isArmored() const
     {
         return armored_;
     }
 
-    float Enemy::getDistanceMoved() {
+    float Enemy::getDistanceMoved() const {
       return distance_moved_;
     }
 
