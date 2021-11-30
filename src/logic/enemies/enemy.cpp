@@ -15,11 +15,6 @@ namespace td
     {
         return move_speed_;
     }
-
-    void Enemy::HitBy(const td::Projectile& projectile)
-    {
-        health_ -= projectile.getDamage();
-    }
     
     float Enemy::getBounty() const
     {

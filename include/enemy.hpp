@@ -31,9 +31,6 @@ namespace td
             /// \return Movement speed of the enemy
             virtual int getMoveSpeed() const;
 
-            /// \brief Called when the enemy is hit by a projectile
-            virtual void HitBy(const td::Projectile&);
-
             /// \brief Get the bounty of the enemy
             /// \return Bounty of the enemy
             virtual float getBounty() const;
