@@ -15,7 +15,7 @@ namespace td{
   Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle):
   Tower(position, hitbox, sprite, rotation_angle, attack_speed, range, level) {}
 
-  projectiles::Projectile Slowing_tower::shoot() 
+  std::vector<projectiles::Projectile> Slowing_tower::shoot(std::vector<projectiles::Projectile> vector) 
   {
       //add implementation here
   }

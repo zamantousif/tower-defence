@@ -13,6 +13,6 @@ namespace td
 
             /// \brief Get the shooting type of the tower
             /// \return Projectiles shoot by the tower
-            virtual projectiles::Projectile shoot();
+            virtual   std::vector<projectiles::Projectile> shoot(std::vector<projectiles::Projectile> vector) ;
     };
 }

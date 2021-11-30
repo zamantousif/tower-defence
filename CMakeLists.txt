@@ -34,11 +34,14 @@ set(SOURCES
     src/logic/towers/basic_tower.cpp
     src/logic/towers/slowing_tower.cpp
     src/logic/towers/high_damage_tower.cpp
+    src/logic/towers/melting_tower.cpp
+    src/logic/towers/bomb_tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
     src/logic/projectiles/basic_projectile.cpp
     src/logic/projectiles/strong_projectile.cpp
     src/logic/projectiles/massive_projectile.cpp
+    src/logic/projectiles/bomb_projectile.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
