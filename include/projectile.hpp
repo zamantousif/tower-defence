@@ -31,9 +31,14 @@ namespace td
             /// \return Number of enemies pierced by the projectile
             unsigned int getEnemyPiercedCount() const;
 
+            /// \brief A projectile is exhausted if it shouldn't make it to the next frame
+            /// \return true if the projectile is exhausted, false otherwise
+            bool isExhausted() const;
+
         protected:
             float damage_;                   ///< Damage value of the projectile
             bool is_armor_piercing_;                ///< Armor piercing status of the projectile
             unsigned int enemy_pierced_count_;      ///< Number of enemies pierced by the projectile before disappearing
+            bool exhausted_;
     };
 }
