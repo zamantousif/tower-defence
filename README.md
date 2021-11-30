@@ -47,8 +47,8 @@ Tested on Ubuntu 18.04.
 # Note on Code Formatting
 We use [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) with Google C++ style guide.
 There are shortcuts to invoke the formatter on the project source depending on the IDE/editor used.
-1. In Visual Studio, open a source file and hit `Ctrl+K, Ctrl+D` to apply the formatting.
-2. In VSCode, open a source file and hit `Ctrl+Shift+I` to apply the formatting.
+- In Visual Studio, open a source file and hit `Ctrl+K, Ctrl+D` to apply the formatting.
+- In VSCode, open a source file and hit `Ctrl+Shift+I` to apply the formatting.
  
 # Repository organization
 
