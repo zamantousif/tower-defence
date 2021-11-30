@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "object.hpp"
+#include "projectile.hpp"
 
 namespace td
 {
@@ -34,8 +35,8 @@ namespace td
             /// \return Movement speed of the enemy
             virtual int getMoveSpeed();
 
-            /// \brief Do some action when the enemy dies
-            virtual void DoUponDeath();
+            /// \brief Called when the enemy is hit by a projectile
+            virtual void HitBy(const td::Projectile&);
 
             /// \brief Get the bounty of the enemy
             /// \return Bounty of the enemy

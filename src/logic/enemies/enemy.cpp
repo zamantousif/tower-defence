@@ -21,9 +21,9 @@ namespace td
         return move_speed_;
     }
 
-    void Enemy::DoUponDeath()
+    void Enemy::HitBy(const td::Projectile& projectile)
     {
-        // do something upon death such as spawing other objects/enemies
+        health_ -= projectile.getDamage();
     }
     
     float Enemy::getBounty()
