@@ -2,11 +2,11 @@
 
 namespace td
 {
-    Projectile::Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, unsigned int damage, 
+    Projectile::Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, float damage, 
     bool is_armor_piercing, unsigned int enemy_pierced_count) : Object(position, hitbox, sprite, rotation_angle), damage_(damage), 
         is_armor_piercing_(is_armor_piercing), enemy_pierced_count_(enemy_pierced_count) {}
 
-    unsigned int Projectile::getDamage() const
+    float Projectile::getDamage() const
     {
         return damage_;
     }

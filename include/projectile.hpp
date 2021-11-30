@@ -16,12 +16,12 @@ namespace td
             /// \param damage               Damage % of the projectile
             /// \param is_armor_piercing    Status of projectile armor
             /// \param enemy_pierced_count  Number of enemies pierced by the projectile before disappearing
-            Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, unsigned int damage, 
+            Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, float damage, 
             bool is_armor_piercing, unsigned int enemy_pierced_count);
 
-            /// \brief Get the damage % of the projectile
-            /// \return Damage % of the projectile
-            unsigned int getDamage() const;
+            /// \brief Get the damage value of the projectile
+            /// \return Damage value of the projectile
+            float getDamage() const;
 
             /// \brief Get the armor piercing status of the projectile
             /// \return True if projectile has armor piercing active, false otherwise
@@ -32,7 +32,7 @@ namespace td
             unsigned int getEnemyPiercedCount() const;
 
         protected:
-            unsigned int damage_;                   ///< Damage % of the projectile
+            float damage_;                   ///< Damage value of the projectile
             bool is_armor_piercing_;                ///< Armor piercing status of the projectile
             unsigned int enemy_pierced_count_;      ///< Number of enemies pierced by the projectile before disappearing
     };
