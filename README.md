@@ -29,6 +29,7 @@ Tested on Windows 10.
 5. Once you have a terminal open in the build folder, run `cmake ..`
 6. If the files are created successfully, open `TowerDefense5.sln` in Visual Studio 2022.
 7. Build and run the project in Visual Studio 2022.
+8. To format the code, open a source file and hit `Ctrl+K, Ctrl+D` in Visual Studio.
 
 ## Linux
 
@@ -43,6 +44,7 @@ Tested on Ubuntu 18.04.
 7. `cmake ..` - run CMake and generate a makefile inside `build`.
 8. `make` - use the makefile to build the project.
 9. `./TowerDefense5` - finally, run the executable generated inside `build`.
+10. To format the code, open a source file and hit `Ctrl+Shift+I` in VSCode.
 
 # Repository organization
 
