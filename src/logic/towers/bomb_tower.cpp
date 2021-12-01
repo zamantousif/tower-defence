@@ -3,18 +3,16 @@
 #include "bomb_projectile.hpp"
 
 namespace td{
-  sf::CircleShape hitbox8 = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+  sf::CircleShape hitbox_bomb = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
 
-  sf::Texture sprite8 = sf::Texture();   //picture of the tower to here
+  sf::Texture sprite_bomb = sf::Texture();   //picture of the tower to here
         
-  unsigned int attack_speed8 = 10;  //can adjust these later
+  unsigned int attack_speed_bomb = 10;  //can adjust these later
 
-  float range8 = 10.0f;   
-
-  unsigned int level8 = 1;
+  float range_bomb = 10.0f;   
 
   Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle):
-  Tower(position, hitbox8, sprite8, rotation_angle, attack_speed8, range8, level8) {}
+  Tower(position, hitbox_bomb, sprite_bomb, rotation_angle, attack_speed_bomb, range_bomb) {}
 
   std::vector<projectiles::Projectile> Bomb_tower::shoot(std::vector<projectiles::Projectile> vector)
   {

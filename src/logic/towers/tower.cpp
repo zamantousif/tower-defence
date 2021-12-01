@@ -10,7 +10,7 @@ namespace td
 
     sf::Vector2<float> Tower::getPosition()
     {
-        return position_;
+            return position_;
     }
 
     sf::CircleShape Tower::getHitbox()

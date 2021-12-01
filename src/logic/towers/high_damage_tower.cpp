@@ -3,18 +3,16 @@
 #include "massive_projectile.hpp"
 
 namespace td{
-  sf::CircleShape hitbox4 = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+  sf::CircleShape hitbox_high = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
 
-  sf::Texture sprite4 = sf::Texture();   //picture of the tower to here
+  sf::Texture sprite_high = sf::Texture();   //picture of the tower to here
         
-  unsigned int attack_speed4 = 10;  //can adjust these later
+  unsigned int attack_speed_high = 10;  //can adjust these later
 
-  float range4 = 10.0f;   
-
-  unsigned int level4 = 1;
+  float range_high = 10.0f;   
 
   High_damage_tower::High_damage_tower(sf::Vector2<float> position, float rotation_angle):
-  Tower(position, hitbox4, sprite4, rotation_angle, attack_speed4, range4, level4) {}
+  Tower(position, hitbox_high, sprite_high, rotation_angle, attack_speed_high, range_high) {}
 
   std::vector<projectiles::Projectile> High_damage_tower::shoot(std::vector<projectiles::Projectile> vector) 
   {

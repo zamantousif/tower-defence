@@ -2,16 +2,16 @@
 #include <SFML/Graphics.hpp>
 
 namespace td::projectiles{
-    sf::CircleShape hitbox1 = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+    sf::CircleShape hitbox_basic = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
 
-    sf::Texture sprite1 = sf::Texture();   //picture of the tower to here
+    sf::Texture sprite_basic = sf::Texture();   //picture of the tower to here
 
-    bool is_armor_piercing1 = false;
+    bool is_armor_piercing_basic = false;
         
-    unsigned int enemy_pierced_count1 = 1;
+    unsigned int enemy_pierced_count_basic = 1;
 
     Basic_projectile::Basic_projectile(sf::Vector2<float> position, float rotation_angle, int damage):
-    Projectile(position, hitbox1, sprite1, rotation_angle, damage, is_armor_piercing1, enemy_pierced_count1) {}
+    Projectile(position, hitbox_basic, sprite_basic, rotation_angle, damage, is_armor_piercing_basic, enemy_pierced_count_basic) {}
 
 
 }
