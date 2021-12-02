@@ -1,32 +1,46 @@
-#include <gtest/gtest.h>
-#include <SFML/Graphics.hpp>
 #include "object.hpp"
 
-TEST(CreateBaseClassObjectAndTestMembers, BaseClassTest)
-{
-    // Arrange
-    sf::Vector2<float> position;
-    position.x = 5.0f;
-    position.y = 6.0f;
+#include <gtest/gtest.h>
 
-    sf::CircleShape hitbox;
-    hitbox.setRadius(10);
-    hitbox.setPointCount(5);
-    
-    sf::Texture sprite;
-    // NOTE Dimension declared as sf::Vector2u which is the type returned by sf::Texture::getSize()
-    sf::Vector2u dim;
-    dim.x = 2U;
-    dim.y = 5U;
-    sprite.create(dim.x, dim.y);
-    
-    // Act
-    td::Object obj(position, hitbox, sprite);
+#include <SFML/Graphics.hpp>
 
-    // Assert
-    EXPECT_FLOAT_EQ(obj.getPosition().x, position.x);
-    EXPECT_FLOAT_EQ(obj.getPosition().y, position.y);
-    EXPECT_EQ(obj.getHitbox().getRadius(), hitbox.getRadius());
-    EXPECT_EQ(obj.getHitbox().getPointCount(), hitbox.getPointCount());
-    EXPECT_EQ(obj.getSprite().getSize(), dim);
+TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
+  // Arrange
+  class derived_object : public td::Object {
+    void Update(sf::Time dt) { (void)dt; }
+  };
+
+  // Act
+  derived_object obj;
+
+  // Assert
+  EXPECT_FLOAT_EQ(obj.getPosition().x, 0.0f);
+  EXPECT_FLOAT_EQ(obj.getPosition().y, 0.0f);
+  EXPECT_FLOAT_EQ(obj.getHitbox().getRadius(), 0.0f);
+  EXPECT_EQ(obj.getHitbox().getPointCount(), 30UL);
+  EXPECT_EQ(obj.getSprite().getSize().x, 0U);
+  EXPECT_EQ(obj.getSprite().getSize().y, 0U);
+  EXPECT_FLOAT_EQ(obj.getRotation(), 0.0f);
+}
+
+TEST(CreateBaseClassObjectAndTestSetters, BaseClassTest) {
+  // Arrange
+  sf::Vector2f position;
+  position.x = 5.9f;
+  position.y = 4.2f;
+  float rotation_angle = 50.1f;
+  // Object is an abstract class; Derive an instance of Object to test it
+  class derived_object : public td::Object {
+    void Update(sf::Time dt) { (void)dt; }
+  };
+
+  // Act
+  derived_object obj;
+  obj.setPosition(position);
+  obj.setRotation(rotation_angle);
+
+  // Assert
+  EXPECT_FLOAT_EQ(obj.getPosition().x, position.x);
+  EXPECT_FLOAT_EQ(obj.getPosition().y, position.y);
+  EXPECT_FLOAT_EQ(obj.getRotation(), rotation_angle);
 }
