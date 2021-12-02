@@ -1,5 +1,5 @@
-cmake_minimum_required (VERSION 3.14)
-project (TowerDefense5)
+cmake_minimum_required(VERSION 3.14)
+project(TowerDefense5)
 
 # Set the language standard
 set(CMAKE_CXX_STANDARD 17)
