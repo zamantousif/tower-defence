@@ -13,14 +13,14 @@ class Enemy : public Object {
  public:
   /// \brief Enemy constructor
   /// \param position       Position of the enemy
-  /// \param hitbox         Shape representing the region occupied by the enemy
-  /// \param sprite         Texture of the enemy
+  /// \param hitbox         Radius of the circular region occupied by the enemy
+  /// \param texture        Texture of the enemy
   /// \param health         Health of the enemy
   /// \param move_speed     Movement speed of the enemy
   /// \param bounty         Bounty of the enemy
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
-  Enemy(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite,
+  Enemy(sf::Vector2<float> position, float hitbox, sf::Texture texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
         bool armored = false, float distance_moved = 0.0f);
 
