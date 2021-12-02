@@ -1,5 +1,5 @@
 # Meeting Notes
-# Meeting 01.11.2021 18::00
+# Meeting 01.11.2021 18:00
 
 **Participants**: 
 1. Julius Järvilinna
@@ -21,7 +21,7 @@
 3. Tomi will decide the look of the towers and enemies.
 4. Konsta will look into map implementation and GUI.
 
-## Project status (as of 05.11.2021 22::45)
+## Project status (as of 05.11.2021 22:45)
 Short summary of current project status. 
 1. Team has been working on the project plan and the tentative schedule.
 2. Initial repository structure is added with CMake+SFML support for Linux.
@@ -33,8 +33,7 @@ Short summary of current project status.
 1. Tousif: Add abstract class implementations so that further implementation could begin.
 2. Team: Take the repository into use and report any issues with CMake/SFML.
 
-
-# Meeting 09.11.2021 18::00
+# Meeting 09.11.2021 18:00
 
 **Participants**: 
 1. Julius Järvilinna
@@ -56,7 +55,7 @@ Short summary of current project status.
 4.  Julius can ideate tower models and communicate them to Tomi who is designing the final tower visuals
 5. Check with the instructor/TA if implementing tower upgrades gives us enough extra points to consider it?
 
-## Project status (as of 09.11.2021 18::45)
+## Project status (as of 09.11.2021 18:45)
 Short summary of current project status. 
 1. We have trouble getting CMake to work on Windows.
 2. We are able to build + run the repository on Linux though.
@@ -69,9 +68,7 @@ Short summary of current project status.
 ### TODOs
 1. Tousif + Julius: Add abstract class implementations so that further implementation could begin.
 2. Team: Take the repository into use and report any issues with CMake/SFML.
-
-
-# Meeting 16.11.2021 18::00
+# Meeting 16.11.2021 18:00
 
 **Participants**: 
 1. Julius Järvilinna
@@ -90,7 +87,7 @@ Short summary of current project status.
 3. Julius will design what kind of enemies and an enemy theme will be used
 4. Tomi will make art for at least one map and several towers and projectiles
 
-## Project status (as of 16.11.2021 20::30)
+## Project status (as of 16.11.2021 20:30)
 Short summary of current project status. 
 1. Code compiles with CMake for everyone
 2. We went cross-platform and cross-compiler way with MSVC, Linux and different set of compilers used to build the project
@@ -102,9 +99,8 @@ Short summary of current project status.
 
 ### TODOs
 1. Implement GUI
-
-
-# Meeting 23.11.2021 18::00
+________________
+# Meeting 23.11.2021 18:00
 
 **Participants**: 
 1. Julius Järvilinna
@@ -122,10 +118,40 @@ Short summary of current project status.
 3. Tousif will wrap up the Enemy class implementation and add some pending tests for other classes.
 4. We need to figure out GUI and MAP implementations.
 
-## Project status (as of 23.11.2021 20::30)
+## Project status (as of 23.11.2021 20:30)
 1. We have basic versions of sprites for the game objects and the map.
 2. We added some base implementations and test cases.
 3. We revisited the class diagram and made some corrections/additions.
 
 ## Challenges
 1. We need to pick up more on the implementation part of the project.
+
+________________
+
+# Meeting 30.11.2021 18:00
+
+**Participants**: 
+1. Julius Järvilinna
+2. Tousif Zaman
+3. Tomi Mikkola
+4. Konsta Kemppainen
+
+## Discussion/ Summary of works
+1. We discussed how enemy rounds will be implemented. They consist of “waves” that consist of some amount of some type of enemy that arrives according to some time interval. These waves also have an offset relative to the start of the round, 0 being the start of the round and 1000 being one second after the round has started.
+2. We went over everyone’s work in the past week
+3. Julius and Tousif solved problems with getting the tests to work on Windows in VScode and with Mingw.
+4. We decided to apply Google C++ style guide for our project. Clang-format support is added to apply these settings to the project sources.
+5. Konsta cleaned up a lot of code and added map.cpp (which supports loading a map from a json file).
+
+## What’s next?
+1. Tomi and Konsta will work on the GUI and application class
+2. Julius will keep working on towers and enemies
+3. Tousif will work on enemy path following and tower-buying collision detection
+4. Konsta will implement Game.cpp and Application.cpp
+
+## Project status (as of 30.11.2021 20:30)
+1. Most basic classes are implemented
+2. Artwork is mostly done
+
+## Challenges
+The deadline is nearing!
