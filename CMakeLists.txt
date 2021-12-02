@@ -30,9 +30,13 @@ set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
     src/logic/object.cpp
+    include/object.hpp
     src/logic/towers/tower.cpp
+    include/tower.hpp
     src/logic/enemies/enemy.cpp
+    include/enemy.hpp
     src/logic/projectiles/projectile.cpp
+    include/projectile.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
