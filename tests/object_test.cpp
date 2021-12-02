@@ -16,10 +16,9 @@ TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
   // Assert
   EXPECT_FLOAT_EQ(obj.getPosition().x, 0.0f);
   EXPECT_FLOAT_EQ(obj.getPosition().y, 0.0f);
-  EXPECT_FLOAT_EQ(obj.getHitbox().getRadius(), 0.0f);
-  EXPECT_EQ(obj.getHitbox().getPointCount(), 30UL);
-  EXPECT_EQ(obj.getSprite().getSize().x, 0U);
-  EXPECT_EQ(obj.getSprite().getSize().y, 0U);
+  EXPECT_FLOAT_EQ(obj.getHitbox(), 0.0f);
+  EXPECT_EQ(obj.getTexture().getSize().x, 0U);
+  EXPECT_EQ(obj.getTexture().getSize().y, 0U);
   EXPECT_FLOAT_EQ(obj.getRotation(), 0.0f);
 }
 
