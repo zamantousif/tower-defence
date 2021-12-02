@@ -10,15 +10,15 @@ Object::Object(sf::Vector2<float> position, sf::CircleShape hitbox,
 
 void Update(sf::Time dt) { (void)dt; }
 
-sf::Vector2<float> Object::getPosition() { return position_; }
+sf::Vector2<float> Object::getPosition() const { return position_; }
 
-sf::CircleShape Object::getHitbox() { return hitbox_; }
+sf::CircleShape Object::getHitbox() const { return hitbox_; }
 
-sf::Texture Object::getSprite() { return sprite_; }
+sf::Texture Object::getSprite() const { return sprite_; }
 
 void Object::setPosition(sf::Vector2<float> position) { position_ = position; }
 
 void Object::setRotation(float angle) { rotation_angle_ = angle; }
 
-float Object::getRotation() { return rotation_angle_; }
+float Object::getRotation() const { return rotation_angle_; }
 }  // namespace td

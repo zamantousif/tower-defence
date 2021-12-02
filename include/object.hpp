@@ -23,15 +23,15 @@ class Object {
 
   /// \brief Get the position of the object
   /// \return Position of the object
-  virtual sf::Vector2<float> getPosition();
+  virtual sf::Vector2<float> getPosition() const;
 
   /// \brief Get the shape representing region of the object
   /// \return Shape representing the region occupied by the object
-  virtual sf::CircleShape getHitbox();
+  virtual sf::CircleShape getHitbox() const;
 
   /// \brief Get the texture of the object
   /// \return Texture of the object
-  virtual sf::Texture getSprite();
+  virtual sf::Texture getSprite() const;
 
   /// \brief Set the position of the object
   /// \param position Position of the object
@@ -43,7 +43,7 @@ class Object {
 
   /// \brief Get the orientation of the object
   /// \return Orientation, in radians of the object
-  virtual float getRotation();
+  virtual float getRotation() const;
 
  protected:
   sf::Vector2<float> position_; ///< Position of the object
