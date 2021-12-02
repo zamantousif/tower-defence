@@ -10,12 +10,12 @@ class Object {
  public:
   /// \brief Object constructor
   /// \param position       Position of the object
-  /// \param hitbox         Shape representing the region occupied by the object
-  /// \param sprite         Texture of the object 
+  /// \param hitbox         Radius of the circular region occupied by the object
+  /// \param texture        Texture of the object
   /// \param rotation_angle Orientation, in radians of the object
   Object(sf::Vector2<float> position = sf::Vector2f(0.0f, 0.0f),
-         sf::CircleShape hitbox = sf::CircleShape(),
-         sf::Texture sprite = sf::Texture(), float rotation_angle = 0.0f);
+         float hitbox = 0.0f, sf::Texture texture = sf::Texture(),
+         float rotation_angle = 0.0f);
 
   /// \brief Update the state of the object
   /// \param dt Delta time, time elapsed since last update
@@ -25,13 +25,13 @@ class Object {
   /// \return Position of the object
   virtual sf::Vector2<float> getPosition() const;
 
-  /// \brief Get the shape representing region of the object
-  /// \return Shape representing the region occupied by the object
-  virtual sf::CircleShape getHitbox() const;
+  /// \brief Get the radius of circular region occupied by the object
+  /// \return Radius of the circular region occupied by the object
+  virtual float getHitbox() const;
 
   /// \brief Get the texture of the object
   /// \return Texture of the object
-  virtual sf::Texture getSprite() const;
+  virtual sf::Texture getTexture() const;
 
   /// \brief Set the position of the object
   /// \param position Position of the object
@@ -46,9 +46,9 @@ class Object {
   virtual float getRotation() const;
 
  protected:
-  sf::Vector2<float> position_; ///< Position of the object
-  sf::CircleShape hitbox_; ///< Shape representing the region occupied by the object
-  sf::Texture sprite_;    ///< Texture of the object
+  sf::Vector2<float> position_;  ///< Position of the object
+  float hitbox_;  ///< Radius of the circular region occupied by the object
+  sf::Texture texture_;   ///< Texture of the object
   float rotation_angle_;  ///< Orientation, in radians of the object
 };
 }  // namespace td
