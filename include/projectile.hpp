@@ -16,7 +16,7 @@ class Projectile : public Object {
   /// \param is_armor_piercing   Status of projectile armor
   /// \param enemy_pierced_count Number of enemies pierced by the projectile
   /// before disappearing
-  Projectile(sf::Vector2<float> position, float hitbox, sf::Texture texture,
+  Projectile(types::Position position, float hitbox, types::Texture texture,
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count);
 

@@ -1,7 +1,7 @@
 #include "enemy.hpp"
 
 namespace td {
-Enemy::Enemy(sf::Vector2<float> position, float hitbox, sf::Texture texture,
+Enemy::Enemy(types::Position position, float hitbox, types::Texture texture,
              float health, int move_speed, float bounty, bool armored,
              float distance_moved)
     : Object(position, hitbox, texture),

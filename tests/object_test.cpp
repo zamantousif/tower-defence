@@ -2,12 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <SFML/Graphics.hpp>
+#include "types.hpp"
 
 TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
   // Arrange
   class derived_object : public td::Object {
-    void Update(sf::Time dt) { (void)dt; }
+    void Update(td::types::Time dt) { (void)dt; }
   };
 
   // Act
@@ -24,13 +24,13 @@ TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
 
 TEST(CreateBaseClassObjectAndTestSetters, BaseClassTest) {
   // Arrange
-  sf::Vector2f position;
+  td::types::Position position;
   position.x = 5.9f;
   position.y = 4.2f;
   float rotation_angle = 50.1f;
   // Object is an abstract class; Derive an instance of Object to test it
   class derived_object : public td::Object {
-    void Update(sf::Time dt) { (void)dt; }
+    void Update(td::types::Time dt) { (void)dt; }
   };
 
   // Act

@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 #include "object.hpp"
+#include "types.hpp"
 
 namespace td {
 ///  \brief Tower class represents the blueprint of a basic tower in the game.
@@ -16,14 +15,14 @@ class Tower : public Object {
   /// \param texture        Texture of the tower
   /// \param attack_speed   Attack speed of the tower
   /// \param range          Attack range of the tower
-  Tower(sf::Vector2<float> position, float hitbox, sf::Texture texture,
+  Tower(types::Position position, float hitbox, types::Texture texture,
         float rotation_angle = 0.0f, unsigned int attack_speed = 1U,
         float range = 1.0f);
 
   /// \brief Tower constructor
   /// \param position     Position of the tower
   /// \param attack_speed  Attack speed of the tower
-  explicit Tower(sf::Vector2<float> position, float rotation_angle,
+  explicit Tower(types::Position position, float rotation_angle,
                  unsigned int attack_speed);
 
   /// \brief Get the attack speed of the tower
