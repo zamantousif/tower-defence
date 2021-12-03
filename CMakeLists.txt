@@ -37,6 +37,8 @@ set(SOURCES
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
     include/projectile.hpp
+    src/logic/application.cpp
+    include/application.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -80,7 +82,6 @@ set(TESTS_EXE_NAME ${PROJECT_NAME}_tests)
 add_executable(
     ${TESTS_EXE_NAME}
     src/logic/object.cpp
-    src/logic/application.cpp
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
