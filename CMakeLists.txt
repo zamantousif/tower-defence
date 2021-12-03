@@ -1,5 +1,5 @@
-cmake_minimum_required (VERSION 3.14)
-project (TowerDefense5)
+cmake_minimum_required(VERSION 3.14)
+project(TowerDefense5)
 
 # Set the language standard
 set(CMAKE_CXX_STANDARD 17)
@@ -30,18 +30,31 @@ set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
     src/logic/object.cpp
+    include/object.hpp
+    include/basic_projectile.hpp
+    include/basic_tower.hpp
+    include/bomb_projectile.hpp
+    include/bomb_tower.hpp
+    include/high_damage_tower.hpp
+    include/massive_projectile.hpp
+    include/melting_tower.hpp
+    include/slowing_tower.hpp
+    include/strong_projectile.hpp
     src/logic/towers/tower.cpp
     src/logic/towers/basic_tower.cpp
     src/logic/towers/slowing_tower.cpp
     src/logic/towers/high_damage_tower.cpp
     src/logic/towers/melting_tower.cpp
     src/logic/towers/bomb_tower.cpp
+    include/tower.hpp
     src/logic/enemies/enemy.cpp
+    include/enemy.hpp
     src/logic/projectiles/projectile.cpp
     src/logic/projectiles/basic_projectile.cpp
     src/logic/projectiles/strong_projectile.cpp
     src/logic/projectiles/massive_projectile.cpp
     src/logic/projectiles/bomb_projectile.cpp
+    include/projectile.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -81,8 +94,9 @@ FetchContent_MakeAvailable(googletest)
 
 # Testing
 enable_testing()
+set(TESTS_EXE_NAME ${PROJECT_NAME}_tests)
 add_executable(
-    run_tests
+    ${TESTS_EXE_NAME}
     src/logic/object.cpp
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
@@ -90,10 +104,10 @@ add_executable(
     tests/object_test.cpp
 )
 target_link_libraries(
-    run_tests
+    ${TESTS_EXE_NAME}
     sfml-graphics
     gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(run_tests)
+gtest_discover_tests(${TESTS_EXE_NAME})

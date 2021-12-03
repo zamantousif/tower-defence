@@ -1,38 +1,24 @@
 #include "object.hpp"
 
-namespace td
-{
-    Object::Object(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle) : 
-        position_(position), hitbox_(hitbox), sprite_(sprite), rotation_angle_(rotation_angle) {}
+namespace td {
+Object::Object(types::Position position, float hitboxRadius, types::Texture texture,
+               float rotation_angle)
+    : position_(position),
+      hitboxRadius_(hitboxRadius),
+      texture_(texture),
+      rotation_angle_(rotation_angle) {}
 
-    sf::Vector2<float> Object::getPosition()
-    {
-        return position_;
-    }
+void Update(types::Time dt) { (void)dt; }
 
-    sf::CircleShape Object::getHitbox()
-    {
-        return hitbox_;
-    }
-    
-    sf::Texture Object::getSprite()
-    {
-        return sprite_;
-    }
+types::Position Object::getPosition() const { return position_; }
 
-    void Object::setPosition(sf::Vector2<float> position)
-    {
-        position_ = position;
-    }
+float Object::getHitbox() const { return hitboxRadius_; }
 
-    void Object::setRotation(float angle)
-    {
-        rotation_angle_ = angle;
-    }
+types::Texture Object::getTexture() const { return texture_; }
 
-    float Object::getRotation()
-    {
-        return rotation_angle_;
-    }
-}
-    
+void Object::setPosition(types::Position position) { position_ = position; }
+
+void Object::setRotation(float angle) { rotation_angle_ = angle; }
+
+float Object::getRotation() const { return rotation_angle_; }
+}  // namespace td

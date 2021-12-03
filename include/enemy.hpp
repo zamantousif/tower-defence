@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include "object.hpp"
+#include "projectile.hpp"
 
 namespace td
 {
@@ -19,8 +21,8 @@ namespace td
             /// \param bounty           Bounty of the enemy
             /// \param armored          Status of enemy armor
             /// \param moved_distance   Total distance moved on the path by the enemy
-            Enemy(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float health = 100.0f, int move_speed = 1, 
-            float bounty = 0.0f, bool armored = false, float moved_distance = 0.0f);
+            Enemy(types::Position position, float hitbox, sf::Texture texture, float health = 100.0f, int move_speed = 1, 
+            float bounty = 0.0f, bool armored = false, float distance_moved = 0.0f);
 
             /// \brief Get the position of the enemy
             /// \return Position of the enemy
@@ -28,35 +30,36 @@ namespace td
 
             /// \brief Get the remaining health of the enemy
             /// \return Remaining health of the enemy
-            virtual float getHealth();
+            virtual float getHealth() const;
 
             /// \brief Get the movement speed of the enemy
             /// \return Movement speed of the enemy
-            virtual int getMoveSpeed();
+            virtual int getMoveSpeed() const;
 
             /// \brief Do some action when the enemy dies
             virtual void doUponDeath();
 
             /// \brief Get the bounty of the enemy
             /// \return Bounty of the enemy
-            virtual float getBounty();
+            virtual float getBounty() const;
 
             /// \brief Status of enemy armor
             /// \return True if the enemy is armored otherwise false
-            virtual bool isArmored();
+            virtual bool isArmored() const;
 
             /// \brief Set the total distance moved on the path by the enemy
             virtual void setDistanceMoved(float distance);
 
             /// \brief Get the distance enemy has travelled
             /// \return Distance the enemy has travelled
-            virtual float getDistance();
+            virtual float getDistanceMoved() const;
 
         protected:
             float health_;              ///< Remaining health of the enemy
             int move_speed_;            ///< Movement speed of the enemy
             int bounty_;                ///< Bounty of the enemy
             bool armored_;              ///< Status of enemy armor
-            float moved_distance_;      ///< Total distance moved on the path by the enemy
+            float distance_moved_;      ///< Total distance moved on the path by the enemy
     };
 }
+

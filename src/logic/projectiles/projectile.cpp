@@ -2,10 +2,16 @@
 
 namespace td::projectiles
 {
-    Projectile::Projectile(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle, unsigned int damage, 
-    bool is_armor_piercing, unsigned int enemy_pierced_count) : Object(position, hitbox, sprite, rotation_angle), damage_(damage), 
-        is_armor_piercing_(is_armor_piercing), enemy_pierced_count_(enemy_pierced_count) {}
-    
+  Projectile::Projectile(types::Position position, float hitbox,
+                       types::Texture texture, float rotation_angle,
+                       float damage, bool is_armor_piercing,
+                       unsigned int enemy_pierced_count)
+    : Object(position, hitbox, texture, rotation_angle),
+      damage_(damage),
+      is_armor_piercing_(is_armor_piercing),
+      enemy_pierced_count_(enemy_pierced_count),
+      exhausted_(false) {}
+
     sf::Vector2<float> Projectile::getPosition()
     {
         return position_;
@@ -21,12 +27,12 @@ namespace td::projectiles
         return rotation_angle_;
     }
 
-    unsigned int Projectile::getDamage()
+    unsigned int Projectile::getDamage() const
     {
         return damage_;
     }
 
-    bool Projectile::isArmorPiercing()
+    bool Projectile::isArmorPiercing() const
     {
         return is_armor_piercing_;
     }
@@ -36,9 +42,12 @@ namespace td::projectiles
         enemy_pierced_count_ = count;
     }
 
-    unsigned int Projectile::getEnemyPiercedCount()
+    unsigned int Projectile::getEnemyPiercedCount() const
     {
         return enemy_pierced_count_;
     }
 
-}
+
+
+bool Projectile::isExhausted() const { return exhausted_; }
+}  // namespace td
