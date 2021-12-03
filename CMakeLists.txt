@@ -80,6 +80,7 @@ set(TESTS_EXE_NAME ${PROJECT_NAME}_tests)
 add_executable(
     ${TESTS_EXE_NAME}
     src/logic/object.cpp
+    src/logic/application.cpp
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
