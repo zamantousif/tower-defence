@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.14)
 project(TowerDefense5)
 
 # Set the language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/bin)
 
 # Define a grouping for source files in IDE project generation
 # (for example Visual Studio solution filters)
@@ -17,15 +17,26 @@ if(MSVC)
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TowerDefense5)
 else()
 	message("Not using MSVC!")
-	add_compile_options("-Wall" "-Wextra")
+	add_compile_options("-Wall" "-Wextra" "-Wpedantic" "-O3")
 endif()
+
+# Build
+# Include the directories for compilation
+include_directories(include)
+include_directories(src)
 
 # Set the name of the executable to be produced
 set(EXECUTABLE_NAME ${PROJECT_NAME})
-
 set(SOURCES 
     src/main.cpp
-    # add all other source files here as: src/<folder>/<filename>.cpp
+    src/logic/object.cpp
+    include/object.hpp
+    src/logic/towers/tower.cpp
+    include/tower.hpp
+    src/logic/enemies/enemy.cpp
+    include/enemy.hpp
+    src/logic/projectiles/projectile.cpp
+    include/projectile.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -50,3 +61,35 @@ target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)
 set(TGUI_BACKEND SFML_GRAPHICS)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE tgui)
 add_subdirectory("${PROJECT_SOURCE_DIR}/libs/TGUI/")
+
+# Include GoogleTest
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git # URL of repository
+    GIT_TAG e2239ee6043f73722e7aa812a459f54a28552929 # hash of the commit
+    SOURCE_DIR libs/googletest # path to library inside build
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+# Testing
+enable_testing()
+set(TESTS_EXE_NAME ${PROJECT_NAME}_tests)
+add_executable(
+    ${TESTS_EXE_NAME}
+    src/logic/object.cpp
+    src/logic/towers/tower.cpp
+    src/logic/enemies/enemy.cpp
+    src/logic/projectiles/projectile.cpp
+    tests/object_test.cpp
+)
+target_link_libraries(
+    ${TESTS_EXE_NAME}
+    sfml-graphics
+    gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(${TESTS_EXE_NAME})
