@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
-#include <string>
 #include "types.hpp"
 
 namespace td {

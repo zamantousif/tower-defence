@@ -1,5 +1,7 @@
 
 #include "application.hpp"
+#include <string>
+#include <unistd.h>
 
 
 namespace td {
@@ -11,30 +13,29 @@ namespace td {
 
     int Application::run() {
         LaunchMainMenu();
-        bool inMainMenu = true;
+        sf::Texture main_menu_bg_texture;
+        main_menu_bg_texture.loadFromFile("Assets/Title_Screen.png", sf::IntRect(0, 0, 1920, 1080));
+        sf::Sprite main_menu_bg_sprite;
+        main_menu_bg_sprite.setTexture(main_menu_bg_texture);
 
         while (window_.isOpen()) {
-
-            if(inMainMenu) {
-                
-            }
-
             sf::Event event;
             while (window_.pollEvent(event)) {
                 gui_.handleEvent(event);
-                HandleMainMenu();
 
                 if (event.type == sf::Event::Closed) window_.close();
+            }
 
-                if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
-                window_.close();
-
-                //if ( event.type == sf::Event::MouseButtonReleased )
-                //window.close();
+            if (state_ == types::kMainMenu) {
+                HandleMainMenu();
+                main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920, window_.getSize().y/1080));
+                window_.draw(main_menu_bg_sprite);
             }
 
             window_.clear();
-    
+
+
+
             gui_.draw();
     
             window_.display();
