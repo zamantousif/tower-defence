@@ -21,6 +21,9 @@ namespace td::projectiles
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count);
 
+            void Update(types::Time dt)
+            override;
+
             /// \brief Get the position of the projectile
             /// \return Position of the projectile
             virtual sf::Vector2<float> getPosition();

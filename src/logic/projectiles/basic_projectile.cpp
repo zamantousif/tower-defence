@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace td::projectiles{
-    sf::CircleShape hitbox_basic = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+    float hitbox_basic = 1.0f; //parameters radius and pointCount
 
     sf::Texture sprite_basic = sf::Texture();   //picture of the tower to here
 

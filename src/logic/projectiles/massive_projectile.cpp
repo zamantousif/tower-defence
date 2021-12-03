@@ -2,7 +2,7 @@
 #include "massive_projectile.hpp"
 
 namespace td::projectiles {
-    sf::CircleShape hitbox_massive = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+    float hitbox_massive = 1.0f; //parameters radius and pointCount
 
     sf::Texture sprite_massive = sf::Texture();   //picture of the tower to here
 
@@ -13,5 +13,6 @@ namespace td::projectiles {
     Massive_projectile::Massive_projectile(sf::Vector2<float> position, float rotation_angle, int damage):
     Projectile(position, hitbox_massive, sprite_massive, rotation_angle, damage, is_armor_piercing_massive, enemy_pierced_count_massive) {}
 
+    void Update(td::types::Time dt) { (void)dt; }
 
 }

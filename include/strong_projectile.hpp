@@ -17,5 +17,7 @@ namespace td::projectiles
             /// \param is_armor_piercing    Status of projectile armor
             /// \param enemy_pierced_count  Number of enemies pierced by the projectile before disappearing
             Strong_projectile(sf::Vector2<float> position, float rotation_angle);
+
+              void Update(td::types::Time dt) { (void)dt; }
     };
 }

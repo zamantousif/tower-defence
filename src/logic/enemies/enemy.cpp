@@ -24,9 +24,4 @@ float Enemy::getDistanceMoved() const { return distance_moved_; }
 
   void Enemy::setDistanceMoved(float distance) { distance_moved_ = distance; }
 
-    float Enemy::getDistanceMoved() const
-    {
-        return distance_moved_;
-    }
-
 }

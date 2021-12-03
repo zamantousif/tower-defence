@@ -2,7 +2,7 @@
 #include "slowing_tower.hpp"
 
 namespace td{
-     sf::CircleShape hitbox_slowing = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+    float hitbox_slowing = 1.0f; //parameters radius and pointCount
 
   sf::Texture sprite_slowing = sf::Texture();   //picture of the tower to here
         

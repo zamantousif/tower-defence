@@ -2,7 +2,7 @@
 #include "melting_tower.hpp"
 
 namespace td{
-  sf::CircleShape hitbox_melting = sf::CircleShape(1.0f, 30UL); //parameters radius and pointCount
+  float hitbox_melting = 1.0f; //parameters radius and pointCount
 
   sf::Texture sprite_melting = sf::Texture();   //picture of the tower to here
         
