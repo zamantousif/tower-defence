@@ -1,10 +1,10 @@
 #include "object.hpp"
 
 namespace td {
-Object::Object(types::Position position, float hitbox, types::Texture texture,
+Object::Object(types::Position position, float hitboxRadius, types::Texture texture,
                float rotation_angle)
     : position_(position),
-      hitbox_(hitbox),
+      hitboxRadius_(hitboxRadius),
       texture_(texture),
       rotation_angle_(rotation_angle) {}
 
@@ -12,7 +12,7 @@ void Update(types::Time dt) { (void)dt; }
 
 types::Position Object::getPosition() const { return position_; }
 
-float Object::getHitbox() const { return hitbox_; }
+float Object::getHitbox() const { return hitboxRadius_; }
 
 types::Texture Object::getTexture() const { return texture_; }
 
