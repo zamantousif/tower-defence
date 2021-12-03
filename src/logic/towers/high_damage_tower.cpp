@@ -11,7 +11,7 @@ namespace td{
 
   float range_high = 10.0f;   
 
-  char targetTo_high = 's';
+  char targetTo_high = 's';     //strong enemy
 
   High_damage_tower::High_damage_tower(sf::Vector2<float> position, float rotation_angle):
   Tower(position, hitbox_high, sprite_high, rotation_angle, attack_speed_high, range_high, targetTo_high) {}
