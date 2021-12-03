@@ -11,28 +11,30 @@ namespace td{
 
   float range_high = 10.0f;   
 
+  char targetTo_high = 's';
+
   High_damage_tower::High_damage_tower(sf::Vector2<float> position, float rotation_angle):
-  Tower(position, hitbox_high, sprite_high, rotation_angle, attack_speed_high, range_high) {}
+  Tower(position, hitbox_high, sprite_high, rotation_angle, attack_speed_high, range_high, targetTo_high) {}
 
   std::vector<projectiles::Projectile> High_damage_tower::shoot(std::vector<projectiles::Projectile> vector) 
   {
     if(this->getLevel() == 1){
-      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getPosition(), this->getRotation(), 200); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getTarget(/*vector of enemies here*/)->getPosition(), this->getRotation(), 200); /// will create projectile straight on top of targeted enemy
       vector.push_back(newProjectile);
       return vector;
     }
       else if(this->getLevel() == 2){
-      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getPosition(), this->getRotation(), 400); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getTarget(/*vector of enemies here*/)->getPosition(), this->getRotation(), 400); /// will create projectile straight on top of targeted enemy
       vector.push_back(newProjectile);
       return vector;
     }
        else if(this->getLevel() == 3){
-      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getPosition(), this->getRotation(), 800); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getTarget(/*vector of enemies here*/)->getPosition(), this->getRotation(), 800); /// will create projectile straight on top of targeted enemy
       vector.push_back(newProjectile);
       return vector;
     }
       else{
-      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getPosition(), this->getRotation(), 1300); /// position has to be set to edge of the tower instead of tower centre
+      projectiles::Massive_projectile newProjectile = projectiles::Massive_projectile(this->getTarget(/*vector of enemies here*/)->getPosition(), this->getRotation(), 1300); /// will create projectile straight on top of targeted enemy
       vector.push_back(newProjectile);
       return vector;
     }
