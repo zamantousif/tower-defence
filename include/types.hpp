@@ -9,4 +9,6 @@ using Position =
 using Texture =
     sf::Texture;  ///< The type that stores the texture of any game object.
 using Time = sf::Time;  ///< The type that stores the time.
+
+enum AppState { kMainMenu, kMapSelect, kGame, kPause };
 }  // namespace td::types
