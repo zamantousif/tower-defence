@@ -40,5 +40,9 @@ namespace td
     {
         moved_distance_ = distance;
     }
+    float Enemy::getDistance()
+    {
+        return moved_distance_;
+    }
 
 }

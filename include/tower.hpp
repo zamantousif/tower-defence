@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "object.hpp"
 #include "projectile.hpp"
+#include "enemy.hpp"
 
 namespace td
 {
@@ -18,7 +19,8 @@ namespace td
             /// \param attack_speed  Attack speed of the tower
             /// \param range        Attack range of the tower 
             /// \param level        Level of the tower
-            Tower(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle = 0.0f, unsigned int attack_speed = 1U, float range = 1.0f, unsigned int level = 1);
+            /// \param targetTo     Stores the target mode of the tower, options: c = closest, s = strongest or f = furthest travelled
+            Tower(sf::Vector2<float> position, sf::CircleShape hitbox, sf::Texture sprite, float rotation_angle = 0.0f, unsigned int attack_speed = 1U, float range = 1.0f, unsigned int level = 1, char targetTo = 'c');
             
             /// \brief Tower constructor
             /// \param position     Position of the tower
@@ -55,11 +57,26 @@ namespace td
 
             /// \brief Get the shooting type of the tower
             /// \return Projectiles shoot by the tower
-            virtual std::vector<projectiles::Projectile> shoot(std::vector<projectiles::Projectile>) = 0;
+            /// \param vector vector of the projectiles in current game
+            virtual std::vector<projectiles::Projectile> shoot(std::vector<projectiles::Projectile> vector) = 0;
+
+            /// \brief Get the target type of the tower
+            /// \return Target type of the tower
+            virtual char getTargetType();
+
+            /// \brief Set the target type of the tower
+            /// \param targetType    Target type of the tower
+            virtual void setTargetType(char targetType);
+
+            /// \brief Get the enemy tower is targeting
+            /// \return Pointer to the targeted enemy
+            /// \param enemies vector of the enemies in current game
+            virtual Enemy* getTarget(std::vector<Enemy*> enemies);
 
         protected:
             unsigned int attack_speed_;  ///< Attack speed of the tower
             float range_;               ///< Attack range of the tower
             unsigned int level_;        ///< Level of the tower
+            char targetTo_;      ///< Target mode of the tower
     };
 }

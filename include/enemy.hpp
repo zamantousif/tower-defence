@@ -48,6 +48,10 @@ namespace td
             /// \brief Set the total distance moved on the path by the enemy
             virtual void setDistanceMoved(float distance);
 
+            /// \brief Get the distance enemy has travelled
+            /// \return Distance the enemy has travelled
+            virtual float getDistance();
+
         protected:
             float health_;              ///< Remaining health of the enemy
             int move_speed_;            ///< Movement speed of the enemy
