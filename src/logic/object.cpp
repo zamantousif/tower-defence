@@ -1,8 +1,8 @@
 #include "object.hpp"
 
 namespace td {
-Object::Object(types::Position position, float hitboxRadius, types::Texture texture,
-               float rotation_angle)
+Object::Object(types::Position position, float hitboxRadius,
+               types::Texture texture, float rotation_angle)
     : position_(position),
       hitboxRadius_(hitboxRadius),
       texture_(texture),

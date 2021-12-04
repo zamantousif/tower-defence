@@ -1,8 +1,7 @@
 #include "projectile.hpp"
 
-namespace td::projectiles
-{
-  Projectile::Projectile(types::Position position, float hitbox,
+namespace td::projectiles {
+Projectile::Projectile(types::Position position, float hitbox,
                        types::Texture texture, float rotation_angle,
                        float damage, bool is_armor_piercing,
                        unsigned int enemy_pierced_count)
@@ -12,42 +11,23 @@ namespace td::projectiles
       enemy_pierced_count_(enemy_pierced_count),
       exhausted_(false) {}
 
-    sf::Vector2<float> Projectile::getPosition()
-    {
-        return position_;
-    }
+sf::Vector2<float> Projectile::getPosition() { return position_; }
 
-    void Projectile::setRotation(float angle)
-    {
-        rotation_angle_ = angle;
-    }
+void Projectile::setRotation(float angle) { rotation_angle_ = angle; }
 
-    float Projectile::getRotation()
-    {
-        return rotation_angle_;
-    }
+float Projectile::getRotation() { return rotation_angle_; }
 
-    unsigned int Projectile::getDamage() const
-    {
-        return damage_;
-    }
+unsigned int Projectile::getDamage() const { return damage_; }
 
-    bool Projectile::isArmorPiercing() const
-    {
-        return is_armor_piercing_;
-    }
+bool Projectile::isArmorPiercing() const { return is_armor_piercing_; }
 
-    void Projectile::setEnemyPiercedCount(unsigned int count)
-    {
-        enemy_pierced_count_ = count;
-    }
+void Projectile::setEnemyPiercedCount(unsigned int count) {
+  enemy_pierced_count_ = count;
+}
 
-    unsigned int Projectile::getEnemyPiercedCount() const
-    {
-        return enemy_pierced_count_;
-    }
-
-
+unsigned int Projectile::getEnemyPiercedCount() const {
+  return enemy_pierced_count_;
+}
 
 bool Projectile::isExhausted() const { return exhausted_; }
-}  // namespace td
+}  // namespace td::projectiles

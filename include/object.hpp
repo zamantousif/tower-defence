@@ -47,7 +47,8 @@ class Object {
 
  protected:
   types::Position position_;  ///< Position of the object
-  float hitboxRadius_;  ///< Radius of the circular region occupied by the object
+  float
+      hitboxRadius_;  ///< Radius of the circular region occupied by the object
   types::Texture texture_;  ///< Texture of the object
   float rotation_angle_;    ///< Orientation, in radians of the object
 };

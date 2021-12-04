@@ -1,18 +1,21 @@
-#include <SFML/Graphics.hpp>
 #include "massive_projectile.hpp"
 
+#include <SFML/Graphics.hpp>
+
+
 namespace td::projectiles {
-    float hitbox_massive = 1.0f; //parameters radius and pointCount
+float hitbox_massive = 1.0f;  // parameters radius and pointCount
 
-    sf::Texture sprite_massive = sf::Texture();   //picture of the tower to here
+sf::Texture sprite_massive = sf::Texture();  // picture of the tower to here
 
-    bool is_armor_piercing_massive = true;
-        
-    unsigned int enemy_pierced_count_massive = 1;
+bool is_armor_piercing_massive = true;
 
-    Massive_projectile::Massive_projectile(sf::Vector2<float> position, float rotation_angle, int damage):
-    Projectile(position, hitbox_massive, sprite_massive, rotation_angle, damage, is_armor_piercing_massive, enemy_pierced_count_massive) {}
+unsigned int enemy_pierced_count_massive = 1;
 
-    void Update(td::types::Time dt) { (void)dt; }
+Massive_projectile::Massive_projectile(sf::Vector2<float> position,
+                                       float rotation_angle, int damage)
+    : Projectile(position, hitbox_massive, sprite_massive, rotation_angle,
+                 damage, is_armor_piercing_massive,
+                 enemy_pierced_count_massive) {}
 
-}
+}  // namespace td::projectiles
