@@ -4,6 +4,7 @@
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include "types.hpp"
+#include <string>
 
 namespace td {
   class Application {
@@ -12,15 +13,29 @@ namespace td {
 
     int run();
 
-    void LaunchMainMenu();
+    void LaunchMainMenuGui();
 
-    void drawShopGui();
+    void LaunchMapSelectGui();
+
+    void LaunchGameGui();
+
+    void LaunchOptionsGui();
+
+    void LaunchPauseGui();
 
     void StyleButtonBrown(tgui::Button::Ptr button);
 
-    void HandleMainMenu();
+    void LaunchGame(std::string map_name);
 
-    void QuitPressed();
+    void HandleMainMenuGui();
+
+    void HandleMapSelectGui();
+
+    void HandleGameGui();
+
+    void HandleOptionsGui();
+
+    void HandlePauseGui();
 
     private:
     sf::RenderWindow window_;
