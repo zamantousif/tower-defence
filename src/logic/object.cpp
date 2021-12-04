@@ -8,7 +8,7 @@ Object::Object(types::Position position, float hitboxRadius, types::Texture text
       texture_(texture),
       rotation_angle_(rotation_angle) {}
 
-void Update(types::Time dt) { (void)dt; }
+void Update(types::Time dt, const td::Game& game) {}
 
 types::Position Object::getPosition() const { return position_; }
 

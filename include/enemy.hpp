@@ -6,6 +6,7 @@
 #include "projectile.hpp"
 
 namespace td {
+class Game;
 ///  \brief Enemy class represents the blueprint of a basic enemy in the game.
 ///  The base enemy class can be derived further to create towers with special
 ///  powers.
@@ -23,6 +24,8 @@ class Enemy : public Object {
   Enemy(types::Position position, float hitbox, types::Texture texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
         bool armored = false, float distance_moved = 0.0f);
+
+  virtual void Update(types::Time dt, const td::Game&);
 
   /// \brief Get the remaining health of the enemy
   /// \return Remaining health of the enemy

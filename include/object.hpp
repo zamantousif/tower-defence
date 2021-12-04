@@ -3,6 +3,7 @@
 #include "types.hpp"
 
 namespace td {
+class Game;
 ///  \brief Object class is an abstract class representing the basic entity of
 ///  the game. The object class shall be inherited by all other game entities
 ///  such as towers, enemies, etc.
@@ -19,7 +20,7 @@ class Object {
 
   /// \brief Update the state of the object
   /// \param dt Delta time, time elapsed since last update
-  virtual void Update(types::Time dt) = 0;
+  virtual void Update(types::Time dt, const td::Game&) = 0;
 
   /// \brief Get the position of the object
   /// \return Position of the object

@@ -11,6 +11,8 @@ Enemy::Enemy(types::Position position, float hitbox, types::Texture texture,
       armored_(armored),
       distance_moved_(distance_moved) {}
 
+void Enemy::Update(types::Time dt, const td::Game& game) {}
+
 float Enemy::getHealth() const { return health_; }
 
 int Enemy::getMoveSpeed() const { return move_speed_; }
