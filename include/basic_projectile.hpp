@@ -19,6 +19,6 @@ class Basic_projectile : public Projectile {
   Basic_projectile(sf::Vector2<float> position, float rotation_angle,
                    int damage);
 
-  //   void Update(td::types::Time dt) { (void)dt; }
+   void Update(td::types::Time dt) override;
 };
 }  // namespace td::projectiles

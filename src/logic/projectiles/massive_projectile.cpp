@@ -18,4 +18,7 @@ Massive_projectile::Massive_projectile(sf::Vector2<float> position,
                  damage, is_armor_piercing_massive,
                  enemy_pierced_count_massive) {}
 
+void Massive_projectile::Update(td::types::Time dt)
+{ (void)dt; }
+
 }  // namespace td::projectiles

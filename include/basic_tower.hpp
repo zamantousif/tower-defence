@@ -15,7 +15,7 @@ class Basic_tower : public Tower {
 
   /// \brief Get the shooting type of the tower
   /// \return Projectiles shoot by the tower
-  virtual std::vector<projectiles::Projectile> shoot(
+    std::vector<projectiles::Projectile> shoot(
       std::vector<projectiles::Projectile>);
 };
 }  // namespace td

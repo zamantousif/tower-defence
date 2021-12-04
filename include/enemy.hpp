@@ -23,9 +23,7 @@ class Enemy : public Object {
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
         bool armored = false, float distance_moved = 0.0f);
 
-  /// \brief Get the position of the enemy
-  /// \return Position of the enemy
-  virtual sf::Vector2<float> getPosition();
+  void Update(types::Time dt) override;
 
   /// \brief Get the remaining health of the enemy
   /// \return Remaining health of the enemy
@@ -35,8 +33,6 @@ class Enemy : public Object {
   /// \return Movement speed of the enemy
   virtual int getMoveSpeed() const;
 
-  /// \brief Do some action when the enemy dies
-  virtual void doUponDeath();
 
   /// \brief Get the bounty of the enemy
   /// \return Bounty of the enemy

@@ -11,6 +11,9 @@ Projectile::Projectile(types::Position position, float hitbox,
       enemy_pierced_count_(enemy_pierced_count),
       exhausted_(false) {}
 
+void Projectile::Update(td::types::Time dt)
+{ (void)dt; }
+
 sf::Vector2<float> Projectile::getPosition() { return position_; }
 
 void Projectile::setRotation(float angle) { rotation_angle_ = angle; }

@@ -17,4 +17,7 @@ Basic_projectile::Basic_projectile(sf::Vector2<float> position,
     : Projectile(position, hitbox_basic, sprite_basic, rotation_angle, damage,
                  is_armor_piercing_basic, enemy_pierced_count_basic) {}
 
+void Basic_projectile::Update(td::types::Time dt)
+{ (void)dt; }
+
 }  // namespace td::projectiles

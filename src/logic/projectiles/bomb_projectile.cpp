@@ -25,5 +25,6 @@ types::Position travel(types::Position start, float travel_distance,
   return end_location;
 }
 
-void Bomb_projectile::Update(td::types::Time dt) { (void)dt; }
+void Bomb_projectile::Update(td::types::Time dt)
+{ (void)dt; }
 }  // namespace td::projectiles
