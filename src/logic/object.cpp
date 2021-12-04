@@ -14,7 +14,9 @@ types::Position Object::getPosition() const { return position_; }
 
 float Object::getHitbox() const { return hitboxRadius_; }
 
-types::Texture* Object::getTexture() const { return texture_; }
+const types::Texture* Object::getTexture() const { return texture_; }
+
+types::Texture* Object::getTexture() { return texture_; }
 
 void Object::setPosition(types::Position position) { position_ = position; }
 

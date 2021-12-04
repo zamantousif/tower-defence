@@ -29,9 +29,13 @@ class Object {
   /// \return Radius of the circular region occupied by the object
   virtual float getHitbox() const;
 
+  /// \brief Get a const pointer to the texture of the object
+  /// \return Texture of the object
+  virtual const types::Texture* getTexture() const;
+
   /// \brief Get a pointer to the texture of the object
   /// \return Texture of the object
-  virtual types::Texture* getTexture() const;
+  virtual types::Texture* getTexture();
 
   /// \brief Set the position of the object
   /// \param position Position of the object
