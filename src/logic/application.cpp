@@ -2,22 +2,22 @@
 #include "application.hpp"
 #include <string>
 #include <unistd.h>
+#include <stdio.h>
 
 
 namespace td {
     Application::Application() {
         window_.create(sf::VideoMode(1280, 720), "Druidic Defense");
         gui_.setWindow(window_);
-        state_ = types::kMainMenu;
+        state_ = types::kOptions;  //starts as options for spaghetti reasons
         volume_ = 70.f;       //set initial value for game volume
         music_volume_ = 70.f;
+        font_.loadFromFile("../Assets/ARIAL.TTF");
     }
 
     int Application::run() {
         LoadTextures();
         LaunchMainMenuGui();
-
-        font_.loadFromFile("Assets/ARIAL.TTF");
 
         while (window_.isOpen()) {  //main loop
             sf::Event event;
@@ -61,7 +61,7 @@ namespace td {
 
     void Application::LoadTextures() {
         sf::Texture* main_menu_bg_texture = new sf::Texture();
-        main_menu_bg_texture->loadFromFile("Assets/Title_Screen.png");
+        main_menu_bg_texture->loadFromFile("../Assets/Title_Screen.png");
         textures_["main_menu_bg"] = main_menu_bg_texture;
         
 
@@ -72,6 +72,9 @@ namespace td {
     }
 
     void Application::LaunchMainMenuGui() {
+        if(state_ == types::kMainMenu) {
+            return;
+        }
         gui_.removeAllWidgets();
         state_ = types::kMainMenu;
 
@@ -99,16 +102,13 @@ namespace td {
         StyleButtonBrown(button_start);
         StyleButtonBrown(button_options);
         StyleButtonBrown(button_quit);
-
-        button_options->getRenderer()->setBorderColorFocused(sf::Color(255,255,0,255));
-        button_options->getRenderer()->setBorderColorDownFocused(sf::Color(255,255,0,255));
     }
 
     void Application::HandleMainMenu() {
         HandleMainMenuGui();
         sf::Sprite main_menu_bg_sprite;
-        main_menu_bg_sprite.setTexture(*textures_["main_menu_bg"]);
-        main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920, window_.getSize().y/1080));
+        main_menu_bg_sprite.setTexture(*textures_["main_menu_bg"], true);
+        main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920.f, window_.getSize().y/1080.f));
         window_.draw(main_menu_bg_sprite);
     }
 
@@ -117,10 +117,14 @@ namespace td {
         tgui::Button::Ptr button_options = gui_.get<tgui::Button>("button_options");
         tgui::Button::Ptr button_quit = gui_.get<tgui::Button>("button_quit");
         button_start->onPress([&]{ LaunchMapSelectGui(); });
+        button_options->onPress([&]{ LaunchOptionsGui(); });
         button_quit->onPress([&]{ window_.close(); });
     }
 
     void Application::LaunchMapSelectGui() {
+        if(state_ == types::kMapSelect) {
+            return;
+        }
         gui_.removeAllWidgets();
         state_ = types::kMapSelect;
 
@@ -157,7 +161,7 @@ namespace td {
         select_text.setFillColor(sf::Color(139,69,19,255));
         select_text.setCharacterSize(60);
         select_text.setOrigin(select_text.getLocalBounds().width/2, select_text.getLocalBounds().height/2);
-        select_text.setPosition(sf::Vector2f(window_.getSize().x/960, window_.getSize().y/200));
+        select_text.setPosition(sf::Vector2f(window_.getSize().x/2, window_.getSize().y/5));
         window_.draw(select_text);  //doesn't work because a font isn't loaded
     }
 
@@ -171,6 +175,9 @@ namespace td {
     }
 
     void Application::LaunchGame(std::string map_name) {
+        if(state_ == types::kGame) {
+            return;
+        }
         state_ = types::kGame;
         LaunchGameGui();
         //create game object
@@ -218,14 +225,14 @@ namespace td {
 
         button_start_wave->setText("Start Wave");
 
-        gui_.add(button_tower_ba);
-        gui_.add(button_tower_bo);
-        gui_.add(button_tower_fr);
-        gui_.add(button_tower_th);
-        gui_.add(button_tower_sn);
-        gui_.add(button_tower_ci);
-        gui_.add(button_pause);
-        gui_.add(button_start_wave);
+        gui_.add(button_tower_ba, "button_tower_ba");
+        gui_.add(button_tower_bo, "button_tower_bo");
+        gui_.add(button_tower_fr, "button_tower_fr");
+        gui_.add(button_tower_th, "button_tower_th");
+        gui_.add(button_tower_sn, "button_tower_sn");
+        gui_.add(button_tower_ci, "button_tower_ci");
+        gui_.add(button_pause, "button_pause");
+        gui_.add(button_start_wave, "button_start_wave");
 
         button_tower_th->setEnabled(false);  //for testing
     }
@@ -237,6 +244,8 @@ namespace td {
         blank_sprite.setColor(sf::Color(205,133,63,255));
         blank_sprite.setPosition(sf::Vector2f(window_.getSize().x*1520/1920, 0.f));
         window_.draw(blank_sprite);
+
+
     }
 
     void Application::HandleGameGui() {
@@ -249,17 +258,129 @@ namespace td {
         tgui::Button::Ptr button_pause = gui_.get<tgui::Button>("button_pause");
         tgui::Button::Ptr button_start_wave = gui_.get<tgui::Button>("button_start_wave");
 
-        //button_pause->onPress([&]{ CreatePauseGui(); });
+        //if (game_.round_active) {
+        //    button_start_wave->setEnabled(false);
+        //} else {
+        //    button_start_wave->setEnabled(true);
+        //}
+
+        //button_pause->onPress([&]{ LaunchPauseGui(); });
         //button_start_wave->onPress([&]{ game_.StartWave(); });
-        
+
+        //code for buying towers
+    }
+
+    void Application::LaunchOptionsGui() { 
+        if(state_ == types::kOptions) {
+            return;
+        }
+        gui_.removeAllWidgets();
+        state_ = types::kOptions;
+
+        tgui::Button::Ptr button_return = tgui::Button::create();
+        tgui::Button::Ptr button_background = tgui::Button::create(); //used as a background
+        tgui::Slider::Ptr slider_volume = tgui::Slider::create();
+        tgui::Slider::Ptr slider_music_volume = tgui::Slider::create();
+        tgui::ToggleButton::Ptr button_auto_start = tgui::ToggleButton::create();
+
+        gui_.add(button_background, "button_background");
+        gui_.add(button_return, "button_return");
+        gui_.add(button_auto_start, "button_auto_start");
+        gui_.add(slider_volume, "slider_volume");
+        gui_.add(slider_music_volume, "slider_music_volume");
+
+        StyleButtonBrown(button_return);
+
+        auto slider_renderer = slider_volume->getSharedRenderer();
+        slider_renderer->setTrackColor(sf::Color(195,123,53,255));
+        slider_renderer->setTrackColorHover(sf::Color(195,123,53,255));
+        slider_renderer->setThumbColor(sf::Color(139,69,19,255));
+        slider_renderer->setThumbColorHover(sf::Color(139,69,19,255));
+
+        auto button_renderer = button_auto_start->getRenderer();
+        button_renderer->setBackgroundColor(sf::Color(195,123,53,255));
+        button_renderer->setBackgroundColorHover(sf::Color(195,123,53,255));
+        button_renderer->setBackgroundColorDown(sf::Color(0,100,0,255));
+        button_renderer->setBorderColor(sf::Color(139,69,19,255));
+        button_renderer->setBorderColorHover(sf::Color(139,69,19,255));
+        button_renderer->setBorderColorDown(sf::Color(0,60,0,255));
+        button_renderer->setBorderColorFocused(sf::Color(139,69,19,255));
+        button_renderer->setBackgroundColorDownHover(sf::Color(0,100,0,255));
+        button_renderer->setRoundedBorderRadius(8.0f);
+        button_renderer->setBorders(5);
+        button_auto_start->setTextSize(15);
+
+        button_background->setEnabled(false);
+        button_background->setOrigin(0.5f, 0.5f);
+        button_background->getRenderer()->setRoundedBorderRadius(8.0f);
+        button_background->getRenderer()->setBorders(5);
+
+        button_return->setPosition("65%", "25%");
+        button_background->setPosition("50%", "50%");
+        button_auto_start->setPosition("60%", "50%");
+        slider_volume->setPosition("33%", "45%");
+        slider_music_volume->setPosition("33%", "60%");
+
+        button_return->setSize("10%", "8%");
+        button_background->setSize("50%", "50%");
+        button_auto_start->setSize("8%", "12%");
+        slider_volume->setSize("15%", "5%");
+        slider_music_volume->setSize("15%", "5%");
+
+        button_background->getRenderer()->setBackgroundColorDisabled(sf::Color(205,133,63,255));
+        button_background->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
+
+        button_auto_start->setText("Auto Start\nRounds");
+        button_return->setText("Return");
+
+        slider_volume->setMinimum(0.f);
+        slider_volume->setMaximum(100.f);
+        slider_volume->setValue(volume_);
+        slider_music_volume->setMinimum(0.f);
+        slider_music_volume->setMaximum(100.f);
+        slider_music_volume->setValue(music_volume_);
+
+        //if (game_.auto_start_) {
+        //    button_auto_start->setDown(true);
+        //}
     }
 
     void Application::HandleOptions() {
         HandleOptionsGui();
+        sf::Sprite main_menu_bg_sprite;
+        main_menu_bg_sprite.setTexture(*textures_["main_menu_bg"], true);
+        main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920.f, window_.getSize().y/1080.f));
+        window_.draw(main_menu_bg_sprite);
     }
 
     void Application::HandleOptionsGui() {
-        //TODO
+        tgui::Button::Ptr button_return = gui_.get<tgui::Button>("button_return");
+        tgui::ToggleButton::Ptr button_auto_start = gui_.get<tgui::ToggleButton>("button_auto_start");
+        tgui::Slider::Ptr slider_volume = gui_.get<tgui::Slider>("slider_volume");
+        tgui::Slider::Ptr slider_music_volume = gui_.get<tgui::Slider>("slider_music_volume");
+
+        std::cout << "--------" << std::endl;
+        std::cout << volume_ << std::endl;
+        std::cout << music_volume_ << std::endl;
+        std::cout << slider_music_volume->getValue() << std::endl;
+
+        button_return->onPress(&Application::LaunchMainMenuGui, this);
+        volume_ = slider_volume->getValue();
+        music_volume_ = slider_music_volume->getValue();
+        if (button_auto_start->isDown()) {
+            //game_.auto_start_ = true;
+        } else {
+            //game_.auto_start_ = false;
+        }
+
+    }
+
+    void Application::LaunchPauseGui() {
+        if(state_ == types::kPause) {
+            return;
+        }
+        gui_.removeAllWidgets();
+        state_ = types::kPause;
     }
 
     void Application::HandlePause() {
