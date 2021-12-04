@@ -20,7 +20,7 @@ class Enemy : public Object {
   /// \param bounty         Bounty of the enemy
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
-  Enemy(types::Position position, float hitbox, types::Texture* texture,
+  Enemy(types::Position position, float hitbox, sf::Texture* texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
         bool armored = false, float distance_moved = 0.0f);
 

@@ -15,7 +15,7 @@ class Tower : public Object {
   /// \param texture        Texture of the tower
   /// \param attack_speed   Attack speed of the tower
   /// \param range          Attack range of the tower
-  Tower(types::Position position, float hitbox, types::Texture* texture,
+  Tower(types::Position position, float hitbox, sf::Texture* texture,
         float rotation_angle = 0.0f, unsigned int attack_speed = 1U,
         float range = 1.0f);
 

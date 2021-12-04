@@ -2,7 +2,7 @@
 
 namespace td {
 Object::Object(types::Position position, float hitboxRadius,
-               types::Texture* texture, float rotation_angle)
+               sf::Texture* texture, float rotation_angle)
     : position_(position),
       hitboxRadius_(hitboxRadius),
       texture_(texture),
@@ -14,9 +14,9 @@ types::Position Object::getPosition() const { return position_; }
 
 float Object::getHitboxRadius() const { return hitboxRadius_; }
 
-const types::Texture* Object::getTexture() const { return texture_; }
+const sf::Texture* Object::getTexture() const { return texture_; }
 
-types::Texture* Object::getTexture() { return texture_; }
+sf::Texture* Object::getTexture() { return texture_; }
 
 void Object::setPosition(types::Position position) { position_ = position; }
 
