@@ -9,25 +9,17 @@ namespace td {
         window_.create(sf::VideoMode(1280, 720), "Druidic Defense");
         gui_.setWindow(window_);
         state_ = types::kMainMenu;
+        volume_ = 70.f;       //set initial value for game volume
+        music_volume_ = 70.f;
     }
 
     int Application::run() {
+        LoadTextures();
         LaunchMainMenuGui();
-        sf::Texture main_menu_bg_texture;
-        main_menu_bg_texture.loadFromFile("Assets/Title_Screen.png");
-        sf::Sprite main_menu_bg_sprite;
-        main_menu_bg_sprite.setTexture(main_menu_bg_texture);
 
-        sf::Texture blank_texture;   //placeholder
-        blank_texture.create(400,1080);
-        sf::Sprite blank_sprite;     //placeholder
-        blank_sprite.setTexture(blank_texture);
-        blank_sprite.setColor(sf::Color(205,133,63,255));
-        blank_sprite.setPosition(sf::Vector2f(window_.getSize().x*1520/1920, 0.f));
+        font_.loadFromFile("Assets/ARIAL.TTF");
 
-        //load font to use with sf::Text
-
-        while (window_.isOpen()) {
+        while (window_.isOpen()) {  //main loop
             sf::Event event;
             while (window_.pollEvent(event)) {
                 gui_.handleEvent(event);
@@ -37,35 +29,46 @@ namespace td {
 
             window_.clear();
 
-            if (state_ == types::kMainMenu) {  //this if-else mess will be changed to a switch/case with individual functions
-                HandleMainMenuGui();
-                main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920, window_.getSize().y/1080));
-                window_.draw(main_menu_bg_sprite);
-
-            } else if (state_ == types::kMapSelect) {
-                HandleMapSelectGui();
-                //draw background here
-                sf::Text select_text;
-                select_text.setString("Select Map");
-                select_text.setFillColor(sf::Color(139,69,19,255));
-                select_text.setCharacterSize(60);
-                select_text.setOrigin(select_text.getLocalBounds().width/2, select_text.getLocalBounds().height/2);
-                select_text.setPosition(sf::Vector2f(window_.getSize().x/960, window_.getSize().y/200));
-                window_.draw(select_text);  //doesn't work because a font isn't loaded
-
-            } else if (state_ == types::kGame) {
-                HandleGameGui();
-                window_.draw(blank_sprite);
-                //run gametick
-                //draw map
-                //render game objects
+            switch (state_) {
+                case types::kGame:
+                    HandleGame();
+                    break;
+                case types::kMainMenu:
+                    HandleMainMenu();
+                    break;
+                case types::kOptions:
+                    HandleOptions();
+                    break;
+                case types::kMapSelect:
+                    HandleMapSelect();
+                    break;
+                case types::kPause:
+                    HandlePause();
+                    break;
             }
 
             gui_.draw();
+
+            //draw things that need to be drawn on top of the gui
     
             window_.display();
-        }
+
+        }  //main loop end
+
+        //delete textures
         return 0;
+    }
+
+    void Application::LoadTextures() {
+        sf::Texture* main_menu_bg_texture = new sf::Texture();
+        main_menu_bg_texture->loadFromFile("Assets/Title_Screen.png");
+        textures_["main_menu_bg"] = main_menu_bg_texture;
+        
+
+        sf::Texture* blank_texture = new sf::Texture();   //placeholder
+        blank_texture->create(400,1080);
+        textures_["blank_texture"] = blank_texture;
+
     }
 
     void Application::LaunchMainMenuGui() {
@@ -99,6 +102,14 @@ namespace td {
 
         button_options->getRenderer()->setBorderColorFocused(sf::Color(255,255,0,255));
         button_options->getRenderer()->setBorderColorDownFocused(sf::Color(255,255,0,255));
+    }
+
+    void Application::HandleMainMenu() {
+        HandleMainMenuGui();
+        sf::Sprite main_menu_bg_sprite;
+        main_menu_bg_sprite.setTexture(*textures_["main_menu_bg"]);
+        main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920, window_.getSize().y/1080));
+        window_.draw(main_menu_bg_sprite);
     }
 
     void Application::HandleMainMenuGui() {
@@ -137,6 +148,19 @@ namespace td {
         StyleButtonBrown(button_exit);
     }
 
+    void Application::HandleMapSelect() {
+        HandleMapSelectGui();
+        //draw background here
+        sf::Text select_text;
+        select_text.setString("Select Map");
+        select_text.setFont(font_);
+        select_text.setFillColor(sf::Color(139,69,19,255));
+        select_text.setCharacterSize(60);
+        select_text.setOrigin(select_text.getLocalBounds().width/2, select_text.getLocalBounds().height/2);
+        select_text.setPosition(sf::Vector2f(window_.getSize().x/960, window_.getSize().y/200));
+        window_.draw(select_text);  //doesn't work because a font isn't loaded
+    }
+
     void Application::HandleMapSelectGui() {
         tgui::Button::Ptr button_map1 = gui_.get<tgui::Button>("button_map1");
         tgui::Button::Ptr button_map2 = gui_.get<tgui::Button>("button_map2");
@@ -147,41 +171,32 @@ namespace td {
     }
 
     void Application::LaunchGame(std::string map_name) {
+        state_ = types::kGame;
         LaunchGameGui();
-        //new game
+        //create game object
         //load corresponding map into game
     }
 
     void Application::LaunchGameGui() {
         gui_.removeAllWidgets();
-        state_ = types::kGame;
 
         tgui::Button::Ptr button_tower_ba = tgui::Button::create();  //basic tower
-        tgui::Button::Ptr button_tower_bo = tgui::Button::create();  //bomb tower
-        tgui::Button::Ptr button_tower_fr = tgui::Button::create();  //frigid stump
-        tgui::Button::Ptr button_tower_th = tgui::Button::create();  //thorn eruptor
-        tgui::Button::Ptr button_tower_sn = tgui::Button::create();  //sniper
-        tgui::Button::Ptr button_tower_ci = tgui::Button::create();  //cinder stump
         tgui::Button::Ptr button_pause = tgui::Button::create();
         tgui::Button::Ptr button_start_wave = tgui::Button::create();
-        
-        gui_.add(button_tower_ba);
-        gui_.add(button_tower_bo);
-        gui_.add(button_tower_fr);
-        gui_.add(button_tower_th);
-        gui_.add(button_tower_sn);
-        gui_.add(button_tower_ci);
-        gui_.add(button_pause);
-        gui_.add(button_start_wave);
 
+        button_tower_ba->getRenderer()->setBorderColorFocused(sf::Color(255,255,0,255));
+        button_tower_ba->getRenderer()->setBorderColorDownFocused(sf::Color(255,255,0,255));
+        button_tower_ba->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
+        button_tower_ba->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
         StyleButtonBrown(button_tower_ba);
-        StyleButtonBrown(button_tower_bo);
-        StyleButtonBrown(button_tower_fr);
-        StyleButtonBrown(button_tower_th);
-        StyleButtonBrown(button_tower_sn);
-        StyleButtonBrown(button_tower_ci);
         StyleButtonBrown(button_pause);
         StyleButtonBrown(button_start_wave);
+
+        tgui::Button::Ptr button_tower_bo = tgui::Button::copy(button_tower_ba);  //bomb tower
+        tgui::Button::Ptr button_tower_fr = tgui::Button::copy(button_tower_ba);  //frigid stump
+        tgui::Button::Ptr button_tower_th = tgui::Button::copy(button_tower_ba);  //thorn eruptor
+        tgui::Button::Ptr button_tower_sn = tgui::Button::copy(button_tower_ba);  //sniper
+        tgui::Button::Ptr button_tower_ci = tgui::Button::copy(button_tower_ba);  //cinder stump
 
         button_tower_ba->setPosition("80%", "13%");
         button_tower_bo->setPosition("86.5%", "13%");
@@ -203,6 +218,25 @@ namespace td {
 
         button_start_wave->setText("Start Wave");
 
+        gui_.add(button_tower_ba);
+        gui_.add(button_tower_bo);
+        gui_.add(button_tower_fr);
+        gui_.add(button_tower_th);
+        gui_.add(button_tower_sn);
+        gui_.add(button_tower_ci);
+        gui_.add(button_pause);
+        gui_.add(button_start_wave);
+
+        button_tower_th->setEnabled(false);  //for testing
+    }
+
+    void Application::HandleGame() {
+        HandleGameGui();
+        sf::Sprite blank_sprite;     //placeholder
+        blank_sprite.setTexture(*textures_["blank_texture"], true);
+        blank_sprite.setColor(sf::Color(205,133,63,255));
+        blank_sprite.setPosition(sf::Vector2f(window_.getSize().x*1520/1920, 0.f));
+        window_.draw(blank_sprite);
     }
 
     void Application::HandleGameGui() {
@@ -217,15 +251,32 @@ namespace td {
 
         //button_pause->onPress([&]{ CreatePauseGui(); });
         //button_start_wave->onPress([&]{ game_.StartWave(); });
+        
+    }
+
+    void Application::HandleOptions() {
+        HandleOptionsGui();
+    }
+
+    void Application::HandleOptionsGui() {
+        //TODO
+    }
+
+    void Application::HandlePause() {
+        HandleOptionsGui();
+    }
+
+    void Application::HandlePauseGui() {
+        //TODO
     }
 
     void Application::StyleButtonBrown(tgui::Button::Ptr button) {
         auto button_renderer = button->getRenderer();
         button_renderer->setBackgroundColor(sf::Color(205,133,63,255));
         button_renderer->setBackgroundColorHover(sf::Color(205,133,63,255));
+        button_renderer->setBackgroundColorDown(sf::Color(185,115,53,255));
         button_renderer->setBorderColor(sf::Color(139,69,19,255));
         button_renderer->setBorderColorHover(sf::Color(139,69,19,255));
-        button_renderer->setBackgroundColorDown(sf::Color(185,115,53,255));
         button_renderer->setBorderColorDown(sf::Color(139,69,19,255));
         button_renderer->setBorderColorFocused(sf::Color(139,69,19,255));
         button_renderer->setRoundedBorderRadius(8.0f);
