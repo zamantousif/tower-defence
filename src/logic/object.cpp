@@ -12,7 +12,7 @@ void Update(types::Time dt) { (void)dt; }
 
 types::Position Object::getPosition() const { return position_; }
 
-float Object::getHitbox() const { return hitboxRadius_; }
+float Object::getHitboxRadius() const { return hitboxRadius_; }
 
 const types::Texture* Object::getTexture() const { return texture_; }
 

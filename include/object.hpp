@@ -27,7 +27,7 @@ class Object {
 
   /// \brief Get the radius of circular region occupied by the object
   /// \return Radius of the circular region occupied by the object
-  virtual float getHitbox() const;
+  virtual float getHitboxRadius() const;
 
   /// \brief Get a const pointer to the texture of the object
   /// \return Texture of the object
