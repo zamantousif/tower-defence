@@ -9,6 +9,7 @@ TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
   class derived_object : public td::Object {
     void Update(td::types::Time dt) { (void)dt; }
   };
+  sf::Texture* pTexture = NULL;
 
   // Act
   derived_object obj;
@@ -16,9 +17,10 @@ TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
   // Assert
   EXPECT_FLOAT_EQ(obj.getPosition().x, 0.0f);
   EXPECT_FLOAT_EQ(obj.getPosition().y, 0.0f);
-  EXPECT_FLOAT_EQ(obj.getHitbox(), 0.0f);
-  EXPECT_EQ(obj.getTexture().getSize().x, 0U);
-  EXPECT_EQ(obj.getTexture().getSize().y, 0U);
+  EXPECT_FLOAT_EQ(obj.getHitboxRadius(), 0.0f);
+  EXPECT_EQ(obj.getTexture(), pTexture);
+  EXPECT_EQ(obj.getTexture()->getSize().x, pTexture->getSize().x);
+  EXPECT_EQ(obj.getTexture()->getSize().y, pTexture->getSize().x);
   EXPECT_FLOAT_EQ(obj.getRotation(), 0.0f);
 }
 
