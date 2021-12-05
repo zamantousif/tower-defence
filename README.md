@@ -48,8 +48,20 @@ Tested on Ubuntu 18.04.
 We use [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) with Google C++ style guide.
 There are shortcuts to invoke the formatter on the project source depending on the IDE/editor used.
 - In Visual Studio, open a source file and hit `Ctrl+K, Ctrl+D` to apply the formatting.
-- In VSCode, open a source file and hit `Ctrl+Shift+I` to apply the formatting.
- 
+- Refer [this](https://code.visualstudio.com/docs/cpp/cpp-ide) to set up clang-format for VSCode. Open a source file and hit `Ctrl+Shift+I` to apply the formatting. 
+
+# Unit Tests
+We use [GoogleTest](https://github.com/google/googletest/blob/main/googletest/README.md) to write unit tests. The `CMakeLists.txt`
+takes care of installing the necessary dependencies and generates an executable for all unit test sources present inside `tests` directory. Run this executable 
+to see the status of unit tests (passed/failed).
+```bash
+cd tower-defense-5      # enter project root directory
+mkdir build && cd build # make a build directory
+cmake ..                # run CMake
+make                    # make tests along with sources
+cd build/bin            # go to executables directory
+./TowerDefense5_tests   # run tests executable
+```
 # Repository organization
 
 The project repository is organised as the following tree:
@@ -103,7 +115,4 @@ preferably at a regular weekly time. In the meeting the group updates:
 It is strongly recommended to use Doxygen to document your source code.
 Please go over the *Project Guidelines* for details.
 
-# TODOs (04-Nov-2021)
-
-- Add GTest support
-- Check how to optimize CMakeLists.txt for cross-platform compatibility
+# TODOs (05-Dec-2021)
