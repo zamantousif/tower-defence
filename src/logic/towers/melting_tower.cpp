@@ -5,7 +5,7 @@
 namespace td {
 float hitbox_melting = 1.0f;  // parameters radius and pointCount
 
-sf::Texture sprite_melting = sf::Texture();  // picture of the tower to here
+sf::Texture* sprite_melting = nullptr;  // picture of the tower to here
 
 unsigned int attack_speed_melting = 10;  // can adjust these later
 

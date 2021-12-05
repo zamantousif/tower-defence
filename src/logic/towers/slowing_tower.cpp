@@ -5,7 +5,7 @@
 namespace td {
 float hitbox_slowing = 1.0f;  // parameters radius and pointCount
 
-sf::Texture sprite_slowing = sf::Texture();  // picture of the tower to here
+sf::Texture* sprite_slowing = nullptr;  // picture of the tower to here
 
 unsigned int attack_speed_slowing = 10;  // can adjust these later
 

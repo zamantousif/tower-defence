@@ -6,7 +6,7 @@
 namespace td::projectiles {
 float hitbox_strong = 1.0f;  // parameters radius and pointCount
 
-sf::Texture sprite_strong = sf::Texture();  // picture of the tower to here
+sf::Texture* sprite_strong = nullptr;  // picture of the tower to here
 
 int damage_strong = 50;
 

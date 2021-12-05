@@ -12,7 +12,7 @@
 namespace td {
 float hitbox_basic = 1.0f;  // parameters radius and pointCount
 
-sf::Texture sprite_basic = sf::Texture();  // picture of the tower to here
+sf::Texture* sprite_basic = nullptr;  // picture of the tower to here
 
 unsigned int attack_speed_basic = 10;  // can adjust these later
 

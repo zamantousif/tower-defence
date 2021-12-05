@@ -8,7 +8,7 @@
 namespace td {
 float hitbox_high = 1.0f;  // parameters radius and pointCount
 
-sf::Texture texture_high = sf::Texture();  // picture of the tower to here
+sf::Texture* texture_high = nullptr;  // picture of the tower to here
 
 unsigned int attack_speed_high = 10;  // can adjust these later
 

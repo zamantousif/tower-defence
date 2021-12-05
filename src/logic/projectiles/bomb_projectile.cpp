@@ -6,7 +6,7 @@
 namespace td::projectiles {
 float hitbox_bomb = 1.0f;  // parameters radius and pointCount
 
-sf::Texture sprite_bomb = sf::Texture();  // picture of the tower to here
+sf::Texture* sprite_bomb = nullptr;  // picture of the tower to here
 
 bool is_armor_piercing_bomb = true;
 
