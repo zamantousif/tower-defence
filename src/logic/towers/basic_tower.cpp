@@ -30,31 +30,24 @@ types::Position GetProjectStartPos(types::Position centre, float radius,
   return result;
 }
 
+int damage_basic = 0;
 std::vector<projectiles::Projectile> Basic_tower::shoot(
     std::vector<projectiles::Projectile> vector) {
-  if (this->getLevel() == 1) {
+  if (this->getLevel() < 4) {
+    if(this->getLevel() == 1)
+    damage_basic = 10;
+    else if(this->getLevel() == 2)
+    damage_basic = 20;
+    else if(this->getLevel() == 3)
+    damage_basic = 30;
     projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(
         GetProjectStartPos(this->getPosition(), this->getHitbox(),
                            this->getRotation()),
         this->getRotation(),
-        10);  /// Projectile starts from the edge of the tower
+        damage_basic);  /// Projectile starts from the edge of the tower
     vector.push_back(newProjectile);
     return vector;
-  } else if (this->getLevel() == 2) {
-    projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(
-        GetProjectStartPos(this->getPosition(), this->getHitbox(),
-                           this->getRotation()),
-        this->getRotation(), 20);
-    vector.push_back(newProjectile);
-    return vector;
-  } else if (this->getLevel() == 3) {
-    projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(
-        GetProjectStartPos(this->getPosition(), this->getHitbox(),
-                           this->getRotation()),
-        this->getRotation(), 30);
-    vector.push_back(newProjectile);
-    return vector;
-  } else {
+  }else {
     projectiles::Strong_projectile newProjectile =
         projectiles::Strong_projectile(
             GetProjectStartPos(this->getPosition(), this->getHitbox(),
