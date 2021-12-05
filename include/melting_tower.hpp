@@ -3,20 +3,21 @@
 #include <SFML/Graphics.hpp>
 
 #include "tower.hpp"
-
+#include <list>
 
 namespace td {
-///  \brief //Implementation of bomb tower that shoots explosive bombs to
-///  enemies
+///  \brief //Implementation of melting tower that damages every enemy in its
+///  range
 class Melting_tower : public Tower {
  public:
-  /// \brief Tower constructor
+  /// \brief              Melting_tower constructor
   /// \param position     Position of the tower
+  /// \param rotation_angle  Orientation, in radians of the tower
   Melting_tower(sf::Vector2<float> position, float rotation_angle = 0.0f);
 
-  /// \brief Get the shooting type of the tower
-  /// \return Projectiles shoot by the tower
-  virtual std::vector<projectiles::Projectile> shoot(
-      std::vector<projectiles::Projectile>);
+  /// \brief Add projectiles shoot by the tower to the list of all projectiles
+  /// \return List of all projectiles currently in game
+  virtual std::list<projectiles::Projectile> shoot(
+      std::list<projectiles::Projectile>);
 };
 }  // namespace td

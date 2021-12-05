@@ -21,8 +21,8 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
     : Tower(position, hitbox_high, texture_high, rotation_angle,
             attack_speed_high, range_high, targetTo_high) {}
 
-std::vector<projectiles::Projectile> High_damage_tower::shoot(
-    std::vector<projectiles::Projectile> vector) {
+std::list<projectiles::Projectile> High_damage_tower::shoot(
+    std::list<projectiles::Projectile> vector) {
   if (this->getLevel() == 1) {
     //    derived_projectile newProjectile =
     //    derived_projectile(this->getTarget(/*vector of enemies

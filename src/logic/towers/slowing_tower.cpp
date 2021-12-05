@@ -15,8 +15,8 @@ Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle)
     : Tower(position, hitbox_slowing, sprite_slowing, rotation_angle,
             attack_speed_slowing, range_slowing) {}
 
-std::vector<projectiles::Projectile> Slowing_tower::shoot(
-    std::vector<projectiles::Projectile> vector) {
+std::list<projectiles::Projectile> Slowing_tower::shoot(
+    std::list<projectiles::Projectile> vector) {
   // add implementation here
 }
 

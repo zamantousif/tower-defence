@@ -15,8 +15,8 @@ Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle)
     : Tower(position, hitbox_melting, sprite_melting, rotation_angle,
             attack_speed_melting, range_melting) {}
 
-std::vector<projectiles::Projectile> Melting_tower::shoot(
-    std::vector<projectiles::Projectile> vector) {
+std::list<projectiles::Projectile> Melting_tower::shoot(
+    std::list<projectiles::Projectile> vector) {
   // add implementation here
 }
 

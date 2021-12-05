@@ -18,8 +18,8 @@ Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle)
     : Tower(position, hitbox_bomb, sprite_bomb, rotation_angle,
             attack_speed_bomb, range_bomb) {}
 
-std::vector<projectiles::Projectile> Bomb_tower::shoot(
-    std::vector<projectiles::Projectile> vector) {
+std::list<projectiles::Projectile> Bomb_tower::shoot(
+    std::list<projectiles::Projectile> vector) {
   if (this->getLevel() == 1) {
     projectiles::Bomb_projectile newProjectile =
         projectiles::Bomb_projectile(this->getPosition(), this->getRotation(),

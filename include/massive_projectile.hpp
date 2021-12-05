@@ -4,19 +4,14 @@
 
 #include "projectile.hpp"
 
-
 namespace td::projectiles {
 class Massive_projectile : public Projectile {
  public:
-  /// \brief Projectile constructor
-  /// \param position             Position of the projectile
-  /// \param hitbox               Shape representing the region occupied by the
-  /// projectile \param sprite               Texture of the projectile \param
-  /// rotation_angle       Orientation, in radians of the projectile \param
-  /// damage               Damage % of the projectile \param is_armor_piercing
-  /// Status of projectile armor \param enemy_pierced_count  Number of enemies
-  /// pierced by the projectile before disappearing
-  Massive_projectile(sf::Vector2<float> position, float rotation_angle,
+  /// \brief                 Massive_projectile constructor
+  /// \param position        Position of the projectile
+  /// \param rotation_angle  Orientation, in radians of the projectile
+  /// \param damage          Damage % of the projectile
+  Massive_projectile(types::Position position, float rotation_angle,
                      int damage);
 
   void Update(td::types::Time dt) override;

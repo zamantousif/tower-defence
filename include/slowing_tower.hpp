@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "tower.hpp"
+#include <list>
 
 
 namespace td {
@@ -8,13 +9,13 @@ namespace td {
 ///  range
 class Slowing_tower : public Tower {
  public:
-  /// \brief Tower constructor
-  /// \param position     Position of the tower
+  /// \brief                 Slowing_tower constructor
+  /// \param position        Position of the tower
+  /// \param rotation_angle  Orientation, in radians of the tower
   Slowing_tower(sf::Vector2<float> position, float rotation_angle = 0.0f);
 
-  /// \brief Get the shooting type of the tower
-  /// \return Projectiles shoot by the tower
-  virtual std::vector<projectiles::Projectile> shoot(
-      std::vector<projectiles::Projectile> vector);
+  /// \brief Add projectiles shoot by the tower to the list of all projectiles
+  /// \return List of all projectiles currently in game
+  std::list<projectiles::Projectile> shoot(std::list<projectiles::Projectile>);
 };
 }  // namespace td

@@ -31,8 +31,8 @@ types::Position GetProjectStartPos(types::Position centre, float radius,
 }
 
 int damage_basic = 0;
-std::vector<projectiles::Projectile> Basic_tower::shoot(
-    std::vector<projectiles::Projectile> vector) {
+std::list<projectiles::Projectile> Basic_tower::shoot(
+    std::list<projectiles::Projectile> vector) {
   if (this->getLevel() < 4) {
     if(this->getLevel() == 1)
     damage_basic = 10;
