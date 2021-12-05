@@ -66,6 +66,32 @@ class Game {
   const std::map<Projectile*, Enemy*>& getProjectileCollisions(
       bool previous_update = false);
 
+  /// \brief A struct for storing the state of an enemy wave. A round consists
+  /// of these waves.
+  struct Wave {
+    std::string enemy_identifier;
+    unsigned int spacing = 500;
+    unsigned int offset = 0;
+    unsigned int count = 1;
+
+    /// \param enemy_identifier The unique identifier for the enemy that gets
+    /// spawned during the wave
+    ///
+    /// \param spacing The amount of time between enemy
+    /// spawns, in milliseconds
+    ///
+    /// \param offset The amount of time for the wave to
+    /// arrive after the round has started, in milliseconds
+    /// 
+    /// \param count The amount of enemies that spawn
+    Wave(std::string enemy_identifier, unsigned int spacing,
+         unsigned int offset, unsigned int count)
+        : enemy_identifier(enemy_identifier),
+          spacing(spacing),
+          offset(offset),
+          count(count) {}
+  };
+
  private:
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
