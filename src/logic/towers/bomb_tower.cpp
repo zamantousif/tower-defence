@@ -6,7 +6,7 @@
 
 
 namespace td {
-float hitbox_bomb = 1.0f;  // parameters radius and pointCount
+float hitbox_bomb = 1.0f; 
 
 sf::Texture* sprite_bomb = nullptr;  // picture of the tower to here
 
@@ -19,36 +19,22 @@ Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle)
             attack_speed_bomb, range_bomb) {}
 
 std::list<projectiles::Projectile> Bomb_tower::shoot(
-    std::list<projectiles::Projectile> vector) {
-  if (this->getLevel() == 1) {
+    std::list<projectiles::Projectile> projectiles) {
+      int damage_bomb = 0;
+  if (this->getLevel() == 1)
+    damage_bomb = 15;
+    else if(this->getLevel() == 2)
+    damage_bomb = 30;
+    else if(this->getLevel() == 3)
+    damage_bomb = 45;
+    else
+    damage_bomb = 60;
     projectiles::Bomb_projectile newProjectile =
-        projectiles::Bomb_projectile(this->getPosition(), this->getRotation(),
-                                     15);  /// position has to be set to edge of
-                                           /// the tower instead of tower centre
-    vector.push_back(newProjectile);
-    return vector;
-  } else if (this->getLevel() == 2) {
-    projectiles::Bomb_projectile newProjectile =
-        projectiles::Bomb_projectile(this->getPosition(), this->getRotation(),
-                                     30);  /// position has to be set to edge of
-                                           /// the tower instead of tower centre
-    vector.push_back(newProjectile);
-    return vector;
-  } else if (this->getLevel() == 3) {
-    projectiles::Bomb_projectile newProjectile =
-        projectiles::Bomb_projectile(this->getPosition(), this->getRotation(),
-                                     45);  /// position has to be set to edge of
-                                           /// the tower instead of tower centre
-    vector.push_back(newProjectile);
-    return vector;
-  } else {
-    projectiles::Bomb_projectile newProjectile =
-        projectiles::Bomb_projectile(this->getPosition(), this->getRotation(),
-                                     60);  /// position has to be set to edge of
-                                           /// the tower instead of tower centre
-    vector.push_back(newProjectile);
-    return vector;
-  }
+        projectiles::Bomb_projectile(GetProjectStartPos(this->getPosition(), this->getHitbox(),
+                               this->getRotation()), this->getRotation(),
+                                     damage_bomb);  /// Projectile starts from the edge of the tower
+    projectiles.push_back(newProjectile);
+    return projectiles;
 }
 
 }  // namespace td

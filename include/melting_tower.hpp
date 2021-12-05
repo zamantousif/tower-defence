@@ -1,9 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
 #include "tower.hpp"
-#include <list>
 
 namespace td {
 ///  \brief //Implementation of melting tower that damages every enemy in its
@@ -17,7 +17,6 @@ class Melting_tower : public Tower {
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
-  virtual std::list<projectiles::Projectile> shoot(
-      std::list<projectiles::Projectile>);
+  std::list<projectiles::Projectile> shoot(std::list<projectiles::Projectile>);
 };
 }  // namespace td

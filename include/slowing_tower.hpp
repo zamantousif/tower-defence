@@ -1,8 +1,7 @@
 #include <SFML/Graphics.hpp>
-
-#include "tower.hpp"
 #include <list>
 
+#include "tower.hpp"
 
 namespace td {
 ///  \brief //Implementation of the slowing tower that slows down enemies in its

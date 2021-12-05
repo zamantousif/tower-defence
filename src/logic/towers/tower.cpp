@@ -32,8 +32,11 @@ void Tower::setRotation(float angle) { rotation_angle_ = angle; }
 float Tower::getRotation() { return rotation_angle_; }
 
 unsigned int Tower::getLevel() { return level_; }
+
 char Tower::getTargetType() { return targetTo_; }
+
 void Tower::setTargetType(char targetType) { targetTo_ = targetType; }
+
 Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
   std::vector<Enemy*> enemiesInRange;
   float towerxpos = this->getPosition().x;
@@ -91,5 +94,13 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
     return furthestEnemy;
   }
   throw "Target type not recognized";
+}
+
+types::Position Tower::GetProjectStartPos(types::Position centre, float radius,
+                                   float angle) {
+  types::Position result;
+  result.x = centre.x + radius + cos(angle);  // angle should be in radians
+  result.y = centre.y + radius + sin(angle);
+  return result;
 }
 }  // namespace td

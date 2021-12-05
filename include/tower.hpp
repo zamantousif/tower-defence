@@ -4,7 +4,6 @@
 #include "object.hpp"
 #include "projectile.hpp"
 
-
 namespace td {
 ///  \brief Tower class represents the blueprint of a basic tower in the game.
 ///  The base tower class can be derived further to create towers with special
@@ -32,7 +31,7 @@ class Tower : public Object {
 
   /// \brief Get the position of the tower
   /// \return Position of the tower
-  virtual sf::Vector2<float> getPosition();
+  virtual types::Position getPosition();
 
   /// \brief Get the shape representing region of the tower
   /// \return Shape representing the region occupied by the tower
@@ -76,6 +75,14 @@ class Tower : public Object {
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
   virtual Enemy* getTarget(std::vector<Enemy*> enemies);
+
+  /// \brief         Calculate the starting position of the projectiles shoot by
+  /// the tower
+  /// \param centre  Centre position of the tower
+  /// \param radius  Radius of the tower (same as hitbox)
+  /// \param angle   Angle position of the tower in radians
+  types::Position GetProjectStartPos(types::Position centre,
+                                            float radius, float angle);
 
  protected:
   unsigned int attack_speed_;  ///< Attack speed of the tower

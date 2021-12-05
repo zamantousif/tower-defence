@@ -17,7 +17,6 @@ class Bomb_tower : public Tower {
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
-  virtual std::list<projectiles::Projectile> shoot(
-      std::list<projectiles::Projectile>);
+  std::list<projectiles::Projectile> shoot(std::list<projectiles::Projectile>);
 };
 }  // namespace td
