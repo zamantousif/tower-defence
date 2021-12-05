@@ -282,12 +282,34 @@ namespace td {
         tgui::Slider::Ptr slider_volume = tgui::Slider::create();
         tgui::Slider::Ptr slider_music_volume = tgui::Slider::create();
         tgui::ToggleButton::Ptr button_auto_start = tgui::ToggleButton::create();
+        tgui::Button::Ptr music_text = tgui::Button::create();        //using an invisible button for text ensures it's in the right position
 
         gui_.add(button_background, "button_background");
         gui_.add(button_return, "button_return");
         gui_.add(button_auto_start, "button_auto_start");
         gui_.add(slider_volume, "slider_volume");
         gui_.add(slider_music_volume, "slider_music_volume");
+        gui_.add(music_text);
+        
+        music_text->setEnabled(false);
+        music_text->getRenderer()->setBackgroundColorDisabled(sf::Color(0,0,0,0));
+        music_text->getRenderer()->setBorderColorDisabled(sf::Color(0,0,0,0));
+        music_text->getRenderer()->setTextColorDisabled(sf::Color(139,69,19,255));
+        music_text->setTextSize(21);
+        music_text->setOrigin(0.5f, 0.5f);
+
+        tgui::Button::Ptr sound_text = tgui::Button::copy(music_text);
+        tgui::Button::Ptr options_text = tgui::Button::copy(music_text);
+        gui_.add(sound_text);
+        gui_.add(options_text);
+
+        music_text->setText("Music Volume");
+        sound_text->setText("Sound Volume");
+        options_text->setText("Options");
+        sound_text->setPosition("40.5%", "40%");
+        music_text->setPosition("40.5%", "56%");
+        options_text->setPosition("50%", "30%");
+        options_text->setTextSize(37);
 
         StyleButtonBrown(button_return);
 
@@ -318,7 +340,7 @@ namespace td {
         button_return->setPosition("65%", "25%");
         button_background->setPosition("50%", "50%");
         button_auto_start->setPosition("60%", "50%");
-        slider_volume->setPosition("33%", "45%");
+        slider_volume->setPosition("33%", "44%");
         slider_music_volume->setPosition("33%", "60%");
 
         button_return->setSize("10%", "8%");
