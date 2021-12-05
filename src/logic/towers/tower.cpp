@@ -23,14 +23,6 @@ unsigned int Tower::getAttackSpeed() const { return attack_speed_; }
 
 float Tower::getRange() const { return range_; }
 
-sf::Vector2<float> Tower::getPosition() { return position_; }
-
-float Tower::getHitbox() { return hitboxRadius_; }
-
-void Tower::setRotation(float angle) { rotation_angle_ = angle; }
-
-float Tower::getRotation() { return rotation_angle_; }
-
 unsigned int Tower::getLevel() { return level_; }
 
 char Tower::getTargetType() { return targetTo_; }
@@ -50,7 +42,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       enemiesInRange.push_back(*it);
     }
   }
-  if (this->getTargetType() == 'c') {
+  if (this->getTargetType() == 'c') {  // c = closest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* closestEnemy;
     float closestPos = this->getRange();
@@ -66,7 +58,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       }
     }
     return closestEnemy;
-  } else if (this->getTargetType() == 's') {
+  } else if (this->getTargetType() == 's') {  // s = strongest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* strongestEnemy;
     float strongestHP = 0;
@@ -79,7 +71,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       }
     }
     return strongestEnemy;
-  } else if (this->getTargetType() == 'f') {
+  } else if (this->getTargetType() == 'f') {  // f = furthest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* furthestEnemy;
     float furthestDistance = 0;
@@ -97,9 +89,9 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
 }
 
 types::Position Tower::GetProjectStartPos(types::Position centre, float radius,
-                                   float angle) {
+                                          float angle) {
   types::Position result;
-  result.x = centre.x + radius + cos(angle);  // angle should be in radians
+  result.x = centre.x + radius + cos(angle);  // angle in radians
   result.y = centre.y + radius + sin(angle);
   return result;
 }

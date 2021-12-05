@@ -29,22 +29,6 @@ class Tower : public Object {
   explicit Tower(types::Position position, float rotation_angle,
                  unsigned int attack_speed);
 
-  /// \brief Get the position of the tower
-  /// \return Position of the tower
-  virtual types::Position getPosition();
-
-  /// \brief Get the shape representing region of the tower
-  /// \return Shape representing the region occupied by the tower
-  virtual float getHitbox();
-
-  /// \brief Set the rotation of the tower
-  /// \param angle    Orientation, in radians of the tower
-  virtual void setRotation(float angle);
-
-  /// \brief Get the orientation of the tower
-  /// \return Orientation, in radians of the tower
-  virtual float getRotation();
-
   /// \brief Get the attack speed of the tower
   /// \return Attack speed of the tower
   virtual unsigned int getAttackSpeed() const;

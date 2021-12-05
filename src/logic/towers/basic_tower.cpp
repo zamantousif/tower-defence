@@ -33,7 +33,7 @@ std::list<projectiles::Projectile> Basic_tower::shoot(
     else if(this->getLevel() == 3)
     damage_basic = 30;
     projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(
-        GetProjectStartPos(this->getPosition(), this->getHitbox(),
+        GetProjectStartPos(this->getPosition(), this->getHitboxRadius(),
                            this->getRotation()),
         this->getRotation(),
         damage_basic);  /// Projectile starts from the edge of the tower
@@ -42,7 +42,7 @@ std::list<projectiles::Projectile> Basic_tower::shoot(
   }else {
     projectiles::Strong_projectile newProjectile =
         projectiles::Strong_projectile(
-            GetProjectStartPos(this->getPosition(), this->getHitbox(),
+            GetProjectStartPos(this->getPosition(), this->getHitboxRadius(),
                                this->getRotation()),
             this->getRotation());
     projectiles.push_back(newProjectile);

@@ -37,7 +37,7 @@ std::list<projectiles::Projectile> High_damage_tower::shoot(
   //    create projectile straight on top of targeted enemy
   projectiles::Massive_projectile newProjectile =
       projectiles::Massive_projectile(
-          GetProjectStartPos(this->getPosition(), this->getHitbox(),
+          GetProjectStartPos(this->getPosition(), this->getHitboxRadius(),
                              this->getRotation()),
           this->getRotation(),
           damage_high);  /// Projectile starts from the edge of the tower
