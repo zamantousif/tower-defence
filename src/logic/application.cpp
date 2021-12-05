@@ -7,12 +7,15 @@
 
 namespace td {
     Application::Application() {
-        window_.create(sf::VideoMode(1280, 720), "Druidic Defense");
+        window_x_ = 1280;
+        window_y_ = 720;
+        window_.create(sf::VideoMode(window_x_, window_y_), "Druidic Defense");
+
         gui_.setWindow(window_);
         state_ = types::kOptions;  //starts as options for spaghetti reasons
-        volume_ = 70.f;       //set initial value for game volume
+        volume_ = 70.f;            //set initial value for game volume
         music_volume_ = 70.f;
-        font_.loadFromFile("../Assets/ARIAL.TTF");
+        font_.loadFromFile("../Assets/arial.TTF");
     }
 
     int Application::run() {
@@ -49,25 +52,37 @@ namespace td {
 
             gui_.draw();
 
-            //draw things that need to be drawn on top of the gui
+            switch (state_) {   //draw things that need to be drawn on top of the gui
+                case types::kGame:
+                    DrawShopElements();
+                    break;
+                case types::kPause:
+                    DrawShopElements();
+                    break;
+                default:
+                break;
+            }
     
             window_.display();
 
         }  //main loop end
 
-        //delete textures
+        //delete textures here?
         return 0;
     }
 
     void Application::LoadTextures() {
         sf::Texture* main_menu_bg_texture = new sf::Texture();
-        main_menu_bg_texture->loadFromFile("../Assets/Title_Screen.png");
+        main_menu_bg_texture->loadFromFile("../Assets/title_screen.png");
         textures_["main_menu_bg"] = main_menu_bg_texture;
-        
+    
+        sf::Texture* shop_bg = new sf::Texture();
+        shop_bg->loadFromFile("../Assets/shop_background.jpg");
+        textures_["shop_bg"] = shop_bg;
 
-        sf::Texture* blank_texture = new sf::Texture();   //placeholder
-        blank_texture->create(400,1080);
-        textures_["blank_texture"] = blank_texture;
+        sf::Texture* map1 = new sf::Texture();
+        map1->loadFromFile("../Assets/map1.jpg");
+        textures_["map1"] = map1;
 
     }
 
@@ -106,10 +121,10 @@ namespace td {
 
     void Application::HandleMainMenu() {
         HandleMainMenuGui();
-        sf::Sprite main_menu_bg_sprite;
-        main_menu_bg_sprite.setTexture(*textures_["main_menu_bg"], true);
-        main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920.f, window_.getSize().y/1080.f));
-        window_.draw(main_menu_bg_sprite);
+        sf::Sprite main_menu_bg;
+        main_menu_bg.setTexture(*textures_["main_menu_bg"], true);
+        ScaleSprite(main_menu_bg);
+        window_.draw(main_menu_bg);
     }
 
     void Application::HandleMainMenuGui() {
@@ -135,12 +150,12 @@ namespace td {
         gui_.add(button_map2, "button_map2");
         gui_.add(button_exit, "button_exit");
 
-        button_map1->setPosition("38%","50%");
+        button_map1->setPosition("36%","50%");
         button_map1->setOrigin(0.5f, 0.5f);
-        button_map1->setSize("20%","35%");
-        button_map2->setPosition("62%","50%");
+        button_map1->setSize("24%","35%");
+        button_map2->setPosition("64%","50%");
         button_map2->setOrigin(0.5f, 0.5f);
-        button_map2->setSize("20%","35%");
+        button_map2->setSize("24%","35%");
         button_exit->setPosition("10%","15%");
         button_exit->setOrigin(0.5f, 0.5f);
         button_exit->setSize("16%","8%");
@@ -150,6 +165,8 @@ namespace td {
         StyleButtonBrown(button_map1);
         StyleButtonBrown(button_map2);
         StyleButtonBrown(button_exit);
+
+        button_map1->getRenderer()->setTexture(*textures_["map1"]);
     }
 
     void Application::HandleMapSelect() {
@@ -161,8 +178,8 @@ namespace td {
         select_text.setFillColor(sf::Color(139,69,19,255));
         select_text.setCharacterSize(60);
         select_text.setOrigin(select_text.getLocalBounds().width/2, select_text.getLocalBounds().height/2);
-        select_text.setPosition(sf::Vector2f(window_.getSize().x/2, window_.getSize().y/5));
-        window_.draw(select_text);  //doesn't work because a font isn't loaded
+        select_text.setPosition(sf::Vector2f(window_x_/2, window_y_/5));
+        window_.draw(select_text);
     }
 
     void Application::HandleMapSelectGui() {
@@ -175,16 +192,16 @@ namespace td {
     }
 
     void Application::LaunchGame(std::string map_name) {
-        if(state_ == types::kGame) {
-            return;
-        }
-        state_ = types::kGame;
         LaunchGameGui();
         //create game object
         //load corresponding map into game
     }
 
     void Application::LaunchGameGui() {
+        if(state_ == types::kGame) {
+            return;
+        }
+        state_ = types::kGame;
         gui_.removeAllWidgets();
 
         tgui::Button::Ptr button_tower_ba = tgui::Button::create();  //basic tower
@@ -195,6 +212,10 @@ namespace td {
         button_tower_ba->getRenderer()->setBorderColorDownFocused(sf::Color(255,255,0,255));
         button_tower_ba->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
         button_tower_ba->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
+        button_pause->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
+        button_pause->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
+        button_start_wave->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
+        button_start_wave->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
         StyleButtonBrown(button_tower_ba);
         StyleButtonBrown(button_pause);
         StyleButtonBrown(button_start_wave);
@@ -239,11 +260,19 @@ namespace td {
 
     void Application::HandleGame() {
         HandleGameGui();
-        sf::Sprite blank_sprite;     //placeholder
-        blank_sprite.setTexture(*textures_["blank_texture"], true);
-        blank_sprite.setColor(sf::Color(205,133,63,255));
-        blank_sprite.setPosition(sf::Vector2f(window_.getSize().x*1520/1920, 0.f));
-        window_.draw(blank_sprite);
+        sf::Sprite map_sprite;
+        map_sprite.setTexture(*textures_["map1"], true);  //TODO: pull map name from game_.getMap()
+        ScaleSprite(map_sprite);
+        window_.draw(map_sprite);
+
+        sf::Sprite shop_bg;
+        shop_bg.setTexture(*textures_["shop_bg"], true);
+        shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
+        ScaleSprite(shop_bg);
+        window_.draw(shop_bg);
+
+
+        //RenderGameObjects();
 
 
     }
@@ -264,8 +293,8 @@ namespace td {
         //    button_start_wave->setEnabled(true);
         //}
 
-        //button_pause->onPress([&]{ LaunchPauseGui(); });
-        //button_start_wave->onPress([&]{ game_.StartWave(); });
+        button_pause->onPress([&]{ LaunchPauseGui(); });
+        //button_start_wave->onPress([&]{ if (!game_.getRoundOngoing()) game_.StartWave(); });
 
         //code for buying towers
     }
@@ -294,7 +323,7 @@ namespace td {
         music_text->setEnabled(false);
         music_text->getRenderer()->setBackgroundColorDisabled(sf::Color(0,0,0,0));
         music_text->getRenderer()->setBorderColorDisabled(sf::Color(0,0,0,0));
-        music_text->getRenderer()->setTextColorDisabled(sf::Color(139,69,19,255));
+        music_text->getRenderer()->setTextColorDisabled(sf::Color(129,59,16,255));
         music_text->setTextSize(21);
         music_text->setOrigin(0.5f, 0.5f);
 
@@ -369,10 +398,10 @@ namespace td {
 
     void Application::HandleOptions() {
         HandleOptionsGui();
-        sf::Sprite main_menu_bg_sprite;
-        main_menu_bg_sprite.setTexture(*textures_["main_menu_bg"], true);
-        main_menu_bg_sprite.setScale(sf::Vector2f(window_.getSize().x/1920.f, window_.getSize().y/1080.f));
-        window_.draw(main_menu_bg_sprite);
+        sf::Sprite main_menu_bg;
+        main_menu_bg.setTexture(*textures_["main_menu_bg"], true);
+        ScaleSprite(main_menu_bg);
+        window_.draw(main_menu_bg);
     }
 
     void Application::HandleOptionsGui() {
@@ -380,11 +409,6 @@ namespace td {
         tgui::ToggleButton::Ptr button_auto_start = gui_.get<tgui::ToggleButton>("button_auto_start");
         tgui::Slider::Ptr slider_volume = gui_.get<tgui::Slider>("slider_volume");
         tgui::Slider::Ptr slider_music_volume = gui_.get<tgui::Slider>("slider_music_volume");
-
-        std::cout << "--------" << std::endl;
-        std::cout << volume_ << std::endl;
-        std::cout << music_volume_ << std::endl;
-        std::cout << slider_music_volume->getValue() << std::endl;
 
         button_return->onPress(&Application::LaunchMainMenuGui, this);
         volume_ = slider_volume->getValue();
@@ -401,16 +425,176 @@ namespace td {
         if(state_ == types::kPause) {
             return;
         }
-        gui_.removeAllWidgets();
         state_ = types::kPause;
+
+        for (auto widget : gui_.getWidgets()) {  //disables the gui of the game
+            widget->setEnabled(false);
+        }
+
+        tgui::Button::Ptr button_return = tgui::Button::create();
+        tgui::Button::Ptr button_background = tgui::Button::create(); //used as a background
+        tgui::Button::Ptr button_off_menu = tgui::Button::create();   //massive invisible button outside menu
+        tgui::Slider::Ptr slider_volume = tgui::Slider::create();
+        tgui::Slider::Ptr slider_music_volume = tgui::Slider::create();
+        tgui::ToggleButton::Ptr button_auto_start = tgui::ToggleButton::create();
+        tgui::Button::Ptr music_text = tgui::Button::create();        //using an invisible button for text ensures it's in the right position
+
+        gui_.add(button_background, "button_background");
+        gui_.add(button_off_menu, "button_off_menu");
+        gui_.add(button_return, "button_return");
+        gui_.add(button_auto_start, "button_auto_start");
+        gui_.add(slider_volume, "slider_volume");
+        gui_.add(slider_music_volume, "slider_music_volume");
+        gui_.add(music_text);
+        
+        music_text->setEnabled(false);
+        music_text->getRenderer()->setBackgroundColorDisabled(sf::Color(0,0,0,0));
+        music_text->getRenderer()->setBorderColorDisabled(sf::Color(0,0,0,0));
+        music_text->getRenderer()->setTextColorDisabled(sf::Color(129,59,16,255));
+        music_text->setTextSize(21);
+        music_text->setOrigin(0.5f, 0.5f);
+
+        tgui::Button::Ptr sound_text = tgui::Button::copy(music_text);
+        tgui::Button::Ptr options_text = tgui::Button::copy(music_text);
+        gui_.add(sound_text);
+        gui_.add(options_text);
+
+        music_text->setText("Music Volume");
+        sound_text->setText("Sound Volume");
+        options_text->setText("Paused");
+        sound_text->setPosition("40.5%", "40%");
+        music_text->setPosition("40.5%", "56%");
+        options_text->setPosition("50%", "30%");
+        options_text->setTextSize(37);
+
+        StyleButtonBrown(button_return);
+        tgui::Button::Ptr button_main_menu = tgui::Button::copy(button_return);
+        gui_.add(button_main_menu, "button_main_menu");
+
+        auto slider_renderer = slider_volume->getSharedRenderer();
+        slider_renderer->setTrackColor(sf::Color(195,123,53,255));
+        slider_renderer->setTrackColorHover(sf::Color(195,123,53,255));
+        slider_renderer->setThumbColor(sf::Color(139,69,19,255));
+        slider_renderer->setThumbColorHover(sf::Color(139,69,19,255));
+
+        auto button_renderer = button_auto_start->getRenderer();
+        button_renderer->setBackgroundColor(sf::Color(195,123,53,255));
+        button_renderer->setBackgroundColorHover(sf::Color(195,123,53,255));
+        button_renderer->setBackgroundColorDown(sf::Color(0,100,0,255));
+        button_renderer->setBorderColor(sf::Color(139,69,19,255));
+        button_renderer->setBorderColorHover(sf::Color(139,69,19,255));
+        button_renderer->setBorderColorDown(sf::Color(0,60,0,255));
+        button_renderer->setBorderColorFocused(sf::Color(139,69,19,255));
+        button_renderer->setBackgroundColorDownHover(sf::Color(0,100,0,255));
+        button_renderer->setRoundedBorderRadius(8.0f);
+        button_renderer->setBorders(5);
+        button_auto_start->setTextSize(15);
+
+        button_off_menu->getRenderer()->setBackgroundColor(sf::Color(0,0,0,0));
+        button_off_menu->getRenderer()->setBackgroundColorDown(sf::Color(0,0,0,0));
+        button_off_menu->getRenderer()->setBackgroundColorHover(sf::Color(0,0,0,0));
+        button_off_menu->getRenderer()->setBorders(0);
+
+        button_background->setEnabled(false);
+        button_background->setOrigin(0.5f, 0.5f);
+        button_background->getRenderer()->setRoundedBorderRadius(8.0f);
+        button_background->getRenderer()->setBorders(5);
+
+        button_return->setPosition("65%", "25%");
+        button_main_menu->setPosition("25%", "25%");
+        button_off_menu->setPosition(0,0);
+        button_background->setPosition("50%", "50%");
+        button_auto_start->setPosition("60%", "50%");
+        slider_volume->setPosition("33%", "44%");
+        slider_music_volume->setPosition("33%", "60%");
+
+        button_return->setSize("10%", "8%");
+        button_main_menu->setSize("10%", "8%");
+        button_off_menu->setSize("100%", "100%");
+        button_background->setSize("50%", "50%");
+        button_auto_start->setSize("8%", "12%");
+        slider_volume->setSize("15%", "5%");
+        slider_music_volume->setSize("15%", "5%");
+
+        button_background->getRenderer()->setBackgroundColorDisabled(sf::Color(205,133,63,255));
+        button_background->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
+
+        button_auto_start->setText("Auto Start\nRounds");
+        button_return->setText("Continue");
+        button_main_menu->setText("Quit");
+
+        slider_volume->setMinimum(0.f);
+        slider_volume->setMaximum(100.f);
+        slider_volume->setValue(volume_);
+        slider_music_volume->setMinimum(0.f);
+        slider_music_volume->setMaximum(100.f);
+        slider_music_volume->setValue(music_volume_);
+
+        //if (game_.auto_start_) {
+        //    button_auto_start->setDown(true);
+        //}
     }
 
     void Application::HandlePause() {
-        HandleOptionsGui();
+        HandlePauseGui();
+
+        sf::Sprite map_sprite;
+        map_sprite.setTexture(*textures_["map1"], true);  //TODO: pull map name from game_.getMap()
+        ScaleSprite(map_sprite);
+        window_.draw(map_sprite);
+
+        sf::Sprite shop_bg;
+        shop_bg.setTexture(*textures_["shop_bg"], true);
+        shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
+        ScaleSprite(shop_bg);
+        window_.draw(shop_bg);
+
+        //DrawGameObjects();
+
     }
 
     void Application::HandlePauseGui() {
-        //TODO
+        tgui::Button::Ptr button_return = gui_.get<tgui::Button>("button_return");
+        tgui::Button::Ptr button_main_menu = gui_.get<tgui::Button>("button_main_menu");
+        tgui::Button::Ptr button_off_menu = gui_.get<tgui::Button>("button_off_menu");
+        tgui::ToggleButton::Ptr button_auto_start = gui_.get<tgui::ToggleButton>("button_auto_start");
+        tgui::Slider::Ptr slider_volume = gui_.get<tgui::Slider>("slider_volume");
+        tgui::Slider::Ptr slider_music_volume = gui_.get<tgui::Slider>("slider_music_volume");
+
+        button_return->onPress(&Application::LaunchGameGui, this);
+        button_main_menu->onPress(&Application::LaunchMainMenuGui, this);  //TODO: change to QuitGame() that handles deleting game object
+        button_off_menu->onPress(&Application::LaunchGameGui, this);
+        volume_ = slider_volume->getValue();
+        music_volume_ = slider_music_volume->getValue();
+        if (button_auto_start->isDown()) {
+            //game_.auto_start_ = true;
+        } else {
+            //game_.auto_start_ = false;
+        }
+    }
+
+    void Application::DrawShopElements() {
+        sf::Text round_text;   //round counter in the top right
+        std::string round_string = "Round\n" + std::to_string(3) + "/" + std::to_string(20);  //TODO: replace numbers with game_.getRound() etc
+        round_text.setString(round_string);
+        round_text.setFont(font_);
+        round_text.setOutlineColor(sf::Color(0,0,0,255));
+        round_text.setFillColor(sf::Color(255,255,255,255));
+        round_text.setOutlineThickness(3);
+        round_text.setCharacterSize(20);
+        round_text.setPosition(sf::Vector2f(window_x_/(1500.f/1920.f), window_y_/30.f));
+        round_text.setOrigin(round_text.getLocalBounds().width, 0);
+        window_.draw(round_text);
+
+        sf::Text money_text;   //money counter
+        money_text.setString(std::to_string(420));  //TODO: change to game_.getMoney()
+        money_text.setFont(font_);
+        money_text.setFillColor(sf::Color(0,150,0,255));
+        money_text.setOutlineColor(sf::Color(0,100,0,255));
+        money_text.setOutlineThickness(3);
+        money_text.setCharacterSize(20);
+        money_text.setPosition(sf::Vector2f(window_x_/(1540.f/1920.f), window_y_/30.f));
+        window_.draw(money_text);
     }
 
     void Application::StyleButtonBrown(tgui::Button::Ptr button) {
@@ -425,6 +609,10 @@ namespace td {
         button_renderer->setRoundedBorderRadius(8.0f);
         button_renderer->setBorders(5);
         button->setTextSize(20);
+    }
+
+    void Application::ScaleSprite(sf::Sprite& sprite) {
+        sprite.setScale(sf::Vector2f(window_x_/1920.f, window_y_/1080.f));
     }
 
 
