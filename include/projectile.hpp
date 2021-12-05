@@ -8,14 +8,15 @@ namespace td::projectiles {
 class Projectile : public Object {
  public:
   /// \brief Projectile constructor
-  /// \param position             Position of the projectile
-  /// \param hitbox               Shape representing the region occupied by the
-  /// projectile \param sprite               Texture of the projectile \param
-  /// rotation_angle       Orientation, in radians of the projectile \param
-  /// damage               Damage % of the projectile \param is_armor_piercing
-  /// Status of projectile armor \param enemy_pierced_count  Number of enemies
-  /// pierced by the projectile before disappearing
-  Projectile(types::Position position, float hitbox, types::Texture texture,
+  /// \param position Position of the projectile
+  /// \param hitbox   Radius of the circular region occupied by the projectile
+  /// \param texture             Texture of the projectile
+  /// \param rotation_angle      Orientation, in radians of the projectile
+  /// \param damage              Damage % of the projectile
+  /// \param is_armor_piercing   Status of projectile armor
+  /// \param enemy_pierced_count Number of enemies pierced by the projectile
+  /// before disappearing
+  Projectile(types::Position position, float hitbox, sf::Texture* texture,
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count);
 

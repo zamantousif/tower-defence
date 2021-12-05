@@ -14,7 +14,7 @@ class Object {
   /// \param texture        Texture of the object
   /// \param rotation_angle Orientation, in radians of the object
   Object(types::Position position = types::Position(0.0f, 0.0f),
-         float hitboxRadius = 0.0f, types::Texture texture = types::Texture(),
+         float hitboxRadius = 0.0f, sf::Texture* texture = nullptr,
          float rotation_angle = 0.0f);
 
   /// \brief Update the state of the object
@@ -27,11 +27,15 @@ class Object {
 
   /// \brief Get the radius of circular region occupied by the object
   /// \return Radius of the circular region occupied by the object
-  virtual float getHitbox() const;
+  virtual float getHitboxRadius() const;
 
-  /// \brief Get the texture of the object
+  /// \brief Get a const pointer to the texture of the object
   /// \return Texture of the object
-  virtual types::Texture getTexture() const;
+  virtual const sf::Texture* getTexture() const;
+
+  /// \brief Get a pointer to the texture of the object
+  /// \return Texture of the object
+  virtual sf::Texture* getTexture();
 
   /// \brief Set the position of the object
   /// \param position Position of the object
@@ -49,7 +53,7 @@ class Object {
   types::Position position_;  ///< Position of the object
   float
       hitboxRadius_;  ///< Radius of the circular region occupied by the object
-  types::Texture texture_;  ///< Texture of the object
-  float rotation_angle_;    ///< Orientation, in radians of the object
+  sf::Texture* texture_;  ///< Texture of the object
+  float rotation_angle_;  ///< Orientation, in radians of the object
 };
 }  // namespace td

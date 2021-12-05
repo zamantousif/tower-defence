@@ -12,15 +12,15 @@ namespace td {
 class Tower : public Object {
  public:
   /// \brief Tower constructor
-  /// \param position     Position of the tower
-  /// \param hitbox       Shape representing the region occupied by the tower
-  /// \param sprite       Texture of the tower
-  /// \param attack_speed  Attack speed of the tower
-  /// \param range        Attack range of the tower
+  /// \param position       Position of the tower
+  /// \param hitbox         Radius of the circular region occupied by the tower
+  /// \param texture        Texture of the tower
+  /// \param attack_speed   Attack speed of the tower
+  /// \param range          Attack range of the tower
   /// \param level        Level of the tower
   /// \param targetTo     Stores the target mode of the tower, options: c =
   /// closest, s = strongest or f = furthest travelled
-  Tower(types::Position position, float hitbox, sf::Texture texture,
+  Tower(types::Position position, float hitbox, sf::Texture* texture,
         float rotation_angle = 0.0f, unsigned int attack_speed = 1U,
         float range = 1.0f, unsigned int level = 1, char targetTo = 'c');
 

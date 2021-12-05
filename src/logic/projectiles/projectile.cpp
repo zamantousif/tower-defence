@@ -2,9 +2,8 @@
 
 namespace td::projectiles {
 Projectile::Projectile(types::Position position, float hitbox,
-                       types::Texture texture, float rotation_angle,
-                       float damage, bool is_armor_piercing,
-                       unsigned int enemy_pierced_count)
+                       sf::Texture* texture, float rotation_angle, float damage,
+                       bool is_armor_piercing, unsigned int enemy_pierced_count)
     : Object(position, hitbox, texture, rotation_angle),
       damage_(damage),
       is_armor_piercing_(is_armor_piercing),
