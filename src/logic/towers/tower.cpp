@@ -35,7 +35,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
   float towerypos = this->getPosition().y;
   for (std::vector<Enemy*>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    float enemyxpos = (*it)->getPosition().x;
+    float enemyxpos = position_.x;
     float enemyypos = (*it)->getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
         this->getRange()) {

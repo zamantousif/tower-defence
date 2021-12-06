@@ -40,7 +40,6 @@ set(SOURCES
     include/massive_projectile.hpp
     include/melting_tower.hpp
     include/slowing_tower.hpp
-    include/strong_projectile.hpp
     src/logic/towers/tower.cpp
     src/logic/towers/basic_tower.cpp
     src/logic/towers/slowing_tower.cpp
@@ -52,7 +51,6 @@ set(SOURCES
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
     src/logic/projectiles/basic_projectile.cpp
-    src/logic/projectiles/strong_projectile.cpp
     src/logic/projectiles/massive_projectile.cpp
     src/logic/projectiles/bomb_projectile.cpp
     include/projectile.hpp
