@@ -10,5 +10,5 @@ using Texture =
     sf::Texture;  ///< The type that stores the texture of any game object.
 using Time = sf::Time;  ///< The type that stores the time.
 
-enum AppState { kMainMenu, kOptions, kMapSelect, kGame, kPause };
+enum AppState { kMainMenu, kOptions, kMapSelect, kGame, kPause, kUpgrade };
 }  // namespace td::types

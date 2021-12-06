@@ -27,6 +27,8 @@ namespace td {
 
     void LaunchPauseGui();
 
+    void LaunchUpgradeGui();
+
     void LaunchGame(std::string map_name);
 
     void HandleMainMenu();
@@ -39,6 +41,8 @@ namespace td {
 
     void HandlePause();
 
+    void HandleUpgrade();
+
     void HandleMainMenuGui();
 
     void HandleMapSelectGui();
@@ -48,6 +52,8 @@ namespace td {
     void HandleOptionsGui();
 
     void HandlePauseGui();
+
+    void HandleUpgradeGui();
 
     void DrawShopElements();
 
@@ -68,5 +74,6 @@ namespace td {
     sf::Font font_;    //font used for sf::Text
     float volume_;     //value between 0 and 100 that affects the volume of sound effects
     float music_volume_; //value between 0 and 100 that affects the volume of background music
+    //Tower* upgrading_tower_ //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
   };
 }  // namespace td

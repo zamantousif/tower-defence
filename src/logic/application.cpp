@@ -28,6 +28,20 @@ namespace td {
                 gui_.handleEvent(event);
 
                 if (event.type == sf::Event::Closed) window_.close();
+
+                /**
+                if (state_ == types::kGame && event.type == sf::Event::MouseButtonPressed) {
+                    float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
+                    float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y)
+                    for (auto tower : game_.getTowers()) {
+                        if ( tower->getHitbox() <= sqrt(pow(mouse_x, tower->getPosition().x, 2) + pow(mouse_y, tower->getPosition().y, 2)) ) {
+                            upgrading_tower_ = tower;
+                            LaunchUpgradeGui();
+                            break;
+                        }
+                    }
+                }
+                **/
             }
 
             window_.clear();
@@ -48,6 +62,9 @@ namespace td {
                 case types::kPause:
                     HandlePause();
                     break;
+                case types::kUpgrade:
+                    HandleUpgrade();
+                    break;
             }
 
             gui_.draw();
@@ -57,6 +74,9 @@ namespace td {
                     DrawShopElements();
                     break;
                 case types::kPause:
+                    DrawShopElements();
+                    break;
+                case types::kUpgrade:
                     DrawShopElements();
                     break;
                 default:
@@ -83,6 +103,34 @@ namespace td {
         sf::Texture* map1 = new sf::Texture();
         map1->loadFromFile("../Assets/map1.jpg");
         textures_["map1"] = map1;
+    
+        sf::Texture* upgrade_1 = new sf::Texture();
+        upgrade_1->loadFromFile("../Assets/upgrade_1.jpg");
+        textures_["upgrade_1"] = upgrade_1;
+
+        sf::Texture* upgrade_2 = new sf::Texture();
+        upgrade_2->loadFromFile("../Assets/upgrade_2.jpg");
+        textures_["upgrade_2"] = upgrade_2;
+
+        sf::Texture* upgrade_3 = new sf::Texture();
+        upgrade_3->loadFromFile("../Assets/upgrade_3.jpg");
+        textures_["upgrade_3"] = upgrade_3;
+
+        sf::Texture* upgrade_4 = new sf::Texture();
+        upgrade_4->loadFromFile("../Assets/upgrade_4.jpg");
+        textures_["upgrade_4"] = upgrade_4;
+
+        sf::Texture* pause_icon = new sf::Texture();
+        pause_icon->loadFromFile("../Assets/pause_icon.png");
+        textures_["pause_icon"] = pause_icon;
+
+        sf::Texture* arrow_left = new sf::Texture();
+        arrow_left->loadFromFile("../Assets/arrow_left.png");
+        textures_["arrow_left"] = arrow_left;
+
+        sf::Texture* arrow_right = new sf::Texture();
+        arrow_right->loadFromFile("../Assets/arrow_right.png");
+        textures_["arrow_right"] = arrow_right;
 
     }
 
@@ -190,6 +238,7 @@ namespace td {
 
     void Application::LaunchGame(std::string map_name) {
         LaunchGameGui();
+        LaunchUpgradeGui();  //temporary test
         //create game object
         //load corresponding map into game
     }
@@ -211,6 +260,7 @@ namespace td {
         button_tower_ba->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
         button_pause->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
         button_pause->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
+        button_pause->getRenderer()->setTexture(*textures_["pause_icon"]);
         button_start_wave->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
         button_start_wave->getRenderer()->setBackgroundColorDisabled(sf::Color(165,100,35,255));
         StyleButtonBrown(button_tower_ba);
@@ -293,7 +343,6 @@ namespace td {
         //    button_start_wave->setEnabled(true);
         //}
 
-       
         static std::string title_string = "";
         static std::string desc_string = "";
 
@@ -402,6 +451,8 @@ namespace td {
         button_background->setOrigin(0.5f, 0.5f);
         button_background->getRenderer()->setRoundedBorderRadius(8.0f);
         button_background->getRenderer()->setBorders(5);
+        button_background->getRenderer()->setBackgroundColorDisabled(sf::Color(205,133,63,255));
+        button_background->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
 
         button_return->setPosition("65%", "25%");
         button_background->setPosition("50%", "50%");
@@ -414,9 +465,6 @@ namespace td {
         button_auto_start->setSize("8%", "12%");
         slider_volume->setSize("15%", "5%");
         slider_music_volume->setSize("15%", "5%");
-
-        button_background->getRenderer()->setBackgroundColorDisabled(sf::Color(205,133,63,255));
-        button_background->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
 
         button_auto_start->setText("Auto Start\nRounds");
         button_return->setText("Return");
@@ -609,6 +657,200 @@ namespace td {
             //game_.auto_start_ = false;
         }
     }
+
+    void Application::LaunchUpgradeGui() {
+        if (state_ == types::kUpgrade) {
+            return;
+        }
+        state_ = types::kUpgrade;
+
+        tgui::Button::Ptr button_off_menu = tgui::Button::create();   //massive invisible button outside menu
+        button_off_menu->getRenderer()->setBackgroundColor(sf::Color(0,0,0,0));
+        button_off_menu->getRenderer()->setBackgroundColorDown(sf::Color(0,0,0,0));
+        button_off_menu->getRenderer()->setBackgroundColorHover(sf::Color(0,0,0,0));
+        button_off_menu->getRenderer()->setBorders(0);
+        button_off_menu->setSize("100%", "100%");
+        button_off_menu->setPosition(0,0);
+        gui_.add(button_off_menu, "button_off_menu");
+
+        tgui::Button::Ptr button_background = tgui::Button::create();
+        tgui::Button::Ptr button_target_left = tgui::Button::create();
+        tgui::Button::Ptr button_target_right = tgui::Button::create();
+        tgui::Button::Ptr button_targeting_text = tgui::Button::create(); //box that displays tower's current targeting
+        tgui::Button::Ptr button_upgrade = tgui::Button::create();
+        tgui::Button::Ptr button_sell = tgui::Button::create();
+
+        gui_.add(button_background, "button_background");
+        gui_.add(button_target_left, "button_target_left");
+        gui_.add(button_target_right, "button_target_right");
+        gui_.add(button_targeting_text, "button_targeting_text");
+        gui_.add(button_upgrade, "button_upgrade");
+        gui_.add(button_sell, "button_sell");
+
+        button_background->setEnabled(false);
+        button_background->getRenderer()->setRoundedBorderRadius(8.0f);
+        button_background->getRenderer()->setBorders(5);
+        button_background->getRenderer()->setBackgroundColorDisabled(sf::Color(205,133,63,255));
+        button_background->getRenderer()->setBorderColorDisabled(sf::Color(139,69,19,255));
+
+        StyleButtonBrown(button_target_left);
+        StyleButtonBrown(button_target_right);
+        StyleButtonBrown(button_targeting_text);
+        button_target_left->getRenderer()->setRoundedBorderRadius(0);
+        button_target_left->getRenderer()->setTexture(*textures_["arrow_left"]);
+        button_target_right->getRenderer()->setRoundedBorderRadius(0);
+        button_target_right->getRenderer()->setTexture(*textures_["arrow_right"]);
+        button_targeting_text->getRenderer()->setRoundedBorderRadius(0);
+        button_targeting_text->getRenderer()->setTextColor(sf::Color(20,20,20,255));
+        button_targeting_text->setTextSize(20);
+        
+
+        button_upgrade->getRenderer()->setBorders(3);
+        button_upgrade->getRenderer()->setBorderColor(sf::Color(10,63,10,255));
+        button_upgrade->getRenderer()->setBorderColorDown(sf::Color(10,63,10,255));
+        button_upgrade->getRenderer()->setBorderColorFocused(sf::Color(10,63,10,255));
+        button_upgrade->getRenderer()->setTextColor(sf::Color(10,10,10,255));
+        button_upgrade->setTextSize(22);
+
+        button_sell->getRenderer()->setBorders(3);
+        button_sell->getRenderer()->setBorderColor(sf::Color(50,0,0,255));
+        button_sell->getRenderer()->setBorderColorDown(sf::Color(50,0,0,255));
+        button_sell->getRenderer()->setBorderColorFocused(sf::Color(50,0,0,255));
+        button_sell->getRenderer()->setBackgroundColor(sf::Color(180,0,0,255));
+        button_sell->getRenderer()->setBackgroundColorDown(sf::Color(140,0,0,255));
+        button_sell->getRenderer()->setBackgroundColorHover(sf::Color(180,0,0,255));
+        button_sell->getRenderer()->setBackgroundColorFocused(sf::Color(180,0,0,255));
+        button_sell->getRenderer()->setTextColor(sf::Color(0,0,0,255));
+        button_sell->getRenderer()->setTextColorDown(sf::Color(0,0,0,255));
+        button_sell->setTextSize(25);
+        button_sell->setText("Sell");
+
+        button_background->setPosition("80.6%", "42%");
+        button_background->setSize("18%", "43%");
+        
+        button_target_left->setPosition(bindLeft(button_background) + "2%", bindTop(button_background) + "2%");
+        button_target_right->setPosition(bindLeft(button_background) + "13%", bindTop(button_background) + "2%");
+        button_targeting_text->setPosition(bindLeft(button_background) + "5%", bindTop(button_background) + "2%");
+        button_upgrade->setPosition(bindLeft(button_background) + "1%", bindTop(button_background) + "16%");
+        button_sell->setPosition(bindLeft(button_background) + "1%", bindTop(button_background) + "32%");
+
+        button_target_left->setSize("3.5%", "6%");
+        button_target_right->setSize("3.5%", "6%");
+        button_targeting_text->setSize("8.2%", "6%");
+        button_upgrade->setSize("16%", "8%");
+        button_sell->setSize("16%", "8%");
+
+
+    }
+
+    void Application::HandleUpgrade() {
+        HandleUpgradeGui();
+
+        sf::Sprite map_sprite;
+        map_sprite.setTexture(*textures_["map1"], true);  //TODO: pull map name from game_.getMap().getName()
+        ScaleSprite(map_sprite);
+        window_.draw(map_sprite);
+
+        //draw range circle of upgrading_tower_
+
+        sf::Sprite shop_bg;
+        shop_bg.setTexture(*textures_["shop_bg"], true);
+        shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
+        ScaleSprite(shop_bg);
+        window_.draw(shop_bg);
+
+        //render game objects
+    }
+
+    void Application::HandleUpgradeGui() {
+        tgui::Button::Ptr button_off_menu = gui_.get<tgui::Button>("button_off_menu");
+        tgui::Button::Ptr button_target_left = gui_.get<tgui::Button>("button_target_left");
+        tgui::Button::Ptr button_target_right = gui_.get<tgui::Button>("button_target_right");
+        tgui::Button::Ptr button_targeting_text = gui_.get<tgui::Button>("button_targeting_text");
+        tgui::Button::Ptr button_upgrade = gui_.get<tgui::Button>("button_upgrade");
+        tgui::Button::Ptr button_sell = gui_.get<tgui::Button>("button_sell");
+        
+        bool doOnce = true;  //tgui buttons have a bad habit of triggering multiple times, this fixes that
+        
+        button_off_menu->onPress(&Application::LaunchGameGui, this);  //TODO: add upgrading_tower_ = nullptr;
+        //button_target_left->onPress([&] {if (doOnce) TargetingSwitchRight(); doOnce = false; });
+        //button_target_right->onPress([&] {if (doOnce) TargetingSwitchLeft(); doOnce = false; });
+        //button_upgrade->onPress([&] {if (doOnce) game_->UpgradeTower(upgrading_tower_); doOnce = false; });
+        //button_sell->onPress([&] {if (doOnce) game_->SellTower(upgrading_tower_); doOnce = false; upgrading_tower_ = nullptr; });
+        
+        /*
+        switch (upgrading_tower_.getTargeting()) {    //make text match tower's value
+            case types::kFirst:
+                */button_targeting_text->setText("First");/*
+                break;
+            case types::kLast:
+                button_targeting_text->setText("Last");
+                break;
+            case types::kClose:
+                button_targeting_text->setText("Close");
+                break;
+            case types::kStrong:
+                button_targeting_text->setText("Strong");
+                break;
+        }
+
+        switch (upgrading_tower_.getLevel()) {    //make text match tower's value
+            case 1:
+                button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                break;
+            case 2:
+                button_upgrade->getRenderer()->setTexture(*textures_["upgrade_2"]);
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                break;
+            case 3:
+                */button_upgrade->getRenderer()->setTexture(*textures_["upgrade_3"]);
+                button_upgrade->setText("Upgrade\n(" + std::to_string(320) + ")");/*
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                break;
+            case 4:
+                button_upgrade->getRenderer()->setTexture(*textures_["upgrade_4"]);
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                break;
+        }
+        */
+    }
+
+    /**
+    void Application::TargetingSwitchRight() {
+        switch (upgrading_tower_.getTargeting()) {
+            case types::kFirst:
+                upgrading_tower_.setTargeting(types::kLast);
+                break;
+            case types::kLast:
+                upgrading_tower_.setTargeting(types::kClose);
+                break;
+            case types::kClose:
+                upgrading_tower_.setTargeting(types::kStrong);
+                break;
+            case types::kStrong:
+                upgrading_tower_.setTargeting(types::kFirst);
+                break;
+        }
+    }
+
+    void Application::TargetingSwitchLeft() {
+        switch (upgrading_tower_.getTargeting()) {
+            case types::kFirst:
+                upgrading_tower_.setTargeting(types::kStrong);
+                break;
+            case types::kLast:
+                upgrading_tower_.setTargeting(types::kFirst);
+                break;
+            case types::kClose:
+                upgrading_tower_.setTargeting(types::kLast);
+                break;
+            case types::kStrong:
+                upgrading_tower_.setTargeting(types::kClose);
+                break;
+        }
+    }
+    **/
 
     void Application::DrawShopElements() {
         sf::Text round_text("Round\n", font_, 22);   //round counter in the top right
