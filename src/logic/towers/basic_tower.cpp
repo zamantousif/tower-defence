@@ -23,18 +23,18 @@ std::list<projectiles::Projectile> Basic_tower::shoot(
     std::list<projectiles::Projectile> projectiles) {
   int damage_basic = 0;
   unsigned int enemy_pierced_count_basic = 1;
-  if (this->getLevel() == 1)
+  if (level_ == 1)
     damage_basic = 10;
-  else if (this->getLevel() == 2)
+  else if (level_ == 2)
     damage_basic = 20;
-  else if (this->getLevel() == 3)
+  else if (level_ == 3)
     damage_basic = 30;
-  else if (this->getLevel() == 4) {
+  else if (level_ == 4) {
     damage_basic = 50;
     enemy_pierced_count_basic = 3;
   }
   projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(
-      GetProjectStartPos(), this->getRotation(), damage_basic,
+      GetProjectStartPos(), rotation_angle_, damage_basic,
       enemy_pierced_count_basic,
       texture_projectile_);  /// Projectile starts from the edge of the tower
   projectiles.push_back(newProjectile);

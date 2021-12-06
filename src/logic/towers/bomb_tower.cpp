@@ -19,16 +19,16 @@ Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
 std::list<projectiles::Projectile> Bomb_tower::shoot(
     std::list<projectiles::Projectile> projectiles) {
   int damage_bomb = 0;
-  if (this->getLevel() == 1)
+  if (level_ == 1)
     damage_bomb = 15;
-  else if (this->getLevel() == 2)
+  else if (level_ == 2)
     damage_bomb = 30;
-  else if (this->getLevel() == 3)
+  else if (level_ == 3)
     damage_bomb = 45;
   else
     damage_bomb = 60;
   projectiles::Bomb_projectile newProjectile = projectiles::Bomb_projectile(
-      GetProjectStartPos(), this->getRotation(), damage_bomb,
+      GetProjectStartPos(), rotation_angle_, damage_bomb,
       texture_projectile_);  /// Projectile starts from the edge of the tower
   projectiles.push_back(newProjectile);
   return projectiles;

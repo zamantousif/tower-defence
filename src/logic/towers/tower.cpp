@@ -33,21 +33,21 @@ void Tower::setTargetType(char targetType) { targetTo_ = targetType; }
 
 Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
   std::vector<Enemy*> enemiesInRange;
-  float towerxpos = this->getPosition().x;
-  float towerypos = this->getPosition().y;
+  float towerxpos = position_.x;
+  float towerypos = position_.y;
   for (std::vector<Enemy*>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
     float enemyxpos = position_.x;
     float enemyypos = (*it)->getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        this->getRange()) {
+        range_) {
       enemiesInRange.push_back(*it);
     }
   }
-  if (this->getTargetType() == 'c') {  // c = closest enemy
+  if (targetTo_ == 'c') {  // c = closest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* closestEnemy;
-    float closestPos = this->getRange();
+    float closestPos = range_;
     for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
          it != enemiesInRange.end(); it++) {
       float enemyxpos = (*it)->getPosition().x;
@@ -60,7 +60,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       }
     }
     return closestEnemy;
-  } else if (this->getTargetType() == 's') {  // s = strongest enemy
+  } else if (targetTo_ == 's') {  // s = strongest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* strongestEnemy;
     float strongestHP = 0;
@@ -73,7 +73,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       }
     }
     return strongestEnemy;
-  } else if (this->getTargetType() == 'f') {  // f = furthest enemy
+  } else if (targetTo_ == 'f') {  // f = furthest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* furthestEnemy;
     float furthestDistance = 0;

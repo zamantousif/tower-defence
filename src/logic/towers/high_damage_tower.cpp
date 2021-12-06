@@ -22,11 +22,11 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
 std::list<projectiles::Projectile> High_damage_tower::shoot(
     std::list<projectiles::Projectile> projectiles) {
   int damage_high = 0;
-  if (this->getLevel() == 1)
+  if (level_ == 1)
     damage_high = 200;
-  else if (this->getLevel() == 2)
+  else if (level_ == 2)
     damage_high = 400;
-  else if (this->getLevel() == 3)
+  else if (level_ == 3)
     damage_high = 800;
   else
     damage_high = 1300;
@@ -36,7 +36,7 @@ std::list<projectiles::Projectile> High_damage_tower::shoot(
   //    create projectile straight on top of targeted enemy
   projectiles::Massive_projectile newProjectile =
       projectiles::Massive_projectile(
-          GetProjectStartPos(), this->getRotation(), damage_high,
+          GetProjectStartPos(), rotation_angle_, damage_high,
           texture_projectile_);  /// Projectile starts from the edge of the
                                  /// tower
   projectiles.push_back(newProjectile);
