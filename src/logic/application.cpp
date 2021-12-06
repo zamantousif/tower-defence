@@ -172,11 +172,8 @@ namespace td {
     void Application::HandleMapSelect() {
         HandleMapSelectGui();
         //draw background here
-        sf::Text select_text;
-        select_text.setString("Select Map");
-        select_text.setFont(font_);
+        sf::Text select_text("Select Map", font_, 60);
         select_text.setFillColor(sf::Color(139,69,19,255));
-        select_text.setCharacterSize(60);
         select_text.setOrigin(select_text.getLocalBounds().width/2, select_text.getLocalBounds().height/2);
         select_text.setPosition(sf::Vector2f(window_x_/2, window_y_/5));
         window_.draw(select_text);
@@ -226,14 +223,14 @@ namespace td {
         tgui::Button::Ptr button_tower_sn = tgui::Button::copy(button_tower_ba);  //sniper
         tgui::Button::Ptr button_tower_ci = tgui::Button::copy(button_tower_ba);  //cinder stump
 
-        button_tower_ba->setPosition("80%", "13%");
-        button_tower_bo->setPosition("86.5%", "13%");
-        button_tower_fr->setPosition("93%", "13%");
-        button_tower_th->setPosition("80%", "27%");
-        button_tower_sn->setPosition("86.5%", "27%");
-        button_tower_ci->setPosition("93%", "27%");
-        button_pause->setPosition("95%", "2%");
-        button_start_wave->setPosition("80.5%", "90%");
+        button_tower_ba->setPosition("80.1%", "13%");
+        button_tower_bo->setPosition("86.6%", "13%");
+        button_tower_fr->setPosition("93.1%", "13%");
+        button_tower_th->setPosition("80.1%", "27%");
+        button_tower_sn->setPosition("86.6%", "27%");
+        button_tower_ci->setPosition("93.1%", "27%");
+        button_pause->setPosition("95.1%", "2%");
+        button_start_wave->setPosition("80.6%", "90%");
 
         button_tower_ba->setSize("6%", "13%");
         button_tower_bo->setSize("6%", "13%");
@@ -254,12 +251,10 @@ namespace td {
         gui_.add(button_tower_ci, "button_tower_ci");
         gui_.add(button_pause, "button_pause");
         gui_.add(button_start_wave, "button_start_wave");
-
-        button_tower_th->setEnabled(false);  //for testing
     }
 
     void Application::HandleGame() {
-        HandleGameGui();
+        
         sf::Sprite map_sprite;
         map_sprite.setTexture(*textures_["map1"], true);  //TODO: pull map name from game_.getMap()
         ScaleSprite(map_sprite);
@@ -271,9 +266,11 @@ namespace td {
         ScaleSprite(shop_bg);
         window_.draw(shop_bg);
 
+        HandleGameGui();
+
+        //buying towers
 
         //RenderGameObjects();
-
 
     }
 
@@ -287,14 +284,54 @@ namespace td {
         tgui::Button::Ptr button_pause = gui_.get<tgui::Button>("button_pause");
         tgui::Button::Ptr button_start_wave = gui_.get<tgui::Button>("button_start_wave");
 
+        button_pause->onPress([&]{ LaunchPauseGui(); });
+        //button_start_wave->onPress([&]{ if (!game_.getRoundOngoing()) game_.StartWave(); });
+
         //if (game_.round_active) {
         //    button_start_wave->setEnabled(false);
         //} else {
         //    button_start_wave->setEnabled(true);
         //}
 
-        button_pause->onPress([&]{ LaunchPauseGui(); });
-        //button_start_wave->onPress([&]{ if (!game_.getRoundOngoing()) game_.StartWave(); });
+       
+        static std::string title_string = "";
+        static std::string desc_string = "";
+
+        button_tower_ba->onMouseEnter([&]{ if (title_string == "") title_string = "Seed Shooter"; });
+        button_tower_bo->onMouseEnter([&]{ if (title_string == "") title_string = "Coconut Cannon"; });
+        button_tower_fr->onMouseEnter([&]{ if (title_string == "") title_string = "Frigid Stump"; });
+        button_tower_th->onMouseEnter([&]{ if (title_string == "") title_string = "Thorn Eruptor"; });
+        button_tower_sn->onMouseEnter([&]{ if (title_string == "") title_string = "Sniper"; });
+        button_tower_ci->onMouseEnter([&]{ if (title_string == "") title_string = "Cinder Stump"; });
+
+        button_tower_ba->onMouseEnter([&]{ if (desc_string == "") desc_string = "Seed Shooter"; });
+        button_tower_bo->onMouseEnter([&]{ if (desc_string == "") desc_string = "Coconut Cannon"; });
+        button_tower_fr->onMouseEnter([&]{ if (desc_string == "") desc_string = "The magic crystal atop this\nstump slows down foes in\nan area around the tower.\nUpgrading the tower\nfurther increases\nslowing amount.\nTier 4 variant also\nmakes enemies in range\nmore vulnerable to\ndamage from your other\ntowers."; });
+        button_tower_th->onMouseEnter([&]{ if (desc_string == "") desc_string = "Thorn Eruptor"; });
+        button_tower_sn->onMouseEnter([&]{ if (desc_string == "") desc_string = "Sniper"; });
+        button_tower_ci->onMouseEnter([&]{ if (desc_string == "") desc_string = "Cinder Stump"; });
+
+        button_tower_ba->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
+        button_tower_bo->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
+        button_tower_fr->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
+        button_tower_th->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
+        button_tower_sn->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
+        button_tower_ci->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
+
+        sf::Text tower_title(title_string, font_, 26);
+        tower_title.setOrigin(tower_title.getGlobalBounds().width/2, 0);
+        tower_title.setPosition(sf::Vector2f(window_x_/(1920.f/1720.f), window_y_/(1080.f/460.f)));
+        tower_title.setFillColor(sf::Color(255,255,255,255));
+        tower_title.setOutlineColor(sf::Color(50,50,50,255));
+        tower_title.setOutlineThickness(1);
+        window_.draw(tower_title);
+
+        sf::Text tower_desc(desc_string, font_, 20);
+        tower_desc.setPosition(sf::Vector2f(window_x_/(1920.f/1540.f), window_y_/(1080.f/520.f)));
+        tower_desc.setFillColor(sf::Color(255,255,255,255));
+        tower_desc.setOutlineColor(sf::Color(50,50,50,255));
+        tower_desc.setOutlineThickness(1);
+        window_.draw(tower_desc);
 
         //code for buying towers
     }
@@ -574,27 +611,67 @@ namespace td {
     }
 
     void Application::DrawShopElements() {
-        sf::Text round_text;   //round counter in the top right
-        std::string round_string = "Round\n" + std::to_string(3) + "/" + std::to_string(20);  //TODO: replace numbers with game_.getRound() etc
-        round_text.setString(round_string);
-        round_text.setFont(font_);
+        sf::Text round_text("Round\n", font_, 22);   //round counter in the top right
         round_text.setOutlineColor(sf::Color(0,0,0,255));
         round_text.setFillColor(sf::Color(255,255,255,255));
-        round_text.setOutlineThickness(3);
-        round_text.setCharacterSize(20);
-        round_text.setPosition(sf::Vector2f(window_x_/(1500.f/1920.f), window_y_/30.f));
+        round_text.setOutlineThickness(2);
+        round_text.setPosition(sf::Vector2f(window_x_/(1920.f/1500.f), window_y_/60.f));
         round_text.setOrigin(round_text.getLocalBounds().width, 0);
         window_.draw(round_text);
 
-        sf::Text money_text;   //money counter
-        money_text.setString(std::to_string(420));  //TODO: change to game_.getMoney()
-        money_text.setFont(font_);
+        sf::Text round_text2 = round_text;
+        std::string round_string2 = std::to_string(3) + "/" + std::to_string(20);  //TODO: replace numbers with game_.getRound() etc
+        round_text2.setString(round_string2);
+        round_text2.setOrigin(round_text.getGlobalBounds().width, 0);
+        round_text2.setPosition(sf::Vector2f(window_x_/(1920.f/1500.f), window_y_/20.f));
+        window_.draw(round_text2);
+
+        sf::Text money_text(std::to_string(420), font_, 25);   //money counter //TODO: change to game_.getMoney()
         money_text.setFillColor(sf::Color(0,150,0,255));
         money_text.setOutlineColor(sf::Color(0,100,0,255));
-        money_text.setOutlineThickness(3);
-        money_text.setCharacterSize(20);
-        money_text.setPosition(sf::Vector2f(window_x_/(1540.f/1920.f), window_y_/30.f));
+        money_text.setOutlineThickness(1);
+        money_text.setPosition(sf::Vector2f(window_x_/(1920.f/1600.f), window_y_/(1080.f/20.f)));
         window_.draw(money_text);
+
+        sf::Text lives_text(std::to_string(100), font_, 25);   //lives counter //TODO: change to game_.getLives()
+        lives_text.setFillColor(sf::Color(150,0,0,255));
+        lives_text.setOutlineColor(sf::Color(100,0,0,255));
+        lives_text.setOutlineThickness(1);
+        lives_text.setPosition(sf::Vector2f(window_x_/(1920.f/1600.f), window_y_/(1080.f/70.f)));
+        window_.draw(lives_text);
+
+        sf::Text price_text1(std::to_string(200), font_, 23);   //price of basic tower //TODO: change to correct value
+        price_text1.setFillColor(sf::Color(0,150,0,255));
+        price_text1.setOutlineColor(sf::Color(0,100,0,255));
+        price_text1.setOutlineThickness(1);
+        price_text1.setPosition(sf::Vector2f(window_x_/(1920.f/1611.f), window_y_/(1080.f/230.f)));
+        price_text1.setOrigin(round_text.getGlobalBounds().width/2, 0);
+        window_.draw(price_text1);
+
+        sf::Text price_text2 = price_text1;
+        price_text2.setString("300");   //TODO
+        price_text2.setPosition(sf::Vector2f(window_x_/(1920.f/1737.f), window_y_/(1080.f/230.f)));
+        window_.draw(price_text2);
+
+        sf::Text price_text3 = price_text1;
+        price_text3.setString("400");   //TODO
+        price_text3.setPosition(sf::Vector2f(window_x_/(1920.f/1862.f), window_y_/(1080.f/230.f)));
+        window_.draw(price_text3);
+
+        sf::Text price_text4 = price_text1;
+        price_text4.setString("500");   //TODO
+        price_text4.setPosition(sf::Vector2f(window_x_/(1920.f/1611.f), window_y_/(1080.f/381.f)));
+        window_.draw(price_text4);
+
+        sf::Text price_text5 = price_text1;
+        price_text5.setString("600");   //TODO
+        price_text5.setPosition(sf::Vector2f(window_x_/(1920.f/1737.f), window_y_/(1080.f/381.f)));
+        window_.draw(price_text5);
+
+        sf::Text price_text6 = price_text1;
+        price_text5.setString("700");   //TODO
+        price_text5.setPosition(sf::Vector2f(window_x_/(1920.f/1862.f), window_y_/(1080.f/381.f)));
+        window_.draw(price_text5);
     }
 
     void Application::StyleButtonBrown(tgui::Button::Ptr button) {
