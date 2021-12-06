@@ -40,7 +40,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
     float enemyxpos = position_.x;
     float enemyypos = (*it)->getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_) {
+        range_ + (*it)->getHitboxRadius()) {
       enemiesInRange.push_back(*it);
     }
   }
