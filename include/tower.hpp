@@ -66,8 +66,7 @@ class Tower : public Object {
   /// \param centre  Centre position of the tower
   /// \param radius  Radius of the tower (same as hitbox)
   /// \param angle   Angle position of the tower in radians
-  types::Position GetProjectStartPos(types::Position centre, float radius,
-                                     float angle);
+  types::Position GetProjectStartPos();
 
  protected:
   unsigned int attack_speed_;        ///< Attack speed of the tower

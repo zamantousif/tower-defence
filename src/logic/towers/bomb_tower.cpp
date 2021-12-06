@@ -28,10 +28,8 @@ std::list<projectiles::Projectile> Bomb_tower::shoot(
   else
     damage_bomb = 60;
   projectiles::Bomb_projectile newProjectile = projectiles::Bomb_projectile(
-      GetProjectStartPos(this->getPosition(), this->getHitboxRadius(),
-                         this->getRotation()),
-      this->getRotation(),
-      damage_bomb, texture_projectile_);  /// Projectile starts from the edge of the tower
+      GetProjectStartPos(), this->getRotation(), damage_bomb,
+      texture_projectile_);  /// Projectile starts from the edge of the tower
   projectiles.push_back(newProjectile);
   return projectiles;
 }

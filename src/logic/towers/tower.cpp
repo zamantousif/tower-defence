@@ -90,11 +90,10 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
   throw "Target type not recognized";
 }
 
-types::Position Tower::GetProjectStartPos(types::Position centre, float radius,
-                                          float angle) {
+types::Position Tower::GetProjectStartPos() {
   types::Position result;
-  result.x = centre.x + radius + cos(angle);  // angle in radians
-  result.y = centre.y + radius + sin(angle);
+  result.x = position_.x + hitboxRadius_ * cos(rotation_angle_);  // angle in radians
+  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_);
   return result;
 }
 }  // namespace td
