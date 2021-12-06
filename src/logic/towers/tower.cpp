@@ -44,23 +44,24 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       enemiesInRange.push_back(*it);
     }
   }
-  if (targetTo_ == 'c') {  // c = closest enemy
-    if (enemiesInRange.size() == 0) return NULL;
-    Enemy* closestEnemy;
-    float closestPos = range_;
-    for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
-         it != enemiesInRange.end(); it++) {
-      float enemyxpos = (*it)->getPosition().x;
-      float enemyypos = (*it)->getPosition().y;
-      float currentPos =
-          sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2));
-      if (currentPos <= closestPos) {
-        closestPos = currentPos;
-        closestEnemy = *it;
+  switch (targetTo_) {  // c = closest enemy
+    case 'c':
+      if (enemiesInRange.size() == 0) return NULL;
+      Enemy* closestEnemy;
+      float closestPos = range_;
+      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+           it != enemiesInRange.end(); it++) {
+        float enemyxpos = (*it)->getPosition().x;
+        float enemyypos = (*it)->getPosition().y;
+        float currentPos =
+            sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2));
+        if (currentPos <= closestPos) {
+          closestPos = currentPos;
+          closestEnemy = *it;
+        }
       }
-    }
-    return closestEnemy;
-  } else if (targetTo_ == 's') {  // s = strongest enemy
+      return closestEnemy;
+  case 's':   // s = strongest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* strongestEnemy;
     float strongestHP = 0;
@@ -73,7 +74,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       }
     }
     return strongestEnemy;
-  } else if (targetTo_ == 'f') {  // f = furthest enemy
+  case 'f':  // f = furthest enemy
     if (enemiesInRange.size() == 0) return NULL;
     Enemy* furthestEnemy;
     float furthestDistance = 0;
@@ -87,12 +88,13 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
     }
     return furthestEnemy;
   }
-  throw "Target type not recognized";
+    throw "Target type not recognized";
 }
 
 types::Position Tower::GetProjectStartPos() {
   types::Position result;
-  result.x = position_.x + hitboxRadius_ * cos(rotation_angle_);  // angle in radians
+  result.x =
+      position_.x + hitboxRadius_ * cos(rotation_angle_);  // angle in radians
   result.y = position_.y + hitboxRadius_ * sin(rotation_angle_);
   return result;
 }
