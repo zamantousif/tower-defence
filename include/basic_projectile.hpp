@@ -14,8 +14,9 @@ class Basic_projectile : public Projectile {
   /// \param damage              Damage % of the projectile
   /// \param enemy_pierced_count How many enemies the projectile can hit before
   /// disappearing
+  /// \param texture             Pointer to the texture of the projectile
   Basic_projectile(types::Position position, float rotation_angle, int damage,
-                   unsigned int enemy_pierced_count);
+                   unsigned int enemy_pierced_count, sf::Texture* texture = nullptr);
 
   void Update(td::types::Time dt) override;
 };

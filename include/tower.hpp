@@ -20,8 +20,9 @@ class Tower : public Object {
   /// \param targetTo     Stores the target mode of the tower, options: c =
   /// closest, s = strongest or f = furthest travelled
   Tower(types::Position position, float hitbox, sf::Texture* texture,
-        float rotation_angle = 0.0f, unsigned int attack_speed = 1U,
-        float range = 1.0f, unsigned int level = 1, char targetTo = 'c');
+        sf::Texture* texture_projectile, float rotation_angle = 0.0f,
+        unsigned int attack_speed = 1U, float range = 1.0f,
+        unsigned int level = 1, char targetTo = 'c');
 
   /// \brief Tower constructor
   /// \param position     Position of the tower
@@ -65,13 +66,15 @@ class Tower : public Object {
   /// \param centre  Centre position of the tower
   /// \param radius  Radius of the tower (same as hitbox)
   /// \param angle   Angle position of the tower in radians
-  types::Position GetProjectStartPos(types::Position centre,
-                                            float radius, float angle);
+  types::Position GetProjectStartPos(types::Position centre, float radius,
+                                     float angle);
 
  protected:
-  unsigned int attack_speed_;  ///< Attack speed of the tower
-  float range_;                ///< Attack range of the tower
-  unsigned int level_;         ///< Level of the tower
-  char targetTo_;              ///< Target mode of the tower
+  unsigned int attack_speed_;        ///< Attack speed of the tower
+  float range_;                      ///< Attack range of the tower
+  unsigned int level_;               ///< Level of the tower
+  char targetTo_;                    ///< Target mode of the tower
+  sf::Texture* texture_projectile_;  ///< Pointer to texture of the projectile
+                                     ///< the tower shoots
 };
 }  // namespace td

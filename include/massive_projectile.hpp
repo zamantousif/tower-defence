@@ -12,7 +12,7 @@ class Massive_projectile : public Projectile {
   /// \param rotation_angle  Orientation, in radians of the projectile
   /// \param damage          Damage % of the projectile
   Massive_projectile(types::Position position, float rotation_angle,
-                     int damage);
+                     int damage,  sf::Texture* texture_projectile);
 
   void Update(td::types::Time dt) override;
 };

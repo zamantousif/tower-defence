@@ -5,13 +5,15 @@
 
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
-             float rotation_angle, unsigned int attack_speed, float range,
-             unsigned int level, char targetTo)
+             sf::Texture* texture_projectile, float rotation_angle,
+             unsigned int attack_speed, float range, unsigned int level,
+             char targetTo)
     : Object(position, hitbox, texture, rotation_angle),
       attack_speed_(attack_speed),
       range_(range),
       level_(level),
-      targetTo_(targetTo) {}
+      targetTo_(targetTo),
+      texture_projectile_(texture_projectile) {}
 
 Tower::Tower(types::Position position, float rotation_angle,
              unsigned int attack_speed)

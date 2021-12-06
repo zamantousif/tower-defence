@@ -13,7 +13,7 @@ class Melting_tower : public Tower {
   /// \brief              Melting_tower constructor
   /// \param position     Position of the tower
   /// \param rotation_angle  Orientation, in radians of the tower
-  Melting_tower(sf::Vector2<float> position, float rotation_angle = 0.0f);
+  Melting_tower(sf::Vector2<float> position, float rotation_angle = 0.0f, sf::Texture* texture = nullptr);
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game

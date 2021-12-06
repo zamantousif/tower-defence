@@ -7,8 +7,6 @@
 namespace td {
 float hitbox_high = 1.0f;
 
-sf::Texture* texture_high = nullptr;  // picture of the tower to here
-
 unsigned int attack_speed_high = 10;  // can adjust these later
 
 float range_high = 10.0f;
@@ -16,8 +14,9 @@ float range_high = 10.0f;
 char targetTo_high = 's';  // target strongest enemy
 
 High_damage_tower::High_damage_tower(sf::Vector2<float> position,
-                                     float rotation_angle)
-    : Tower(position, hitbox_high, texture_high, rotation_angle,
+                                     float rotation_angle, sf::Texture* texture,
+                                     sf::Texture* texture_projectile)
+    : Tower(position, hitbox_high, texture, texture_projectile, rotation_angle,
             attack_speed_high, range_high, targetTo_high) {}
 
 std::list<projectiles::Projectile> High_damage_tower::shoot(
@@ -40,7 +39,7 @@ std::list<projectiles::Projectile> High_damage_tower::shoot(
           GetProjectStartPos(this->getPosition(), this->getHitboxRadius(),
                              this->getRotation()),
           this->getRotation(),
-          damage_high);  /// Projectile starts from the edge of the tower
+          damage_high, texture_projectile_);  /// Projectile starts from the edge of the tower
   projectiles.push_back(newProjectile);
   return projectiles;
 }

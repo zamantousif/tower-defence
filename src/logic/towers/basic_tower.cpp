@@ -11,14 +11,12 @@
 namespace td {
 float hitbox_basic = 1.0f; 
 
-sf::Texture* texture_basic = nullptr;  // picture of the tower to here
-
 unsigned int attack_speed_basic = 10;  // can adjust these later
 
 float range_basic = 10.0f;
 
-Basic_tower::Basic_tower(types::Position position, float rotation_angle)
-    : Tower(position, hitbox_basic, texture_basic, rotation_angle,
+Basic_tower::Basic_tower(types::Position position, float rotation_angle, sf::Texture* texture, sf::Texture* texture_projectile)
+    : Tower(position, hitbox_basic, texture, texture_projectile, rotation_angle,
             attack_speed_basic, range_basic) {}
 
 std::list<projectiles::Projectile> Basic_tower::shoot(
@@ -39,7 +37,7 @@ std::list<projectiles::Projectile> Basic_tower::shoot(
         GetProjectStartPos(this->getPosition(), this->getHitboxRadius(),
                            this->getRotation()),
         this->getRotation(),
-        damage_basic, enemy_pierced_count_basic);  /// Projectile starts from the edge of the tower
+        damage_basic, enemy_pierced_count_basic, texture_projectile_);  /// Projectile starts from the edge of the tower
     projectiles.push_back(newProjectile);
     return projectiles;
 }
