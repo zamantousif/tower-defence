@@ -11,7 +11,7 @@ unsigned int attack_speed_high = 10;  // can adjust these later
 
 float range_high = 10.0f;
 
-char targetTo_high = 's';  // target strongest enemy
+char targetTo_high = types::kStrong;  // target strongest enemy
 
 High_damage_tower::High_damage_tower(sf::Vector2<float> position,
                                      float rotation_angle, sf::Texture* texture,

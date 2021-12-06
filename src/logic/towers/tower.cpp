@@ -2,12 +2,13 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <limits>
 
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
              sf::Texture* texture_projectile, float rotation_angle,
              unsigned int attack_speed, float range, unsigned int level,
-             char targetTo)
+             types::Targeting targetTo)
     : Object(position, hitbox, texture, rotation_angle),
       attack_speed_(attack_speed),
       range_(range),
@@ -44,8 +45,8 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       enemiesInRange.push_back(*it);
     }
   }
-  switch (targetTo_) {  // c = closest enemy
-    case 'c':
+  switch (targetTo_) {
+    case types::kClose: {
       if (enemiesInRange.size() == 0) return NULL;
       Enemy* closestEnemy;
       float closestPos = range_;
@@ -61,34 +62,51 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
         }
       }
       return closestEnemy;
-  case 's':   // s = strongest enemy
-    if (enemiesInRange.size() == 0) return NULL;
-    Enemy* strongestEnemy;
-    float strongestHP = 0;
-    for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
-         it != enemiesInRange.end(); it++) {
-      float currentHealth = (*it)->getHealth();
-      if (currentHealth >= strongestHP) {
-        strongestHP = currentHealth;
-        strongestEnemy = *it;
-      }
     }
-    return strongestEnemy;
-  case 'f':  // f = furthest enemy
-    if (enemiesInRange.size() == 0) return NULL;
-    Enemy* furthestEnemy;
-    float furthestDistance = 0;
-    for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
-         it != enemiesInRange.end(); it++) {
-      float currentDistance = (*it)->getDistanceMoved();
-      if (currentDistance >= furthestDistance) {
-        furthestDistance = currentDistance;
-        furthestEnemy = *it;
+    case types::kStrong: {
+      if (enemiesInRange.size() == 0) return NULL;
+      Enemy* strongestEnemy;
+      float strongestHP = 0;
+      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+           it != enemiesInRange.end(); it++) {
+        float currentHealth = (*it)->getHealth();
+        if (currentHealth >= strongestHP) {
+          strongestHP = currentHealth;
+          strongestEnemy = *it;
+        }
       }
+      return strongestEnemy;
     }
-    return furthestEnemy;
+    case types::kFirst: {
+      if (enemiesInRange.size() == 0) return NULL;
+      Enemy* furthestEnemy;
+      float furthestDistance = 0;
+      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+           it != enemiesInRange.end(); it++) {
+        float currentDistance = (*it)->getDistanceMoved();
+        if (currentDistance >= furthestDistance) {
+          furthestDistance = currentDistance;
+          furthestEnemy = *it;
+        }
+      }
+      return furthestEnemy;
+    }
+    case types::kLast: {
+      if (enemiesInRange.size() == 0) return NULL;
+      Enemy* lastEnemy;
+      float lastDistance = -1;
+      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+           it != enemiesInRange.end(); it++) {
+        float currentDistance = (*it)->getDistanceMoved();
+        if (currentDistance <= lastDistance || lastDistance == -1) {
+          lastDistance = currentDistance;
+          lastEnemy = *it;
+        }
+      }
+      return lastEnemy;
+    }
   }
-    throw "Target type not recognized";
+  throw "Target type not recognized";
 }
 
 types::Position Tower::GetProjectStartPos() {

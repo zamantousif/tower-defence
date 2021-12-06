@@ -3,6 +3,7 @@
 #include "enemy.hpp"
 #include "object.hpp"
 #include "projectile.hpp"
+#include "types.hpp"
 
 namespace td {
 ///  \brief Tower class represents the blueprint of a basic tower in the game.
@@ -22,7 +23,7 @@ class Tower : public Object {
   Tower(types::Position position, float hitbox, sf::Texture* texture,
         sf::Texture* texture_projectile, float rotation_angle = 0.0f,
         unsigned int attack_speed = 1U, float range = 1.0f,
-        unsigned int level = 1, char targetTo = 'f');
+        unsigned int level = 1, types::Targeting targetTo = types::kFirst);
 
   /// \brief Tower constructor
   /// \param position     Position of the tower
