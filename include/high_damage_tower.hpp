@@ -15,7 +15,8 @@ class High_damage_tower : public Tower {
   /// \param position        Position of the tower
   /// \param rotation_angle  Orientation, in radians of the tower
   High_damage_tower(types::Position position, float rotation_angle = 0.0f,
-                    sf::Texture* texture = nullptr, sf::Texture* texture_projectile = nullptr);
+                    sf::Texture* texture = nullptr,
+                    sf::Texture* texture_projectile = nullptr);
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game

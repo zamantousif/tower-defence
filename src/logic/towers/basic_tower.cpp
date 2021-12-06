@@ -34,8 +34,8 @@ std::list<projectiles::Projectile> Basic_tower::shoot(
     enemy_pierced_count_basic = 3;
   }
   projectiles::Basic_projectile newProjectile = projectiles::Basic_projectile(
-      GetProjectStartPos(),
-      this->getRotation(), damage_basic, enemy_pierced_count_basic,
+      GetProjectStartPos(), this->getRotation(), damage_basic,
+      enemy_pierced_count_basic,
       texture_projectile_);  /// Projectile starts from the edge of the tower
   projectiles.push_back(newProjectile);
   return projectiles;
