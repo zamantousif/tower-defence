@@ -14,6 +14,13 @@ unsigned int attack_speed_basic = 10;  // can adjust these later
 
 float range_basic = 10.0f;
 
+std::vector<unsigned int> upgrade_costs_basic = { 80, 80, 200 };
+
+unsigned int Basic_tower::getUpgradeCost()
+{
+  return upgrade_costs_basic.at(level_-1);
+}
+
 Basic_tower::Basic_tower(types::Position position, float rotation_angle,
                          sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_basic, texture, texture_projectile, rotation_angle,

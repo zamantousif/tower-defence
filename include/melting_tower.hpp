@@ -18,5 +18,9 @@ class Melting_tower : public Tower {
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
   std::list<projectiles::Projectile> shoot(std::list<projectiles::Projectile>);
+
+   /// \brief Get the upgrade cost of the tower at current level
+  /// \return Upgrade cost of the tower
+   unsigned int getUpgradeCost();
 };
 }  // namespace td

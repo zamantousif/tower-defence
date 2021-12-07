@@ -11,6 +11,13 @@ unsigned int attack_speed_bomb = 10;  // can adjust these later
 
 float range_bomb = 10.0f;
 
+std::vector<unsigned int> upgrade_costs_bomb = { 140, 140, 300 };
+
+unsigned int Bomb_tower::getUpgradeCost()
+{
+  return upgrade_costs_bomb.at(level_-1);
+}
+
 Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
                        sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_bomb, texture, texture_projectile, rotation_angle,

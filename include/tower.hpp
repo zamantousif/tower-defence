@@ -43,6 +43,10 @@ class Tower : public Object {
   /// \return Level of the tower
   virtual unsigned int getLevel();
 
+  /// \brief Get the upgrade cost of the tower at current level
+  /// \return Upgrade cost of the tower
+  virtual unsigned int getUpgradeCost() = 0;
+
   /// \brief Get the shooting type of the tower
   /// \return Projectiles shoot by the tower
   /// \param vector vector of the projectiles in current game
