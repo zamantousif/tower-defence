@@ -2,6 +2,7 @@
 
 #include <list>
 #include <map>
+#include <vector>
 
 #include "enemy.hpp"
 #include "projectile.hpp"
@@ -92,6 +93,10 @@ class Game {
           count(count) {}
   };
 
+  /// \return A vector of rounds, with each round being a vector consisting of
+  /// Game::Wave elements (waves)
+  const std::vector<std::vector<Wave>>& getRounds();
+
  private:
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
@@ -101,5 +106,6 @@ class Game {
   std::map<Projectile*, Enemy*> projectile_collisions_;
   std::map<Projectile*, Enemy*> previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table;
+  std::vector<std::vector<Wave>> rounds_;
 };
 }  // namespace td

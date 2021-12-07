@@ -48,4 +48,8 @@ const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
   }
 }
 
+const std::vector<std::vector<Game::Wave>>& Game::getRounds() {
+  return rounds_;
+}
+
 }  // namespace td
