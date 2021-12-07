@@ -704,7 +704,6 @@ namespace td {
         button_targeting_text->getRenderer()->setTextColor(sf::Color(20,20,20,255));
         button_targeting_text->setTextSize(20);
         
-
         button_upgrade->getRenderer()->setBorders(3);
         button_upgrade->getRenderer()->setBorderColor(sf::Color(10,63,10,255));
         button_upgrade->getRenderer()->setBorderColorDown(sf::Color(10,63,10,255));
@@ -739,8 +738,6 @@ namespace td {
         button_targeting_text->setSize("8.2%", "6%");
         button_upgrade->setSize("16%", "8%");
         button_sell->setSize("16%", "8%");
-
-
     }
 
     void Application::HandleUpgrade() {
@@ -752,6 +749,12 @@ namespace td {
         window_.draw(map_sprite);
 
         //draw range circle of upgrading_tower_
+        //sf::CircleShape range_circle(upgrading_tower_->getRange(), 40);
+        //range_circle.setOrigin(upgrading_tower_->getRange(), upgrading_tower_->getRange());
+        //ScaleSprite(range_circle);
+        //range_circle.setPosition(upgrading_tower_->getPosition());
+        //range_circle.setFillColor(sf::Color(100,100,100,70));
+        //window_.draw(range_circle);
 
         sf::Sprite shop_bg;
         shop_bg.setTexture(*textures_["shop_bg"], true);
@@ -797,20 +800,20 @@ namespace td {
         switch (upgrading_tower_.getLevel()) {    //make text match tower's value
             case 1:
                 button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
-                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgradeCost()));
                 break;
             case 2:
                 button_upgrade->getRenderer()->setTexture(*textures_["upgrade_2"]);
-                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgradeCost()));
                 break;
             case 3:
                 */button_upgrade->getRenderer()->setTexture(*textures_["upgrade_3"]);
                 button_upgrade->setText("Upgrade\n(" + std::to_string(320) + ")");/*
-                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgradeCost()));
                 break;
             case 4:
                 button_upgrade->getRenderer()->setTexture(*textures_["upgrade_4"]);
-                button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgrade4()));
+                button_upgrade->setText("Max level");
                 break;
         }
         */
@@ -930,7 +933,7 @@ namespace td {
         button->setTextSize(20);
     }
 
-    void Application::ScaleSprite(sf::Sprite& sprite) {
+    void Application::ScaleSprite(sf::Transformable& sprite) {
         sprite.setScale(sf::Vector2f(window_x_/1920.f, window_y_/1080.f));
     }
 
