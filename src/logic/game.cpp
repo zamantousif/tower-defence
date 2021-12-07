@@ -19,7 +19,7 @@ std::list<Projectile>& Game::getProjectiles() { return projectiles_; }
 bool Game::SpawnEnemy(const std::string& enemy_identifier,
                       types::Position position) {
   try {
-    Enemy enemy_copy = enemy_table.at(enemy_identifier);
+    Enemy enemy_copy = enemy_table_.at(enemy_identifier);
     enemy_copy.setPosition(position);
     enemies_.push_back(enemy_copy);
     return true;
@@ -29,7 +29,7 @@ bool Game::SpawnEnemy(const std::string& enemy_identifier,
 }
 
 bool Game::AddEnemy(const std::string& enemy_identifier, Enemy enemy) {
-  return enemy_table.emplace(enemy_identifier, enemy).second;
+  return enemy_table_.emplace(enemy_identifier, enemy).second;
 }
 
 const std::map<Enemy*, Projectile*>& Game::getEnemyCollisions(

@@ -113,7 +113,7 @@ class Game {
   std::map<Enemy*, Projectile*> previous_enemy_collisions_;
   std::map<Projectile*, Enemy*> projectile_collisions_;
   std::map<Projectile*, Enemy*> previous_projectile_collisions_;
-  std::map<std::string, Enemy> enemy_table;
+  std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
 };
 }  // namespace td
