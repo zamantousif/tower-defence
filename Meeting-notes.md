@@ -155,3 +155,33 @@ ________________
 
 ## Challenges
 The deadline is nearing!
+
+________________
+
+# Meeting 07.12.2021 18:00
+
+**Participants**: 
+1. Julius Järvilinna
+2. Tousif Zaman
+3. Tomi Mikkola
+4. Konsta Kemppainen
+
+## Discussion/ Summary of works
+1. Tomi worked on the GUI and application class
+2. Julius worked on towers and enemies
+3. Tousif worked on tower-buying collision detection on paper
+4. Konsta worked on Game.cpp and solved a recursion problem with forward declarations.
+
+## What’s next?
+1. Tomi will finish off GUI, make all missing artwork and help with the game class
+2. Tousif will finish collision functions and work on enemy path following
+3. Julius will finish work on towers and enemies
+4. Konsta will finish up Map.cpp and Game.cpp and possibly implement the Update method for Enemy, Tower and Projectile. Konsta might also work on the Update method of Game.
+
+## Project status (as of 30.11.2021 20::30)
+1. Most parts of the game are implemented such as GUI, game, towers, enemies, etc.
+2. We will check how to add support for Doxygen document generation for the project
+3. Once done with current activities, the next available team member will start adding content to the doc/readme.
+
+## Challenges
+The deadline is haunting us!
