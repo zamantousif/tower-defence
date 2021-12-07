@@ -15,6 +15,10 @@ namespace td {
         state_ = types::kOptions;  //starts as options for spaghetti reasons
         volume_ = 70.f;            //set initial value for game volume
         music_volume_ = 70.f;
+
+        upgrading_tower_ = nullptr;
+        buying_tower_ = nullptr;
+
         font_.loadFromFile("../Assets/arial.TTF");
     }
 
@@ -29,8 +33,30 @@ namespace td {
 
                 if (event.type == sf::Event::Closed) window_.close();
 
-                /**
-                if (state_ == types::kGame && event.type == sf::Event::MouseButtonPressed) {
+                /*
+                //handle click events when buying towers
+                if (state_ == types::kGame && buying_tower_ != nullptr && event.type == sf::Event::MouseButtonPressed) {
+                    float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
+                    float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y)
+                    if (mouse_x >= 1520) {
+                        //gui was clicked while buying tower
+                        delete(buying_tower_);
+                        buying_tower_ = nullptr;
+                    } else {
+                        //position on the map was clicked while buying a tower
+                        if (!CheckCollision()) {
+                            game_.buyTower(buying_tower_);
+                            buying_tower_ = nullptr;
+                        } else {
+                            sf::Sound buubuu;
+                            buubuu.LoadFromFile("../Assets/Sounds/buubuu.wmv");
+                            buubuu.setVolume(volume_);
+                            buubuu.play();
+                        }
+                    }
+                }
+
+                if (state_ == types::kGame && buying_tower_ == nullptr && event.type == sf::Event::MouseButtonPressed) {
                     float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
                     float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y)
                     for (auto tower : game_.getTowers()) {
@@ -310,18 +336,43 @@ namespace td {
         ScaleSprite(map_sprite);
         window_.draw(map_sprite);
 
+        HandleGameGui();
+
+        //game_.update();
+
+        //RenderGameObjects();
+
+        if (buying_tower_ != nullptr) {
+            //int mouse_x = sf::Mouse::getPosition().x;
+            //int mouse_y = sf::Mouse::getPosition().y;
+
+            /*
+            draw range circle of buying_tower_
+            sf::CircleShape range_circle = sf::CircleShape(buying_tower_->getRange(), 40);
+            range_circle.setOrigin(buying_tower_->getRange(), buying_tower_->getRange());
+            ScaleSprite(range_circle);
+            range_circle.setPosition(mouse_x, mouse_y);
+            if (CheckCollision()) {
+                range_circle.setFillColor(sf::Color(100,100,100,70));
+            } else {
+                range_circle.setFillColor(sf::Color(100,0,0,70));
+            }
+            window_.draw(range_circle);
+
+            sf::Sprite buying_tower_sprite;
+            buying_tower_sprite.setTexture(buying_tower_->getTexture());
+            buying_tower_sprite.setPosition(buying_tower_->getPosition());
+            buying_tower_sprite.setOrigin(buying_tower_sprite->getLocalBounds().x, buying_tower_sprite->getLocalBounds().y);
+            ScaleSprite(buying_tower_sprite);
+            window_.draw(buying_tower_sprite);
+            */
+        }
+
         sf::Sprite shop_bg;
         shop_bg.setTexture(*textures_["shop_bg"], true);
         shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
         ScaleSprite(shop_bg);
         window_.draw(shop_bg);
-
-        HandleGameGui();
-
-        //buying towers
-
-        //RenderGameObjects();
-
     }
 
     void Application::HandleGameGui() {
@@ -334,8 +385,24 @@ namespace td {
         tgui::Button::Ptr button_pause = gui_.get<tgui::Button>("button_pause");
         tgui::Button::Ptr button_start_wave = gui_.get<tgui::Button>("button_start_wave");
 
+        bool do_once = true;  //tgui buttons have a bad habit of triggering multiple times, this fixes that
+
         button_pause->onPress([&]{ LaunchPauseGui(); });
         //button_start_wave->onPress([&]{ if (!game_.getRoundOngoing()) game_.StartWave(); });
+        /*
+        button_tower_ba->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("basic_tower", textures_["basic_tower"]);
+                                      do_once = false; });
+        button_tower_bo->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("bomb_tower", textures_["bomb_tower"]);
+                                      do_once = false; });
+        button_tower_fr->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("frigid_stump", textures_["frigid_stump"]);
+                                      do_once = false; });
+        button_tower_th->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("basic_tower", textures_["basic_tower"]);
+                                      do_once = false; });
+        button_tower_sn->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("sniper_tower", textures_["sniper_tower"]);
+                                      do_once = false; });
+        button_tower_ci->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("cinder_stump", textures_["cinder_stump"]);
+                                      do_once = false; });
+        */
 
         //if (game_.round_active) {
         //    button_start_wave->setEnabled(false);
@@ -495,7 +562,7 @@ namespace td {
         tgui::Slider::Ptr slider_volume = gui_.get<tgui::Slider>("slider_volume");
         tgui::Slider::Ptr slider_music_volume = gui_.get<tgui::Slider>("slider_music_volume");
 
-        button_return->onPress(&Application::LaunchMainMenuGui, this);
+        button_return->onPress(&Application::LaunchMainMenuGui, this);   //TODO: change to CloseGame()
         volume_ = slider_volume->getValue();
         music_volume_ = slider_music_volume->getValue();
         if (button_auto_start->isDown()) {
@@ -773,13 +840,13 @@ namespace td {
         tgui::Button::Ptr button_upgrade = gui_.get<tgui::Button>("button_upgrade");
         tgui::Button::Ptr button_sell = gui_.get<tgui::Button>("button_sell");
         
-        bool doOnce = true;  //tgui buttons have a bad habit of triggering multiple times, this fixes that
+        bool do_once = true;  //tgui buttons have a bad habit of triggering multiple times, this fixes that
         
         button_off_menu->onPress(&Application::LaunchGameGui, this);  //TODO: add upgrading_tower_ = nullptr;
-        //button_target_left->onPress([&] {if (doOnce) TargetingSwitchRight(); doOnce = false; });
-        //button_target_right->onPress([&] {if (doOnce) TargetingSwitchLeft(); doOnce = false; });
-        //button_upgrade->onPress([&] {if (doOnce) game_->UpgradeTower(upgrading_tower_); doOnce = false; });
-        //button_sell->onPress([&] {if (doOnce) game_->SellTower(upgrading_tower_); doOnce = false; upgrading_tower_ = nullptr; });
+        //button_target_left->onPress([&] {if (do_once) TargetingSwitchRight(); do_once = false; });
+        //button_target_right->onPress([&] {if (do_once) TargetingSwitchLeft(); do_once = false; });
+        //button_upgrade->onPress([&] {if (do_once) game_->UpgradeTower(upgrading_tower_); do_once = false; });
+        //button_sell->onPress([&] {if (do_once) game_->SellTower(upgrading_tower_); do_once = false; upgrading_tower_ = nullptr; });
         
         /*
         switch (upgrading_tower_.getTargeting()) {    //make text match tower's value
@@ -917,6 +984,9 @@ namespace td {
         price_text5.setString("700");   //TODO
         price_text5.setPosition(sf::Vector2f(window_x_/(1920.f/1862.f), window_y_/(1080.f/381.f)));
         window_.draw(price_text5);
+
+        //TODO: draw tower icons
+
     }
 
     void Application::StyleButtonBrown(tgui::Button::Ptr button) {

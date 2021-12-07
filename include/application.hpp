@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include "tower.hpp"
 #include "types.hpp"
 #include <string>
 #include <map>
@@ -102,6 +103,7 @@ namespace td {
     sf::Font font_;    //font used for sf::Text
     float volume_;     //value between 0 and 100 that affects the volume of sound effects
     float music_volume_; //value between 0 and 100 that affects the volume of background music
-    //Tower* upgrading_tower_ //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
+    Tower* upgrading_tower_; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
+    Tower* buying_tower_; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
   };
 }  // namespace td
