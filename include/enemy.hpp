@@ -22,7 +22,7 @@ class Enemy : public Object {
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
   Enemy(types::Position position, float hitbox, types::Texture texture,
-        float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
+        float health = 100.0f, int move_speed = 1, int bounty = 0,
         bool armored = false, float distance_moved = 0.0f);
 
   virtual void Update(types::Time dt, const td::Game&);
@@ -37,7 +37,7 @@ class Enemy : public Object {
 
   /// \brief Get the bounty of the enemy
   /// \return Bounty of the enemy
-  virtual float getBounty() const;
+  virtual int getBounty() const;
 
   /// \brief Status of enemy armor
   /// \return True if the enemy is armored otherwise false
