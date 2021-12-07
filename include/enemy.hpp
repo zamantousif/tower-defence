@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
 #include "object.hpp"
 #include "projectile.hpp"
@@ -23,6 +24,27 @@ class Enemy : public Object {
   Enemy(types::Position position, float hitbox, sf::Texture* texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
         bool armored = false, float distance_moved = 0.0f);
+
+  void Update(types::Time dt) override;
+
+  /// \brief Create basic cockroach at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The basic cockroach
+  Enemy* createBasicCockroach(types::Position startOfTheMap,
+                              sf::Texture* texture);
+
+  /// \brief Create fly at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The fly
+  Enemy* createFly(types::Position startOfTheMap, sf::Texture* texture);
+
+  /// \brief Create beetle at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The beetle
+  Enemy* createBeetle(types::Position startOfTheMap, sf::Texture* texture);
 
   /// \brief Get the remaining health of the enemy
   /// \return Remaining health of the enemy
