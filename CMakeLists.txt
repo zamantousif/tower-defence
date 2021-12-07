@@ -85,7 +85,6 @@ add_executable(
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
-    tests/object_test.cpp
 )
 target_link_libraries(
     ${TESTS_EXE_NAME}
