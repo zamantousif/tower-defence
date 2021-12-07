@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include <fstream>
+
 namespace td {
 Game::Game() {}
 
@@ -50,6 +52,22 @@ const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {
   return rounds_;
+}
+
+void Game::LoadRounds(const std::string& file_path) {
+  std::ifstream json_file = std::ifstream(file_path);
+  nlohmann::json json;
+  json_file >> json;
+
+  for (auto round_raw : json) {
+    std::vector<Wave> round;
+    for (auto wave_raw : round_raw) {
+      round.push_back(Wave(wave_raw.at("enemyIdentifier"),
+                           wave_raw.at("spacing"), wave_raw.at("offset"),
+                           wave_raw.at("count")));
+    }
+    rounds_.push_back(round);
+  }
 }
 
 }  // namespace td

@@ -2,6 +2,7 @@
 
 #include <list>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <vector>
 
 #include "enemy.hpp"
@@ -96,6 +97,13 @@ class Game {
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)
   const std::vector<std::vector<Wave>>& getRounds();
+
+  /// \brief Adds rounds from a JSON file. Doesn't remove pre-existing rounds.
+  ///
+  /// The JSON file consists of an array of arrays that all contain an object of
+  /// the form
+  /// { "enemyIdentifier": "asd", "spacing": 500, "offset": 0, "count": 5}
+  void LoadRounds(const std::string& file_path);
 
  private:
   std::list<Enemy> enemies_;
