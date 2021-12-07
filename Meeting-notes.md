@@ -178,7 +178,7 @@ ________________
 3. Julius will finish work on towers and enemies
 4. Konsta will finish up Map.cpp and Game.cpp and possibly implement the Update method for Enemy, Tower and Projectile. Konsta might also work on the Update method of Game.
 
-## Project status (as of 30.11.2021 20::30)
+## Project status (as of 07.12.2021 19:00)
 1. Most parts of the game are implemented such as GUI, game, towers, enemies, etc.
 2. We will check how to add support for Doxygen document generation for the project
 3. Once done with current activities, the next available team member will start adding content to the doc/readme.
