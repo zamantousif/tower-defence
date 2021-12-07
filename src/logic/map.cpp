@@ -6,14 +6,11 @@
 #include "map.hpp"
 
 namespace td {
-  Map::Map(sf::Texture background_image, std::vector<td::types::Position> enemy_path, std::vector<td::types::BlockedRegion> blocked_regions)
-    : background_image_(background_image), enemy_path_(enemy_path), blocked_regions_(blocked_regions) {}
+  Map::Map(const std::string& background_image_path, std::vector<td::types::Position> enemy_path, std::vector<td::types::BlockedRegion> blocked_regions)
+    : background_image_path_(background_image_path), enemy_path_(enemy_path), blocked_regions_(blocked_regions) {}
   
-  sf::Texture& Map::getBackgroundImage() {
-    return background_image_;
-  }
-  const sf::Texture& Map::getBackgroundImage() const {
-    return background_image_;
+  const std::string& Map::getBackgroundImagePath() {
+    return background_image_path_;
   }
 
   std::vector<td::types::Position>& Map::getEnemyPath() {
@@ -40,11 +37,6 @@ namespace td {
     const std::vector<std::array<float, 2>> raw_enemy_path = json.at("enemyPath");
     const std::vector<std::vector<std::array<float, 2>>> raw_blocked_regions = json.at("blockedRegions");
 
-    // Turn the image path into a Texture
-    sf::Texture background_image_texture = sf::Texture();
-    if (!background_image_texture.loadFromFile(path_to_image))
-      throw "Most likely invalid file path";
-
     // Turn the raw path data into a vector that contains Positions
     std::vector<td::types::Position> enemy_path = std::vector<td::types::Position>();
     enemy_path.reserve(raw_enemy_path.size());
@@ -67,6 +59,6 @@ namespace td {
       blocked_regions.push_back(new_region);
     }
 
-    return new Map(background_image_texture, enemy_path, blocked_regions);
+    return new Map(path_to_image, enemy_path, blocked_regions);
   }
 }
