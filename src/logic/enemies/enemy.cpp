@@ -3,14 +3,16 @@
 namespace td {
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
              float health, int move_speed, float bounty, bool armored,
-             float distance_moved, unsigned int slowed_level)
+             float distance_moved, unsigned int slowed_level,
+             unsigned int melting_level)
     : Object(position, hitbox, texture),
       health_(health),
       move_speed_(move_speed),
       bounty_(bounty),
       armored_(armored),
       distance_moved_(distance_moved),
-      slowed_level_(slowed_level) {}
+      slowed_level_(slowed_level),
+      melting_level_(melting_level) {}
 
 void Enemy::Update(td::types::Time dt) { (void)dt; }
 
@@ -29,4 +31,8 @@ void Enemy::setDistanceMoved(float distance) { distance_moved_ = distance; }
 void Enemy::setSlowedLevel(unsigned int level) { slowed_level_ = level; }
 
 unsigned int Enemy::getSlowedLevel() const { return slowed_level_; }
+
+void Enemy::setMeltingLevel(unsigned int level) { melting_level_ = level; }
+
+unsigned int Enemy::getMeltingLevel() const { return melting_level_; }
 }  // namespace td
