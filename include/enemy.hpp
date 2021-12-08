@@ -20,9 +20,10 @@ class Enemy : public Object {
   /// \param bounty         Bounty of the enemy
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
+  /// \param slowed_level   The level by witch the enemy is slowed
   Enemy(types::Position position, float hitbox, sf::Texture* texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
-        bool armored = false, float distance_moved = 0.0f);
+        bool armored = false, float distance_moved = 0.0f, unsigned int slowed_level = 0);
 
   void Update(types::Time dt) override;
 
@@ -50,11 +51,19 @@ class Enemy : public Object {
   /// \return Distance the enemy has travelled
   virtual float getDistanceMoved() const;
 
+  /// \brief Set the slowed_level of the enemy
+  virtual void setSlowedLevel(unsigned int level);
+
+    /// \brief Get the slowed level of the enemy
+  /// \return slowed_level of the enemy
+  virtual unsigned int getSlowedLevel() const;
+
  protected:
   float health_;          ///< Remaining health of the enemy
   int move_speed_;        ///< Movement speed of the enemy
   int bounty_;            ///< Bounty of the enemy
   bool armored_;          ///< Status of enemy armor
   float distance_moved_;  ///< Total distance moved on the path by the enemy
+  int slowed_level_;      ///< Level by witch the enemy is slowed
 };
 }  // namespace td

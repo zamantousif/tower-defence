@@ -21,7 +21,7 @@ Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle, 
             attack_speed_melting, range_melting) {}
 
 std::list<projectiles::Projectile> Melting_tower::shoot(
-    std::list<projectiles::Projectile> projectiles) {
+    std::list<projectiles::Projectile> projectiles, std::vector<Enemy*> enemies) {
   // add implementation here
 }
 

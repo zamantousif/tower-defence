@@ -24,7 +24,7 @@ Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
             attack_speed_bomb, range_bomb) {}
 
 std::list<projectiles::Projectile> Bomb_tower::shoot(
-    std::list<projectiles::Projectile> projectiles) {
+    std::list<projectiles::Projectile> projectiles, std::vector<Enemy*> enemies) {
   int damage_bomb = 0;
   if (level_ == 1)
     damage_bomb = 15;

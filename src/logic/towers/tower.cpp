@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <cstdlib>
-#include <limits>
 
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
@@ -38,7 +37,7 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
   float towerypos = position_.y;
   for (std::vector<Enemy*>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    float enemyxpos = position_.x;
+    float enemyxpos = (*it)->getPosition().x;
     float enemyypos = (*it)->getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
         range_ + (*it)->getHitboxRadius()) {
