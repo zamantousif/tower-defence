@@ -40,6 +40,8 @@ set(SOURCES
     include/projectile.hpp
     src/logic/game.cpp
     include/game.hpp
+    src/logic/map.cpp
+    include/map.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
