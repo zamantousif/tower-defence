@@ -15,13 +15,13 @@ class Enemy : public Object {
   /// \brief Enemy constructor
   /// \param position       Position of the enemy
   /// \param hitbox         Radius of the circular region occupied by the enemy
-  /// \param texture        Texture of the enemy
+  /// \param texture        A pointer to the texture of the enemy
   /// \param health         Health of the enemy
   /// \param move_speed     Movement speed of the enemy
   /// \param bounty         Bounty of the enemy
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
-  Enemy(types::Position position, float hitbox, types::Texture texture,
+  Enemy(types::Position position, float hitbox, sf::Texture* texture,
         float health = 100.0f, int move_speed = 1, int bounty = 0,
         bool armored = false, float distance_moved = 0.0f);
 

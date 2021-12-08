@@ -29,6 +29,7 @@ include_directories(src)
 set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
+    include/types.hpp
     src/logic/object.cpp
     include/object.hpp
     src/logic/towers/tower.cpp
