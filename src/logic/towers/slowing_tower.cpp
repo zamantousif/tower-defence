@@ -33,10 +33,12 @@ std::list<projectiles::Projectile> Slowing_tower::shoot(
     float enemyxpos = (*it)->getPosition().x;
     float enemyypos = (*it)->getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it)->getHitboxRadius()) {     //if enemy in tower range
-      if ((*it)->getSlowedLevel() < level_) (*it)->setSlowedLevel(level_);
-  /// if enemy is not in range of another slowing tower that has bigger level,
-  /// set slowing_level to be same as level of this tower
+        range_ + (*it)->getHitboxRadius()) {  // if enemy in tower range
+      if ((*it)->getSlowedLevel() < level_ && (*it)->getBounty() != 400)
+        (*it)->setSlowedLevel(level_);
+      /// if enemy is not in range of another slowing tower that has bigger
+      /// level, set slowing_level to be same as level of this tower.
+      /// (*it)->getBounty() != 400 makes dragonfly immune to slowring tower
     }
   }
   return projectiles;
