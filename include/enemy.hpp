@@ -25,13 +25,18 @@ class Enemy : public Object {
   Enemy(types::Position position, float hitbox, sf::Texture* texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
         bool armored = false, float distance_moved = 0.0f,
-        unsigned int slowed_level = 0, unsigned int melting_level = 0);
+        unsigned int slowed_level = 0);
 
   void Update(types::Time dt) override;
 
   /// \brief Get the remaining health of the enemy
   /// \return Remaining health of the enemy
   virtual float getHealth() const;
+
+  /// \brief Set the health of the enemy
+  /// \param health_decrease the amount of health that is decreased from enemys
+  /// health
+  virtual void setHealth(float health_decrease);
 
   /// \brief Get the movement speed of the enemy
   /// \return Movement speed of the enemy
@@ -59,20 +64,12 @@ class Enemy : public Object {
   /// \return slowed_level of the enemy
   virtual unsigned int getSlowedLevel() const;
 
-  /// \brief Set the melting_level of the enemy
-  virtual void setMeltingLevel(unsigned int level);
-
-  /// \brief Get the melting level of the enemy
-  /// \return melting_level of the enemy
-  virtual unsigned int getMeltingLevel() const;
-
  protected:
   float health_;          ///< Remaining health of the enemy
   int move_speed_;        ///< Movement speed of the enemy
   int bounty_;            ///< Bounty of the enemy
   bool armored_;          ///< Status of enemy armor
   float distance_moved_;  ///< Total distance moved on the path by the enemy
-  unsigned int slowed_level_;   ///< Level by witch the enemy is slowed
-  unsigned int melting_level_;  ///< Level by witch the enemy is melted
+  unsigned int slowed_level_;  ///< Level by witch the enemy is slowed
 };
 }  // namespace td
