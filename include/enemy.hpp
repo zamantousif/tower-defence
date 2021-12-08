@@ -46,9 +46,16 @@ class Enemy : public Object {
   /// \return The beetle
   Enemy* createBeetle(types::Position startOfTheMap, sf::Texture* texture);
 
-  /// \brief Get the remaining health of the enemy
-  /// \return Remaining health of the enemy
-  virtual float getHealth() const;
+  /// \brief Create dragonfly (boss enemy) at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The dragonfly (boss)
+  Enemy* Enemy::createDragonfly(types::Position startOfTheMap,
+                                sf::Texture* texture);
+
+      /// \brief Get the remaining health of the enemy
+      /// \return Remaining health of the enemy
+      virtual float getHealth() const;
 
   /// \brief Get the movement speed of the enemy
   /// \return Movement speed of the enemy

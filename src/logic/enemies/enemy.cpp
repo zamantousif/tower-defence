@@ -33,6 +33,13 @@ Enemy* Enemy::createBeetle(types::Position startOfTheMap,
   return beetle;
 }
 
+Enemy* Enemy::createDragonfly(types::Position startOfTheMap,
+                              sf::Texture* texture) {
+  Enemy* dragonfly =
+      new Enemy(startOfTheMap, 2.0f, texture, 4000, 10, 400, true, 0);
+  return dragonfly;
+}
+
 float Enemy::getHealth() const { return health_; }
 
 int Enemy::getMoveSpeed() const { return move_speed_; }
