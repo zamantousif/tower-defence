@@ -7,4 +7,6 @@ namespace td::types {
 using Position =
     sf::Vector2f;  ///< The type that stores the position of any game object.
 using Time = sf::Time;  ///< The type that stores the time.
+using BlockedRegion =
+    sf::ConvexShape;  ///< Represents a region where towers cannot be placed.
 }  // namespace td::types
