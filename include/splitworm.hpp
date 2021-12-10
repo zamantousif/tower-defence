@@ -24,7 +24,7 @@ class Splitworm : public Enemy {
 
   /// \brief           Splitworm creates 3 weaker worm upon death
   /// \param texture   Texture of the weaker worm     
-  std::vector<Enemy*> doUponDeath(sf::Texture* texture);
+  std::vector<Enemy> doUponDeath(sf::Texture* texture);
 
 };
 }  // namespace td

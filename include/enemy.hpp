@@ -31,26 +31,26 @@ class Enemy : public Object {
   /// \param startOfTheMap  Position of the start of the map
   /// \param texture        Texture of the enemy
   /// \return The basic cockroach
-  Enemy* createBasicCockroach(types::Position startOfTheMap,
+  Enemy createBasicCockroach(types::Position startOfTheMap,
                               sf::Texture* texture);
 
   /// \brief Create fly at the start of the map
   /// \param startOfTheMap  Position of the start of the map
   /// \param texture        Texture of the enemy
   /// \return The fly
-  Enemy* createFly(types::Position startOfTheMap, sf::Texture* texture);
+  Enemy createFly(types::Position startOfTheMap, sf::Texture* texture);
 
   /// \brief Create beetle at the start of the map
   /// \param startOfTheMap  Position of the start of the map
   /// \param texture        Texture of the enemy
   /// \return The beetle
-  Enemy* createBeetle(types::Position startOfTheMap, sf::Texture* texture);
+  Enemy createBeetle(types::Position startOfTheMap, sf::Texture* texture);
 
   /// \brief Create dragonfly (boss enemy) at the start of the map
   /// \param startOfTheMap  Position of the start of the map
   /// \param texture        Texture of the enemy
   /// \return The dragonfly (boss)
-  Enemy* Enemy::createDragonfly(types::Position startOfTheMap,
+  Enemy createDragonfly(types::Position startOfTheMap,
                                 sf::Texture* texture);
 
       /// \brief Get the remaining health of the enemy

@@ -15,28 +15,26 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
 
 void Enemy::Update(td::types::Time dt) { (void)dt; }
 
-Enemy* Enemy::createBasicCockroach(types::Position startOfTheMap,
-                                   sf::Texture* texture) {
-  Enemy* basicCockroach =
-      new Enemy(startOfTheMap, 1.0f, texture, 200, 10, 10, false, 0);
+Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
+                                  sf::Texture* texture) {
+  Enemy basicCockroach =
+      Enemy(startOfTheMap, 1.0f, texture, 200, 10, 10, false, 0);
   return basicCockroach;
 }
 
-Enemy* Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
-  Enemy* fly = new Enemy(startOfTheMap, 1.0f, texture, 150, 20, 14, false, 0);
+Enemy Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
+  Enemy fly = Enemy(startOfTheMap, 1.0f, texture, 150, 20, 14, false, 0);
   return fly;
 }
 
-Enemy* Enemy::createBeetle(types::Position startOfTheMap,
-                           sf::Texture* texture) {
-  Enemy* beetle = new Enemy(startOfTheMap, 1.5f, texture, 300, 10, 20, true, 0);
+Enemy Enemy::createBeetle(types::Position startOfTheMap, sf::Texture* texture) {
+  Enemy beetle = Enemy(startOfTheMap, 1.5f, texture, 300, 10, 20, true, 0);
   return beetle;
 }
 
-Enemy* Enemy::createDragonfly(types::Position startOfTheMap,
-                              sf::Texture* texture) {
-  Enemy* dragonfly =
-      new Enemy(startOfTheMap, 2.0f, texture, 4000, 10, 400, true, 0);
+Enemy Enemy::createDragonfly(types::Position startOfTheMap,
+                             sf::Texture* texture) {
+  Enemy dragonfly = Enemy(startOfTheMap, 2.0f, texture, 4000, 10, 400, true, 0);
   return dragonfly;
 }
 
