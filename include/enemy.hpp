@@ -6,6 +6,7 @@
 #include "projectile.hpp"
 
 namespace td {
+class Game;
 ///  \brief Enemy class represents the blueprint of a basic enemy in the game.
 ///  The base enemy class can be derived further to create towers with special
 ///  powers.
@@ -14,15 +15,17 @@ class Enemy : public Object {
   /// \brief Enemy constructor
   /// \param position       Position of the enemy
   /// \param hitbox         Radius of the circular region occupied by the enemy
-  /// \param texture        Texture of the enemy
+  /// \param texture        A pointer to the texture of the enemy
   /// \param health         Health of the enemy
   /// \param move_speed     Movement speed of the enemy
   /// \param bounty         Bounty of the enemy
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
-  Enemy(types::Position position, float hitbox, types::Texture texture,
-        float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
+  Enemy(types::Position position, float hitbox, sf::Texture* texture,
+        float health = 100.0f, int move_speed = 1, int bounty = 0,
         bool armored = false, float distance_moved = 0.0f);
+
+  virtual void Update(types::Time dt, const td::Game&);
 
   /// \brief Get the remaining health of the enemy
   /// \return Remaining health of the enemy
@@ -34,7 +37,7 @@ class Enemy : public Object {
 
   /// \brief Get the bounty of the enemy
   /// \return Bounty of the enemy
-  virtual float getBounty() const;
+  virtual int getBounty() const;
 
   /// \brief Status of enemy armor
   /// \return True if the enemy is armored otherwise false

@@ -29,6 +29,7 @@ include_directories(src)
 set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
     src/main.cpp
+    include/types.hpp
     src/logic/object.cpp
     include/object.hpp
     src/logic/towers/tower.cpp
@@ -39,6 +40,10 @@ set(SOURCES
     include/projectile.hpp
     src/logic/application.cpp
     include/application.hpp
+    src/logic/game.cpp
+    include/game.hpp
+    src/logic/map.cpp
+    include/map.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -85,7 +90,6 @@ add_executable(
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
-    tests/object_test.cpp
 )
 target_link_libraries(
     ${TESTS_EXE_NAME}

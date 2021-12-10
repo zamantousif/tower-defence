@@ -5,6 +5,7 @@
 #include "object.hpp"
 
 namespace td {
+class Game;
 class Projectile : public Object {
  public:
   /// \brief Projectile constructor
@@ -16,9 +17,11 @@ class Projectile : public Object {
   /// \param is_armor_piercing   Status of projectile armor
   /// \param enemy_pierced_count Number of enemies pierced by the projectile
   /// before disappearing
-  Projectile(types::Position position, float hitbox, types::Texture texture,
+  Projectile(types::Position position, float hitbox, sf::Texture* texture,
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count);
+
+  virtual void Update(types::Time dt, const td::Game&); 
 
   /// \brief Get the damage value of the projectile
   /// \return Damage value of the projectile
