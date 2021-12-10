@@ -75,9 +75,7 @@ bool IsCircleCollidingWithCircle(td::types::Position p1, float r1,
 bool IsCircleCollidingWithPolygon(
     td::types::Position p, float r,
     std::vector<td::types::Position> polygon_points) {
-  bool is_colliding = false;
   bool is_circle_center_inside_polygon = false;
-  bool is_circle_intersecting_polygon_edge = false;
   std::vector<std::pair<td::types::Position, td::types::Position>> edges;
 
   if (!polygon_points.empty()) {
@@ -89,16 +87,12 @@ bool IsCircleCollidingWithPolygon(
         std::make_pair(*polygon_points.end(), *polygon_points.begin()));
   }
 
-  is_circle_center_inside_polygon = IsCircleCenterInsidePolygon(p, edges);
-
   for (auto& edge : edges) {
     if (IsCircleIntersectingPolygonEdge(p, r, edge))
-      is_circle_intersecting_polygon_edge = true;
+      return true;
   }
-
-  is_colliding =
-      is_circle_center_inside_polygon or is_circle_intersecting_polygon_edge;
-  return is_colliding;
+  is_circle_center_inside_polygon = IsCircleCenterInsidePolygon(p, edges);
+  return is_circle_center_inside_polygon;
 }
 
 }  // namespace td
