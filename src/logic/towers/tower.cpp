@@ -13,6 +13,8 @@ Tower::Tower(types::Position position, float rotation_angle,
       attack_speed_(attack_speed),
       range_(1.0) {}
 
+void Tower::Update(types::Time dt, const td::Game&) {}
+
 unsigned int Tower::getAttackSpeed() const { return attack_speed_; }
 
 float Tower::getRange() const { return range_; }

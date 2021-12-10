@@ -38,8 +38,12 @@ set(SOURCES
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
     include/projectile.hpp
-    include/collision.hpp
+    src/logic/game.cpp
+    include/game.hpp
+    src/logic/map.cpp
+    include/map.hpp
     src/logic/collision.cpp
+    include/collision.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -87,9 +91,8 @@ add_executable(
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
     src/logic/collision.cpp
-    tests/object_test.cpp
-    tests/collision_test.cpp
     tests/main.cpp
+    tests/collision_test.cpp
 )
 target_link_libraries(
     ${TESTS_EXE_NAME}
