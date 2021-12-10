@@ -86,6 +86,12 @@ namespace td {
     /// \brief Handles TGUI signals of the upgrade menu gui
     void HandleUpgradeGui();
 
+    /// \brief Gui helper function that changes the targeting option of the currently selected tower "rightwards"
+    void TargetingSwitchRight();
+
+    /// \brief Gui helper function that changes the targeting option of the currently selected tower "leftwards"
+    void TargetingSwitchLeft();
+
     /// \brief Draws towers, projectiles, enemies and their health bars
     void DrawGameElements();
 
@@ -106,13 +112,13 @@ namespace td {
     float window_x_;   //width of the window on creation, could be global constant instead?
     float window_y_;   //height of the window on creation
     tgui::Gui gui_{window_};   //Gui object where widgets are added to
-    types::AppState state_ = types::kOptions;;    //tracks the state the application is in
+    types::AppState state_ = types::kOptions;    //tracks the state the application is in
     std::map<std::string, sf::Texture*> textures_;  //map with all loaded textures
     std::optional<Game> game_ = {};
     sf::Font font_;    //font used for sf::Text
     float volume_ = 70.0f;     //value between 0 and 100 that affects the volume of sound effects
     float music_volume_ = 70.0f; //value between 0 and 100 that affects the volume of background music
-    Tower* upgrading_tower_ = nullptr;; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
-    Tower* buying_tower_ = nullptr;; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
+    Tower* upgrading_tower_ = nullptr; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
+    Tower* buying_tower_ = nullptr; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
   };
 }  // namespace td

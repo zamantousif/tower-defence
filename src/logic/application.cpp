@@ -281,6 +281,11 @@ namespace td {
     }
 
     void Application::LaunchGame(std::string map_name) {
+        if (state_ == types::kGame ||state_ == types::kUpgrade) { //temporary
+            return;
+        }
+        upgrading_tower_ = new Tower(types::Position(200,200), 30.f, textures_["red_rectangle"], 0.f, 1U, 100.f);
+
         LaunchGameGui();
         LaunchUpgradeGui();  //temporary test
         game_ = Game();
@@ -408,20 +413,20 @@ namespace td {
 
         bool do_once = true;  //tgui buttons have a bad habit of triggering multiple times, this fixes that
 
-        button_pause->onPress([&]{ LaunchPauseGui(); });
-        //button_start_wave->onPress([&]{ if (!game_.getRoundOngoing()) game_.StartWave(); });
+        button_pause->onPress([&]{ LaunchPauseGui(); });  //TODO: remove comments and fix code
+        //button_start_wave->onPress([&]{ if (!game_.value().getRoundOngoing()) game_.value().StartRound(); });
         /*
-        button_tower_ba->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("basic_tower", textures_["basic_tower"]);
+        button_tower_ba->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("basic_tower", textures_["basic_tower"]);
                                       do_once = false; });
-        button_tower_bo->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("bomb_tower", textures_["bomb_tower"]);
+        button_tower_bo->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("bomb_tower", textures_["bomb_tower"]);
                                       do_once = false; });
-        button_tower_fr->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("frigid_stump", textures_["frigid_stump"]);
+        button_tower_fr->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("frigid_stump", textures_["frigid_stump"]);
                                       do_once = false; });
-        button_tower_th->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("basic_tower", textures_["basic_tower"]);
+        button_tower_th->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("basic_tower", textures_["basic_tower"]);
                                       do_once = false; });
-        button_tower_sn->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("sniper_tower", textures_["sniper_tower"]);
+        button_tower_sn->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("sniper_tower", textures_["sniper_tower"]);
                                       do_once = false; });
-        button_tower_ci->onPress([&] {if (do_once) buying_tower_ = game_.StartBuying("cinder_stump", textures_["cinder_stump"]);
+        button_tower_ci->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("cinder_stump", textures_["cinder_stump"]);
                                       do_once = false; });
         */
 
@@ -469,12 +474,11 @@ namespace td {
         tower_desc.setOutlineColor(sf::Color(50,50,50,255));
         tower_desc.setOutlineThickness(1);
         window_.draw(tower_desc);
-
-        //code for buying towers
     }
 
     void Application::CloseGame() {
-        //delete(game_);
+        //TODO: make sure that memory management is fine
+        game_ = {};
         LaunchMainMenuGui();
     }
 
@@ -569,7 +573,7 @@ namespace td {
         slider_music_volume->setMaximum(100.f);
         slider_music_volume->setValue(music_volume_);
 
-        //if (game_.auto_start_) {
+        //if (game_.value().getAutoStart()) {
         //    button_auto_start->setDown(true);
         //}
     }
@@ -591,10 +595,10 @@ namespace td {
         button_return->onPress(&Application::LaunchMainMenuGui, this);
         volume_ = slider_volume->getValue();
         music_volume_ = slider_music_volume->getValue();
-        if (button_auto_start->isDown()) {
-            //game_.auto_start_ = true;
+        if (button_auto_start->isDown()) {   //TODO: remove comments
+            //game_.value().setAutoStart(true);
         } else {
-            //game_.auto_start_ = false;
+            //game_.value().setAutoStart(false);
         }
 
     }
@@ -708,7 +712,7 @@ namespace td {
         slider_music_volume->setMaximum(100.f);
         slider_music_volume->setValue(music_volume_);
 
-        //if (game_.auto_start_) {
+        //if (game_.value().getAutoStart()) {
         //    button_auto_start->setDown(true);
         //}
     }
@@ -721,14 +725,13 @@ namespace td {
         ScaleSprite(map_sprite);
         window_.draw(map_sprite);
 
+        DrawGameElements();
+
         sf::Sprite shop_bg;
         shop_bg.setTexture(*textures_["shop_bg"], true);
         shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
         ScaleSprite(shop_bg);
         window_.draw(shop_bg);
-
-        //DrawGameObjects();
-
     }
 
     void Application::HandlePauseGui() {
@@ -744,10 +747,10 @@ namespace td {
         button_off_menu->onPress(&Application::LaunchGameGui, this);
         volume_ = slider_volume->getValue();
         music_volume_ = slider_music_volume->getValue();
-        if (button_auto_start->isDown()) {
-            //game_.auto_start_ = true;
+        if (button_auto_start->isDown()) {   //TODO: remove comments
+            //game_.value().setAutoStart(true);
         } else {
-            //game_.auto_start_ = false;
+            //game_.value().setAutoStart(false);
         }
     }
 
@@ -837,25 +840,25 @@ namespace td {
         HandleUpgradeGui();
 
         sf::Sprite map_sprite;
-        map_sprite.setTexture(*textures_["map1"], true);  //TODO: pull map name from game_.getMap().getName()
+        map_sprite.setTexture(*textures_["map1"], true);  //TODO: change map1 to map
         ScaleSprite(map_sprite);
         window_.draw(map_sprite);
 
         //draw range circle of upgrading_tower_
-        //sf::CircleShape range_circle(upgrading_tower_->getRange(), 40);
-        //range_circle.setOrigin(upgrading_tower_->getRange(), upgrading_tower_->getRange());
-        //ScaleSprite(range_circle);
-        //range_circle.setPosition(upgrading_tower_->getPosition());
-        //range_circle.setFillColor(sf::Color(100,100,100,70));
-        //window_.draw(range_circle);
+        sf::CircleShape range_circle(upgrading_tower_->getRange(), 40);
+        range_circle.setOrigin(upgrading_tower_->getRange(), upgrading_tower_->getRange());
+        ScaleSprite(range_circle);
+        range_circle.setPosition(upgrading_tower_->getPosition());
+        range_circle.setFillColor(sf::Color(100,100,100,120));
+        window_.draw(range_circle);
+
+        DrawGameElements();
 
         sf::Sprite shop_bg;
         shop_bg.setTexture(*textures_["shop_bg"], true);
         shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
         ScaleSprite(shop_bg);
         window_.draw(shop_bg);
-
-        //render game objects
     }
 
     void Application::HandleUpgradeGui() {
@@ -868,14 +871,14 @@ namespace td {
         
         bool do_once = true;  //tgui buttons have a bad habit of triggering multiple times, this fixes that
         
-        button_off_menu->onPress(&Application::LaunchGameGui, this);  //TODO: add upgrading_tower_ = nullptr;
-        //button_target_left->onPress([&] {if (do_once) TargetingSwitchRight(); do_once = false; });
-        //button_target_right->onPress([&] {if (do_once) TargetingSwitchLeft(); do_once = false; });
-        //button_upgrade->onPress([&] {if (do_once) game_->UpgradeTower(upgrading_tower_); do_once = false; });
-        //button_sell->onPress([&] {if (do_once) game_->SellTower(upgrading_tower_); do_once = false; upgrading_tower_ = nullptr; });
+        button_off_menu->onPress([&] {LaunchGameGui(); upgrading_tower_ = nullptr;});
+        button_target_left->onPress([&] {if (do_once) TargetingSwitchRight(); do_once = false; });
+        button_target_right->onPress([&] {if (do_once) TargetingSwitchLeft(); do_once = false; });
+        //button_upgrade->onPress([&] {if (do_once) game_.value().UpgradeTower(upgrading_tower_); do_once = false; });
+        //button_sell->onPress([&] {if (do_once) game_.value().SellTower(upgrading_tower_); do_once = false; upgrading_tower_ = nullptr; });
         
         /*
-        switch (upgrading_tower_.getTargeting()) {    //make text match tower's value
+        switch (upgrading_tower_->getTargeting()) {    //make text match tower's value
             case types::kFirst:
                 */button_targeting_text->setText("First");/*
                 break;
@@ -890,7 +893,7 @@ namespace td {
                 break;
         }
 
-        switch (upgrading_tower_.getLevel()) {    //make text match tower's value
+        switch (upgrading_tower_->getLevel()) {    //make text match tower's value
             case 1:
                 button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
                 button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgradeCost()));
@@ -901,7 +904,7 @@ namespace td {
                 break;
             case 3:
                 */button_upgrade->getRenderer()->setTexture(*textures_["upgrade_3"]);
-                button_upgrade->setText("Upgrade\n(" + std::to_string(320) + ")");/*
+                button_upgrade->setText("Upgrade\n(" + std::to_string(320) + ")");/*  //TODO: remove this line
                 button_upgrade->setText("Upgrade\n" + std::to_string(upgrading_tower_.getUpgradeCost()));
                 break;
             case 4:
@@ -912,8 +915,9 @@ namespace td {
         */
     }
 
-    /**
+    
     void Application::TargetingSwitchRight() {
+        /*
         switch (upgrading_tower_.getTargeting()) {
             case types::kFirst:
                 upgrading_tower_.setTargeting(types::kLast);
@@ -928,9 +932,11 @@ namespace td {
                 upgrading_tower_.setTargeting(types::kFirst);
                 break;
         }
+        */
     }
 
     void Application::TargetingSwitchLeft() {
+        /*
         switch (upgrading_tower_.getTargeting()) {
             case types::kFirst:
                 upgrading_tower_.setTargeting(types::kStrong);
@@ -945,14 +951,15 @@ namespace td {
                 upgrading_tower_.setTargeting(types::kClose);
                 break;
         }
+        */
     }
-    **/
+    
 
     void Application::DrawGameElements() {
-        /*
-        for (auto tower : game_.getTowers()) {
+        
+        for (auto tower : game_.value().getTowers()) {
             sf::Sprite tower_sprite;
-            tower_sprite.setTexture(tower.getTexture());
+            tower_sprite.setTexture(*tower.getTexture());
             ScaleSprite(tower_sprite);
             tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius()/100.f, tower.getHitboxRadius()/100.f));
             tower_sprite.setOrigin(tower.getHitboxRadius(), tower.getHitboxRadius());
@@ -961,9 +968,9 @@ namespace td {
             window_.draw(tower_sprite);
         }
 
-        for (auto projectile : game_.getEnemies()) {
+        for (auto projectile : game_.value().getEnemies()) {
             sf::Sprite projectile_sprite;
-            projectile_sprite.setTexture(projectile.getTexture());
+            projectile_sprite.setTexture(*projectile.getTexture());
             ScaleSprite(projectile_sprite);
             projectile_sprite.scale(sf::Vector2f(projectile.getHitboxRadius()/100.f, projectile.getHitboxRadius()/100.f));
             projectile_sprite.setOrigin(projectile.getHitboxRadius(), projectile.getHitboxRadius());
@@ -972,9 +979,9 @@ namespace td {
             window_.draw(projectile_sprite);
         }
 
-        for (auto enemy : game_.getEnemies()) {
+        for (auto enemy : game_.value().getEnemies()) {
             sf::Sprite enemy_sprite;
-            enemy_sprite.setTexture(enemy.getTexture());
+            enemy_sprite.setTexture(*enemy.getTexture());
             ScaleSprite(enemy_sprite);
             enemy_sprite.scale(sf::Vector2f(enemy.getHitboxRadius()/100.f, enemy.getHitboxRadius()/100.f));
             enemy_sprite.setOrigin(1920/window_x_*enemy.getHitboxRadius(), 1080/window_y_*enemy.getHitboxRadius());
@@ -983,24 +990,22 @@ namespace td {
             window_.draw(enemy_sprite);
 
             sf::Sprite health_bar_base;
-            health_bar_base.setTexture(textures_["white_rectangle"]);
+            health_bar_base.setTexture(*textures_["white_rectangle"]);
             ScaleSprite(health_bar_base);
             health_bar_base.setPosition(enemy_sprite.getPosition() - sf::Vector2f(36.f, 1.3f*1080/window_y_*enemy.getHitboxRadius()));
             window_.draw(health_bar_base);
 
             sf::Sprite health_bar_;
             if (enemy.isArmored()) {
-                health_bar_.setTexture(textures_["yellow_rectangle"]);
+                health_bar_.setTexture(*textures_["yellow_rectangle"]);
             } else {
-                health_bar_.setTexture(textures_["red_rectangle"]);
+                health_bar_.setTexture(*textures_["red_rectangle"]);
             }
             ScaleSprite(health_bar_);
             health_bar_.setPosition(enemy_sprite.getPosition() - sf::Vector2f(36.f, 1.3f*1080/window_y_*enemy.getHitboxRadius()));
-            health_bar_.scale(enemy.getHealth()/enemy.getMaxHealth(), 1);
+            //health_bar_.scale(enemy.getHealth()/enemy.getMaxHealth(), 1);
             window_.draw(health_bar_);
         }
-
-        */
     }
 
     void Application::DrawShopElements() {
@@ -1013,20 +1018,20 @@ namespace td {
         window_.draw(round_text);
 
         sf::Text round_text2 = round_text;
-        std::string round_string2 = std::to_string(3) + "/" + std::to_string(20);  //TODO: replace numbers with game_.getRound() etc
+        std::string round_string2 = std::to_string(3) + "/" + std::to_string(20);  //TODO: replace numbers with game_.value().getRound() etc
         round_text2.setString(round_string2);
         round_text2.setOrigin(round_text.getGlobalBounds().width, 0);
         round_text2.setPosition(sf::Vector2f(window_x_/(1920.f/1500.f), window_y_/20.f));
         window_.draw(round_text2);
 
-        sf::Text money_text(std::to_string(420), font_, 25);   //money counter //TODO: change to game_.getMoney()
+        sf::Text money_text(std::to_string(420), font_, 25);   //money counter //TODO: change to game_.value().getMoney()
         money_text.setFillColor(sf::Color(0,150,0,255));
         money_text.setOutlineColor(sf::Color(0,100,0,255));
         money_text.setOutlineThickness(1);
         money_text.setPosition(sf::Vector2f(window_x_/(1920.f/1600.f), window_y_/(1080.f/20.f)));
         window_.draw(money_text);
 
-        sf::Text lives_text(std::to_string(100), font_, 25);   //lives counter //TODO: change to game_.getLives()
+        sf::Text lives_text(std::to_string(100), font_, 25);   //lives counter //TODO: change to game_.value().getLives()
         lives_text.setFillColor(sf::Color(150,0,0,255));
         lives_text.setOutlineColor(sf::Color(100,0,0,255));
         lives_text.setOutlineThickness(1);
@@ -1042,27 +1047,27 @@ namespace td {
         window_.draw(price_text1);
 
         sf::Text price_text2 = price_text1;
-        price_text2.setString("300");   //TODO
+        price_text2.setString("300");   //TODO: change to correct value
         price_text2.setPosition(sf::Vector2f(window_x_/(1920.f/1737.f), window_y_/(1080.f/230.f)));
         window_.draw(price_text2);
 
         sf::Text price_text3 = price_text1;
-        price_text3.setString("400");   //TODO
+        price_text3.setString("400");   //TODO: change to correct value
         price_text3.setPosition(sf::Vector2f(window_x_/(1920.f/1862.f), window_y_/(1080.f/230.f)));
         window_.draw(price_text3);
 
         sf::Text price_text4 = price_text1;
-        price_text4.setString("500");   //TODO
+        price_text4.setString("500");   //TODO: change to correct value
         price_text4.setPosition(sf::Vector2f(window_x_/(1920.f/1611.f), window_y_/(1080.f/381.f)));
         window_.draw(price_text4);
 
         sf::Text price_text5 = price_text1;
-        price_text5.setString("600");   //TODO
+        price_text5.setString("600");   //TODO: change to correct value
         price_text5.setPosition(sf::Vector2f(window_x_/(1920.f/1737.f), window_y_/(1080.f/381.f)));
         window_.draw(price_text5);
 
         sf::Text price_text6 = price_text1;
-        price_text5.setString("700");   //TODO
+        price_text5.setString("700");   //TODO: change to correct value
         price_text5.setPosition(sf::Vector2f(window_x_/(1920.f/1862.f), window_y_/(1080.f/381.f)));
         window_.draw(price_text5);
 
