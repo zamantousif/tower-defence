@@ -23,16 +23,16 @@ Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle,
 
 std::list<projectiles::Projectile> Melting_tower::shoot(
     std::list<projectiles::Projectile> projectiles,
-    std::vector<Enemy*> enemies) {
+    std::vector<Enemy> enemies) {
   float towerxpos = position_.x;
   float towerypos = position_.y;
-  for (std::vector<Enemy*>::iterator it = enemies.begin(); it != enemies.end();
+  for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    float enemyxpos = (*it)->getPosition().x;
-    float enemyypos = (*it)->getPosition().y;
+    float enemyxpos = (*it).getPosition().x;
+    float enemyypos = (*it).getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it)->getHitboxRadius()) {  // if enemy is in tower range
-      (*it)->setHealth(0.01 * level_);  //decrease 0.01*tower_level every frame
+        range_ + (*it).getHitboxRadius()) {  // if enemy is in tower range
+      (*it).setHealth(0.01 * level_);  //decrease 0.01*tower_level every frame
     }}
     return projectiles;
   }

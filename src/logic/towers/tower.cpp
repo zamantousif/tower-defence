@@ -31,44 +31,51 @@ char Tower::getTargetType() { return targetTo_; }
 
 void Tower::setTargetType(char targetType) { targetTo_ = targetType; }
 
-Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
-  std::vector<Enemy*> enemiesInRange;
+Enemy Tower::getTarget(std::vector<Enemy> enemies) {
+  std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
   float towerypos = position_.y;
-  for (std::vector<Enemy*>::iterator it = enemies.begin(); it != enemies.end();
+  for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    float enemyxpos = (*it)->getPosition().x;
-    float enemyypos = (*it)->getPosition().y;
+    float enemyxpos = (*it).getPosition().x;
+    float enemyypos = (*it).getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it)->getHitboxRadius()) {
+        range_ + (*it).getHitboxRadius()) {
       enemiesInRange.push_back(*it);
     }
   }
+  types::Position zeroPosition;
+  zeroPosition.x = 0;
+  zeroPosition.y = 0;
+  sf::Texture* texture;
+  Enemy noEnemiesFound =
+      Enemy(zeroPosition, 0.0f, texture, 0, 0, 0, false, 0, 0);
+  // return this noEnemiesFound enemy if no enemies in tower range
   switch (targetTo_) {
     case types::kClose: {
-      if (enemiesInRange.size() == 0) return NULL;
-      Enemy* closestEnemy;
+      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      Enemy closestEnemy = enemiesInRange.at(0);
       float closestPos = range_;
-      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float enemyxpos = (*it)->getPosition().x;
-        float enemyypos = (*it)->getPosition().y;
+        float enemyxpos = (*it).getPosition().x;
+        float enemyypos = (*it).getPosition().y;
         float currentPos =
             sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2));
         if (currentPos <= closestPos) {
           closestPos = currentPos;
-          closestEnemy = *it;
+          closestEnemy = (*it);
         }
       }
       return closestEnemy;
     }
     case types::kStrong: {
-      if (enemiesInRange.size() == 0) return NULL;
-      Enemy* strongestEnemy;
+      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      Enemy strongestEnemy = enemiesInRange.at(0);
       float strongestHP = 0;
-      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float currentHealth = (*it)->getHealth();
+        float currentHealth = (*it).getHealth();
         if (currentHealth >= strongestHP) {
           strongestHP = currentHealth;
           strongestEnemy = *it;
@@ -77,12 +84,12 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       return strongestEnemy;
     }
     case types::kFirst: {
-      if (enemiesInRange.size() == 0) return NULL;
-      Enemy* furthestEnemy;
+      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      Enemy furthestEnemy = enemiesInRange.at(0);
       float furthestDistance = 0;
-      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float currentDistance = (*it)->getDistanceMoved();
+        float currentDistance = (*it).getDistanceMoved();
         if (currentDistance >= furthestDistance) {
           furthestDistance = currentDistance;
           furthestEnemy = *it;
@@ -91,12 +98,12 @@ Enemy* Tower::getTarget(std::vector<Enemy*> enemies) {
       return furthestEnemy;
     }
     case types::kLast: {
-      if (enemiesInRange.size() == 0) return NULL;
-      Enemy* lastEnemy;
+      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      Enemy lastEnemy = enemiesInRange.at(0);
       float lastDistance = -1;
-      for (std::vector<Enemy*>::iterator it = enemiesInRange.begin();
+      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float currentDistance = (*it)->getDistanceMoved();
+        float currentDistance = (*it).getDistanceMoved();
         if (currentDistance <= lastDistance || lastDistance == -1) {
           lastDistance = currentDistance;
           lastEnemy = *it;

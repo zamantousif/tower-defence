@@ -27,7 +27,7 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
             attack_speed_high, range_high, targetTo_high) {}
 
 std::list<projectiles::Projectile> High_damage_tower::shoot(
-    std::list<projectiles::Projectile> projectiles, std::vector<Enemy*> enemies) {
+    std::list<projectiles::Projectile> projectiles, std::vector<Enemy> enemies) {
   int damage_high = 0;
   if (level_ == 1)
     damage_high = 200;

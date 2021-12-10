@@ -51,7 +51,7 @@ class Tower : public Object {
   /// \return Projectiles shoot by the tower
   /// \param vector vector of the projectiles in current game
   virtual std::vector<projectiles::Projectile> shoot(
-      std::vector<projectiles::Projectile> vector, std::vector<Enemy*> enemies) = 0;
+      std::vector<projectiles::Projectile> vector, std::vector<Enemy> enemies) = 0;
 
   /// \brief Get the target type of the tower
   /// \return Target type of the tower
@@ -64,7 +64,7 @@ class Tower : public Object {
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
-  virtual Enemy* getTarget(std::vector<Enemy*> enemies);
+  virtual Enemy getTarget(std::vector<Enemy> enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by
   /// the tower
