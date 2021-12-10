@@ -952,6 +952,61 @@ namespace td {
     }
     **/
 
+    void Application::DrawGameElements() {
+        /*
+        for (auto tower : game_.getTowers()) {
+            sf::Sprite tower_sprite;
+            tower_sprite.setTexture(tower.getTexture());
+            ScaleSprite(tower_sprite);
+            tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius()/100.f, tower.getHitboxRadius()/100.f));
+            tower_sprite.setOrigin(tower.getHitboxRadius(), tower.getHitboxRadius());
+            tower_sprite.setPosition(1920/window_x_*tower.getPosition().x, 1080/window_y_*tower.getPosition().y);
+            tower_sprite.setRotation(tower.getRotation());
+            window_.draw(tower_sprite);
+        }
+
+        for (auto projectile : game_.getEnemies()) {
+            sf::Sprite projectile_sprite;
+            projectile_sprite.setTexture(projectile.getTexture());
+            ScaleSprite(projectile_sprite);
+            projectile_sprite.scale(sf::Vector2f(projectile.getHitboxRadius()/100.f, projectile.getHitboxRadius()/100.f));
+            projectile_sprite.setOrigin(projectile.getHitboxRadius(), projectile.getHitboxRadius());
+            projectile_sprite.setPosition(1920/window_x_*projectile.getPosition().x, 1080/window_y_*projectile.getPosition().y);
+            projectile_sprite.setRotation(projectile.getRotation());
+            window_.draw(projectile_sprite);
+        }
+
+        for (auto enemy : game_.getEnemies()) {
+            sf::Sprite enemy_sprite;
+            enemy_sprite.setTexture(enemy.getTexture());
+            ScaleSprite(enemy_sprite);
+            enemy_sprite.scale(sf::Vector2f(enemy.getHitboxRadius()/100.f, enemy.getHitboxRadius()/100.f));
+            enemy_sprite.setOrigin(1920/window_x_*enemy.getHitboxRadius(), 1080/window_y_*enemy.getHitboxRadius());
+            enemy_sprite.setPosition(1920/window_x_*enemy.getPosition().x, 1080/window_y_*enemy.getPosition().y);
+            enemy_sprite.setRotation(enemy.getRotation());
+            window_.draw(enemy_sprite);
+
+            sf::Sprite health_bar_base;
+            health_bar_base.setTexture(textures_["white_rectangle"]);
+            ScaleSprite(health_bar_base);
+            health_bar_base.setPosition(enemy_sprite.getPosition() - sf::Vector2f(36.f, 1.3f*1080/window_y_*enemy.getHitboxRadius()));
+            window_.draw(health_bar_base);
+
+            sf::Sprite health_bar_;
+            if (enemy.isArmored()) {
+                health_bar_.setTexture(textures_["yellow_rectangle"]);
+            } else {
+                health_bar_.setTexture(textures_["red_rectangle"]);
+            }
+            ScaleSprite(health_bar_);
+            health_bar_.setPosition(enemy_sprite.getPosition() - sf::Vector2f(36.f, 1.3f*1080/window_y_*enemy.getHitboxRadius()));
+            health_bar_.scale(enemy.getHealth()/enemy.getMaxHealth(), 1);
+            window_.draw(health_bar_);
+        }
+
+        */
+    }
+
     void Application::DrawShopElements() {
         sf::Text round_text("Round\n", font_, 22);   //round counter in the top right
         round_text.setOutlineColor(sf::Color(0,0,0,255));
