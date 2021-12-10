@@ -11,12 +11,6 @@ namespace td {
         window_.create(sf::VideoMode(window_x_, window_y_), "Druidic Defense");
 
         gui_.setWindow(window_);
-        state_ = types::kOptions;  //starts as options for spaghetti reasons
-        volume_ = 70.f;            //set initial value for game volume
-        music_volume_ = 70.f;
-
-        upgrading_tower_ = nullptr;
-        buying_tower_ = nullptr;
 
         font_.loadFromFile("../Assets/arial.TTF");
     }
@@ -289,9 +283,11 @@ namespace td {
     void Application::LaunchGame(std::string map_name) {
         LaunchGameGui();
         LaunchUpgradeGui();  //temporary test
-        //create game object
-        //load corresponding map into game
-        //load map texture based on map.getTextureFilePath()
+        game_ = Game();
+
+        //TODO: load corresponding map into game (variable could be file path instead of map name)
+
+        //load map texture based on map.getBackgroundImagePath()
     }
 
     void Application::LaunchGameGui() {
@@ -357,40 +353,40 @@ namespace td {
     void Application::HandleGame() {
         
         sf::Sprite map_sprite;
-        map_sprite.setTexture(*textures_["map1"], true);  //TODO: pull map name from game_.getMap()
+        map_sprite.setTexture(*textures_["map1"], true);  //TODO: change map1 to map
         ScaleSprite(map_sprite);
         window_.draw(map_sprite);
 
         HandleGameGui();
 
-        //game_.update();
+        //game_.value().update();
 
-        //RenderGameObjects();
+        DrawGameElements();
 
         if (buying_tower_ != nullptr) {
-            //int mouse_x = sf::Mouse::getPosition().x;
-            //int mouse_y = sf::Mouse::getPosition().y;
+            int mouse_x = sf::Mouse::getPosition().x;
+            int mouse_y = sf::Mouse::getPosition().y;
 
-            /*
-            draw range circle of buying_tower_
+            
+            //draws range circle of buying_tower_
             sf::CircleShape range_circle = sf::CircleShape(buying_tower_->getRange(), 40);
             range_circle.setOrigin(buying_tower_->getRange(), buying_tower_->getRange());
             ScaleSprite(range_circle);
             range_circle.setPosition(mouse_x, mouse_y);
-            if (CheckCollision()) {
+            //if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_, mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add proper 
                 range_circle.setFillColor(sf::Color(100,100,100,70));
-            } else {
-                range_circle.setFillColor(sf::Color(100,0,0,70));
-            }
+            //} else {
+            //    range_circle.setFillColor(sf::Color(150,0,0,70));
+            //}
             window_.draw(range_circle);
 
             sf::Sprite buying_tower_sprite;
-            buying_tower_sprite.setTexture(buying_tower_->getTexture());
+            buying_tower_sprite.setTexture(*buying_tower_->getTexture());
             buying_tower_sprite.setPosition(buying_tower_->getPosition());
-            buying_tower_sprite.setOrigin(buying_tower_sprite->getLocalBounds().x, buying_tower_sprite->getLocalBounds().y);
+            buying_tower_sprite.setOrigin(buying_tower_sprite.getLocalBounds().width/2, buying_tower_sprite.getLocalBounds().height/2);
             ScaleSprite(buying_tower_sprite);
             window_.draw(buying_tower_sprite);
-            */
+            
         }
 
         sf::Sprite shop_bg;

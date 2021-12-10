@@ -3,10 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include "game.hpp"
+#include "object.hpp"
 #include "tower.hpp"
+#include "enemy.hpp"
+#include "projectile.hpp"
 #include "types.hpp"
 #include <string>
 #include <map>
+#include <optional>
 
 namespace td {
   /// \brief Application class represents the app that runs the game. It takes care of the game's gui and rendering.
@@ -101,12 +106,13 @@ namespace td {
     float window_x_;   //width of the window on creation, could be global constant instead?
     float window_y_;   //height of the window on creation
     tgui::Gui gui_{window_};   //Gui object where widgets are added to
-    types::AppState state_;    //tracks the state the application is in
+    types::AppState state_ = types::kOptions;;    //tracks the state the application is in
     std::map<std::string, sf::Texture*> textures_;  //map with all loaded textures
+    std::optional<Game> game_ = {};
     sf::Font font_;    //font used for sf::Text
-    float volume_;     //value between 0 and 100 that affects the volume of sound effects
-    float music_volume_; //value between 0 and 100 that affects the volume of background music
-    Tower* upgrading_tower_; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
-    Tower* buying_tower_; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
+    float volume_ = 70.0f;     //value between 0 and 100 that affects the volume of sound effects
+    float music_volume_ = 70.0f; //value between 0 and 100 that affects the volume of background music
+    Tower* upgrading_tower_ = nullptr;; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
+    Tower* buying_tower_ = nullptr;; //Tower that currently has its upgrade menu open, nullptr no tower is being upgraded
   };
 }  // namespace td
