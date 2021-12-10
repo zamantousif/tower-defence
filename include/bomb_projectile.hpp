@@ -4,7 +4,7 @@
 
 #include "projectile.hpp"
 
-namespace td::projectiles {
+namespace td {
 class Bomb_projectile : public Projectile {
  public:
   /// \brief                 Bomb_projectile constructor
@@ -14,6 +14,6 @@ class Bomb_projectile : public Projectile {
   Bomb_projectile(types::Position position, float rotation_angle, int damage,
                   sf::Texture* texture_projectile);
 
-  void Update(td::types::Time dt) override;
+//  void Update(td::types::Time dt) override;
 };
 }  // namespace td::projectiles

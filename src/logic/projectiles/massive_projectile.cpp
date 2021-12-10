@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 
-namespace td::projectiles {
+namespace td {
 float hitbox_massive = 1.0f;  
 
 bool is_armor_piercing_massive = true;
@@ -16,7 +16,7 @@ Massive_projectile::Massive_projectile(sf::Vector2<float> position,
                  damage, is_armor_piercing_massive,
                  enemy_pierced_count_massive) {}
 
-void Massive_projectile::Update(td::types::Time dt)
-{ (void)dt; }
+//void Massive_projectile::Update(td::types::Time dt)
+//{ (void)dt; }
 
 }  // namespace td::projectiles

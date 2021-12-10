@@ -5,7 +5,7 @@
 #include "projectile.hpp"
 #include "types.hpp"
 
-namespace td::projectiles {
+namespace td {
 class Basic_projectile : public Projectile {
  public:
   /// \brief                     Basic_projectile constructor
@@ -18,6 +18,6 @@ class Basic_projectile : public Projectile {
   Basic_projectile(types::Position position, float rotation_angle, int damage,
                    unsigned int enemy_pierced_count, sf::Texture* texture = nullptr);
 
-  void Update(td::types::Time dt) override;
+//  void Update(td::types::Time dt) override;
 };
 }  // namespace td::projectiles

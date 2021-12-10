@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
-namespace td::projectiles {
+namespace td {
 float hitbox_bomb = 1.0f;
 
 sf::Texture* texture_bomb = nullptr;  // picture of the projectile to here
@@ -28,5 +28,5 @@ types::Position travel(types::Position start, float travel_distance,
   return end_location;
 }
 
-void Bomb_projectile::Update(td::types::Time dt) { (void)dt; }
+//void Bomb_projectile::Update(td::types::Time dt) { (void)dt; }
 }  // namespace td::projectiles

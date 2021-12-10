@@ -6,6 +6,7 @@
 #include "types.hpp"
 
 namespace td {
+class Game;
 ///  \brief Tower class represents the blueprint of a basic tower in the game.
 ///  The base tower class can be derived further to create towers with special
 ///  powers.
@@ -24,6 +25,8 @@ class Tower : public Object {
         sf::Texture* texture_projectile, float rotation_angle = 0.0f,
         unsigned int attack_speed = 1U, float range = 1.0f,
         unsigned int level = 1, types::Targeting targetTo = types::kFirst);
+
+  void Update(types::Time dt, const td::Game&);
 
   /// \brief Tower constructor
   /// \param position     Position of the tower
@@ -50,8 +53,8 @@ class Tower : public Object {
   /// \brief Get the shooting type of the tower
   /// \return Projectiles shoot by the tower
   /// \param vector vector of the projectiles in current game
-  virtual std::vector<projectiles::Projectile> shoot(
-      std::vector<projectiles::Projectile> vector, std::vector<Enemy> enemies) = 0;
+  virtual std::vector<Projectile> shoot(
+      std::vector<Projectile> vector, std::vector<Enemy> enemies) = 0;
 
   /// \brief Get the target type of the tower
   /// \return Target type of the tower

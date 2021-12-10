@@ -12,7 +12,7 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       distance_moved_(distance_moved),
       slowed_level_(slowed_level) {}
 
-void Enemy::Update(td::types::Time dt) { (void)dt; }
+void Enemy::Update(types::Time dt, const td::Game& game) {}
 
 float Enemy::getHealth() const { return health_; }
 
@@ -22,7 +22,7 @@ void Enemy::setHealth(float health_decrease) {
 
 int Enemy::getMoveSpeed() const { return move_speed_; }
 
-float Enemy::getBounty() const { return bounty_; }
+int Enemy::getBounty() const { return bounty_; }
 
 bool Enemy::isArmored() const { return armored_; }
 

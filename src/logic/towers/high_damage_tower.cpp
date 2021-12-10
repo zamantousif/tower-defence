@@ -13,11 +13,10 @@ float range_high = 10.0f;
 
 char targetTo_high = types::kStrong;  // target strongest enemy
 
-std::vector<unsigned int> upgrade_costs_high = { 300, 350, 500 };
+std::vector<unsigned int> upgrade_costs_high = {300, 350, 500};
 
-unsigned int High_damage_tower::getUpgradeCost()
-{
-  return upgrade_costs_high.at(level_-1);
+unsigned int High_damage_tower::getUpgradeCost() {
+  return upgrade_costs_high.at(level_ - 1);
 }
 
 High_damage_tower::High_damage_tower(sf::Vector2<float> position,
@@ -26,8 +25,8 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
     : Tower(position, hitbox_high, texture, texture_projectile, rotation_angle,
             attack_speed_high, range_high, targetTo_high) {}
 
-std::list<projectiles::Projectile> High_damage_tower::shoot(
-    std::list<projectiles::Projectile> projectiles, std::vector<Enemy> enemies) {
+std::list<Projectile> High_damage_tower::shoot(
+    std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
   int damage_high = 0;
   if (level_ == 1)
     damage_high = 200;
@@ -41,11 +40,10 @@ std::list<projectiles::Projectile> High_damage_tower::shoot(
   //    derived_projectile(this->getTarget(/*vector of enemies
   //    here*/)->getPosition(), this->getRotation(), damage_high); /// will
   //    create projectile straight on top of targeted enemy
-  projectiles::Massive_projectile newProjectile =
-      projectiles::Massive_projectile(
-          GetProjectStartPos(), rotation_angle_, damage_high,
-          texture_projectile_);  /// Projectile starts from the edge of the
-                                 /// tower
+  Massive_projectile newProjectile =
+      Massive_projectile(GetProjectStartPos(), rotation_angle_, damage_high,
+                         texture_projectile_);  /// Projectile starts from the
+                                                /// edge of the tower
   projectiles.push_back(newProjectile);
   return projectiles;
 }

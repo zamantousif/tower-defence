@@ -21,8 +21,8 @@ Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle,
     : Tower(position, hitbox_slowing, texture, nullptr, rotation_angle,
             attack_speed_slowing, range_slowing) {}
 
-std::list<projectiles::Projectile> Slowing_tower::shoot(
-    std::list<projectiles::Projectile> projectiles,
+std::list<Projectile> Slowing_tower::shoot(
+    std::list<Projectile> projectiles,
     std::vector<Enemy> enemies) {
   /// NOTE! Before starting each frame or time segment the slowed_level_
   /// parameters of all enemies should be set to 0!

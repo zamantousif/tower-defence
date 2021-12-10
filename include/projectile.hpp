@@ -4,7 +4,8 @@
 
 #include "object.hpp"
 
-namespace td::projectiles {
+namespace td {
+class Game;
 class Projectile : public Object {
  public:
   /// \brief Projectile constructor
@@ -20,23 +21,11 @@ class Projectile : public Object {
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count);
 
-  void Update(types::Time dt) override;
+  virtual void Update(types::Time dt, const td::Game&); 
 
-  /// \brief Get the position of the projectile
-  /// \return Position of the projectile
-  virtual sf::Vector2<float> getPosition();
-
-  /// \brief Set the rotation of the projectile
-  /// \param angle    Orientation, in radians of the projectile
-  virtual void setRotation(float angle);
-
-  /// \brief Get the orientation of the projectile
-  /// \return Orientation, in radians of the projectile
-  virtual float getRotation();
-
-  /// \brief Get the damage % of the projectile
-  /// \return Damage % of the projectile
-  unsigned int getDamage() const;
+  /// \brief Get the damage value of the projectile
+  /// \return Damage value of the projectile
+  float getDamage() const;
 
   /// \brief Get the armor piercing status of the projectile
   /// \return True if projectile has armor piercing active, false otherwise

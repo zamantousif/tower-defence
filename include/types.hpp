@@ -8,4 +8,6 @@ using Position =
     sf::Vector2f;  ///< The type that stores the position of any game object.
 using Time = sf::Time;  ///< The type that stores the time.
 enum Targeting { kFirst, kLast, kClose, kStrong };
+using BlockedRegion =
+    sf::ConvexShape;  ///< Represents a region where towers cannot be placed.
 }  // namespace td::types

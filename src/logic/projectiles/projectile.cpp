@@ -1,6 +1,6 @@
 #include "projectile.hpp"
 
-namespace td::projectiles {
+namespace td {
 Projectile::Projectile(types::Position position, float hitbox,
                        sf::Texture* texture, float rotation_angle, float damage,
                        bool is_armor_piercing, unsigned int enemy_pierced_count)
@@ -10,16 +10,9 @@ Projectile::Projectile(types::Position position, float hitbox,
       enemy_pierced_count_(enemy_pierced_count),
       exhausted_(false) {}
 
-void Projectile::Update(td::types::Time dt)
-{ (void)dt; }
+void Projectile::Update(types::Time dt, const td::Game&) {}
 
-sf::Vector2<float> Projectile::getPosition() { return position_; }
-
-void Projectile::setRotation(float angle) { rotation_angle_ = angle; }
-
-float Projectile::getRotation() { return rotation_angle_; }
-
-unsigned int Projectile::getDamage() const { return damage_; }
+float Projectile::getDamage() const { return damage_; }
 
 bool Projectile::isArmorPiercing() const { return is_armor_piercing_; }
 
