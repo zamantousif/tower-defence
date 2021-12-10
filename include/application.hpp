@@ -81,6 +81,9 @@ namespace td {
     /// \brief Handles TGUI signals of the upgrade menu gui
     void HandleUpgradeGui();
 
+    /// \brief Draws towers, projectiles, enemies and their health bars
+    void DrawGameElements();
+
     /// \brief Draws the elements of game gui that go over TGUI elements
     void DrawShopElements();
 

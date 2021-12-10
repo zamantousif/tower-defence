@@ -1,7 +1,6 @@
 
 #include "application.hpp"
 #include <string>
-#include <unistd.h>
 #include <stdio.h>
 
 
@@ -113,7 +112,9 @@ namespace td {
 
         }  //main loop end
 
-        //delete textures here?
+        for (auto string_texture_pair : textures_) {  //deletes textures
+            delete(string_texture_pair.second);
+        }
         return 0;
     }
 
@@ -121,6 +122,10 @@ namespace td {
         sf::Texture* main_menu_bg_texture = new sf::Texture();
         main_menu_bg_texture->loadFromFile("../Assets/title_screen.png");
         textures_["main_menu_bg"] = main_menu_bg_texture;
+
+        sf::Texture* map_select_bg = new sf::Texture();
+        map_select_bg->loadFromFile("../Assets/map_select_bg.jpg");
+        textures_["map_select_bg"] = map_select_bg;
     
         sf::Texture* shop_bg = new sf::Texture();
         shop_bg->loadFromFile("../Assets/shop_background.jpg");
@@ -157,6 +162,20 @@ namespace td {
         sf::Texture* arrow_right = new sf::Texture();
         arrow_right->loadFromFile("../Assets/arrow_right.png");
         textures_["arrow_right"] = arrow_right;
+
+        sf::Texture* red_rectangle = new sf::Texture();
+        red_rectangle->loadFromFile("../Assets/red_rectangle.jpg");
+        textures_["red_rectangle"] = red_rectangle;
+
+        sf::Texture* yellow_rectangle = new sf::Texture();
+        yellow_rectangle->loadFromFile("../Assets/yellow_rectangle.jpg");
+        textures_["yellow_rectangle"] = yellow_rectangle;
+
+        sf::Texture* white_rectangle = new sf::Texture();
+        white_rectangle->loadFromFile("../Assets/white_rectangle.jpg");
+        textures_["white_rectangle"] = white_rectangle;
+
+
 
     }
 
@@ -245,7 +264,12 @@ namespace td {
 
     void Application::HandleMapSelect() {
         HandleMapSelectGui();
-        //draw background here
+        
+        sf::Sprite map_select_bg;
+        map_select_bg.setTexture(*textures_["map_select_bg"], true);
+        ScaleSprite(map_select_bg);
+        window_.draw(map_select_bg);
+
         sf::Text select_text("Select Map", font_, 60);
         select_text.setFillColor(sf::Color(139,69,19,255));
         select_text.setOrigin(select_text.getLocalBounds().width/2, select_text.getLocalBounds().height/2);
@@ -267,6 +291,7 @@ namespace td {
         LaunchUpgradeGui();  //temporary test
         //create game object
         //load corresponding map into game
+        //load map texture based on map.getTextureFilePath()
     }
 
     void Application::LaunchGameGui() {
@@ -452,6 +477,11 @@ namespace td {
         //code for buying towers
     }
 
+    void Application::CloseGame() {
+        //delete(game_);
+        LaunchMainMenuGui();
+    }
+
     void Application::LaunchOptionsGui() { 
         if(state_ == types::kOptions) {
             return;
@@ -562,7 +592,7 @@ namespace td {
         tgui::Slider::Ptr slider_volume = gui_.get<tgui::Slider>("slider_volume");
         tgui::Slider::Ptr slider_music_volume = gui_.get<tgui::Slider>("slider_music_volume");
 
-        button_return->onPress(&Application::LaunchMainMenuGui, this);   //TODO: change to CloseGame()
+        button_return->onPress(&Application::LaunchMainMenuGui, this);
         volume_ = slider_volume->getValue();
         music_volume_ = slider_music_volume->getValue();
         if (button_auto_start->isDown()) {
@@ -714,7 +744,7 @@ namespace td {
         tgui::Slider::Ptr slider_music_volume = gui_.get<tgui::Slider>("slider_music_volume");
 
         button_return->onPress(&Application::LaunchGameGui, this);
-        button_main_menu->onPress(&Application::LaunchMainMenuGui, this);  //TODO: change to QuitGame() that handles deleting game object
+        button_main_menu->onPress(&Application::CloseGame, this);
         button_off_menu->onPress(&Application::LaunchGameGui, this);
         volume_ = slider_volume->getValue();
         music_volume_ = slider_music_volume->getValue();
