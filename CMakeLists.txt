@@ -38,6 +38,8 @@ set(SOURCES
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
     include/projectile.hpp
+    src/logic/game.cpp
+    include/game.hpp
     src/logic/map.cpp
     include/map.hpp
 )
@@ -86,7 +88,6 @@ add_executable(
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
-    tests/object_test.cpp
 )
 target_link_libraries(
     ${TESTS_EXE_NAME}
