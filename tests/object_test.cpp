@@ -1,10 +1,42 @@
 #include "object.hpp"
 
-#include <gtest/gtest.h>
-
+#include "gtest/gtest.h"
 #include "types.hpp"
 
-TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
+namespace td {
+namespace test {
+// The fixture for testing class Object.
+class ObjectTest : public ::testing::Test {
+ protected:
+  // You can remove any or all of the following functions if their bodies would
+  // be empty.
+
+  ObjectTest() {
+    // You can do set-up work for each test here.
+  }
+
+  ~ObjectTest() override {
+    // You can do clean-up work that doesn't throw exceptions here.
+  }
+
+  // If the constructor and destructor are not enough for setting up
+  // and cleaning up each test, you can define the following methods:
+
+  void SetUp() override {
+    // Code here will be called immediately after the constructor (right
+    // before each test).
+  }
+
+  void TearDown() override {
+    // Code here will be called immediately after each test (right
+    // before the destructor).
+  }
+
+  // Class members declared here can be used by all tests in the test suite
+  // for ObjectTest.
+};
+
+TEST_F(ObjectTest, CreateBaseClassObjectAndTestGetters) {
   // Arrange
   class derived_object : public td::Object {
     void Update(td::types::Time dt) { (void)dt; }
@@ -19,12 +51,10 @@ TEST(CreateBaseClassObjectAndTestGetters, BaseClassTest) {
   EXPECT_FLOAT_EQ(obj.getPosition().y, 0.0f);
   EXPECT_FLOAT_EQ(obj.getHitboxRadius(), 0.0f);
   EXPECT_EQ(obj.getTexture(), pTexture);
-  EXPECT_EQ(obj.getTexture()->getSize().x, pTexture->getSize().x);
-  EXPECT_EQ(obj.getTexture()->getSize().y, pTexture->getSize().x);
   EXPECT_FLOAT_EQ(obj.getRotation(), 0.0f);
 }
 
-TEST(CreateBaseClassObjectAndTestSetters, BaseClassTest) {
+TEST_F(ObjectTest, CreateBaseClassObjectAndTestSetters) {
   // Arrange
   td::types::Position position;
   position.x = 5.9f;
@@ -45,3 +75,6 @@ TEST(CreateBaseClassObjectAndTestSetters, BaseClassTest) {
   EXPECT_FLOAT_EQ(obj.getPosition().y, position.y);
   EXPECT_FLOAT_EQ(obj.getRotation(), rotation_angle);
 }
+
+}  // namespace test
+}  // namespace td
