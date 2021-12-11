@@ -9,7 +9,7 @@ float hitbox_high = 30.0f;
 
 unsigned int attack_speed_high = 10;  // can adjust these later
 
-float range_high = 400.0f;
+float range_high = 450.0f;
 
 char targetTo_high = types::kStrong;  // target strongest enemy
 

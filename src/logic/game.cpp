@@ -81,6 +81,7 @@ Tower Game::StartBuyingTower(std::string name, sf::Texture* tower_texture, sf::T
   } else if (name == "melting_tower") {
     return Melting_tower(types::Position(0,0), 0.0f, tower_texture);
   }
+  return Basic_tower(types::Position(0,0), 0, nullptr, nullptr);
 }
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {

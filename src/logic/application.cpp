@@ -403,15 +403,11 @@ void Application::HandleGame() {
 
   DrawGameElements();
 
-  if (buying_tower_) {
-    std::cout << buying_tower_.value().getRange() << std::endl;
-
+  if (buying_tower_) {   //if a tower is currently being bought
     int mouse_x = (sf::Mouse::getPosition().x - window_.getPosition().x)* (float) window_x_/window_.getSize().x;
     int mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y)* (float) window_y_/window_.getSize().y;
 
-    std::cout << mouse_x << std::endl;
-    std::cout << mouse_y << std::endl;
-    if (mouse_x < 1520.f*window_.getSize().x/1920) {
+    if (mouse_x < 1520.f*window_x_/1920) {
       // draws range circle of buying_tower_
       sf::CircleShape range_circle =
           sf::CircleShape(buying_tower_.value().getRange(), 40);
@@ -422,9 +418,9 @@ void Application::HandleGame() {
                                static_cast<float>(mouse_y));
       // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
       // mouse_y*1080/window_y_), buying_tower_.value().getRange())) {    //TODO: add proper collision detection
-      range_circle.setFillColor(sf::Color(100, 100, 100, 70));
+      range_circle.setFillColor(sf::Color(100, 100, 100, 120));
       //} else {
-      //    range_circle.setFillColor(sf::Color(150,0,0,70));
+      //    range_circle.setFillColor(sf::Color(150,0,0,120));
       //}
       window_.draw(range_circle);
 
@@ -489,7 +485,7 @@ void Application::HandleGameGui() {
   do_once = false; }); 
 
   button_tower_sn->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuyingTower("sniper_tower", textures_["sniper_tower"], nullptr);
+  game_.value().StartBuyingTower("sniper_tower", textures_["basic_tower"], nullptr); //TODO: change to sniper_tower
   do_once = false; });
 
   button_tower_ci->onPress([&] {if (do_once) buying_tower_ =
