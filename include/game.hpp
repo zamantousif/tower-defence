@@ -5,14 +5,14 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
-#include "enemy.hpp"
-#include "projectile.hpp"
-#include "tower.hpp"
 #include "basic_tower.hpp"
 #include "bomb_tower.hpp"
+#include "enemy.hpp"
 #include "high_damage_tower.hpp"
-#include "slowing_tower.hpp"
 #include "melting_tower.hpp"
+#include "projectile.hpp"
+#include "slowing_tower.hpp"
+#include "tower.hpp"
 
 namespace td {
 class Game {
@@ -109,20 +109,20 @@ class Game {
           count(count) {}
   };
 
-  /// \brief Upgrades the tower given as the parameter if the player has enough money
-  /// \param tower The tower being upgraded
+  /// \brief Upgrades the tower given as the parameter if the player has enough
+  /// money \param tower The tower being upgraded
   void UpgradeTower(Tower* tower);
 
-  /// \brief Sells the tower given as a parameter, deleting it and adding money to the player's balance
-  /// \param tower The tower being sold
+  /// \brief Sells the tower given as a parameter, deleting it and adding money
+  /// to the player's balance \param tower The tower being sold
   void SellTower(Tower* tower);
 
-  /// \brief Begins the buying process by returning the appropriate tower to application
-  /// if the player has enough money
-  /// \param name Identifier used to map to a tower object
-  /// \param tower_texture Pointer to the texture of the tower
-  /// \param projectile_texture Pointer to the texture of the projectile
-  Tower StartBuyingTower(std::string name, sf::Texture* tower_texture, sf::Texture* projectile_texture);
+  /// \brief Begins the buying process by returning the appropriate tower to
+  /// application if the player has enough money \param name Identifier used to
+  /// map to a tower object \param tower_texture Pointer to the texture of the
+  /// tower \param projectile_texture Pointer to the texture of the projectile
+  Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
+                         sf::Texture* projectile_texture);
 
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)

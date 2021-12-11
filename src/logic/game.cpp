@@ -45,9 +45,7 @@ const std::map<Enemy*, Projectile*>& Game::getEnemyCollisions(
   }
 }
 
-void Game::AddTower(const td::Tower& tower) {
-  towers_.push_back(tower);
-}
+void Game::AddTower(const td::Tower& tower) { towers_.push_back(tower); }
 
 const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
     bool previous_update) {
@@ -59,7 +57,7 @@ const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
 }
 
 void Game::UpgradeTower(Tower* tower) {
-  if (tower->getLevel() < 4 && (int) tower->getUpgradeCost() <= money_) {
+  if (tower->getLevel() < 4 && (int)tower->getUpgradeCost() <= money_) {
     money_ -= tower->getUpgradeCost();
     tower->setMoneySpent(tower->getUpgradeCost() + tower->getMoneySpent());
     tower->Upgrade();
@@ -67,25 +65,33 @@ void Game::UpgradeTower(Tower* tower) {
 }
 
 void Game::SellTower(Tower* tower) {
-  money_ += tower->getMoneySpent()*0.75; //0.75 is a factor of how much money you get back when selling
-  //TODO: delete tower here
+  money_ +=
+      tower->getMoneySpent() *
+      0.75;  // 0.75 is a factor of how much money you get back when selling
+  // TODO: delete tower here
 }
 
-Tower Game::StartBuyingTower(std::string name, sf::Texture* tower_texture, sf::Texture* projectile_texture) {  //TODO: check money
+Tower Game::StartBuyingTower(
+    std::string name, sf::Texture* tower_texture,
+    sf::Texture* projectile_texture) {  // TODO: check money
   if (name == "basic_tower") {
-    return Basic_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+                       projectile_texture);
   } else if (name == "bomb_tower") {
-    return Bomb_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+    return Bomb_tower(types::Position(0, 0), 0.0f, tower_texture,
+                      projectile_texture);
   } else if (name == "slowing_tower") {
-    return Slowing_tower(types::Position(0,0), 0.0f, tower_texture);
+    return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
   } else if (name == "thorn_eruptor") {
-    return Basic_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+                       projectile_texture);
   } else if (name == "sniper_tower") {
-    return High_damage_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+    return High_damage_tower(types::Position(0, 0), 0.0f, tower_texture,
+                             projectile_texture);
   } else if (name == "melting_tower") {
-    return Melting_tower(types::Position(0,0), 0.0f, tower_texture);
+    return Melting_tower(types::Position(0, 0), 0.0f, tower_texture);
   }
-  return Basic_tower(types::Position(0,0), 0, nullptr, nullptr);
+  return Basic_tower(types::Position(0, 0), 0, nullptr, nullptr);
 }
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {
