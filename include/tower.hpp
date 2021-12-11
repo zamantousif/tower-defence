@@ -94,6 +94,6 @@ class Tower : public Object {
   types::Targeting targeting_;                    ///< Target mode of the tower
   sf::Texture* texture_projectile_;  ///< Pointer to texture of the projectile
                                      ///< the tower shoots
-  unsigned int money_spent_on_tower_ ///< Total money spent on this tower, used when selling tower
+  unsigned int money_spent_on_tower_; ///< Total money spent on this tower, used when selling tower
 };
 }  // namespace td

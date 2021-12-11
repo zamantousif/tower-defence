@@ -2,7 +2,7 @@
 #include "application.hpp"
 
 #include <stdio.h>
-
+#include <cmath>
 #include <string>
 
 namespace td {
@@ -27,42 +27,40 @@ int Application::run() {
 
       if (event.type == sf::Event::Closed) window_.close();
 
-      /*
+      
       //handle click events when buying towers
-      if (state_ == types::kGame && buying_tower_ != nullptr && event.type ==
-      sf::Event::MouseButtonPressed) { float mouse_x =
-      event.mouseButton.x*(1920.f/window_.getSize().x); float mouse_y =
-      event.mouseButton.y*(1080.f/window_.getSize().y) if (mouse_x >= 1520) {
+      if (state_ == types::kGame && buying_tower_ && event.type == sf::Event::MouseButtonPressed) { 
+        float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
+        float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y);
+        if (mouse_x >= 1520) {
               //gui was clicked while buying tower
-              delete(buying_tower_);
-              buying_tower_ = nullptr;
+              buying_tower_ = {};
           } else {
               //position on the map was clicked while buying a tower
-              if (!CheckCollision()) {
-                  game_.buyTower(buying_tower_);
-                  buying_tower_ = nullptr;
-              } else {
+              if (true) {   //TODO: change to !game_.value().CheckCollision()
+                  //game_.buyTower(buying_tower_.value());
+                  buying_tower_ = {};
+              } else {/*
                   sf::Sound buubuu;
                   buubuu.LoadFromFile("../Assets/Sounds/buubuu.wmv");
                   buubuu.setVolume(volume_);
-                  buubuu.play();
+                  buubuu.play(); */
               }
           }
       }
 
-      if (state_ == types::kGame && buying_tower_ == nullptr && event.type ==
-      sf::Event::MouseButtonPressed) { float mouse_x =
-      event.mouseButton.x*(1920.f/window_.getSize().x); float mouse_y =
-      event.mouseButton.y*(1080.f/window_.getSize().y) for (auto tower :
-      game_.getTowers()) { if ( tower->getHitbox() <= sqrt(pow(mouse_x,
-      tower->getPosition().x, 2) + pow(mouse_y, tower->getPosition().y, 2)) ) {
-                  upgrading_tower_ = tower;
+      if (state_ == types::kGame && !buying_tower_ && event.type == sf::Event::MouseButtonPressed) {
+        float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
+        float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y);
+        for (auto tower : game_.value().getTowers()) {
+          if ( tower.getHitboxRadius() <= sqrt(pow(mouse_x, tower.getPosition().x, 2) + pow(mouse_y, tower.getPosition().y, 2)) ) {
+                  upgrading_tower_ = &tower;
                   LaunchUpgradeGui();
                   break;
               }
           }
       }
-      **/
+      
     }
 
     window_.clear();
@@ -405,20 +403,20 @@ void Application::HandleGame() {
 
   DrawGameElements();
 
-  if (buying_tower_ != nullptr) {
+  if (buying_tower_) {
     int mouse_x = sf::Mouse::getPosition().x;
     int mouse_y = sf::Mouse::getPosition().y;
     if (mouse_x < 1520) {
       // draws range circle of buying_tower_
       sf::CircleShape range_circle =
-          sf::CircleShape(buying_tower_->getRange(), 40);
-      range_circle.setOrigin(buying_tower_->getRange(),
-                             buying_tower_->getRange());
+          sf::CircleShape(buying_tower_.value().getRange(), 40);
+      range_circle.setOrigin(buying_tower_.value().getRange(),
+                             buying_tower_.value().getRange());
       ScaleSprite(range_circle);
       range_circle.setPosition(static_cast<float>(mouse_x),
                                static_cast<float>(mouse_y));
       // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
-      // mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add
+      // mouse_y*1080/window_y_), buying_tower_.value().getRange())) {    //TODO: add
       // proper
       range_circle.setFillColor(sf::Color(100, 100, 100, 70));
       //} else {
@@ -457,30 +455,40 @@ void Application::HandleGameGui() {
   tgui::Button::Ptr button_start_wave =
       gui_.get<tgui::Button>("button_start_wave");
 
-  bool do_once = true;  // tgui buttons have a bad habit of triggering multiple
+  static bool do_once = true;  // tgui buttons have a bad habit of triggering multiple
                         // times, this fixes that
 
   button_pause->onPress(
       [&] { LaunchPauseGui(); });  // TODO: remove comments and fix code
   // button_start_wave->onPress([&]{ if (!game_.value().getRoundOngoing())
   // game_.value().StartRound(); });
-  /*
+  
   button_tower_ba->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuying("basic_tower", textures_["basic_tower"]); do_once =
-  false; }); button_tower_bo->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuying("bomb_tower", textures_["bomb_tower"]); do_once =
-  false; }); button_tower_fr->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuying("slowing_tower", textures_["slowing_tower"]);
-                                do_once = false; });
-  button_tower_th->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuying("basic_tower", textures_["basic_tower"]); do_once =
-  false; }); button_tower_sn->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuying("sniper_tower", textures_["sniper_tower"]); do_once
-  = false; }); button_tower_ci->onPress([&] {if (do_once) buying_tower_ =
-  game_.value().StartBuying("melting_tower", textures_["melting_tower"]);
-                                do_once = false; });
-  */
+  game_.value().StartBuyingTower("basic_tower", textures_["basic_tower"], textures_["basic_tower"]);
+  do_once = false; }); 
 
+  button_tower_bo->onPress([&] {if (do_once) buying_tower_ =
+  game_.value().StartBuyingTower("bomb_tower", textures_["bomb_tower"], textures_["bomb_tower"]);
+  do_once = false; }); 
+
+  button_tower_fr->onPress([&] {if (do_once) buying_tower_ =
+  game_.value().StartBuyingTower("slowing_tower", textures_["slowing_tower"], nullptr);
+  do_once = false; });
+
+  button_tower_th->onPress([&] {if (do_once) buying_tower_ =
+  game_.value().StartBuyingTower("thorn_eruptor", textures_["thorn_eruptor"], textures_["thorn_eruptor"]);
+  do_once = false; }); 
+
+  button_tower_sn->onPress([&] {if (do_once) buying_tower_ =
+  game_.value().StartBuyingTower("sniper_tower", textures_["sniper_tower"], nullptr);
+  do_once = false; });
+
+  button_tower_ci->onPress([&] {if (do_once) buying_tower_ =
+  game_.value().StartBuyingTower("melting_tower", textures_["melting_tower"], nullptr);
+  do_once = false; });
+
+  do_once = true;
+  
   // if (game_.round_active) {
   //    button_start_wave->setEnabled(false);
   //} else {

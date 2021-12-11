@@ -130,8 +130,8 @@ class Application {
   Tower* upgrading_tower_ =
       nullptr;  // Tower that currently has its upgrade menu open,
                 // nullptr if no tower is being upgraded
-  Tower* buying_tower_ =
-      nullptr;  // Tower that currently has its upgrade menu
+  std::optional<Tower> buying_tower_ =
+      {};  // Tower that currently has its upgrade menu
                 // open, nullptr if no tower is being upgraded
 };
 }  // namespace td

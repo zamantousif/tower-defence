@@ -5,11 +5,11 @@
 #include "bomb_projectile.hpp"
 
 namespace td {
-float hitbox_bomb_tower = 30.0f;
+float hitbox_bomb_tower = 40.0f;
 
 unsigned int attack_speed_bomb = 10;  // can adjust these later
 
-float range_bomb = 10.0f;
+float range_bomb = 150.0f;
 
 std::vector<unsigned int> upgrade_costs_bomb = { 140, 140, 300 };
 

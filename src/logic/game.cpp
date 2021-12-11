@@ -67,6 +67,22 @@ void Game::SellTower(Tower* tower) {
   //TODO: delete tower here
 }
 
+Tower Game::StartBuyingTower(std::string name, sf::Texture* tower_texture, sf::Texture* projectile_texture) {  //TODO: check money
+  if (name == "basic_tower") {
+    return Basic_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+  } else if (name == "bomb_tower") {
+    return Bomb_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+  } else if (name == "slowing_tower") {
+    return Slowing_tower(types::Position(0,0), 0.0f, tower_texture);
+  } else if (name == "thorn_eruptor") {
+    return Basic_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+  } else if (name == "sniper_tower") {
+    return High_damage_tower(types::Position(0,0), 0.0f, tower_texture, projectile_texture);
+  } else if (name == "melting_tower") {
+    return Melting_tower(types::Position(0,0), 0.0f, tower_texture);
+  }
+}
+
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {
   return rounds_;
 }
