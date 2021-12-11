@@ -32,18 +32,38 @@ set(SOURCES
     include/types.hpp
     src/logic/object.cpp
     include/object.hpp
+    include/basic_projectile.hpp
+    include/basic_tower.hpp
+    include/bomb_projectile.hpp
+    include/bomb_tower.hpp
+    include/high_damage_tower.hpp
+    include/massive_projectile.hpp
+    include/melting_tower.hpp
+    include/slowing_tower.hpp
     src/logic/towers/tower.cpp
+    src/logic/towers/basic_tower.cpp
+    src/logic/towers/slowing_tower.cpp
+    src/logic/towers/high_damage_tower.cpp
+    src/logic/towers/melting_tower.cpp
+    src/logic/towers/bomb_tower.cpp
     include/tower.hpp
     src/logic/enemies/enemy.cpp
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
+    src/logic/projectiles/basic_projectile.cpp
+    src/logic/projectiles/massive_projectile.cpp
+    src/logic/projectiles/bomb_projectile.cpp
     include/projectile.hpp
+    src/logic/enemies/splitworm.cpp
+    include/splitworm.hpp
     src/logic/application.cpp
     include/application.hpp
     src/logic/game.cpp
     include/game.hpp
     src/logic/map.cpp
     include/map.hpp
+    src/logic/collision.cpp
+    include/collision.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
@@ -90,6 +110,9 @@ add_executable(
     src/logic/towers/tower.cpp
     src/logic/enemies/enemy.cpp
     src/logic/projectiles/projectile.cpp
+    src/logic/collision.cpp
+    tests/main.cpp
+    tests/collision_test.cpp
 )
 target_link_libraries(
     ${TESTS_EXE_NAME}
