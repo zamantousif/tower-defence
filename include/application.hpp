@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 
+#include "collision.hpp"
 #include "enemy.hpp"
 #include "game.hpp"
 #include "object.hpp"

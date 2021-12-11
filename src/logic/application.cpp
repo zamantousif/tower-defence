@@ -2,7 +2,7 @@
 #include "application.hpp"
 
 #include <stdio.h>
-#include <cmath>
+
 #include <string>
 
 namespace td {
@@ -53,7 +53,7 @@ int Application::run() {
         float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
         float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y);
         for (auto tower : game_.value().getTowers()) {
-          if ( tower.getHitboxRadius() <= sqrt(pow(mouse_x, tower.getPosition().x, 2) + pow(mouse_y, tower.getPosition().y, 2)) ) {
+          if ( tower.getHitboxRadius() <= EuclideanDistance(tower.getPosition(), types::Position(mouse_x, mouse_y)) ) {
                   upgrading_tower_ = &tower;
                   LaunchUpgradeGui();
                   break;
@@ -404,9 +404,14 @@ void Application::HandleGame() {
   DrawGameElements();
 
   if (buying_tower_) {
-    int mouse_x = sf::Mouse::getPosition().x;
-    int mouse_y = sf::Mouse::getPosition().y;
-    if (mouse_x < 1520) {
+    std::cout << buying_tower_.value().getRange() << std::endl;
+
+    int mouse_x = (sf::Mouse::getPosition().x - window_.getPosition().x)* (float) window_x_/window_.getSize().x;
+    int mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y)* (float) window_y_/window_.getSize().y;
+
+    std::cout << mouse_x << std::endl;
+    std::cout << mouse_y << std::endl;
+    if (mouse_x < 1520.f*window_.getSize().x/1920) {
       // draws range circle of buying_tower_
       sf::CircleShape range_circle =
           sf::CircleShape(buying_tower_.value().getRange(), 40);
@@ -416,22 +421,26 @@ void Application::HandleGame() {
       range_circle.setPosition(static_cast<float>(mouse_x),
                                static_cast<float>(mouse_y));
       // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
-      // mouse_y*1080/window_y_), buying_tower_.value().getRange())) {    //TODO: add
-      // proper
+      // mouse_y*1080/window_y_), buying_tower_.value().getRange())) {    //TODO: add proper collision detection
       range_circle.setFillColor(sf::Color(100, 100, 100, 70));
       //} else {
       //    range_circle.setFillColor(sf::Color(150,0,0,70));
       //}
       window_.draw(range_circle);
 
+      buying_tower_.value().setPosition(types::Position(mouse_x*1920.f/window_x_, mouse_y*1080.f/window_y_));
+
       sf::Sprite buying_tower_sprite;
-      buying_tower_sprite.setTexture(*buying_tower_->getTexture());
-      buying_tower_sprite.setPosition(buying_tower_->getPosition());
+      buying_tower_sprite.setTexture(*buying_tower_.value().getTexture());
+      buying_tower_sprite.setPosition(buying_tower_.value().getPosition().x*window_x_/1920.f, buying_tower_.value().getPosition().y*window_y_/1080.f);
       buying_tower_sprite.setOrigin(
           buying_tower_sprite.getLocalBounds().width / 2,
           buying_tower_sprite.getLocalBounds().height / 2);
       ScaleSprite(buying_tower_sprite);
+      buying_tower_sprite.scale(buying_tower_.value().getHitboxRadius()*2/1000, buying_tower_.value().getHitboxRadius()*2/1000);
       window_.draw(buying_tower_sprite);
+
+      
     }
   }
 
