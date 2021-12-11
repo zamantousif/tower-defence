@@ -310,7 +310,7 @@ void Application::LaunchGame(std::string map_name) {
     return;
   }
   upgrading_tower_ = new Tower(types::Position(200, 200), 30.f,
-                               textures_["red_rectangle"], 0.f, 1U, 100.f);
+                               textures_["basic_tower"], textures_["basic_tower"], 0.f, 1U, 100.f);
 
   LaunchGameGui();
   LaunchUpgradeGui();  // temporary test
