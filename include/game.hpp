@@ -15,6 +15,12 @@ class Game {
   /// \brief A default constructor.
   Game();
 
+  /// \return Amount of money the player has
+  int getMoney() const;
+
+  /// \return Amount of lives left
+  int getLives() const;
+
   /// \return All the enemies currently on the map
   std::list<Enemy>& getEnemies();
   /// \return All the enemies currently on the (const)
@@ -106,6 +112,8 @@ class Game {
   void LoadRounds(const std::string& file_path);
 
  private:
+  int money_ = 200;
+  int lives_ = 100;
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;

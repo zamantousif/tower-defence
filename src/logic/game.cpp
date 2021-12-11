@@ -5,6 +5,10 @@
 namespace td {
 Game::Game() {}
 
+int Game::getMoney() const { return money_; }
+
+int Game::getLives() const { return lives_; }
+
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }
 std::list<Enemy>& Game::getEnemies() { return enemies_; }
 

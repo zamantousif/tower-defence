@@ -1205,8 +1205,8 @@ void Application::DrawShopElements() {
   window_.draw(round_text2);
 
   sf::Text money_text(
-      std::to_string(420), font_,
-      25);  // money counter //TODO: change to game_.value().getMoney()
+      std::to_string(game_.value().getMoney()), font_,
+      25);
   money_text.setFillColor(sf::Color(0, 150, 0, 255));
   money_text.setOutlineColor(sf::Color(0, 100, 0, 255));
   money_text.setOutlineThickness(1);
@@ -1215,8 +1215,8 @@ void Application::DrawShopElements() {
   window_.draw(money_text);
 
   sf::Text lives_text(
-      std::to_string(100), font_,
-      25);  // lives counter //TODO: change to game_.value().getLives()
+      std::to_string(game_.value().getLives()), font_,
+      25);
   lives_text.setFillColor(sf::Color(150, 0, 0, 255));
   lives_text.setOutlineColor(sf::Color(100, 0, 0, 255));
   lives_text.setOutlineThickness(1);
