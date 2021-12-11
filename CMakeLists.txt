@@ -38,6 +38,8 @@ set(SOURCES
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
     include/projectile.hpp
+    src/logic/application.cpp
+    include/application.hpp
     src/logic/game.cpp
     include/game.hpp
     src/logic/map.cpp
