@@ -54,6 +54,8 @@ set(SOURCES
     src/logic/projectiles/massive_projectile.cpp
     src/logic/projectiles/bomb_projectile.cpp
     include/projectile.hpp
+    src/logic/application.cpp
+    include/application.hpp
     src/logic/game.cpp
     include/game.hpp
     src/logic/map.cpp
