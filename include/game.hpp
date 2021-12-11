@@ -104,6 +104,10 @@ class Game {
   /// \param tower The tower being upgraded
   void UpgradeTower(Tower* tower);
 
+  /// \brief Sells the tower given as a parameter, deleting it and adding money to the player's balance
+  /// \param tower The tower being sold
+  void SellTower(Tower* tower);
+
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)
   const std::vector<std::vector<Wave>>& getRounds();
@@ -116,7 +120,7 @@ class Game {
   void LoadRounds(const std::string& file_path);
 
  private:
-  int money_ = 200;
+  int money_ = 2000;
   int lives_ = 100;
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;

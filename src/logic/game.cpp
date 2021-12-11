@@ -57,8 +57,14 @@ const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
 void Game::UpgradeTower(Tower* tower) {
   if (tower->getLevel() < 4 && (int) tower->getUpgradeCost() <= money_) {
     money_ -= tower->getUpgradeCost();
+    tower->setMoneySpent(tower->getUpgradeCost() + tower->getMoneySpent());
     tower->Upgrade();
   }
+}
+
+void Game::SellTower(Tower* tower) {
+  money_ += tower->getMoneySpent()*0.75; //0.75 is a factor of how much money you get back when selling
+  //TODO: delete tower here
 }
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {

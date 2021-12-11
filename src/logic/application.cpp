@@ -1045,9 +1045,9 @@ void Application::HandleUpgradeGui() {
     if (do_once) game_.value().UpgradeTower(upgrading_tower_);
     do_once = false;
   });
-  // button_sell->onPress([&] {if (do_once)
-  // game_.value().SellTower(upgrading_tower_); do_once = false;
-  // upgrading_tower_ = nullptr; });
+  button_sell->onPress([&] {if (do_once)
+  game_.value().SellTower(upgrading_tower_); do_once = false;
+  upgrading_tower_ = nullptr; });
   do_once = true;
   
   switch (upgrading_tower_->getTargeting()) {    //make text match tower's value

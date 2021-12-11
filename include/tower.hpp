@@ -46,6 +46,14 @@ class Tower : public Object {
   /// \return Level of the tower
   unsigned int getLevel() const;
 
+  /// \brief Get the total amount of money spent on the tower
+  /// \return The total amount of money spent on the tower
+  const unsigned int getMoneySpent() const;
+
+  /// \brief Set the total amount of money spent on the tower
+  /// \param value new value for money_spent_on_tower_
+  void setMoneySpent(unsigned int value);
+
   /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
   virtual unsigned int getUpgradeCost() const {return 0;};
@@ -86,5 +94,6 @@ class Tower : public Object {
   types::Targeting targeting_;                    ///< Target mode of the tower
   sf::Texture* texture_projectile_;  ///< Pointer to texture of the projectile
                                      ///< the tower shoots
+  unsigned int money_spent_on_tower_ ///< Total money spent on this tower, used when selling tower
 };
 }  // namespace td
