@@ -38,19 +38,35 @@ class Tower : public Object {
 
   /// \brief Get the attack speed of the tower
   /// \return Attack speed of the tower
-  virtual unsigned int getAttackSpeed() const;
+  unsigned int getAttackSpeed() const;
 
   /// \brief Get the attack range of the tower
   /// \return Attack range of the tower
-  virtual float getRange() const;
+  float getRange() const;
 
   /// \brief Get the level of the tower
   /// \return Level of the tower
-  virtual unsigned int getLevel();
+  unsigned int getLevel() const;
+
+  /// \brief Get the total amount of money spent on the tower
+  /// \return The total amount of money spent on the tower
+  const unsigned int getMoneySpent() const;
+
+  /// \brief Set the total amount of money spent on the tower
+  /// \param value new value for money_spent_on_tower_
+  void setMoneySpent(unsigned int value);
 
   /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
-  virtual unsigned int getUpgradeCost() { return 0; };
+  virtual unsigned int getUpgradeCost() const { return 0; };
+
+  /// \brief Get the target type of the tower
+  /// \return Target type of the tower
+  types::Targeting getTargeting() const;
+
+  /// \brief Set the target type of the tower
+  /// \param targetType    Target type of the tower
+  void setTargeting(types::Targeting targeting);
 
   /// \brief Get the shooting type of the tower
   /// \return Projectiles shoot by the tower
@@ -60,13 +76,8 @@ class Tower : public Object {
     return std::vector<Projectile>{};
   };
 
-  /// \brief Get the target type of the tower
-  /// \return Target type of the tower
-  virtual char getTargetType();
-
-  /// \brief Set the target type of the tower
-  /// \param targetType    Target type of the tower
-  virtual void setTargetType(char targetType);
+  /// \brief Upgrades the tower once
+  virtual void Upgrade() { level_++; };
 
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy
@@ -82,11 +93,13 @@ class Tower : public Object {
   types::Position GetProjectStartPos();
 
  protected:
-  unsigned int attack_speed_;        ///< Attack speed of the tower
-  float range_;                      ///< Attack range of the tower
-  unsigned int level_;               ///< Level of the tower
-  char targetTo_;                    ///< Target mode of the tower
-  sf::Texture* texture_projectile_;  ///< Pointer to texture of the projectile
-                                     ///< the tower shoots
+  unsigned int attack_speed_;          ///< Attack speed of the tower
+  float range_;                        ///< Attack range of the tower
+  unsigned int level_;                 ///< Level of the tower
+  types::Targeting targeting_;         ///< Target mode of the tower
+  sf::Texture* texture_projectile_;    ///< Pointer to texture of the projectile
+                                       ///< the tower shoots
+  unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
+                                       ///< used when selling tower
 };
 }  // namespace td

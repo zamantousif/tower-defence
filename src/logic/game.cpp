@@ -5,6 +5,10 @@
 namespace td {
 Game::Game() {}
 
+int Game::getMoney() const { return money_; }
+
+int Game::getLives() const { return lives_; }
+
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }
 std::list<Enemy>& Game::getEnemies() { return enemies_; }
 
@@ -41,6 +45,8 @@ const std::map<Enemy*, Projectile*>& Game::getEnemyCollisions(
   }
 }
 
+void Game::AddTower(const td::Tower& tower) { towers_.push_back(tower); }
+
 const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
     bool previous_update) {
   if (previous_update) {
@@ -48,6 +54,44 @@ const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
   } else {
     return projectile_collisions_;
   }
+}
+
+void Game::UpgradeTower(Tower* tower) {
+  if (tower->getLevel() < 4 && (int)tower->getUpgradeCost() <= money_) {
+    money_ -= tower->getUpgradeCost();
+    tower->setMoneySpent(tower->getUpgradeCost() + tower->getMoneySpent());
+    tower->Upgrade();
+  }
+}
+
+void Game::SellTower(Tower* tower) {
+  money_ +=
+      tower->getMoneySpent() *
+      0.75;  // 0.75 is a factor of how much money you get back when selling
+  // TODO: delete tower here
+}
+
+Tower Game::StartBuyingTower(
+    std::string name, sf::Texture* tower_texture,
+    sf::Texture* projectile_texture) {  // TODO: check money
+  if (name == "basic_tower") {
+    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+                       projectile_texture);
+  } else if (name == "bomb_tower") {
+    return Bomb_tower(types::Position(0, 0), 0.0f, tower_texture,
+                      projectile_texture);
+  } else if (name == "slowing_tower") {
+    return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
+  } else if (name == "thorn_eruptor") {
+    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+                       projectile_texture);
+  } else if (name == "sniper_tower") {
+    return High_damage_tower(types::Position(0, 0), 0.0f, tower_texture,
+                             projectile_texture);
+  } else if (name == "melting_tower") {
+    return Melting_tower(types::Position(0, 0), 0.0f, tower_texture);
+  }
+  return Basic_tower(types::Position(0, 0), 0, nullptr, nullptr);
 }
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {

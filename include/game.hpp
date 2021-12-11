@@ -5,8 +5,13 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
+#include "basic_tower.hpp"
+#include "bomb_tower.hpp"
 #include "enemy.hpp"
+#include "high_damage_tower.hpp"
+#include "melting_tower.hpp"
 #include "projectile.hpp"
+#include "slowing_tower.hpp"
 #include "tower.hpp"
 
 namespace td {
@@ -14,6 +19,12 @@ class Game {
  public:
   /// \brief A default constructor.
   Game();
+
+  /// \return Amount of money the player has
+  int getMoney() const;
+
+  /// \return Amount of lives left
+  int getLives() const;
 
   /// \return All the enemies currently on the map
   std::list<Enemy>& getEnemies();
@@ -53,6 +64,10 @@ class Game {
   ///
   /// \return True if the enemy was added, false otherwise
   bool AddEnemy(const std::string& enemy_identifier, Enemy enemy);
+
+  /// \brief Add a tower onto the map
+  /// \param tower The tower to add
+  void AddTower(const td::Tower& tower);
 
   /// \param previous_update If set to true, returns collisions from the
   /// previous update
@@ -94,6 +109,21 @@ class Game {
           count(count) {}
   };
 
+  /// \brief Upgrades the tower given as the parameter if the player has enough
+  /// money \param tower The tower being upgraded
+  void UpgradeTower(Tower* tower);
+
+  /// \brief Sells the tower given as a parameter, deleting it and adding money
+  /// to the player's balance \param tower The tower being sold
+  void SellTower(Tower* tower);
+
+  /// \brief Begins the buying process by returning the appropriate tower to
+  /// application if the player has enough money \param name Identifier used to
+  /// map to a tower object \param tower_texture Pointer to the texture of the
+  /// tower \param projectile_texture Pointer to the texture of the projectile
+  Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
+                         sf::Texture* projectile_texture);
+
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)
   const std::vector<std::vector<Wave>>& getRounds();
@@ -106,6 +136,8 @@ class Game {
   void LoadRounds(const std::string& file_path);
 
  private:
+  int money_ = 2000;
+  int lives_ = 100;
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;

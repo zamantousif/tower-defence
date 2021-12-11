@@ -7,12 +7,12 @@ namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
              sf::Texture* texture_projectile, float rotation_angle,
              unsigned int attack_speed, float range, unsigned int level,
-             types::Targeting targetTo)
+             types::Targeting targeting)
     : Object(position, hitbox, texture, rotation_angle),
       attack_speed_(attack_speed),
       range_(range),
       level_(level),
-      targetTo_(targetTo),
+      targeting_(targeting),
       texture_projectile_(texture_projectile) {}
 
 Tower::Tower(types::Position position, float rotation_angle,
@@ -27,13 +27,20 @@ unsigned int Tower::getAttackSpeed() const { return attack_speed_; }
 
 float Tower::getRange() const { return range_; }
 
-unsigned int Tower::getLevel() { return level_; }
+unsigned int Tower::getLevel() const { return level_; }
 
-char Tower::getTargetType() { return targetTo_; }
+const unsigned int Tower::getMoneySpent() const {
+  return money_spent_on_tower_;
+}
 
-void Tower::setTargetType(char targetType) { targetTo_ = targetType; }
+void Tower::setMoneySpent(unsigned int value) { money_spent_on_tower_ = value; }
 
-std::optional<const Enemy*> Tower::getTarget(const std::vector<Enemy>& enemies) {
+types::Targeting Tower::getTargeting() const { return targeting_; }
+
+void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
+
+std::optional<const Enemy*> Tower::getTarget(
+    const std::vector<Enemy>& enemies) {
   std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
   float towerypos = position_.y;
@@ -48,8 +55,11 @@ std::optional<const Enemy*> Tower::getTarget(const std::vector<Enemy>& enemies) 
   types::Position zeroPosition;
   zeroPosition.x = 0;
   zeroPosition.y = 0;
-
-  switch (targetTo_) {
+  sf::Texture* texture;
+  Enemy noEnemiesFound =
+      Enemy(zeroPosition, 0.0f, texture, 0, 0, 0, false, 0, 0);
+  // return this noEnemiesFound enemy if no enemies in tower range
+  switch (targeting_) {
     case types::kClose: {
       if (enemiesInRange.size() == 0) return std::nullopt;
       Enemy closestEnemy = enemiesInRange.at(0);
