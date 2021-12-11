@@ -114,7 +114,7 @@ namespace td {
 
     void Application::LoadTextures() {
         sf::Texture* main_menu_bg_texture = new sf::Texture();
-        main_menu_bg_texture->loadFromFile("../Assets/title_screen.png");
+        main_menu_bg_texture->loadFromFile("../Assets/title_screen.jpg");
         textures_["main_menu_bg"] = main_menu_bg_texture;
 
         sf::Texture* map_select_bg = new sf::Texture();
