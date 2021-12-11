@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
 #include "object.hpp"
 #include "projectile.hpp"
@@ -30,9 +31,35 @@ class Enemy : public Object {
 
   virtual void Update(types::Time dt, const td::Game&);
 
-  /// \brief Get the remaining health of the enemy
-  /// \return Remaining health of the enemy
-  virtual float getHealth() const;
+  /// \brief Create basic cockroach at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The basic cockroach
+  Enemy createBasicCockroach(types::Position startOfTheMap,
+                              sf::Texture* texture);
+
+  /// \brief Create fly at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The fly
+  Enemy createFly(types::Position startOfTheMap, sf::Texture* texture);
+
+  /// \brief Create beetle at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The beetle
+  Enemy createBeetle(types::Position startOfTheMap, sf::Texture* texture);
+
+  /// \brief Create dragonfly (boss enemy) at the start of the map
+  /// \param startOfTheMap  Position of the start of the map
+  /// \param texture        Texture of the enemy
+  /// \return The dragonfly (boss)
+  Enemy createDragonfly(types::Position startOfTheMap,
+                                sf::Texture* texture);
+
+      /// \brief Get the remaining health of the enemy
+      /// \return Remaining health of the enemy
+      virtual float getHealth() const;
 
   /// \brief Set the health of the enemy
   /// \param health_decrease the amount of health that is decreased from enemys

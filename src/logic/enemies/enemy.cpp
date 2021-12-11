@@ -1,5 +1,7 @@
 #include "enemy.hpp"
 
+#include <list>
+
 namespace td {
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
              float health, int move_speed, float bounty, bool armored,
@@ -13,6 +15,29 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       slowed_level_(slowed_level) {}
 
 void Enemy::Update(types::Time dt, const td::Game& game) {}
+
+Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
+                                  sf::Texture* texture) {
+  Enemy basicCockroach =
+      Enemy(startOfTheMap, 1.0f, texture, 200, 10, 10, false, 0);
+  return basicCockroach;
+}
+
+Enemy Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
+  Enemy fly = Enemy(startOfTheMap, 1.0f, texture, 150, 20, 14, false, 0);
+  return fly;
+}
+
+Enemy Enemy::createBeetle(types::Position startOfTheMap, sf::Texture* texture) {
+  Enemy beetle = Enemy(startOfTheMap, 1.5f, texture, 300, 10, 20, true, 0);
+  return beetle;
+}
+
+Enemy Enemy::createDragonfly(types::Position startOfTheMap,
+                             sf::Texture* texture) {
+  Enemy dragonfly = Enemy(startOfTheMap, 2.0f, texture, 4000, 10, 400, true, 0);
+  return dragonfly;
+}
 
 float Enemy::getHealth() const { return health_; }
 
