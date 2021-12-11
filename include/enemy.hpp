@@ -7,6 +7,7 @@
 #include "projectile.hpp"
 
 namespace td {
+class Game;
 ///  \brief Enemy class represents the blueprint of a basic enemy in the game.
 ///  The base enemy class can be derived further to create towers with special
 ///  powers.
@@ -21,9 +22,14 @@ class Enemy : public Object {
   /// \param bounty         Bounty of the enemy
   /// \param armored        Status ofenemy armor
   /// \param moved_distance Total distance moved on the path by the enemy
+  /// \param slowed_level   The level by which the enemy is slowed
+  /// \param melting_level  The level by which the enemy is melted
   Enemy(types::Position position, float hitbox, sf::Texture* texture,
         float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
-        bool armored = false, float distance_moved = 0.0f);
+        bool armored = false, float distance_moved = 0.0f,
+        unsigned int slowed_level = 0);
+
+  virtual void Update(types::Time dt, const td::Game&);
 
   void Update(types::Time dt) override;
 
@@ -57,22 +63,36 @@ class Enemy : public Object {
       /// \return Remaining health of the enemy
       virtual float getHealth() const;
 
+  /// \brief Set the health of the enemy
+  /// \param health_decrease the amount of health that is decreased from enemys
+  /// health
+  virtual void setHealth(float health_decrease);
+
   /// \brief Get the movement speed of the enemy
   /// \return Movement speed of the enemy
   virtual int getMoveSpeed() const;
 
   /// \brief Get the bounty of the enemy
   /// \return Bounty of the enemy
-  virtual float getBounty() const;
+  virtual int getBounty() const;
 
   /// \brief Status of enemy armor
   /// \return True if the enemy is armored otherwise false
   virtual bool isArmored() const;
 
-  virtual float getDistanceMoved() const;
-
   /// \brief Set the total distance moved on the path by the enemy
   virtual void setDistanceMoved(float distance);
+
+  /// \brief Get the distance enemy has travelled
+  /// \return Distance the enemy has travelled
+  virtual float getDistanceMoved() const;
+
+  /// \brief Set the slowed_level of the enemy
+  virtual void setSlowedLevel(unsigned int level);
+
+  /// \brief Get the slowed level of the enemy
+  /// \return slowed_level of the enemy
+  virtual unsigned int getSlowedLevel() const;
 
  protected:
   float health_;          ///< Remaining health of the enemy
@@ -80,5 +100,6 @@ class Enemy : public Object {
   int bounty_;            ///< Bounty of the enemy
   bool armored_;          ///< Status of enemy armor
   float distance_moved_;  ///< Total distance moved on the path by the enemy
+  unsigned int slowed_level_;  ///< Level by witch the enemy is slowed
 };
 }  // namespace td
