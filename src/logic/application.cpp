@@ -937,6 +937,7 @@ void Application::LaunchUpgradeGui() {
   button_target_right->getRenderer()->setRoundedBorderRadius(0);
   button_target_right->getRenderer()->setTexture(*textures_["arrow_right"]);
   button_targeting_text->getRenderer()->setRoundedBorderRadius(0);
+  button_targeting_text->getRenderer()->setBackgroundColorDown(sf::Color(205, 133, 63, 255));
   button_targeting_text->getRenderer()->setTextColor(
       sf::Color(20, 20, 20, 255));
   button_targeting_text->setTextSize(20);
@@ -1022,44 +1023,46 @@ void Application::HandleUpgradeGui() {
   tgui::Button::Ptr button_upgrade = gui_.get<tgui::Button>("button_upgrade");
   tgui::Button::Ptr button_sell = gui_.get<tgui::Button>("button_sell");
 
-  bool do_once = true;  // tgui buttons have a bad habit of triggering multiple
+  static bool do_once = false;  // tgui buttons have a bad habit of triggering multiple
                         // times, this fixes that
 
   button_off_menu->onPress([&] {
     LaunchGameGui();
     upgrading_tower_ = nullptr;
   });
+
   button_target_left->onPress([&] {
-    if (do_once) TargetingSwitchRight();
-    do_once = false;
-  });
-  button_target_right->onPress([&] {
     if (do_once) TargetingSwitchLeft();
     do_once = false;
   });
+
+  button_target_right->onPress([&] {
+    if (do_once) TargetingSwitchRight();
+    do_once = false;
+  });
+  
   // button_upgrade->onPress([&] {if (do_once)
   // game_.value().UpgradeTower(upgrading_tower_); do_once = false; });
   // button_sell->onPress([&] {if (do_once)
   // game_.value().SellTower(upgrading_tower_); do_once = false;
   // upgrading_tower_ = nullptr; });
-
-  /*
+  do_once = true;
+  
   switch (upgrading_tower_->getTargeting()) {    //make text match tower's value
-      case types::kFirst:
-          */
-  button_targeting_text->setText("First"); /*
- break;
-case types::kLast:
- button_targeting_text->setText("Last");
- break;
-case types::kClose:
- button_targeting_text->setText("Close");
- break;
-case types::kStrong:
- button_targeting_text->setText("Strong");
- break;
+  case types::kFirst:    
+   button_targeting_text->setText("First");
+   break;
+  case types::kLast:
+   button_targeting_text->setText("Last");
+   break;
+  case types::kClose:
+   button_targeting_text->setText("Close");
+   break;
+  case types::kStrong:
+   button_targeting_text->setText("Strong");
+   break;
 }
-
+/*
 switch (upgrading_tower_->getLevel()) {    //make text match tower's value
 case 1:
  button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
