@@ -33,12 +33,11 @@ char Tower::getTargetType() { return targetTo_; }
 
 void Tower::setTargetType(char targetType) { targetTo_ = targetType; }
 
-Enemy Tower::getTarget(std::vector<Enemy> enemies) {
+std::optional<const Enemy*> Tower::getTarget(const std::vector<Enemy>& enemies) {
   std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
   float towerypos = position_.y;
-  for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
-       it++) {
+  for (auto it = enemies.cbegin(); it != enemies.cend(); it++) {
     float enemyxpos = (*it).getPosition().x;
     float enemyypos = (*it).getPosition().y;
     if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
@@ -49,13 +48,10 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
   types::Position zeroPosition;
   zeroPosition.x = 0;
   zeroPosition.y = 0;
-  sf::Texture* texture;
-  Enemy noEnemiesFound =
-      Enemy(zeroPosition, 0.0f, texture, 0, 0, 0, false, 0, 0);
-  // return this noEnemiesFound enemy if no enemies in tower range
+
   switch (targetTo_) {
     case types::kClose: {
-      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      if (enemiesInRange.size() == 0) return std::nullopt;
       Enemy closestEnemy = enemiesInRange.at(0);
       float closestPos = range_;
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
@@ -69,10 +65,10 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
           closestEnemy = (*it);
         }
       }
-      return closestEnemy;
+      return &closestEnemy;
     }
     case types::kStrong: {
-      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      if (enemiesInRange.size() == 0) return std::nullopt;
       Enemy strongestEnemy = enemiesInRange.at(0);
       float strongestHP = 0;
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
@@ -83,10 +79,10 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
           strongestEnemy = *it;
         }
       }
-      return strongestEnemy;
+      return &strongestEnemy;
     }
     case types::kFirst: {
-      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      if (enemiesInRange.size() == 0) return std::nullopt;
       Enemy furthestEnemy = enemiesInRange.at(0);
       float furthestDistance = 0;
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
@@ -97,10 +93,10 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
           furthestEnemy = *it;
         }
       }
-      return furthestEnemy;
+      return &furthestEnemy;
     }
     case types::kLast: {
-      if (enemiesInRange.size() == 0) return noEnemiesFound;
+      if (enemiesInRange.size() == 0) return std::nullopt;
       Enemy lastEnemy = enemiesInRange.at(0);
       float lastDistance = -1;
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
@@ -111,7 +107,7 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
           lastEnemy = *it;
         }
       }
-      return lastEnemy;
+      return &lastEnemy;
     }
   }
   throw "Target type not recognized";
