@@ -325,10 +325,10 @@ namespace td {
         StyleButtonBrown(button_start_wave);
 
         tgui::Button::Ptr button_tower_bo = tgui::Button::copy(button_tower_ba);  //bomb tower
-        tgui::Button::Ptr button_tower_fr = tgui::Button::copy(button_tower_ba);  //frigid stump
+        tgui::Button::Ptr button_tower_fr = tgui::Button::copy(button_tower_ba);  //slowing tower
         tgui::Button::Ptr button_tower_th = tgui::Button::copy(button_tower_ba);  //thorn eruptor
         tgui::Button::Ptr button_tower_sn = tgui::Button::copy(button_tower_ba);  //sniper
-        tgui::Button::Ptr button_tower_ci = tgui::Button::copy(button_tower_ba);  //cinder stump
+        tgui::Button::Ptr button_tower_ci = tgui::Button::copy(button_tower_ba);  //melting tower
 
         button_tower_ba->setPosition("80.1%", "13%");
         button_tower_bo->setPosition("86.6%", "13%");
@@ -425,13 +425,13 @@ namespace td {
                                       do_once = false; });
         button_tower_bo->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("bomb_tower", textures_["bomb_tower"]);
                                       do_once = false; });
-        button_tower_fr->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("frigid_stump", textures_["frigid_stump"]);
+        button_tower_fr->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("slowing_tower", textures_["slowing_tower"]);
                                       do_once = false; });
         button_tower_th->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("basic_tower", textures_["basic_tower"]);
                                       do_once = false; });
         button_tower_sn->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("sniper_tower", textures_["sniper_tower"]);
                                       do_once = false; });
-        button_tower_ci->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("cinder_stump", textures_["cinder_stump"]);
+        button_tower_ci->onPress([&] {if (do_once) buying_tower_ = game_.value().StartBuying("melting_tower", textures_["melting_tower"]);
                                       do_once = false; });
         */
 
