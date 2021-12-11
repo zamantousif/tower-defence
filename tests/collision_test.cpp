@@ -12,60 +12,83 @@ class CollisionTest : public ::testing::Test {
   // for CollisionTest.
 };
 
-TEST_F(CollisionTest, EuclideanDistance)
-{
-    // Act
-    td::types::Position p, A, B, C, D, O;
-    p = sf::Vector2f(0.0f, 1.0f);
-    A = sf::Vector2f(0.0f, 1.0f);
-    B = sf::Vector2f(1.0f, 1.0f);
-    C = sf::Vector2f(1.0f, 2.0f);
-    D = sf::Vector2f(0.0f, 2.0f);
-    O = sf::Vector2f(0.0f, 0.0f);
+TEST_F(CollisionTest, EuclideanDistance) {
+  // Act
+  td::types::Position p, A, B, C, D, O;
+  p = sf::Vector2f(0.0f, 1.0f);
+  A = sf::Vector2f(0.0f, 1.0f);
+  B = sf::Vector2f(1.0f, 1.0f);
+  C = sf::Vector2f(1.0f, 2.0f);
+  D = sf::Vector2f(0.0f, 2.0f);
+  O = sf::Vector2f(0.0f, 0.0f);
 
-    // Arrange
-    double dist_edgeAB = td::EuclideanDistance(A, B);
-    double dist_edgeBC = td::EuclideanDistance(B, C);
-    double dist_edgeCD = td::EuclideanDistance(C, D);
-    double dist_edgeDA = td::EuclideanDistance(D, A);
-    double dist_edgeOD = td::EuclideanDistance(O, D);
-    double dist_edgeAC = td::EuclideanDistance(A, C);
-    double dist_edgeDB = td::EuclideanDistance(D, B);
-    
-    // Assert
-EXPECT_FLOAT_EQ(dist_edgeAB, 1.0);
-EXPECT_FLOAT_EQ(dist_edgeBC, 1.0);
-EXPECT_FLOAT_EQ(dist_edgeCD, 1.0);
-EXPECT_FLOAT_EQ(dist_edgeDA, 1.0);
-EXPECT_FLOAT_EQ(dist_edgeOD, 2.0);
-EXPECT_FLOAT_EQ(dist_edgeAC, sqrt(2.0));
-EXPECT_FLOAT_EQ(dist_edgeDB, sqrt(2.0));
+  // Arrange
+  double dist_edgeAB = td::EuclideanDistance(A, B);
+  double dist_edgeBC = td::EuclideanDistance(B, C);
+  double dist_edgeCD = td::EuclideanDistance(C, D);
+  double dist_edgeDA = td::EuclideanDistance(D, A);
+  double dist_edgeOD = td::EuclideanDistance(O, D);
+  double dist_edgeAC = td::EuclideanDistance(A, C);
+  double dist_edgeDB = td::EuclideanDistance(D, B);
+
+  // Assert
+  EXPECT_FLOAT_EQ(dist_edgeAB, 1.0);
+  EXPECT_FLOAT_EQ(dist_edgeBC, 1.0);
+  EXPECT_FLOAT_EQ(dist_edgeCD, 1.0);
+  EXPECT_FLOAT_EQ(dist_edgeDA, 1.0);
+  EXPECT_FLOAT_EQ(dist_edgeOD, 2.0);
+  EXPECT_FLOAT_EQ(dist_edgeAC, sqrt(2.0));
+  EXPECT_FLOAT_EQ(dist_edgeDB, sqrt(2.0));
 }
 
-TEST_F(CollisionTest, IsPointBetween)
-{
-    // Act
-    td::types::Position p, A, B, C, D, O;
-    p = sf::Vector2f(0.0f, 1.0f);
-    A = sf::Vector2f(0.0f, 1.0f);
-    B = sf::Vector2f(1.0f, 1.0f);
-    C = sf::Vector2f(1.0f, 2.0f);
-    D = sf::Vector2f(0.0f, 2.0f);
-    O = sf::Vector2f(0.0f, 0.0f);
+TEST_F(CollisionTest, IsPointBetween) {
+  // Act
+  td::types::Position p, A, B, C, D, O;
+  p = sf::Vector2f(0.0f, 1.0f);
+  A = sf::Vector2f(0.0f, 1.0f);
+  B = sf::Vector2f(1.0f, 1.0f);
+  C = sf::Vector2f(1.0f, 2.0f);
+  D = sf::Vector2f(0.0f, 2.0f);
+  O = sf::Vector2f(0.0f, 0.0f);
 
-    // Arrange
-    bool is_p_on_edgeAB = td::IsPointBetween(A, p, B);
-    bool is_p_on_edgeBC = td::IsPointBetween(B, p, C);
-    bool is_p_on_edgeCD = td::IsPointBetween(C, p, D);
-    bool is_p_on_edgeDA = td::IsPointBetween(D, p, A);
-    bool is_p_on_edgeOD = td::IsPointBetween(O, p, D);
-    
-    // Assert
-    EXPECT_TRUE(is_p_on_edgeAB);
-    EXPECT_FALSE(is_p_on_edgeBC);
-    EXPECT_FALSE(is_p_on_edgeCD);
-    EXPECT_TRUE(is_p_on_edgeDA);
-    EXPECT_TRUE(is_p_on_edgeOD);
+  // Arrange
+  bool is_p_on_edgeAB = td::IsPointBetween(A, p, B);
+  bool is_p_on_edgeBC = td::IsPointBetween(B, p, C);
+  bool is_p_on_edgeCD = td::IsPointBetween(C, p, D);
+  bool is_p_on_edgeDA = td::IsPointBetween(D, p, A);
+  bool is_p_on_edgeOD = td::IsPointBetween(O, p, D);
+
+  // Assert
+  EXPECT_TRUE(is_p_on_edgeAB);
+  EXPECT_FALSE(is_p_on_edgeBC);
+  EXPECT_FALSE(is_p_on_edgeCD);
+  EXPECT_TRUE(is_p_on_edgeDA);
+  EXPECT_TRUE(is_p_on_edgeOD);
+}
+
+TEST_F(CollisionTest, Angle2D) {
+  // Arrange
+  sf::Vector2f v1 = sf::Vector2f(3.0, 4.0);
+  sf::Vector2f v2 = sf::Vector2f(4.0, 3.0);
+  sf::Vector2f v3 = sf::Vector2f(7.0, 1.0);
+  sf::Vector2f v4 = sf::Vector2f(5.0, 5.0);
+  sf::Vector2f v5 = sf::Vector2f(-5.0, -5.0);
+  // Act
+  double angle12 = Angle2D(v1.x, v1.y, v2.x, v2.y);
+  double angle21 = Angle2D(v2.x, v2.y, v1.x, v1.y);
+  double angle33 = Angle2D(v3.x, v3.y, v3.x, v3.y);
+  double angle34 = Angle2D(v3.x, v3.y, v4.x, v4.y);
+  double angle43 = Angle2D(v4.x, v4.y, v3.x, v3.y);
+  double angle45 = Angle2D(v4.x, v4.y, v5.x, v5.y);
+  double angle54 = Angle2D(v5.x, v5.y, v4.x, v4.y);
+  // Assert
+  EXPECT_FLOAT_EQ(angle12, -acos(0.96f));
+  EXPECT_FLOAT_EQ(angle21, acos(0.96f));
+  EXPECT_FLOAT_EQ(angle33, 0.0f);
+  EXPECT_FLOAT_EQ(angle34, acos(0.8f));
+  EXPECT_FLOAT_EQ(angle43, -acos(0.8f));
+  EXPECT_NEAR(angle45, td::PI, 0.005);
+  EXPECT_NEAR(angle54, -td::PI, 0.005);
 }
 
 TEST_F(CollisionTest, CircleAtOrigin_CollidesWithSquare) {
