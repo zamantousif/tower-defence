@@ -16,7 +16,7 @@ constexpr double PI = 3.14;
 /// \param p1 Position of point 1
 /// \param p1 Position of point 2
 /// \return Euclidean distance between point 1 and 2 using distance formula
-float EuclideanDistance(td::types::Position p1, td::types::Position p2);
+double EuclideanDistance(td::types::Position p1, td::types::Position p2);
 
 /// \brief Function to find the 2D angle between vectors (x1, y1) & (x2, y2)
 /// \param x1 X coordinate of vector 1

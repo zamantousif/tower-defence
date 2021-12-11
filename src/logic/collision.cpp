@@ -2,8 +2,8 @@
 
 namespace td {
 
-float EuclideanDistance(td::types::Position p1, td::types::Position p2) {
-  float distance = pow((p1.x - p2.x), 2) + pow((p1.y - p2.x), 2);
+double EuclideanDistance(td::types::Position p1, td::types::Position p2) {
+  double distance = pow((p1.x - p2.x), 2) + pow((p1.y - p2.x), 2);
   return distance;
 }
 
@@ -63,8 +63,8 @@ bool IsCircleIntersectingPolygonEdge(
 
 bool IsCircleCollidingWithCircle(td::types::Position p1, float r1,
                                  td::types::Position p2, float r2) {
-  float d = EuclideanDistance(p1, p2);
-  float result = abs(d - r1 - r2);
+  double d = EuclideanDistance(p1, p2);
+  float result = abs(static_cast<float>(d) - r1 - r2);
   if (result <= 0.0f) {
     return true;
   }
