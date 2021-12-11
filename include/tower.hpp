@@ -50,12 +50,6 @@ class Tower : public Object {
   /// \return Upgrade cost of the tower
   virtual unsigned int getUpgradeCost() const {return 0;};
 
-  /// \brief Get the shooting type of the tower
-  /// \return Projectiles shoot by the tower
-  /// \param vector vector of the projectiles in current game
-  virtual std::vector<Projectile> shoot(
-      std::vector<Projectile> vector, std::vector<Enemy> enemies) {return std::vector<Projectile>{};};
-
   /// \brief Get the target type of the tower
   /// \return Target type of the tower
   types::Targeting getTargeting() const;
@@ -63,6 +57,15 @@ class Tower : public Object {
   /// \brief Set the target type of the tower
   /// \param targetType    Target type of the tower
   void setTargeting(types::Targeting targeting);
+
+  /// \brief Get the shooting type of the tower
+  /// \return Projectiles shoot by the tower
+  /// \param vector vector of the projectiles in current game
+  virtual std::vector<Projectile> shoot(
+      std::vector<Projectile> vector, std::vector<Enemy> enemies) {return std::vector<Projectile>{};};
+
+  /// \brief Upgrades the tower once
+  virtual void Upgrade() { level_++; };
 
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy

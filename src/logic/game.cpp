@@ -54,6 +54,13 @@ const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
   }
 }
 
+void Game::UpgradeTower(Tower* tower) {
+  if (tower->getLevel() < 4 && (int) tower->getUpgradeCost() <= money_) {
+    money_ -= tower->getUpgradeCost();
+    tower->Upgrade();
+  }
+}
+
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {
   return rounds_;
 }

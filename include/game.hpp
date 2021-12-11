@@ -100,6 +100,10 @@ class Game {
           count(count) {}
   };
 
+  /// \brief Upgrades the tower given as the parameter if the player has enough money
+  /// \param tower The tower being upgraded
+  void UpgradeTower(Tower* tower);
+
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)
   const std::vector<std::vector<Wave>>& getRounds();

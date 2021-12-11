@@ -1041,8 +1041,10 @@ void Application::HandleUpgradeGui() {
     do_once = false;
   });
   
-  // button_upgrade->onPress([&] {if (do_once)
-  // game_.value().UpgradeTower(upgrading_tower_); do_once = false; });
+  button_upgrade->onPress([&] {
+    if (do_once) game_.value().UpgradeTower(upgrading_tower_);
+    do_once = false;
+  });
   // button_sell->onPress([&] {if (do_once)
   // game_.value().SellTower(upgrading_tower_); do_once = false;
   // upgrading_tower_ = nullptr; });
@@ -1062,25 +1064,25 @@ void Application::HandleUpgradeGui() {
    button_targeting_text->setText("Strong");
    break;
 }
-/*
-switch (upgrading_tower_->getLevel()) {    //make text match tower's value
-case 1:
- button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
- button_upgrade->setText("Upgrade\n" +
-std::to_string(upgrading_tower_.getUpgradeCost())); break; case 2:
- button_upgrade->getRenderer()->setTexture(*textures_["upgrade_2"]);
- button_upgrade->setText("Upgrade\n" +
-std::to_string(upgrading_tower_.getUpgradeCost())); break; case 3:
- */
-  button_upgrade->getRenderer()->setTexture(*textures_["upgrade_3"]);
-  button_upgrade->setText("Upgrade\n(" + std::to_string(320) + ")"); /*  //TODO:
-remove this line button_upgrade->setText("Upgrade\n" +
-std::to_string(upgrading_tower_.getUpgradeCost())); break; case 4:
-   button_upgrade->getRenderer()->setTexture(*textures_["upgrade_4"]);
-   button_upgrade->setText("Max level");
-   break;
-}
-*/
+
+  switch (upgrading_tower_->getLevel()) {    //make upgrade price and button background match tower's level
+  case 1:
+   button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
+   button_upgrade->setText("Upgrade\n(" + std::to_string(upgrading_tower_->getUpgradeCost()) + ")");
+  break;
+  case 2:
+   button_upgrade->getRenderer()->setTexture(*textures_["upgrade_2"]);
+   button_upgrade->setText("Upgrade\n(" + std::to_string(upgrading_tower_->getUpgradeCost()) + ")");
+  break;
+  case 3:
+    button_upgrade->getRenderer()->setTexture(*textures_["upgrade_3"]);
+    button_upgrade->setText("Upgrade\n(" + std::to_string(upgrading_tower_->getUpgradeCost()) + ")");
+  break;
+  case 4:
+    button_upgrade->getRenderer()->setTexture(*textures_["upgrade_4"]);
+    button_upgrade->setText("Max level");
+    break;
+  }
 }
 
 void Application::TargetingSwitchRight() {
