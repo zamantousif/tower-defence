@@ -62,8 +62,8 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
            it != enemiesInRange.end(); it++) {
         float enemyxpos = (*it).getPosition().x;
         float enemyypos = (*it).getPosition().y;
-        float currentPos =
-            sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2));
+        float currentPos = static_cast<float>(sqrt(
+            pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)));
         if (currentPos <= closestPos) {
           closestPos = currentPos;
           closestEnemy = (*it);
