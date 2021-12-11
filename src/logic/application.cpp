@@ -128,6 +128,10 @@ namespace td {
         sf::Texture* map1 = new sf::Texture();
         map1->loadFromFile("../Assets/map1.jpg");
         textures_["map1"] = map1;
+
+        sf::Texture* map2 = new sf::Texture();
+        map2->loadFromFile("../Assets/map2.jpg");
+        textures_["map2"] = map2;
     
         sf::Texture* upgrade_1 = new sf::Texture();
         upgrade_1->loadFromFile("../Assets/upgrade_1.jpg");
@@ -254,6 +258,7 @@ namespace td {
         StyleButtonBrown(button_exit);
 
         button_map1->getRenderer()->setTexture(*textures_["map1"]);
+        button_map2->getRenderer()->setTexture(*textures_["map2"]);
     }
 
     void Application::HandleMapSelect() {
