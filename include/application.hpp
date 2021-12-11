@@ -113,9 +113,9 @@ class Application {
 
  private:
   sf::RenderWindow window_;
-  float window_x_;  // width of the window on creation, could be global constant
+  unsigned int window_x_;  // width of the window on creation, could be global constant
                     // instead?
-  float window_y_;          // height of the window on creation
+  unsigned int window_y_;          // height of the window on creation
   tgui::Gui gui_{window_};  // Gui object where widgets are added to
   types::AppState state_ =
       types::kOptions;  // tracks the state the application is in

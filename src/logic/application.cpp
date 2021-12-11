@@ -292,7 +292,7 @@ void Application::HandleMapSelect() {
   select_text.setFillColor(sf::Color(139, 69, 19, 255));
   select_text.setOrigin(select_text.getLocalBounds().width / 2,
                         select_text.getLocalBounds().height / 2);
-  select_text.setPosition(sf::Vector2f(window_x_ / 2, window_y_ / 5));
+  select_text.setPosition(sf::Vector2f(window_x_ / 2.0f, window_y_ / 5.0f));
   window_.draw(select_text);
 }
 
@@ -415,7 +415,7 @@ void Application::HandleGame() {
       range_circle.setOrigin(buying_tower_->getRange(),
                              buying_tower_->getRange());
       ScaleSprite(range_circle);
-      range_circle.setPosition(mouse_x, mouse_y);
+      range_circle.setPosition((float) mouse_x, (float) mouse_y);
       // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
       // mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add
       // proper
@@ -1267,48 +1267,48 @@ void Application::DrawShopElements() {
   sf::Sprite basic_tower_icon;
   basic_tower_icon.setTexture(*textures_["basic_tower"]);
   ScaleSprite(basic_tower_icon);
-  basic_tower_icon.scale(0.08, 0.08);
-  basic_tower_icon.setPosition(1555 * window_x_ / 1920, 155 * window_x_ / 1920);
+  basic_tower_icon.scale(0.08f, 0.08f);
+  basic_tower_icon.setPosition(1555.0f * window_x_ / 1920.0f, 155 * window_x_ / 1920.0f);
   window_.draw(basic_tower_icon);
 
   sf::Sprite bomb_tower_icon;
   bomb_tower_icon.setTexture(*textures_["bomb_tower"]);
   ScaleSprite(bomb_tower_icon);
-  bomb_tower_icon.scale(0.08, 0.08);
-  bomb_tower_icon.setPosition(1680 * window_x_ / 1920, 150 * window_x_ / 1920);
+  bomb_tower_icon.scale(0.08f, 0.08f);
+  bomb_tower_icon.setPosition(1680.0f * window_x_ / 1920.0f, 150.0f * window_x_ / 1920.0f);
   window_.draw(bomb_tower_icon);
 
   sf::Sprite slowing_tower_icon;
   slowing_tower_icon.setTexture(*textures_["slowing_tower"]);
   ScaleSprite(slowing_tower_icon);
-  slowing_tower_icon.scale(0.08, 0.08);
-  slowing_tower_icon.setPosition(1805 * window_x_ / 1920,
-                                 150 * window_x_ / 1920);
+  slowing_tower_icon.scale(0.08f, 0.08f);
+  slowing_tower_icon.setPosition(1805.0f * window_x_ / 1920.0f,
+                                 150.0f * window_x_ / 1920.0f);
   window_.draw(slowing_tower_icon);
 
   sf::Sprite thorn_eruptor_icon;
   thorn_eruptor_icon.setTexture(*textures_["thorn_eruptor"]);
   ScaleSprite(thorn_eruptor_icon);
-  thorn_eruptor_icon.scale(0.08, 0.08);
-  thorn_eruptor_icon.setPosition(1555 * window_x_ / 1920,
-                                 300 * window_x_ / 1920);
+  thorn_eruptor_icon.scale(0.08f, 0.08f);
+  thorn_eruptor_icon.setPosition(1555.0f * window_x_ / 1920.0f,
+                                 300.0f * window_x_ / 1920.0f);
   window_.draw(thorn_eruptor_icon);
 
   sf::Sprite sniper_tower_icon;
   sniper_tower_icon.setTexture(
       *textures_["bomb_tower"]);  // TODO: change to correct texture
   ScaleSprite(sniper_tower_icon);
-  sniper_tower_icon.scale(0.08, 0.08);
-  sniper_tower_icon.setPosition(1680 * window_x_ / 1920,
-                                300 * window_x_ / 1920);
+  sniper_tower_icon.scale(0.08f, 0.08f);
+  sniper_tower_icon.setPosition(1680.0f * window_x_ / 1920.0f,
+                                300.0f * window_x_ / 1920.0f);
   window_.draw(sniper_tower_icon);
 
   sf::Sprite melting_tower_icon;
   melting_tower_icon.setTexture(*textures_["melting_tower"]);
   ScaleSprite(melting_tower_icon);
-  melting_tower_icon.scale(0.08, 0.08);
-  melting_tower_icon.setPosition(1805 * window_x_ / 1920,
-                                 300 * window_x_ / 1920);
+  melting_tower_icon.scale(0.08f, 0.08f);
+  melting_tower_icon.setPosition((1805.0f * window_x_ / 1920.0f),
+                                 300.0f * window_x_ / 1920.0f);
   window_.draw(melting_tower_icon);
 }
 
