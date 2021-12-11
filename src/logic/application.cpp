@@ -387,8 +387,6 @@ namespace td {
         ScaleSprite(map_sprite);
         window_.draw(map_sprite);
 
-        HandleGameGui();
-
         //game_.value().update();
 
         DrawGameElements();
@@ -396,27 +394,26 @@ namespace td {
         if (buying_tower_ != nullptr) {
             int mouse_x = sf::Mouse::getPosition().x;
             int mouse_y = sf::Mouse::getPosition().y;
+            if (mouse_x < 1520) {
+                //draws range circle of buying_tower_
+                sf::CircleShape range_circle = sf::CircleShape(buying_tower_->getRange(), 40);
+                range_circle.setOrigin(buying_tower_->getRange(), buying_tower_->getRange());
+                ScaleSprite(range_circle);
+                range_circle.setPosition(mouse_x, mouse_y);
+                //if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_, mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add proper 
+                    range_circle.setFillColor(sf::Color(100,100,100,70));
+                //} else {
+                //    range_circle.setFillColor(sf::Color(150,0,0,70));
+                //}
+                window_.draw(range_circle);
 
-            
-            //draws range circle of buying_tower_
-            sf::CircleShape range_circle = sf::CircleShape(buying_tower_->getRange(), 40);
-            range_circle.setOrigin(buying_tower_->getRange(), buying_tower_->getRange());
-            ScaleSprite(range_circle);
-            range_circle.setPosition(mouse_x, mouse_y);
-            //if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_, mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add proper 
-                range_circle.setFillColor(sf::Color(100,100,100,70));
-            //} else {
-            //    range_circle.setFillColor(sf::Color(150,0,0,70));
-            //}
-            window_.draw(range_circle);
-
-            sf::Sprite buying_tower_sprite;
-            buying_tower_sprite.setTexture(*buying_tower_->getTexture());
-            buying_tower_sprite.setPosition(buying_tower_->getPosition());
-            buying_tower_sprite.setOrigin(buying_tower_sprite.getLocalBounds().width/2, buying_tower_sprite.getLocalBounds().height/2);
-            ScaleSprite(buying_tower_sprite);
-            window_.draw(buying_tower_sprite);
-            
+                sf::Sprite buying_tower_sprite;
+                buying_tower_sprite.setTexture(*buying_tower_->getTexture());
+                buying_tower_sprite.setPosition(buying_tower_->getPosition());
+                buying_tower_sprite.setOrigin(buying_tower_sprite.getLocalBounds().width/2, buying_tower_sprite.getLocalBounds().height/2);
+                ScaleSprite(buying_tower_sprite);
+                window_.draw(buying_tower_sprite);
+            }
         }
 
         sf::Sprite shop_bg;
@@ -424,6 +421,8 @@ namespace td {
         shop_bg.setPosition(sf::Vector2f(window_x_*1520.f/1920.f, 0.f));
         ScaleSprite(shop_bg);
         window_.draw(shop_bg);
+
+        HandleGameGui();
     }
 
     void Application::HandleGameGui() {
@@ -471,12 +470,12 @@ namespace td {
         button_tower_sn->onMouseEnter([&]{ if (title_string == "") title_string = "Sniper"; });
         button_tower_ci->onMouseEnter([&]{ if (title_string == "") title_string = "Cinder Stump"; });
 
-        button_tower_ba->onMouseEnter([&]{ if (desc_string == "") desc_string = "Seed Shooter"; });
-        button_tower_bo->onMouseEnter([&]{ if (desc_string == "") desc_string = "Coconut Cannon"; });
+        button_tower_ba->onMouseEnter([&]{ if (desc_string == "") desc_string = "A Basic tower that shoots\nseeds at enemies within it's\nrange. Medium damage\nand range.\nTier 4 variant gains\ntriple shot."; });
+        button_tower_bo->onMouseEnter([&]{ if (desc_string == "") desc_string = "Shoots explosive coconuts\nthat deal damage in an\narea. Effective against\narmored enemies.\nTier 4 upgrade greatly\nincreases the size of\nthe explosion."; });
         button_tower_fr->onMouseEnter([&]{ if (desc_string == "") desc_string = "The magic crystal atop this\nstump slows down foes in\nan area around the tower.\nUpgrading the tower\nfurther increases\nslowing amount.\nTier 4 variant also\nmakes enemies in range\nmore vulnerable to\ndamage from your other\ntowers."; });
-        button_tower_th->onMouseEnter([&]{ if (desc_string == "") desc_string = "Thorn Eruptor"; });
-        button_tower_sn->onMouseEnter([&]{ if (desc_string == "") desc_string = "Sniper"; });
-        button_tower_ci->onMouseEnter([&]{ if (desc_string == "") desc_string = "Cinder Stump"; });
+        button_tower_th->onMouseEnter([&]{ if (desc_string == "") desc_string = "Shoots a barrage of thorns\nat all enemies within it's\nrange. Effective against\ngroups of enemies.\nUpgrading improves\ndamage and range.\nTier 4 variant shoots\neach enemy twice."; });
+        button_tower_sn->onMouseEnter([&]{ if (desc_string == "") desc_string = "Slow-shooting high-damage\nwith extreme range. Great\nagainst strong foes."; });
+        button_tower_ci->onMouseEnter([&]{ if (desc_string == "") desc_string = "The magic crystal atop this\nstump emits blazing heat\nwhich damages all enemies\nin the area around it.\nLow range.\nTier 4 variant melts\nthrough armor."; });
 
         button_tower_ba->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
         button_tower_bo->onMouseLeave([&]{ title_string = ""; desc_string = ""; });
@@ -1125,7 +1124,7 @@ namespace td {
         window_.draw(thorn_eruptor_icon);
 
         sf::Sprite sniper_tower_icon;
-        sniper_tower_icon.setTexture(*textures_["bomb_tower"]);
+        sniper_tower_icon.setTexture(*textures_["bomb_tower"]);  //TODO: change to correct texture
         ScaleSprite(sniper_tower_icon);
         sniper_tower_icon.scale(0.08, 0.08);
         sniper_tower_icon.setPosition(1680*window_x_/1920, 300*window_x_/1920);
