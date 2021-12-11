@@ -16,9 +16,13 @@ float Projectile::getDamage() const { return damage_; }
 
 bool Projectile::isArmorPiercing() const { return is_armor_piercing_; }
 
+void Projectile::setEnemyPiercedCount(unsigned int count) {
+  enemy_pierced_count_ = count;
+}
+
 unsigned int Projectile::getEnemyPiercedCount() const {
   return enemy_pierced_count_;
 }
 
 bool Projectile::isExhausted() const { return exhausted_; }
-}  // namespace td
+}  // namespace td::projectiles
