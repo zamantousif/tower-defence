@@ -5,7 +5,7 @@
 #include "bomb_projectile.hpp"
 
 namespace td {
-float hitbox_bomb_tower = 1.0f;
+float hitbox_bomb_tower = 30.0f;
 
 unsigned int attack_speed_bomb = 10;  // can adjust these later
 

@@ -1178,7 +1178,7 @@ void Application::DrawGameElements() {
     health_bar_.setPosition(
         enemy_sprite.getPosition() -
         sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
-    // health_bar_.scale(enemy.getHealth()/enemy.getMaxHealth(), 1);
+    health_bar_.scale((float) enemy.getHealth()/enemy.getMaxHealth(), 1);
     window_.draw(health_bar_);
   }
 }
