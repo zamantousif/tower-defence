@@ -113,9 +113,9 @@ class Application {
 
  private:
   sf::RenderWindow window_;
-  unsigned int window_x_;  // width of the window on creation, could be global constant
-                    // instead?
-  unsigned int window_y_;          // height of the window on creation
+  unsigned int window_x_;  // width of the window on creation, could be global
+                           // constant instead?
+  unsigned int window_y_;   // height of the window on creation
   tgui::Gui gui_{window_};  // Gui object where widgets are added to
   types::AppState state_ =
       types::kOptions;  // tracks the state the application is in
@@ -128,9 +128,10 @@ class Application {
   float music_volume_ = 70.0f;  // value between 0 and 100 that affects the
                                 // volume of background music
   Tower* upgrading_tower_ =
-      nullptr;  // Tower that currently has its upgrade menu open, 
+      nullptr;  // Tower that currently has its upgrade menu open,
                 // nullptr if no tower is being upgraded
-  Tower* buying_tower_ = nullptr;  // Tower that currently has its upgrade menu
-                                   // open, nullptr if no tower is being upgraded
+  Tower* buying_tower_ =
+      nullptr;  // Tower that currently has its upgrade menu
+                // open, nullptr if no tower is being upgraded
 };
 }  // namespace td

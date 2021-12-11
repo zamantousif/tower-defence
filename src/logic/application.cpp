@@ -415,7 +415,8 @@ void Application::HandleGame() {
       range_circle.setOrigin(buying_tower_->getRange(),
                              buying_tower_->getRange());
       ScaleSprite(range_circle);
-      range_circle.setPosition(static_cast<float>(mouse_x), static_cast<float>(mouse_y));
+      range_circle.setPosition(static_cast<float>(mouse_x),
+                               static_cast<float>(mouse_y));
       // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
       // mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add
       // proper
@@ -1039,8 +1040,8 @@ void Application::HandleUpgradeGui() {
   // button_upgrade->onPress([&] {if (do_once)
   // game_.value().UpgradeTower(upgrading_tower_); do_once = false; });
   // button_sell->onPress([&] {if (do_once)
-  // game_.value().SellTower(upgrading_tower_); do_once = false; upgrading_tower_
-  // = nullptr; });
+  // game_.value().SellTower(upgrading_tower_); do_once = false;
+  // upgrading_tower_ = nullptr; });
 
   /*
   switch (upgrading_tower_->getTargeting()) {    //make text match tower's value
@@ -1268,14 +1269,16 @@ void Application::DrawShopElements() {
   basic_tower_icon.setTexture(*textures_["basic_tower"]);
   ScaleSprite(basic_tower_icon);
   basic_tower_icon.scale(0.08f, 0.08f);
-  basic_tower_icon.setPosition(1555.0f * window_x_ / 1920.0f, 155 * window_x_ / 1920.0f);
+  basic_tower_icon.setPosition(1555.0f * window_x_ / 1920.0f,
+                               155 * window_x_ / 1920.0f);
   window_.draw(basic_tower_icon);
 
   sf::Sprite bomb_tower_icon;
   bomb_tower_icon.setTexture(*textures_["bomb_tower"]);
   ScaleSprite(bomb_tower_icon);
   bomb_tower_icon.scale(0.08f, 0.08f);
-  bomb_tower_icon.setPosition(1680.0f * window_x_ / 1920.0f, 150.0f * window_x_ / 1920.0f);
+  bomb_tower_icon.setPosition(1680.0f * window_x_ / 1920.0f,
+                              150.0f * window_x_ / 1920.0f);
   window_.draw(bomb_tower_icon);
 
   sf::Sprite slowing_tower_icon;
