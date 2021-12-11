@@ -114,8 +114,8 @@ class Application {
 
  private:
   sf::RenderWindow window_;
-  unsigned int window_x_;  // width of the window on creation, could be global
-                           // constant instead?
+  unsigned int window_x_;   // width of the window on creation, could be global
+                            // constant instead?
   unsigned int window_y_;   // height of the window on creation
   tgui::Gui gui_{window_};  // Gui object where widgets are added to
   types::AppState state_ =
@@ -133,6 +133,6 @@ class Application {
                 // nullptr if no tower is being upgraded
   std::optional<Tower> buying_tower_ =
       {};  // Tower that currently has its upgrade menu
-                // open, nullptr if no tower is being upgraded
+           // open, nullptr if no tower is being upgraded
 };
 }  // namespace td
