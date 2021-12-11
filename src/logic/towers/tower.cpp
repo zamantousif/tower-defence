@@ -7,12 +7,12 @@ namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
              sf::Texture* texture_projectile, float rotation_angle,
              unsigned int attack_speed, float range, unsigned int level,
-             types::Targeting targetTo)
+             types::Targeting targeting)
     : Object(position, hitbox, texture, rotation_angle),
       attack_speed_(attack_speed),
       range_(range),
       level_(level),
-      targetTo_(targetTo),
+      targeting_(targeting),
       texture_projectile_(texture_projectile) {}
 
 Tower::Tower(types::Position position, float rotation_angle,
@@ -27,11 +27,11 @@ unsigned int Tower::getAttackSpeed() const { return attack_speed_; }
 
 float Tower::getRange() const { return range_; }
 
-unsigned int Tower::getLevel() { return level_; }
+unsigned int Tower::getLevel() const { return level_; }
 
-char Tower::getTargetType() { return targetTo_; }
+types::Targeting Tower::getTargeting() const { return targeting_; }
 
-void Tower::setTargetType(char targetType) { targetTo_ = targetType; }
+void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
 Enemy Tower::getTarget(std::vector<Enemy> enemies) {
   std::vector<Enemy> enemiesInRange;
@@ -53,7 +53,7 @@ Enemy Tower::getTarget(std::vector<Enemy> enemies) {
   Enemy noEnemiesFound =
       Enemy(zeroPosition, 0.0f, texture, 0, 0, 0, false, 0, 0);
   // return this noEnemiesFound enemy if no enemies in tower range
-  switch (targetTo_) {
+  switch (targeting_) {
     case types::kClose: {
       if (enemiesInRange.size() == 0) return noEnemiesFound;
       Enemy closestEnemy = enemiesInRange.at(0);

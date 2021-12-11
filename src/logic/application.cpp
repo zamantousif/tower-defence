@@ -1081,41 +1081,37 @@ std::to_string(upgrading_tower_.getUpgradeCost())); break; case 4:
 }
 
 void Application::TargetingSwitchRight() {
-  /*
-  switch (upgrading_tower_.getTargeting()) {
+  switch (upgrading_tower_->getTargeting()) {
       case types::kFirst:
-          upgrading_tower_.setTargeting(types::kLast);
+          upgrading_tower_->setTargeting(types::kLast);
           break;
       case types::kLast:
-          upgrading_tower_.setTargeting(types::kClose);
+          upgrading_tower_->setTargeting(types::kClose);
           break;
       case types::kClose:
-          upgrading_tower_.setTargeting(types::kStrong);
+          upgrading_tower_->setTargeting(types::kStrong);
           break;
       case types::kStrong:
-          upgrading_tower_.setTargeting(types::kFirst);
+          upgrading_tower_->setTargeting(types::kFirst);
           break;
   }
-  */
 }
 
 void Application::TargetingSwitchLeft() {
-  /*
-  switch (upgrading_tower_.getTargeting()) {
+  switch (upgrading_tower_->getTargeting()) {
       case types::kFirst:
-          upgrading_tower_.setTargeting(types::kStrong);
+          upgrading_tower_->setTargeting(types::kStrong);
           break;
       case types::kLast:
-          upgrading_tower_.setTargeting(types::kFirst);
+          upgrading_tower_->setTargeting(types::kFirst);
           break;
       case types::kClose:
-          upgrading_tower_.setTargeting(types::kLast);
+          upgrading_tower_->setTargeting(types::kLast);
           break;
       case types::kStrong:
-          upgrading_tower_.setTargeting(types::kClose);
+          upgrading_tower_->setTargeting(types::kClose);
           break;
   }
-  */
 }
 
 void Application::DrawGameElements() {
