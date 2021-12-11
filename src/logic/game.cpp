@@ -45,6 +45,10 @@ const std::map<Enemy*, Projectile*>& Game::getEnemyCollisions(
   }
 }
 
+void Game::AddTower(const td::Tower& tower) {
+  towers_.push_back(tower);
+}
+
 const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
     bool previous_update) {
   if (previous_update) {

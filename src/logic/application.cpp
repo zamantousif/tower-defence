@@ -27,6 +27,18 @@ int Application::run() {
 
       if (event.type == sf::Event::Closed) window_.close();
 
+      //handle clicking on towers in order to open the upgrade menu
+      if (state_ == types::kGame && !buying_tower_ && event.type == sf::Event::MouseButtonPressed) {
+        float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
+        float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y);
+        for (auto tower : game_.value().getTowers()) {
+          if ( tower.getHitboxRadius() <= EuclideanDistance(tower.getPosition(), types::Position(mouse_x, mouse_y)) ) {
+                  upgrading_tower_ = &tower;
+                  //LaunchUpgradeGui();
+                  break;
+              }
+          }
+      }
       
       //handle click events when buying towers
       if (state_ == types::kGame && buying_tower_ && event.type == sf::Event::MouseButtonPressed) { 
@@ -38,7 +50,7 @@ int Application::run() {
           } else {
               //position on the map was clicked while buying a tower
               if (true) {   //TODO: change to !game_.value().CheckCollision()
-                  //game_.buyTower(buying_tower_.value());
+                  game_.value().AddTower(buying_tower_.value());
                   buying_tower_ = {};
               } else {/*
                   sf::Sound buubuu;
@@ -48,23 +60,10 @@ int Application::run() {
               }
           }
       }
-
-      if (state_ == types::kGame && !buying_tower_ && event.type == sf::Event::MouseButtonPressed) {
-        float mouse_x = event.mouseButton.x*(1920.f/window_.getSize().x);
-        float mouse_y = event.mouseButton.y*(1080.f/window_.getSize().y);
-        for (auto tower : game_.value().getTowers()) {
-          if ( tower.getHitboxRadius() <= EuclideanDistance(tower.getPosition(), types::Position(mouse_x, mouse_y)) ) {
-                  upgrading_tower_ = &tower;
-                  LaunchUpgradeGui();
-                  break;
-              }
-          }
-      }
       
     }
-
+    
     window_.clear();
-
     switch (state_) {
       case types::kGame:
         HandleGame();
@@ -85,7 +84,7 @@ int Application::run() {
         HandleUpgrade();
         break;
     }
-
+    
     gui_.draw();
 
     switch (state_) {  // draw things that need to be drawn on top of the gui
@@ -394,15 +393,16 @@ void Application::LaunchGameGui() {
 }
 
 void Application::HandleGame() {
+  
   sf::Sprite map_sprite;
   map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
   // game_.value().update();
-
+  
   DrawGameElements();
-
+  
   if (buying_tower_) {   //if a tower is currently being bought
     int mouse_x = (sf::Mouse::getPosition().x - window_.getPosition().x)* (float) window_x_/window_.getSize().x;
     int mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y)* (float) window_y_/window_.getSize().y;
@@ -1136,15 +1136,18 @@ void Application::DrawGameElements() {
   for (auto tower : game_.value().getTowers()) {
     sf::Sprite tower_sprite;
     tower_sprite.setTexture(*tower.getTexture());
+    tower_sprite.setOrigin(
+          tower_sprite.getLocalBounds().width / 2,
+          tower_sprite.getLocalBounds().height / 2);
+    tower_sprite.setPosition(window_x_ / 1920.f * tower.getPosition().x,
+                             window_y_ / 1080.f * tower.getPosition().y);
     ScaleSprite(tower_sprite);
-    tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() / 100.f,
-                                    tower.getHitboxRadius() / 100.f));
-    tower_sprite.setOrigin(tower.getHitboxRadius(), tower.getHitboxRadius());
-    tower_sprite.setPosition(1920 / window_x_ * tower.getPosition().x,
-                             1080 / window_y_ * tower.getPosition().y);
+    tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() / 500.f,
+                                    tower.getHitboxRadius() / 500.f));
     tower_sprite.setRotation(tower.getRotation());
     window_.draw(tower_sprite);
   }
+
 
   for (auto projectile : game_.value().getEnemies()) {
     sf::Sprite projectile_sprite;

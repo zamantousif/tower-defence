@@ -65,6 +65,10 @@ class Game {
   /// \return True if the enemy was added, false otherwise
   bool AddEnemy(const std::string& enemy_identifier, Enemy enemy);
 
+  /// \brief Add a tower onto the map
+  /// \param tower The tower to add
+  void AddTower(const td::Tower& tower);
+
   /// \param previous_update If set to true, returns collisions from the
   /// previous update
   ///
