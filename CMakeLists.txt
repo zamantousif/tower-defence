@@ -64,6 +64,7 @@ set(SOURCES
     include/map.hpp
     src/logic/collision.cpp
     include/collision.hpp
+    include/constants.hpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})

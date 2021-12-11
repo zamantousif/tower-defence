@@ -2,7 +2,7 @@
 #include "application.hpp"
 
 #include <stdio.h>
-
+#include "constants.hpp"
 #include <string>
 
 namespace td {
@@ -1275,8 +1275,8 @@ void Application::DrawShopElements() {
   window_.draw(lives_text);
 
   sf::Text price_text1(
-      std::to_string(200), font_,
-      23);  // price of basic tower //TODO: change to correct value
+      std::to_string(kCostBasicTower), font_,
+      23);  // price of basic tower
   price_text1.setFillColor(sf::Color(0, 150, 0, 255));
   price_text1.setOutlineColor(sf::Color(0, 100, 0, 255));
   price_text1.setOutlineThickness(1);
@@ -1285,32 +1285,32 @@ void Application::DrawShopElements() {
   price_text1.setOrigin(round_text.getGlobalBounds().width / 2, 0);
   window_.draw(price_text1);
 
-  sf::Text price_text2 = price_text1;
-  price_text2.setString("300");  // TODO: change to correct value
+  sf::Text price_text2 = price_text1;  //price of bomb tower
+  price_text2.setString(std::to_string(kCostBombTower));
   price_text2.setPosition(sf::Vector2f(window_x_ / (1920.f / 1737.f),
                                        window_y_ / (1080.f / 230.f)));
   window_.draw(price_text2);
 
-  sf::Text price_text3 = price_text1;
-  price_text3.setString("400");  // TODO: change to correct value
+  sf::Text price_text3 = price_text1;  //price of slowing_tower
+  price_text3.setString(std::to_string(kCostSlowingTower));
   price_text3.setPosition(sf::Vector2f(window_x_ / (1920.f / 1862.f),
                                        window_y_ / (1080.f / 230.f)));
   window_.draw(price_text3);
 
   sf::Text price_text4 = price_text1;
-  price_text4.setString("500");  // TODO: change to correct value
+  price_text4.setString(std::to_string(kCostThornEruptor));
   price_text4.setPosition(sf::Vector2f(window_x_ / (1920.f / 1611.f),
                                        window_y_ / (1080.f / 381.f)));
   window_.draw(price_text4);
 
   sf::Text price_text5 = price_text1;
-  price_text5.setString("600");  // TODO: change to correct value
+  price_text5.setString(std::to_string(kCostHighDamageTower));
   price_text5.setPosition(sf::Vector2f(window_x_ / (1920.f / 1737.f),
                                        window_y_ / (1080.f / 381.f)));
   window_.draw(price_text5);
 
   sf::Text price_text6 = price_text1;
-  price_text5.setString("700");  // TODO: change to correct value
+  price_text5.setString(std::to_string(kCostMeltingTower));
   price_text5.setPosition(sf::Vector2f(window_x_ / (1920.f / 1862.f),
                                        window_y_ / (1080.f / 381.f)));
   window_.draw(price_text5);

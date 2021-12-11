@@ -29,7 +29,7 @@ float Tower::getRange() const { return range_; }
 
 unsigned int Tower::getLevel() const { return level_; }
 
-const unsigned int Tower::getMoneySpent() const {
+unsigned int Tower::getMoneySpent() const {
   return money_spent_on_tower_;
 }
 

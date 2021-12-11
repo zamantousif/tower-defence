@@ -42,7 +42,7 @@ class Game {
   const std::list<Projectile>& getProjectiles() const;
 
   /// \return Whether auto starting rounds is on or not
-  const bool getAutoStart() const;
+  bool getAutoStart() const;
 
   /// \param auto_start Whether auto starting rounds is set on or off
   void setAutoStart(bool auto_start);

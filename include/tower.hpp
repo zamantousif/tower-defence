@@ -50,7 +50,7 @@ class Tower : public Object {
 
   /// \brief Get the total amount of money spent on the tower
   /// \return The total amount of money spent on the tower
-  const unsigned int getMoneySpent() const;
+  unsigned int getMoneySpent() const;
 
   /// \brief Set the total amount of money spent on the tower
   /// \param value new value for money_spent_on_tower_

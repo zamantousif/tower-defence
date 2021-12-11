@@ -11,7 +11,7 @@ unsigned int attack_speed_high = 10;  // can adjust these later
 
 float range_high = 450.0f;
 
-char targetTo_high = types::kStrong;  // target strongest enemy
+char targeting_high = types::kStrong;  // target strongest enemy
 
 std::vector<unsigned int> upgrade_costs_high = {300, 350, 500};
 
@@ -23,7 +23,7 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
                                      float rotation_angle, sf::Texture* texture,
                                      sf::Texture* texture_projectile)
     : Tower(position, hitbox_high, texture, texture_projectile, rotation_angle,
-            attack_speed_high, range_high, targetTo_high) {}
+            attack_speed_high, range_high, targeting_high) {}
 
 std::list<Projectile> High_damage_tower::shoot(
     std::list<Projectile> projectiles, std::vector<Enemy> enemies) {

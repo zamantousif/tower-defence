@@ -10,7 +10,7 @@ unsigned int attack_speed_melting = 10;  // can adjust these later
 
 float range_melting = 100.0f;
 
-std::vector<unsigned int> upgrade_costs_melting = {100, 100, 100};
+std::vector<unsigned int> upgrade_costs_melting = {100, 120, 150};
 
 unsigned int Melting_tower::getUpgradeCost() {
   return upgrade_costs_melting.at(level_ - 1);

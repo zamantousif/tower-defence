@@ -14,6 +14,7 @@
 #include "projectile.hpp"
 #include "tower.hpp"
 #include "types.hpp"
+//#include "constants.hpp"
 
 namespace td {
 /// \brief Application class represents the app that runs the game. It takes
