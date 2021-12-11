@@ -58,7 +58,7 @@ class Tower : public Object {
 
   /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
-  virtual unsigned int getUpgradeCost() const {return 0;};
+  virtual unsigned int getUpgradeCost() const { return 0; };
 
   /// \brief Get the target type of the tower
   /// \return Target type of the tower
@@ -93,12 +93,13 @@ class Tower : public Object {
   types::Position GetProjectStartPos();
 
  protected:
-  unsigned int attack_speed_;        ///< Attack speed of the tower
-  float range_;                      ///< Attack range of the tower
-  unsigned int level_;               ///< Level of the tower
-  types::Targeting targeting_;                    ///< Target mode of the tower
-  sf::Texture* texture_projectile_;  ///< Pointer to texture of the projectile
-                                     ///< the tower shoots
-  unsigned int money_spent_on_tower_; ///< Total money spent on this tower, used when selling tower
+  unsigned int attack_speed_;          ///< Attack speed of the tower
+  float range_;                        ///< Attack range of the tower
+  unsigned int level_;                 ///< Level of the tower
+  types::Targeting targeting_;         ///< Target mode of the tower
+  sf::Texture* texture_projectile_;    ///< Pointer to texture of the projectile
+                                       ///< the tower shoots
+  unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
+                                       ///< used when selling tower
 };
 }  // namespace td

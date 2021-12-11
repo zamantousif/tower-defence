@@ -29,7 +29,9 @@ float Tower::getRange() const { return range_; }
 
 unsigned int Tower::getLevel() const { return level_; }
 
-const unsigned int Tower::getMoneySpent() const { return money_spent_on_tower_; }
+const unsigned int Tower::getMoneySpent() const {
+  return money_spent_on_tower_;
+}
 
 void Tower::setMoneySpent(unsigned int value) { money_spent_on_tower_ = value; }
 
@@ -37,7 +39,8 @@ types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<const Enemy*> Tower::getTarget(const std::vector<Enemy>& enemies) {
+std::optional<const Enemy*> Tower::getTarget(
+    const std::vector<Enemy>& enemies) {
   std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
   float towerypos = position_.y;
