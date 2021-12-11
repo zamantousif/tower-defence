@@ -415,7 +415,7 @@ void Application::HandleGame() {
       range_circle.setOrigin(buying_tower_->getRange(),
                              buying_tower_->getRange());
       ScaleSprite(range_circle);
-      range_circle.setPosition((float) mouse_x, (float) mouse_y);
+      range_circle.setPosition(static_cast<float>(mouse_x), static_cast<float>(mouse_y));
       // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
       // mouse_y*1080/window_y_), buying_tower_->getRange())) {    //TODO: add
       // proper
