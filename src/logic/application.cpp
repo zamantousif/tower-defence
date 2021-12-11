@@ -637,7 +637,7 @@ void Application::HandleGameGui() {
 }
 
 void Application::CloseGame() {
-  // TODO: make sure that memory management is fine
+  // TODO: delete game, make sure that memory management is fine
   game_ = {};
   LaunchMainMenuGui();
 }
@@ -738,9 +738,9 @@ void Application::LaunchOptionsGui() {
   slider_music_volume->setMaximum(100.f);
   slider_music_volume->setValue(music_volume_);
 
-  // if (game_.value().getAutoStart()) {
-  //    button_auto_start->setDown(true);
-  //}
+   if (game_.value().getAutoStart()) {
+      button_auto_start->setDown(true);
+  }
 }
 
 void Application::HandleOptions() {
@@ -762,10 +762,10 @@ void Application::HandleOptionsGui() {
   button_return->onPress(&Application::LaunchMainMenuGui, this);
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
-  if (button_auto_start->isDown()) {  // TODO: remove comments
-    // game_.value().setAutoStart(true);
+  if (button_auto_start->isDown()) {
+    game_.value().setAutoStart(true);
   } else {
-    // game_.value().setAutoStart(false);
+    game_.value().setAutoStart(false);
   }
 }
 
@@ -885,9 +885,9 @@ void Application::LaunchPauseGui() {
   slider_music_volume->setMaximum(100.f);
   slider_music_volume->setValue(music_volume_);
 
-  // if (game_.value().getAutoStart()) {
-  //    button_auto_start->setDown(true);
-  //}
+  if (game_.value().getAutoStart()) {
+      button_auto_start->setDown(true);
+  }
 }
 
 void Application::HandlePause() {
@@ -924,10 +924,10 @@ void Application::HandlePauseGui() {
   button_off_menu->onPress(&Application::LaunchGameGui, this);
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
-  if (button_auto_start->isDown()) {  // TODO: remove comments
-    // game_.value().setAutoStart(true);
+  if (button_auto_start->isDown()) {
+    game_.value().setAutoStart(true);
   } else {
-    // game_.value().setAutoStart(false);
+    game_.value().setAutoStart(false);
   }
 }
 

@@ -20,6 +20,10 @@ const std::list<Projectile>& Game::getProjectiles() const {
 }
 std::list<Projectile>& Game::getProjectiles() { return projectiles_; }
 
+const bool Game::getAutoStart() const { return auto_start_; }
+
+void Game::setAutoStart(bool auto_start) { auto_start_ = auto_start; }
+
 bool Game::SpawnEnemy(const std::string& enemy_identifier,
                       types::Position position) {
   try {

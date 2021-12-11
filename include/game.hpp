@@ -41,6 +41,12 @@ class Game {
   /// \return All the projectiles currently on the map (const)
   const std::list<Projectile>& getProjectiles() const;
 
+  /// \return Whether auto starting rounds is on or not
+  const bool getAutoStart() const;
+
+  /// \param auto_start Whether auto starting rounds is set on or off
+  void setAutoStart(bool auto_start);
+
   /// \brief Spawn an enemy on the map at the first path vertex.
   ///
   /// The method fails silently if the specified identifier is invalid.
@@ -147,5 +153,6 @@ class Game {
   std::map<Projectile*, Enemy*> previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
+  bool auto_start_;  ///<whether rounds start automatically or not
 };
 }  // namespace td
