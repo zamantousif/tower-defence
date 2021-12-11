@@ -15,6 +15,8 @@ class Game {
   /// \brief A default constructor.
   Game();
 
+  void Update(types::Time dt);
+
   /// \return All the enemies currently on the map
   std::list<Enemy>& getEnemies();
   /// \return All the enemies currently on the (const)
