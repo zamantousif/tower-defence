@@ -2,6 +2,8 @@
 
 #include <fstream>
 
+#include "collision.hpp"
+
 namespace td {
 Game::Game() {}
 
@@ -22,7 +24,9 @@ void Game::Update(types::Time dt) {
 
     for (const Projectile& projectile : projectiles_) {
       // Check if Projectile collides with the Enemy
-      if (true) {
+      if (IsCircleCollidingWithCircle(
+              projectile.getPosition(), projectile.getHitboxRadius(),
+              enemy.getPosition(), enemy.getHitboxRadius())) {
         auto collisions = new_enemy_collisions.find(&enemy);
         if (collisions != new_enemy_collisions.end()) {
           collisions->second.push_back(&projectile);
@@ -46,11 +50,14 @@ void Game::Update(types::Time dt) {
           projectile_collided_with->second;
     }
 
-    std::map<const Projectile*, std::vector<const Enemy*>> new_projectile_collisions;
+    std::map<const Projectile*, std::vector<const Enemy*>>
+        new_projectile_collisions;
 
     for (const Enemy& enemy : enemies_) {
       // Check if Enemy collides with the Projectile
-      if (true) {
+      if (IsCircleCollidingWithCircle(
+              projectile.getPosition(), projectile.getHitboxRadius(),
+              enemy.getPosition(), enemy.getHitboxRadius())) {
         auto collisions = new_projectile_collisions.find(&projectile);
         if (collisions != new_projectile_collisions.end()) {
           collisions->second.push_back(&enemy);
@@ -89,8 +96,8 @@ bool Game::AddEnemy(const std::string& enemy_identifier, Enemy enemy) {
   return enemy_table_.emplace(enemy_identifier, enemy).second;
 }
 
-const std::map<const Enemy*, std::vector<const Projectile*>>& Game::getEnemyCollisions(
-    bool previous_update) {
+const std::map<const Enemy*, std::vector<const Projectile*>>&
+Game::getEnemyCollisions(bool previous_update) {
   if (previous_update) {
     return previous_enemy_collisions_;
   } else {
@@ -98,8 +105,8 @@ const std::map<const Enemy*, std::vector<const Projectile*>>& Game::getEnemyColl
   }
 }
 
-const std::map<const Projectile*, std::vector<const Enemy*>>& Game::getProjectileCollisions(
-    bool previous_update) {
+const std::map<const Projectile*, std::vector<const Enemy*>>&
+Game::getProjectileCollisions(bool previous_update) {
   if (previous_update) {
     return previous_projectile_collisions_;
   } else {
