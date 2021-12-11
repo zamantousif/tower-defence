@@ -99,7 +99,7 @@ class Game {
     ///
     /// \param offset The amount of time for the wave to
     /// arrive after the round has started, in milliseconds
-    /// 
+    ///
     /// \param count The amount of enemies that spawn
     Wave(std::string enemy_identifier, unsigned int spacing,
          unsigned int offset, unsigned int count)

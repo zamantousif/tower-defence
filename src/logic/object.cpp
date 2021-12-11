@@ -6,7 +6,8 @@ Object::Object(types::Position position, float hitboxRadius,
     : position_(position),
       hitboxRadius_(hitboxRadius),
       texture_(texture),
-      rotation_angle_(rotation_angle) {}
+      rotation_angle_(rotation_angle),
+      preserve_(true) {}
 
 void Update(types::Time dt, const td::Game& game) {}
 
@@ -23,4 +24,8 @@ void Object::setPosition(types::Position position) { position_ = position; }
 void Object::setRotation(float angle) { rotation_angle_ = angle; }
 
 float Object::getRotation() const { return rotation_angle_; }
+
+void Object::Delete() { preserve_ = false; }
+
+bool Object::IsDeleted() { return !preserve_; }
 }  // namespace td

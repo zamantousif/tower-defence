@@ -4,7 +4,7 @@
 
 namespace td {
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
-             float health, int move_speed, float bounty, bool armored,
+             float health, int move_speed, int bounty, bool armored,
              float distance_moved, unsigned int slowed_level)
     : Object(position, hitbox, texture),
       health_(health),

@@ -25,7 +25,7 @@ class Enemy : public Object {
   /// \param slowed_level   The level by which the enemy is slowed
   /// \param melting_level  The level by which the enemy is melted
   Enemy(types::Position position, float hitbox, sf::Texture* texture,
-        float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
+        float health = 100.0f, int move_speed = 1, int bounty = 0,
         bool armored = false, float distance_moved = 0.0f,
         unsigned int slowed_level = 0);
 
