@@ -31,12 +31,14 @@ class Projectile : public Object {
   /// \return True if projectile has armor piercing active, false otherwise
   bool isArmorPiercing() const;
 
+  /// \brief Set the number of enemies pierced by the projectile
+  /// \param count    Number of enemies pierced by the projectile
+  void setEnemyPiercedCount(unsigned int count);
+
   /// \brief Get the number of enemies pierced by the projectile
   /// \return Number of enemies pierced by the projectile
   unsigned int getEnemyPiercedCount() const;
 
-  /// \brief Projectile is exhausted if it should not make it to the next frame
-  /// \return True if the projectile is exhausted, false otherwise
   bool isExhausted() const;
 
  protected:
@@ -47,4 +49,4 @@ class Projectile : public Object {
   bool exhausted_;  ///< Projectile is exhausted if it should not make it to the
                     ///< next frame
 };
-}  // namespace td
+}  // namespace td::projectiles

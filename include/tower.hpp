@@ -1,6 +1,8 @@
 #pragma once
 
+#include "enemy.hpp"
 #include "object.hpp"
+#include "projectile.hpp"
 #include "types.hpp"
 
 namespace td {
@@ -16,9 +18,13 @@ class Tower : public Object {
   /// \param texture        Texture of the tower
   /// \param attack_speed   Attack speed of the tower
   /// \param range          Attack range of the tower
+  /// \param level        Level of the tower
+  /// \param targetTo     Stores the target mode of the tower, options: c =
+  /// closest, s = strongest or f = furthest travelled
   Tower(types::Position position, float hitbox, sf::Texture* texture,
-        float rotation_angle = 0.0f, unsigned int attack_speed = 1U,
-        float range = 1.0f);
+        sf::Texture* texture_projectile, float rotation_angle = 0.0f,
+        unsigned int attack_speed = 1U, float range = 1.0f,
+        unsigned int level = 1, types::Targeting targetTo = types::kFirst);
 
   void Update(types::Time dt, const td::Game&);
 
@@ -36,8 +42,46 @@ class Tower : public Object {
   /// \return Attack range of the tower
   virtual float getRange() const;
 
+  /// \brief Get the level of the tower
+  /// \return Level of the tower
+  virtual unsigned int getLevel();
+
+  /// \brief Get the upgrade cost of the tower at current level
+  /// \return Upgrade cost of the tower
+  virtual unsigned int getUpgradeCost() = 0;
+
+  /// \brief Get the shooting type of the tower
+  /// \return Projectiles shoot by the tower
+  /// \param vector vector of the projectiles in current game
+  virtual std::vector<Projectile> shoot(
+      std::vector<Projectile> vector, std::vector<Enemy> enemies) = 0;
+
+  /// \brief Get the target type of the tower
+  /// \return Target type of the tower
+  virtual char getTargetType();
+
+  /// \brief Set the target type of the tower
+  /// \param targetType    Target type of the tower
+  virtual void setTargetType(char targetType);
+
+  /// \brief Get the enemy tower is targeting
+  /// \return Pointer to the targeted enemy
+  /// \param enemies vector of the enemies in current game
+  virtual Enemy getTarget(std::vector<Enemy> enemies);
+
+  /// \brief         Calculate the starting position of the projectiles shoot by
+  /// the tower
+  /// \param centre  Centre position of the tower
+  /// \param radius  Radius of the tower (same as hitbox)
+  /// \param angle   Angle position of the tower in radians
+  types::Position GetProjectStartPos();
+
  protected:
-  unsigned int attack_speed_;  ///< Attack speed of the tower
-  float range_;                ///< Attack range of the tower
+  unsigned int attack_speed_;        ///< Attack speed of the tower
+  float range_;                      ///< Attack range of the tower
+  unsigned int level_;               ///< Level of the tower
+  char targetTo_;                    ///< Target mode of the tower
+  sf::Texture* texture_projectile_;  ///< Pointer to texture of the projectile
+                                     ///< the tower shoots
 };
 }  // namespace td
