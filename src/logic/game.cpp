@@ -32,7 +32,7 @@ bool Game::AddEnemy(const std::string& enemy_identifier, Enemy enemy) {
   return enemy_table_.emplace(enemy_identifier, enemy).second;
 }
 
-const std::map<const Enemy*, const Projectile*>& Game::getEnemyCollisions(
+const std::map<const Enemy*, std::vector<const Projectile*>>& Game::getEnemyCollisions(
     bool previous_update) {
   if (previous_update) {
     return previous_enemy_collisions_;
@@ -41,7 +41,7 @@ const std::map<const Enemy*, const Projectile*>& Game::getEnemyCollisions(
   }
 }
 
-const std::map<const Projectile*, const Enemy*>& Game::getProjectileCollisions(
+const std::map<const Projectile*, std::vector<const Enemy*>>& Game::getProjectileCollisions(
     bool previous_update) {
   if (previous_update) {
     return previous_projectile_collisions_;

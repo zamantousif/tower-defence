@@ -58,14 +58,14 @@ class Game {
   /// previous update
   ///
   /// \return A map mapping enemies to projectiles that they collide with
-  const std::map<const Enemy*, const Projectile*>& getEnemyCollisions(
+  const std::map<const Enemy*, std::vector<const Projectile*>>& getEnemyCollisions(
       bool previous_update = false);
   /// \param previous_update If set to true, returns collisions from the
   /// previous update
   ///
   /// \return A map mapping projectiles enemies that they
   /// collide with
-  const std::map<const Projectile*, const Enemy*>& getProjectileCollisions(
+  const std::map<const Projectile*, std::vector<const Enemy*>>& getProjectileCollisions(
       bool previous_update = false);
 
   /// \brief A struct for storing the state of an enemy wave. A round consists
@@ -109,10 +109,10 @@ class Game {
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;
-  std::map<const Enemy*, const Projectile*> enemy_collisions_;
-  std::map<const Enemy*, const Projectile*> previous_enemy_collisions_;
-  std::map<const Projectile*, const Enemy*> projectile_collisions_;
-  std::map<const Projectile*, const Enemy*> previous_projectile_collisions_;
+  std::map<const Enemy*, std::vector<const Projectile*>> enemy_collisions_;
+  std::map<const Enemy*, std::vector<const Projectile*>> previous_enemy_collisions_;
+  std::map<const Projectile*, std::vector<const Enemy*>> projectile_collisions_;
+  std::map<const Projectile*, std::vector<const Enemy*>> previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
 };
