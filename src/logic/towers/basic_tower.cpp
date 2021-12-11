@@ -12,7 +12,7 @@ float hitbox_basic_tower = 30.0f;
 
 unsigned int attack_speed_basic = 10;  // can adjust these later
 
-float range_basic = 10.0f;
+float range_basic = 150.0f;
 
 std::vector<unsigned int> upgrade_costs_basic = { 80, 80, 200 };
 
@@ -25,6 +25,18 @@ Basic_tower::Basic_tower(types::Position position, float rotation_angle,
                          sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_basic_tower, texture, texture_projectile, rotation_angle,
             attack_speed_basic, range_basic) {}
+
+void Basic_tower::Upgrade() {
+  if (level_ == 1) {
+    level_++;
+  } else if (level_ == 2) {
+    level_++;
+    range_ += 10;
+  } else if (level_ == 3) {
+    level_++;
+    range_ += 10;
+  }
+}
 
 std::list<Projectile> Basic_tower::shoot(
     std::list<Projectile> projectiles, std::vector<Enemy> enemies) {

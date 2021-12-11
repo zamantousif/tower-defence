@@ -4,11 +4,11 @@
 #include <cmath>
 
 namespace td {
-float hitbox_slowing = 1.0f;  // parameters radius and pointCount
+float hitbox_slowing = 30.0f;  // parameters radius and pointCount
 
 unsigned int attack_speed_slowing = 10;  // can adjust these later
 
-float range_slowing = 7.0f;
+float range_slowing = 100.0f;
 
 std::vector<unsigned int> upgrade_costs_slowing = {120, 120, 120};
 

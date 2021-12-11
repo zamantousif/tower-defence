@@ -8,7 +8,7 @@ namespace td {
                        int move_speed, float bounty,
                        bool armored, float distance_moved)
       : Enemy(startOfTheMap, hitbox, texture, health, move_speed, bounty, armored,
-              distance_moved){};
+              distance_moved){}
 
   std::vector<Enemy> Splitworm::doUponDeath(sf::Texture* texture) {
     Enemy weaker_worm =
