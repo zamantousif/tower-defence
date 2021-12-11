@@ -48,13 +48,13 @@ class Tower : public Object {
 
   /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
-  virtual unsigned int getUpgradeCost() = 0;
+  virtual unsigned int getUpgradeCost() {return 0;};
 
   /// \brief Get the shooting type of the tower
   /// \return Projectiles shoot by the tower
   /// \param vector vector of the projectiles in current game
   virtual std::vector<Projectile> shoot(
-      std::vector<Projectile> vector, std::vector<Enemy> enemies) = 0;
+      std::vector<Projectile> vector, std::vector<Enemy> enemies) {return std::vector<Projectile>{};};
 
   /// \brief Get the target type of the tower
   /// \return Target type of the tower

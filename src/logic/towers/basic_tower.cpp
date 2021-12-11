@@ -8,7 +8,7 @@
 #include "types.hpp"
 
 namespace td {
-float hitbox_basic = 1.0f;
+float hitbox_basic_tower = 30.0f;
 
 unsigned int attack_speed_basic = 10;  // can adjust these later
 
@@ -23,7 +23,7 @@ unsigned int Basic_tower::getUpgradeCost()
 
 Basic_tower::Basic_tower(types::Position position, float rotation_angle,
                          sf::Texture* texture, sf::Texture* texture_projectile)
-    : Tower(position, hitbox_basic, texture, texture_projectile, rotation_angle,
+    : Tower(position, hitbox_basic_tower, texture, texture_projectile, rotation_angle,
             attack_speed_basic, range_basic) {}
 
 std::list<Projectile> Basic_tower::shoot(

@@ -31,8 +31,6 @@ class Enemy : public Object {
 
   virtual void Update(types::Time dt, const td::Game&);
 
-  void Update(types::Time dt) override;
-
   /// \brief Create basic cockroach at the start of the map
   /// \param startOfTheMap  Position of the start of the map
   /// \param texture        Texture of the enemy

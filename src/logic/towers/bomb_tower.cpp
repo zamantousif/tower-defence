@@ -5,7 +5,7 @@
 #include "bomb_projectile.hpp"
 
 namespace td {
-float hitbox_bomb = 1.0f;
+float hitbox_bomb_tower = 1.0f;
 
 unsigned int attack_speed_bomb = 10;  // can adjust these later
 
@@ -20,7 +20,7 @@ unsigned int Bomb_tower::getUpgradeCost()
 
 Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
                        sf::Texture* texture, sf::Texture* texture_projectile)
-    : Tower(position, hitbox_bomb, texture, texture_projectile, rotation_angle,
+    : Tower(position, hitbox_bomb_tower, texture, texture_projectile, rotation_angle,
             attack_speed_bomb, range_bomb) {}
 
 std::list<Projectile> Bomb_tower::shoot(
