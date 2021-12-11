@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "massive_projectile.hpp"
+#include "constants.hpp"
 
 namespace td {
 float hitbox_high = 30.0f;
@@ -14,6 +15,8 @@ float range_high = 450.0f;
 char targeting_high = types::kStrong;  // target strongest enemy
 
 std::vector<unsigned int> upgrade_costs_high = {300, 350, 500};
+
+unsigned int High_damage_tower::getCost() const { return kCostHighDamageTower; }
 
 unsigned int High_damage_tower::getUpgradeCost() {
   return upgrade_costs_high.at(level_ - 1);

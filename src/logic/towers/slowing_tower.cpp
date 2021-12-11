@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include "constants.hpp"
 
 namespace td {
 float hitbox_slowing = 30.0f;  // parameters radius and pointCount
@@ -11,6 +12,8 @@ unsigned int attack_speed_slowing = 10;  // can adjust these later
 float range_slowing = 100.0f;
 
 std::vector<unsigned int> upgrade_costs_slowing = {120, 140, 160};
+
+unsigned int Slowing_tower::getCost() const { return kCostSlowingTower; }
 
 unsigned int Slowing_tower::getUpgradeCost() {
   return upgrade_costs_slowing.at(level_ - 1);

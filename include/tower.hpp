@@ -48,6 +48,10 @@ class Tower : public Object {
   /// \return Level of the tower
   unsigned int getLevel() const;
 
+  /// \brief Get the price of the tower
+  /// \return Cost of the tower
+  virtual unsigned int getCost() const { return 0; }
+
   /// \brief Get the total amount of money spent on the tower
   /// \return The total amount of money spent on the tower
   unsigned int getMoneySpent() const;

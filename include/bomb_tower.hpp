@@ -21,6 +21,10 @@ class Bomb_tower : public Tower {
   /// \return List of all projectiles currently in game
   std::list<Projectile> shoot(std::list<Projectile>, std::vector<Enemy> enemies);
 
+  /// \brief Get the price of the tower
+  /// \return Cost of the tower
+  virtual unsigned int getCost() const;
+
    /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
    unsigned int getUpgradeCost();

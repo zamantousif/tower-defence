@@ -6,6 +6,7 @@
 #include "basic_projectile.hpp"
 #include "projectile.hpp"
 #include "types.hpp"
+#include "constants.hpp"
 
 namespace td {
 float hitbox_basic_tower = 30.0f;
@@ -15,6 +16,8 @@ unsigned int attack_speed_basic = 10;  // can adjust these later
 float range_basic = 150.0f;
 
 std::vector<unsigned int> upgrade_costs_basic = { 80, 80, 200 };
+
+unsigned int Basic_tower::getCost() const { return kCostBasicTower; }
 
 unsigned int Basic_tower::getUpgradeCost()
 {

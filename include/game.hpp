@@ -73,7 +73,7 @@ class Game {
 
   /// \brief Add a tower onto the map
   /// \param tower The tower to add
-  void AddTower(const td::Tower& tower);
+  void AddTower(td::Tower& tower);
 
   /// \param previous_update If set to true, returns collisions from the
   /// previous update
@@ -142,7 +142,7 @@ class Game {
   void LoadRounds(const std::string& file_path);
 
  private:
-  int money_ = 2000;
+  unsigned int money_ = 2000;
   int lives_ = 100;
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;

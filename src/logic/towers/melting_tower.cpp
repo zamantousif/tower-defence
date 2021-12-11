@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include "constants.hpp"
 
 namespace td {
 float hitbox_melting = 30.0f;  // parameters radius and pointCount
@@ -11,6 +12,8 @@ unsigned int attack_speed_melting = 10;  // can adjust these later
 float range_melting = 100.0f;
 
 std::vector<unsigned int> upgrade_costs_melting = {100, 120, 150};
+
+unsigned int Melting_tower::getCost() const { return kCostMeltingTower; }
 
 unsigned int Melting_tower::getUpgradeCost() {
   return upgrade_costs_melting.at(level_ - 1);

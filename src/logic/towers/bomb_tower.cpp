@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "bomb_projectile.hpp"
+#include "constants.hpp"
 
 namespace td {
 float hitbox_bomb_tower = 40.0f;
@@ -12,6 +13,8 @@ unsigned int attack_speed_bomb = 10;  // can adjust these later
 float range_bomb = 150.0f;
 
 std::vector<unsigned int> upgrade_costs_bomb = { 140, 140, 300 };
+
+unsigned int Bomb_tower::getCost() const { return kCostBombTower; }
 
 unsigned int Bomb_tower::getUpgradeCost()
 {
