@@ -128,9 +128,9 @@ class Application {
   float music_volume_ = 70.0f;  // value between 0 and 100 that affects the
                                 // volume of background music
   Tower* upgrading_tower_ =
-      nullptr;  // Tower that currently has its upgrade menu open, nullptr no
-                // tower is being upgraded
+      nullptr;  // Tower that currently has its upgrade menu open, 
+                // nullptr if no tower is being upgraded
   Tower* buying_tower_ = nullptr;  // Tower that currently has its upgrade menu
-                                   // open, nullptr no tower is being upgraded
+                                   // open, nullptr if no tower is being upgraded
 };
 }  // namespace td
