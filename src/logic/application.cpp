@@ -404,8 +404,8 @@ void Application::HandleGame() {
   DrawGameElements();
   
   if (buying_tower_) {   //if a tower is currently being bought
-    int mouse_x = (sf::Mouse::getPosition().x - window_.getPosition().x)* (float) window_x_/window_.getSize().x;
-    int mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y)* (float) window_y_/window_.getSize().y;
+    float mouse_x = (sf::Mouse::getPosition().x - window_.getPosition().x)* (float) window_x_/window_.getSize().x;
+    float mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y)* (float) window_y_/window_.getSize().y;
 
     if (mouse_x < 1520.f*window_x_/1920) {
       // draws range circle of buying_tower_
