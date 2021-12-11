@@ -173,6 +173,26 @@ namespace td {
         white_rectangle->loadFromFile("../Assets/white_rectangle.jpg");
         textures_["white_rectangle"] = white_rectangle;
 
+        sf::Texture* basic_tower = new sf::Texture();
+        basic_tower->loadFromFile("../Assets/towers/basic_tower.png");
+        textures_["basic_tower"] = basic_tower;
+
+        sf::Texture* bomb_tower = new sf::Texture();
+        bomb_tower->loadFromFile("../Assets/towers/bomb_tower.png");
+        textures_["bomb_tower"] = bomb_tower;
+
+        sf::Texture* slowing_tower = new sf::Texture();
+        slowing_tower->loadFromFile("../Assets/towers/slowing_tower.png");
+        textures_["slowing_tower"] = slowing_tower;
+
+        sf::Texture* melting_tower = new sf::Texture();
+        melting_tower->loadFromFile("../Assets/towers/melting_tower.png");
+        textures_["melting_tower"] = melting_tower;
+
+        sf::Texture* thorn_eruptor = new sf::Texture();
+        thorn_eruptor->loadFromFile("../Assets/towers/thorn_eruptor.png");
+        textures_["thorn_eruptor"] = thorn_eruptor;
+
 
 
     }
@@ -1076,7 +1096,47 @@ namespace td {
         price_text5.setPosition(sf::Vector2f(window_x_/(1920.f/1862.f), window_y_/(1080.f/381.f)));
         window_.draw(price_text5);
 
-        //TODO: draw tower icons
+        sf::Sprite basic_tower_icon;
+        basic_tower_icon.setTexture(*textures_["basic_tower"]);
+        ScaleSprite(basic_tower_icon);
+        basic_tower_icon.scale(0.08, 0.08);
+        basic_tower_icon.setPosition(1555*window_x_/1920, 155*window_x_/1920);
+        window_.draw(basic_tower_icon);
+
+        sf::Sprite bomb_tower_icon;
+        bomb_tower_icon.setTexture(*textures_["bomb_tower"]);
+        ScaleSprite(bomb_tower_icon);
+        bomb_tower_icon.scale(0.08, 0.08);
+        bomb_tower_icon.setPosition(1680*window_x_/1920, 150*window_x_/1920);
+        window_.draw(bomb_tower_icon);
+
+        sf::Sprite slowing_tower_icon;
+        slowing_tower_icon.setTexture(*textures_["slowing_tower"]);
+        ScaleSprite(slowing_tower_icon);
+        slowing_tower_icon.scale(0.08, 0.08);
+        slowing_tower_icon.setPosition(1805*window_x_/1920, 150*window_x_/1920);
+        window_.draw(slowing_tower_icon);
+
+        sf::Sprite thorn_eruptor_icon;
+        thorn_eruptor_icon.setTexture(*textures_["thorn_eruptor"]);
+        ScaleSprite(thorn_eruptor_icon);
+        thorn_eruptor_icon.scale(0.08, 0.08);
+        thorn_eruptor_icon.setPosition(1555*window_x_/1920, 300*window_x_/1920);
+        window_.draw(thorn_eruptor_icon);
+
+        sf::Sprite sniper_tower_icon;
+        sniper_tower_icon.setTexture(*textures_["bomb_tower"]);
+        ScaleSprite(sniper_tower_icon);
+        sniper_tower_icon.scale(0.08, 0.08);
+        sniper_tower_icon.setPosition(1680*window_x_/1920, 300*window_x_/1920);
+        window_.draw(sniper_tower_icon);
+
+        sf::Sprite melting_tower_icon;
+        melting_tower_icon.setTexture(*textures_["melting_tower"]);
+        ScaleSprite(melting_tower_icon);
+        melting_tower_icon.scale(0.08, 0.08);
+        melting_tower_icon.setPosition(1805*window_x_/1920, 300*window_x_/1920);
+        window_.draw(melting_tower_icon);
 
     }
 
