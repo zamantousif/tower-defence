@@ -3,7 +3,7 @@
 namespace td {
 
 double EuclideanDistance(td::types::Position p1, td::types::Position p2) {
-  double distance = pow((p1.x - p2.x), 2) + pow((p1.y - p2.x), 2);
+  double distance = sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2));
   return distance;
 }
 

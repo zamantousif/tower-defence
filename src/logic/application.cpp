@@ -33,11 +33,12 @@ int Application::run() {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
         for (auto tower : game_.value().getTowers()) {
-          if (tower.getHitboxRadius() <=
+          if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
                                 types::Position(mouse_x, mouse_y))) {
             upgrading_tower_ = &tower;
-            // LaunchUpgradeGui();
+            std::cout << upgrading_tower_->getRange() << std::endl;
+            LaunchUpgradeGui();
             break;
           }
         }
@@ -87,7 +88,6 @@ int Application::run() {
         HandleUpgrade();
         break;
     }
-
     gui_.draw();
 
     switch (state_) {  // draw things that need to be drawn on top of the gui
@@ -306,16 +306,9 @@ void Application::HandleMapSelectGui() {
 }
 
 void Application::LaunchGame(std::string map_name) {
-  if (state_ == types::kGame || state_ == types::kUpgrade) {  // temporary
-    return;
-  }
-  upgrading_tower_ =
-      new Tower(types::Position(200, 200), 30.f, textures_["basic_tower"],
-                textures_["basic_tower"], 0.f, 1U, 100.f);
-
   LaunchGameGui();
-  LaunchUpgradeGui();  // temporary test
   game_ = Game();
+  game_.value().setAutoStart(auto_start_);
 
   // TODO: load corresponding map into game (variable could be file path instead
   // of map name)
@@ -738,7 +731,7 @@ void Application::LaunchOptionsGui() {
   slider_music_volume->setMaximum(100.f);
   slider_music_volume->setValue(music_volume_);
 
-   if (game_.value().getAutoStart()) {
+   if (auto_start_) {
       button_auto_start->setDown(true);
   }
 }
@@ -763,9 +756,9 @@ void Application::HandleOptionsGui() {
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
   if (button_auto_start->isDown()) {
-    game_.value().setAutoStart(true);
+    auto_start_ = true;
   } else {
-    game_.value().setAutoStart(false);
+    auto_start_ = false;
   }
 }
 
@@ -885,7 +878,7 @@ void Application::LaunchPauseGui() {
   slider_music_volume->setMaximum(100.f);
   slider_music_volume->setValue(music_volume_);
 
-  if (game_.value().getAutoStart()) {
+  if (auto_start_) {
       button_auto_start->setDown(true);
   }
 }
@@ -926,8 +919,10 @@ void Application::HandlePauseGui() {
   music_volume_ = slider_music_volume->getValue();
   if (button_auto_start->isDown()) {
     game_.value().setAutoStart(true);
+    auto_start_ = true;
   } else {
     game_.value().setAutoStart(false);
+    auto_start_ = false;
   }
 }
 
@@ -1031,7 +1026,7 @@ void Application::LaunchUpgradeGui() {
 
 void Application::HandleUpgrade() {
   HandleUpgradeGui();
-
+std::cout << "jsan" << std::endl;
   sf::Sprite map_sprite;
   map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
   ScaleSprite(map_sprite);

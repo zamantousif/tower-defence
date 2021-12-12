@@ -128,11 +128,13 @@ class Application {
                           // sound effects
   float music_volume_ = 70.0f;  // value between 0 and 100 that affects the
                                 // volume of background music
+  bool auto_start_ = false;  ///<whether rounds start automatically or not
   Tower* upgrading_tower_ =
       nullptr;  // Tower that currently has its upgrade menu open,
                 // nullptr if no tower is being upgraded
   std::optional<Tower> buying_tower_ =
       {};  // Tower that currently has its upgrade menu
            // open, nullptr if no tower is being upgraded
+
 };
 }  // namespace td
