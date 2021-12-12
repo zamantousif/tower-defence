@@ -82,7 +82,7 @@ The project repository at the top-level is organised as the following tree:
 |__tests/ \
 |__.clang-format \
 |__CMakeLists.txt \
-|__Meeting-notes.md
+|__Meeting-notes.md \
 |__README.md \
 
 # Project Implementation 

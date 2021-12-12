@@ -9,7 +9,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 # Define a grouping for source files in IDE project generation
 # (for example Visual Studio solution filters)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
-# -------------------------------Compilation------------------------------------
+# ------------------------------Compiler Flags----------------------------------
 # Set the compiler flags
 if(MSVC)
 	message("Using MSVC!")
