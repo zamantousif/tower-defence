@@ -73,6 +73,8 @@ TEST_F(CollisionTest, Angle2D) {
   sf::Vector2f v3 = sf::Vector2f(7.0, 1.0);
   sf::Vector2f v4 = sf::Vector2f(5.0, 5.0);
   sf::Vector2f v5 = sf::Vector2f(-5.0, -5.0);
+  sf::Vector2f v6 = sf::Vector2f(0.0, 0.0);
+  sf::Vector2f v7 = sf::Vector2f(3.0, 0.0);
   // Act
   double angle12 = Angle2D(v1.x, v1.y, v2.x, v2.y);
   double angle21 = Angle2D(v2.x, v2.y, v1.x, v1.y);
@@ -81,6 +83,8 @@ TEST_F(CollisionTest, Angle2D) {
   double angle43 = Angle2D(v4.x, v4.y, v3.x, v3.y);
   double angle45 = Angle2D(v4.x, v4.y, v5.x, v5.y);
   double angle54 = Angle2D(v5.x, v5.y, v4.x, v4.y);
+  double angle66 = Angle2D(v6.x, v6.y, v6.x, v6.y);
+  double angle67 = Angle2D(v6.x, v6.y, v7.x, v7.y);
   // Assert
   EXPECT_FLOAT_EQ(angle12, -acos(0.96f));
   EXPECT_FLOAT_EQ(angle21, acos(0.96f));
@@ -89,6 +93,49 @@ TEST_F(CollisionTest, Angle2D) {
   EXPECT_FLOAT_EQ(angle43, -acos(0.8f));
   EXPECT_NEAR(angle45, td::PI, 0.005);
   EXPECT_NEAR(angle54, -td::PI, 0.005);
+  EXPECT_FLOAT_EQ(angle66, 0.0f);
+  EXPECT_FLOAT_EQ(angle67, 0.0f);
+}
+
+TEST_F(CollisionTest, IsCircleCenterInsidePolygon) {
+  // Arrange
+  // Circle (p, r)
+  td::types::Position p1 = sf::Vector2f(0.0f, 0.0f);
+  td::types::Position p2 = sf::Vector2f(3.0f, 0.0f);
+  td::types::Position p3 = sf::Vector2f(3.0f, 3.0f);
+  td::types::Position p4 = sf::Vector2f(5.0f, -5.0f);
+  td::types::Position p5 = sf::Vector2f(8.0f, 8.01f);
+  // Polygon ABCDE
+  td::types::Position A = sf::Vector2f(0.0f, 0.0f);
+  td::types::Position B = sf::Vector2f(5.0f, 0.0f);
+  td::types::Position C = sf::Vector2f(8.0f, 8.0f);
+  td::types::Position D = sf::Vector2f(3.0f, 12.0f);
+  td::types::Position E = sf::Vector2f(-2.0f, 7.0f);
+  std::vector<std::pair<td::types::Position, td::types::Position>> edges;
+  std::pair<td::types::Position, td::types::Position> edge_AB, edge_BC, edge_CD,
+      edge_DE, edge_EA;
+  edge_AB = std::make_pair(A, B);
+  edge_BC = std::make_pair(B, C);
+  edge_CD = std::make_pair(C, D);
+  edge_DE = std::make_pair(D, E);
+  edge_EA = std::make_pair(E, A);
+  edges.emplace_back(edge_AB);
+  edges.emplace_back(edge_BC);
+  edges.emplace_back(edge_CD);
+  edges.emplace_back(edge_DE);
+  edges.emplace_back(edge_EA);
+  // Act
+  bool is_circle1_inside = IsCircleCenterInsidePolygon(p1, edges);
+  bool is_circle2_inside = IsCircleCenterInsidePolygon(p2, edges);
+  bool is_circle3_inside = IsCircleCenterInsidePolygon(p3, edges);
+  bool is_circle4_inside = IsCircleCenterInsidePolygon(p4, edges);
+  bool is_circle5_inside = IsCircleCenterInsidePolygon(p5, edges);
+  // Assert
+  EXPECT_TRUE(is_circle1_inside);
+  EXPECT_TRUE(is_circle2_inside);
+  EXPECT_TRUE(is_circle3_inside);
+  EXPECT_FALSE(is_circle4_inside);
+  EXPECT_FALSE(is_circle5_inside);
 }
 
 TEST_F(CollisionTest, CircleAtOrigin_CollidesWithSquare) {
