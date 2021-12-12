@@ -4,6 +4,7 @@
 #include <list>
 
 #include "tower.hpp"
+#include "collision.hpp"
 
 
 namespace td {

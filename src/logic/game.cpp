@@ -53,7 +53,6 @@ const std::map<Enemy*, Projectile*>& Game::getEnemyCollisions(
 
 void Game::AddTower(td::Tower& tower) { 
   unsigned int cost = tower.getCost();
-  std::cout << cost << std::endl;
   money_ -= cost;
   tower.setMoneySpent(cost);
   towers_.push_back(tower);
@@ -77,10 +76,8 @@ void Game::UpgradeTower(Tower* tower) {
 }
 
 void Game::SellTower(Tower* tower) {
-  // 0.75 is a factor of how much money you get back when selling
-  money_ += static_cast<int>(tower->getMoneySpent()*3/4);
-  std::cout << "hello" << std::endl;
-  // TODO: delete tower here
+  money_ += static_cast<int>(tower->getMoneySpent()*3/4); // 3/4 is a factor of how much money you get back when selling
+  //TODO: mark tower for removal here
 }
 
 Tower Game::StartBuyingTower(

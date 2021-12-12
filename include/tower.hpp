@@ -6,6 +6,7 @@
 #include "object.hpp"
 #include "projectile.hpp"
 #include "types.hpp"
+#include "collision.hpp"
 
 namespace td {
 class Game;
@@ -86,7 +87,7 @@ class Tower : public Object {
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
-  virtual std::optional<const Enemy*> getTarget(
+  virtual std::optional<const Enemy*> GetTarget(
       const std::vector<Enemy>& enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by

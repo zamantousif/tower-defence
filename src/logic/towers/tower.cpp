@@ -45,7 +45,7 @@ types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<const Enemy*> Tower::getTarget(
+std::optional<const Enemy*> Tower::GetTarget(
     const std::vector<Enemy>& enemies) {
   std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
@@ -132,8 +132,8 @@ std::optional<const Enemy*> Tower::getTarget(
 types::Position Tower::GetProjectStartPos() {
   types::Position result;
   result.x =
-      position_.x + hitboxRadius_ * cos(rotation_angle_);  // angle in radians
-  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_);
+      position_.x + hitboxRadius_ * cos(rotation_angle_-PI/2);  // angle in radians
+  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_-PI/2);
   return result;
 }
 }  // namespace td
