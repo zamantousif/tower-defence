@@ -32,7 +32,7 @@ int Application::run() {
           event.type == sf::Event::MouseButtonPressed) {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
-        for (auto tower : game_.value().getTowers()) {
+        for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
                                 types::Position(mouse_x, mouse_y))) {
@@ -68,7 +68,7 @@ int Application::run() {
 
     
 
-    //window_.clear();
+    window_.clear();
     switch (state_) {
       case types::kGame:
         HandleGame();
