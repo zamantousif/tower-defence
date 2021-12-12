@@ -93,7 +93,7 @@ bool IsCircleIntersectingPolygonEdge(
     y_root2 = root2 * y1 + (1.0 - root2) * y2;
     is_root_on_polygon_edge =
         IsPointBetween(edge.first, td::types::Position(x_root1, y_root1),
-                       edge.second) or
+                       edge.second) ||
         IsPointBetween(edge.first, td::types::Position(x_root2, y_root2),
                        edge.second);
     return is_root_on_polygon_edge;
