@@ -4,15 +4,26 @@
 
 namespace td {
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
-             float health, int move_speed, float bounty, bool armored,
+             float health, int move_speed, int bounty, bool armored,
              float distance_moved, unsigned int slowed_level)
     : Object(position, hitbox, texture),
       health_(health),
+      max_health_(health),
       move_speed_(move_speed),
       bounty_(bounty),
       armored_(armored),
       distance_moved_(distance_moved),
       slowed_level_(slowed_level) {}
+
+Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
+  health_ = enemy.max_health_;
+  max_health_ = enemy.max_health_;
+  move_speed_ = enemy.move_speed_;
+  bounty_ = enemy.bounty_;
+  armored_ = enemy.armored_;
+  distance_moved_ = enemy.distance_moved_;
+  slowed_level_ = enemy.slowed_level_;
+}
 
 void Enemy::Update(types::Time dt, const td::Game& game) {}
 
@@ -44,6 +55,8 @@ float Enemy::getHealth() const { return health_; }
 void Enemy::setHealth(float health_decrease) {
   health_ = health_ - health_decrease;
 }
+
+float Enemy::getMaxHealth() const { return max_health_; }
 
 int Enemy::getMoveSpeed() const { return move_speed_; }
 

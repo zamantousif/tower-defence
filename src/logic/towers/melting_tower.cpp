@@ -4,11 +4,11 @@
 #include <cmath>
 
 namespace td {
-float hitbox_melting = 1.0f;  // parameters radius and pointCount
+float hitbox_melting = 30.0f;  // parameters radius and pointCount
 
 unsigned int attack_speed_melting = 10;  // can adjust these later
 
-float range_melting = 10.0f;
+float range_melting = 100.0f;
 
 std::vector<unsigned int> upgrade_costs_melting = {100, 100, 100};
 

@@ -15,6 +15,9 @@ class Basic_tower : public Tower {
   /// \param rotation_angle  Orientation, in radians of the tower
   Basic_tower(types::Position position, float rotation_angle = 0.0f, sf::Texture* texture = nullptr, sf::Texture* texture_projectile = nullptr);
 
+  /// \brief Upgrades the tower once
+  void Upgrade();
+
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
   std::list<Projectile> shoot(std::list<Projectile>, std::vector<Enemy> enemies);

@@ -25,9 +25,11 @@ class Enemy : public Object {
   /// \param slowed_level   The level by which the enemy is slowed
   /// \param melting_level  The level by which the enemy is melted
   Enemy(types::Position position, float hitbox, sf::Texture* texture,
-        float health = 100.0f, int move_speed = 1, float bounty = 0.0f,
+        float health = 100.0f, int move_speed = 1, int bounty = 0,
         bool armored = false, float distance_moved = 0.0f,
         unsigned int slowed_level = 0);
+
+  Enemy(const Enemy& enemy);
 
   virtual void Update(types::Time dt, const td::Game&);
 
@@ -57,43 +59,48 @@ class Enemy : public Object {
   Enemy createDragonfly(types::Position startOfTheMap,
                                 sf::Texture* texture);
 
-      /// \brief Get the remaining health of the enemy
-      /// \return Remaining health of the enemy
-      virtual float getHealth() const;
+  /// \brief Get the remaining health of the enemy
+  /// \return Remaining health of the enemy
+  float getHealth() const;
 
   /// \brief Set the health of the enemy
   /// \param health_decrease the amount of health that is decreased from enemys
   /// health
-  virtual void setHealth(float health_decrease);
+  void setHealth(float health_decrease);
+
+  /// \brief Get the maximum health of the enemy
+  /// \return Maximum health of the enemy
+  float getMaxHealth() const;
 
   /// \brief Get the movement speed of the enemy
   /// \return Movement speed of the enemy
-  virtual int getMoveSpeed() const;
+  int getMoveSpeed() const;
 
   /// \brief Get the bounty of the enemy
   /// \return Bounty of the enemy
-  virtual int getBounty() const;
+  int getBounty() const;
 
   /// \brief Status of enemy armor
   /// \return True if the enemy is armored otherwise false
-  virtual bool isArmored() const;
+  bool isArmored() const;
 
   /// \brief Set the total distance moved on the path by the enemy
-  virtual void setDistanceMoved(float distance);
+  void setDistanceMoved(float distance);
 
   /// \brief Get the distance enemy has travelled
   /// \return Distance the enemy has travelled
-  virtual float getDistanceMoved() const;
+  float getDistanceMoved() const;
 
   /// \brief Set the slowed_level of the enemy
-  virtual void setSlowedLevel(unsigned int level);
+  void setSlowedLevel(unsigned int level);
 
   /// \brief Get the slowed level of the enemy
   /// \return slowed_level of the enemy
-  virtual unsigned int getSlowedLevel() const;
+  unsigned int getSlowedLevel() const;
 
  protected:
   float health_;          ///< Remaining health of the enemy
+  float max_health_;      ///< Maximum health of the enemy
   int move_speed_;        ///< Movement speed of the enemy
   int bounty_;            ///< Bounty of the enemy
   bool armored_;          ///< Status of enemy armor

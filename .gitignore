@@ -16,9 +16,9 @@
 *.gch
 *.pch
 
-# Build directory
+# Build and Binaries directory
 build/
-
+bin/
 # Libraries
 
 

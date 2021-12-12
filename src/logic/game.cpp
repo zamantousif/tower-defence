@@ -5,7 +5,19 @@
 #include "collision.hpp"
 
 namespace td {
-Game::Game() {}
+Game::Game(Map* map, int starting_money, int starting_lives,
+           const std::map<std::string, sf::Texture*>& textures)
+    : map_(map), money_(starting_money), lives_(starting_lives) {
+  LoadEnemies(textures);
+}
+Game::Game(Map* map, const std::map<std::string, sf::Texture*>& textures)
+    : map_(map), money_(2000), lives_(100) {
+  LoadEnemies(textures);
+}
+
+int Game::getMoney() const { return money_; }
+
+int Game::getLives() const { return lives_; }
 
 void Game::Update(types::Time dt) {
   // Iterate through all the enemies, calling their Update method and updating
@@ -105,13 +117,52 @@ Game::getEnemyCollisions(bool previous_update) {
   }
 }
 
-const std::map<const Projectile*, std::vector<const Enemy*>>&
-Game::getProjectileCollisions(bool previous_update) {
+void Game::AddTower(const td::Tower& tower) { towers_.push_back(tower); }
+
+const std::map<const Projectile*, std::vector<const Enemy*>>& Game::getProjectileCollisions(
+    bool previous_update) {
   if (previous_update) {
     return previous_projectile_collisions_;
   } else {
     return projectile_collisions_;
   }
+}
+
+void Game::UpgradeTower(Tower* tower) {
+  if (tower->getLevel() < 4 && (int)tower->getUpgradeCost() <= money_) {
+    money_ -= tower->getUpgradeCost();
+    tower->setMoneySpent(tower->getUpgradeCost() + tower->getMoneySpent());
+    tower->Upgrade();
+  }
+}
+
+void Game::SellTower(Tower* tower) {
+  // 0.75 is a factor of how much money you get back when selling
+  money_ += static_cast<int>(tower->getMoneySpent() * 0.75);
+  // TODO: delete tower here
+}
+
+Tower Game::StartBuyingTower(
+    std::string name, sf::Texture* tower_texture,
+    sf::Texture* projectile_texture) {  // TODO: check money
+  if (name == "basic_tower") {
+    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+                       projectile_texture);
+  } else if (name == "bomb_tower") {
+    return Bomb_tower(types::Position(0, 0), 0.0f, tower_texture,
+                      projectile_texture);
+  } else if (name == "slowing_tower") {
+    return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
+  } else if (name == "thorn_eruptor") {
+    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+                       projectile_texture);
+  } else if (name == "sniper_tower") {
+    return High_damage_tower(types::Position(0, 0), 0.0f, tower_texture,
+                             projectile_texture);
+  } else if (name == "melting_tower") {
+    return Melting_tower(types::Position(0, 0), 0.0f, tower_texture);
+  }
+  return Basic_tower(types::Position(0, 0), 0, nullptr, nullptr);
 }
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {
@@ -133,5 +184,61 @@ void Game::LoadRounds(const std::string& file_path) {
     rounds_.push_back(round);
   }
 }
+
+void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
+  enemy_table_.emplace("cockroach",
+                       Enemy(td::types::Position(0, 0), 40.0f,
+                             textures.at("cockroach"), 200, 10, 10, false, 0));
+  enemy_table_.emplace("fly", Enemy(td::types::Position(0, 0), 40.0f,
+                                    textures.at("fly"), 150, 20, 14, false, 0));
+  enemy_table_.emplace(
+      "beetle", Enemy(td::types::Position(0, 0), 60.0f, textures.at("beetle"),
+                      300, 10, 20, true, 0));
+  enemy_table_.emplace("dragonfly",
+                       Enemy(td::types::Position(0, 0), 80.0f,
+                             textures.at("dragonfly"), 4000, 10, 400, true, 0));
+}
+
+bool Game::CheckTowerPlacementCollision(const Tower& tower) {
+  std::vector<td::types::Position> polygon_points;
+  // Check collision with blocked regions on the map
+  for (auto& region : map_->getBlockedRegions()) {
+    for (size_t index = 0; index != region.getPointCount(); index++) {
+      polygon_points.emplace_back(region.getPoint(index));
+    }
+    if (IsCircleCollidingWithPolygon(tower.getPosition(),
+                                     tower.getHitboxRadius(), polygon_points))
+      return true;
+  }
+  // Check collision with existing towers on the map
+  for (auto& existing_tower : towers_) {
+    if (IsCircleCollidingWithCircle(
+            tower.getPosition(), tower.getHitboxRadius(),
+            existing_tower.getPosition(), existing_tower.getHitboxRadius()))
+      return true;
+  }
+  // Check collision with boundary of the map
+  std::vector<std::pair<td::types::Position, td::types::Position>> window_edges;
+  sf::Vector2f corner1 = sf::Vector2f(0.0f, 0.0f);
+  sf::Vector2f corner2 = sf::Vector2f(1520.0f, 0.0f);
+  sf::Vector2f corner3 = sf::Vector2f(1520.0f, 1080.0f);
+  sf::Vector2f corner4 = sf::Vector2f(0.0f, 1080.0f);
+  window_edges.emplace_back(corner1, corner2);
+  window_edges.emplace_back(corner2, corner3);
+  window_edges.emplace_back(corner3, corner4);
+  window_edges.emplace_back(corner4, corner1);
+  for (auto& edge : window_edges) {
+    if (IsCircleIntersectingPolygonEdge(tower.getPosition(),
+                                        tower.getHitboxRadius(), edge))
+      return true;
+  }
+
+  // Otherwise return false, if no collisions
+  return false;
+}
+
+const Map* Game::getMap() const { return map_; }
+
+Map* Game::getMap() { return map_; }
 
 }  // namespace td

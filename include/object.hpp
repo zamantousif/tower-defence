@@ -18,6 +18,8 @@ class Object {
          float hitboxRadius = 0.0f, sf::Texture* texture = nullptr,
          float rotation_angle = 0.0f);
 
+  Object(const Object& obj);
+
   /// \brief Update the state of the object
   /// \param dt Delta time, time elapsed since last update
   virtual void Update(types::Time dt, const td::Game&) = 0;
@@ -50,11 +52,23 @@ class Object {
   /// \return Orientation, in radians of the object
   virtual float getRotation() const;
 
+  /// \brief Signal Game that this Object should not make it to the next game
+  /// update
+  void Delete();
+
+  /// \return True if the Object should not make it to the next game update,
+  /// false otherwise
+  bool IsDeleted();
+
  protected:
   types::Position position_;  ///< Position of the object
   float
       hitboxRadius_;  ///< Radius of the circular region occupied by the object
   sf::Texture* texture_;  ///< Texture of the object
   float rotation_angle_;  ///< Orientation, in radians of the object
+
+ private:
+  bool preserve_;  ///< If set to false, the Object won't exist in the next game
+                   ///< update
 };
 }  // namespace td
