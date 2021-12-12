@@ -17,21 +17,15 @@ float range_basic = 150.0f;
 
 std::vector<unsigned int> upgrade_costs_basic = { 80, 80, 200 };
 
-unsigned int Basic_tower::getCost() const { return kCostBasicTower; }
-
-unsigned int Basic_tower::getUpgradeCost()
-{
-  return upgrade_costs_basic.at(level_-1);
-}
-
 Basic_tower::Basic_tower(types::Position position, float rotation_angle,
                          sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_basic_tower, texture, texture_projectile, rotation_angle,
-            attack_speed_basic, range_basic) {}
+            attack_speed_basic, range_basic, kCostBasicTower, 80) {}
 
 void Basic_tower::Upgrade() {
   if (level_ == 1) {
     level_++;
+    upgrade_cost_ = 80;
   } else if (level_ == 2) {
     level_++;
     range_ += 10;

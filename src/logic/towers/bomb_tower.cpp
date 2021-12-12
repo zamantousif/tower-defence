@@ -14,17 +14,10 @@ float range_bomb = 150.0f;
 
 std::vector<unsigned int> upgrade_costs_bomb = { 140, 140, 300 };
 
-unsigned int Bomb_tower::getCost() const { return kCostBombTower; }
-
-unsigned int Bomb_tower::getUpgradeCost()
-{
-  return upgrade_costs_bomb.at(level_-1);
-}
-
 Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
                        sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_bomb_tower, texture, texture_projectile, rotation_angle,
-            attack_speed_bomb, range_bomb) {}
+            attack_speed_bomb, range_bomb, kCostBombTower, 140) {}
 
 std::list<Projectile> Bomb_tower::shoot(
     std::list<Projectile> projectiles, std::vector<Enemy> enemies) {

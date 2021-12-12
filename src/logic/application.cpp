@@ -37,7 +37,9 @@ int Application::run() {
               EuclideanDistance(tower.getPosition(),
                                 types::Position(mouse_x, mouse_y))) {
             upgrading_tower_ = &tower;
+            std::cout << upgrading_tower_ << std::endl;
             std::cout << upgrading_tower_->getRange() << std::endl;
+            std::cout << upgrading_tower_->getPosition().x << std::endl;
             LaunchUpgradeGui();
             break;
           }
@@ -85,6 +87,11 @@ int Application::run() {
         HandlePause();
         break;
       case types::kUpgrade:
+      std::cout << "---------" << std::endl;
+      std::cout << upgrading_tower_ << std::endl;
+      std::cout << upgrading_tower_->getAttackSpeed() << std::endl;
+      std::cout << upgrading_tower_->getHitboxRadius() << std::endl;
+      std::cout << upgrading_tower_->getPosition().x << std::endl;
         HandleUpgrade();
         break;
     }
@@ -1026,28 +1033,34 @@ void Application::LaunchUpgradeGui() {
 
 void Application::HandleUpgrade() {
   HandleUpgradeGui();
-std::cout << "jsan" << std::endl;
+  std::cout << "hahaa" << std::endl;
   sf::Sprite map_sprite;
   map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
-
+std::cout << "hahaa" << std::endl;
   // draw range circle of upgrading_tower_
   sf::CircleShape range_circle(upgrading_tower_->getRange(), 40);
+  std::cout << "hahaa111" << std::endl;
   range_circle.setOrigin(upgrading_tower_->getRange(),
                          upgrading_tower_->getRange());
+                         std::cout << "hahaa" << std::endl;
   ScaleSprite(range_circle);
+  std::cout << "hahaa222" << std::endl;
   range_circle.setPosition(upgrading_tower_->getPosition());
+  std::cout << "hahaa333" << std::endl;
   range_circle.setFillColor(sf::Color(100, 100, 100, 120));
+  std::cout << "hahaa" << std::endl;
   window_.draw(range_circle);
-
+std::cout << "hahaa" << std::endl;
   DrawGameElements();
-
+std::cout << "hahaa" << std::endl;
   sf::Sprite shop_bg;
   shop_bg.setTexture(*textures_["shop_bg"], true);
   shop_bg.setPosition(sf::Vector2f(window_x_ * 1520.f / 1920.f, 0.f));
   ScaleSprite(shop_bg);
   window_.draw(shop_bg);
+  std::cout << "hahaa" << std::endl;
 }
 
 void Application::HandleUpgradeGui() {
@@ -1063,6 +1076,8 @@ void Application::HandleUpgradeGui() {
 
   static bool do_once = false;  // tgui buttons have a bad habit of triggering
                                 // multiple times, this fixes that
+
+
 
   button_off_menu->onPress([&] {
     LaunchGameGui();
@@ -1104,14 +1119,16 @@ void Application::HandleUpgradeGui() {
       button_targeting_text->setText("Strong");
       break;
   }
-
+  std::cout << "jsin" << std::endl;
   switch (upgrading_tower_->getLevel()) {  // make upgrade price and button
                                            // background match tower's level
     case 1:
+      std::cout << "haha lol" << std::endl;
       button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
+      std::cout << upgrading_tower_->getUpgradeCost() << std::endl;
       button_upgrade->setText(
-          "Upgrade\n(" + std::to_string(upgrading_tower_->getUpgradeCost()) +
-          ")");
+          "Upgrade\n(" + std::to_string(upgrading_tower_->getRange()) + ")");
+      std::cout << "yeesus" << std::endl;
       break;
     case 2:
       button_upgrade->getRenderer()->setTexture(*textures_["upgrade_2"]);

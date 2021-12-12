@@ -14,6 +14,12 @@
 #include "projectile.hpp"
 #include "tower.hpp"
 #include "types.hpp"
+#include "basic_tower.hpp"
+#include "bomb_tower.hpp"
+#include "high_damage_tower.hpp"
+#include "melting_tower.hpp"
+#include "slowing_tower.hpp"
+
 
 namespace td {
 /// \brief Application class represents the app that runs the game. It takes

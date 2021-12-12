@@ -13,16 +13,10 @@ float range_melting = 100.0f;
 
 std::vector<unsigned int> upgrade_costs_melting = {100, 120, 150};
 
-unsigned int Melting_tower::getCost() const { return kCostMeltingTower; }
-
-unsigned int Melting_tower::getUpgradeCost() {
-  return upgrade_costs_melting.at(level_ - 1);
-}
-
 Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_melting, texture, nullptr, rotation_angle,
-            attack_speed_melting, range_melting) {}
+            attack_speed_melting, range_melting, kCostMeltingTower, 100) {}
 
 std::list<Projectile> Melting_tower::shoot(
     std::list<Projectile> projectiles,

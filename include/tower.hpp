@@ -25,7 +25,7 @@ class Tower : public Object {
   /// closest, s = strongest or f = furthest travelled
   Tower(types::Position position, float hitbox, sf::Texture* texture,
         sf::Texture* texture_projectile, float rotation_angle = 0.0f,
-        unsigned int attack_speed = 1U, float range = 1.0f,
+        unsigned int attack_speed = 1U, float range = 1.0f, unsigned int cost = 0, unsigned int upgrade_cost = 0,
         unsigned int level = 1, types::Targeting targetTo = types::kFirst);
 
   void Update(types::Time dt, const td::Game&);
@@ -50,7 +50,7 @@ class Tower : public Object {
 
   /// \brief Get the price of the tower
   /// \return Cost of the tower
-  virtual unsigned int getCost() const { return 0; }
+  unsigned int getCost() const;
 
   /// \brief Get the total amount of money spent on the tower
   /// \return The total amount of money spent on the tower
@@ -62,7 +62,7 @@ class Tower : public Object {
 
   /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
-  virtual unsigned int getUpgradeCost() const { return 0; };
+  unsigned int getUpgradeCost() const;
 
   /// \brief Get the target type of the tower
   /// \return Target type of the tower
@@ -103,6 +103,8 @@ class Tower : public Object {
   types::Targeting targeting_;         ///< Target mode of the tower
   sf::Texture* texture_projectile_;    ///< Pointer to texture of the projectile
                                        ///< the tower shoots
+  unsigned int cost_;                  ///< cost of the tower
+  unsigned int upgrade_cost_;          ///< upgrade cost of the tower
   unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
                                        ///< used when selling tower
 };
