@@ -77,9 +77,8 @@ void Game::UpgradeTower(Tower* tower) {
 }
 
 void Game::SellTower(Tower* tower) {
-  money_ +=
-      tower->getMoneySpent() *
-      0.75;  // 0.75 is a factor of how much money you get back when selling
+  // 0.75 is a factor of how much money you get back when selling
+  money_ += static_cast<int>(tower->getMoneySpent() * 0.75);
   // TODO: delete tower here
 }
 

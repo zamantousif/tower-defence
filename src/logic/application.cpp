@@ -13,7 +13,7 @@ Application::Application() {
 
   gui_.setWindow(window_);
 
-  font_.loadFromFile("../Assets/arial.TTF");
+  font_.loadFromFile("../assets/arial.TTF");
 }
 
 int Application::run() {
@@ -123,83 +123,83 @@ int Application::run() {
 
 void Application::LoadTextures() {
   sf::Texture* main_menu_bg_texture = new sf::Texture();
-  main_menu_bg_texture->loadFromFile("../Assets/title_screen.jpg");
+  main_menu_bg_texture->loadFromFile("../assets/title_screen.jpg");
   textures_["main_menu_bg"] = main_menu_bg_texture;
 
   sf::Texture* map_select_bg = new sf::Texture();
-  map_select_bg->loadFromFile("../Assets/map_select_bg.jpg");
+  map_select_bg->loadFromFile("../assets/map_select_bg.jpg");
   textures_["map_select_bg"] = map_select_bg;
 
   sf::Texture* shop_bg = new sf::Texture();
-  shop_bg->loadFromFile("../Assets/shop_background.jpg");
+  shop_bg->loadFromFile("../assets/shop_background.jpg");
   textures_["shop_bg"] = shop_bg;
 
   sf::Texture* map1 = new sf::Texture();
-  map1->loadFromFile("../Assets/map1.jpg");
+  map1->loadFromFile("../assets/map1.jpg");
   textures_["map1"] = map1;
 
   sf::Texture* map2 = new sf::Texture();
-  map2->loadFromFile("../Assets/map2.jpg");
+  map2->loadFromFile("../assets/map2.jpg");
   textures_["map2"] = map2;
 
   sf::Texture* upgrade_1 = new sf::Texture();
-  upgrade_1->loadFromFile("../Assets/upgrade_1.jpg");
+  upgrade_1->loadFromFile("../assets/upgrade_1.jpg");
   textures_["upgrade_1"] = upgrade_1;
 
   sf::Texture* upgrade_2 = new sf::Texture();
-  upgrade_2->loadFromFile("../Assets/upgrade_2.jpg");
+  upgrade_2->loadFromFile("../assets/upgrade_2.jpg");
   textures_["upgrade_2"] = upgrade_2;
 
   sf::Texture* upgrade_3 = new sf::Texture();
-  upgrade_3->loadFromFile("../Assets/upgrade_3.jpg");
+  upgrade_3->loadFromFile("../assets/upgrade_3.jpg");
   textures_["upgrade_3"] = upgrade_3;
 
   sf::Texture* upgrade_4 = new sf::Texture();
-  upgrade_4->loadFromFile("../Assets/upgrade_4.jpg");
+  upgrade_4->loadFromFile("../assets/upgrade_4.jpg");
   textures_["upgrade_4"] = upgrade_4;
 
   sf::Texture* pause_icon = new sf::Texture();
-  pause_icon->loadFromFile("../Assets/pause_icon.png");
+  pause_icon->loadFromFile("../assets/pause_icon.png");
   textures_["pause_icon"] = pause_icon;
 
   sf::Texture* arrow_left = new sf::Texture();
-  arrow_left->loadFromFile("../Assets/arrow_left.png");
+  arrow_left->loadFromFile("../assets/arrow_left.png");
   textures_["arrow_left"] = arrow_left;
 
   sf::Texture* arrow_right = new sf::Texture();
-  arrow_right->loadFromFile("../Assets/arrow_right.png");
+  arrow_right->loadFromFile("../assets/arrow_right.png");
   textures_["arrow_right"] = arrow_right;
 
   sf::Texture* red_rectangle = new sf::Texture();
-  red_rectangle->loadFromFile("../Assets/red_rectangle.jpg");
+  red_rectangle->loadFromFile("../assets/red_rectangle.jpg");
   textures_["red_rectangle"] = red_rectangle;
 
   sf::Texture* yellow_rectangle = new sf::Texture();
-  yellow_rectangle->loadFromFile("../Assets/yellow_rectangle.jpg");
+  yellow_rectangle->loadFromFile("../assets/yellow_rectangle.jpg");
   textures_["yellow_rectangle"] = yellow_rectangle;
 
   sf::Texture* white_rectangle = new sf::Texture();
-  white_rectangle->loadFromFile("../Assets/white_rectangle.jpg");
+  white_rectangle->loadFromFile("../assets/white_rectangle.jpg");
   textures_["white_rectangle"] = white_rectangle;
 
   sf::Texture* basic_tower = new sf::Texture();
-  basic_tower->loadFromFile("../Assets/towers/basic_tower.png");
+  basic_tower->loadFromFile("../assets/towers/basic_tower.png");
   textures_["basic_tower"] = basic_tower;
 
   sf::Texture* bomb_tower = new sf::Texture();
-  bomb_tower->loadFromFile("../Assets/towers/bomb_tower.png");
+  bomb_tower->loadFromFile("../assets/towers/bomb_tower.png");
   textures_["bomb_tower"] = bomb_tower;
 
   sf::Texture* slowing_tower = new sf::Texture();
-  slowing_tower->loadFromFile("../Assets/towers/slowing_tower.png");
+  slowing_tower->loadFromFile("../assets/towers/slowing_tower.png");
   textures_["slowing_tower"] = slowing_tower;
 
   sf::Texture* melting_tower = new sf::Texture();
-  melting_tower->loadFromFile("../Assets/towers/melting_tower.png");
+  melting_tower->loadFromFile("../assets/towers/melting_tower.png");
   textures_["melting_tower"] = melting_tower;
 
   sf::Texture* thorn_eruptor = new sf::Texture();
-  thorn_eruptor->loadFromFile("../Assets/towers/thorn_eruptor.png");
+  thorn_eruptor->loadFromFile("../assets/towers/thorn_eruptor.png");
   textures_["thorn_eruptor"] = thorn_eruptor;
 }
 
