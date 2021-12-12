@@ -18,6 +18,20 @@ Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle,
     : Tower(position, hitbox_slowing, texture, nullptr, rotation_angle,
             attack_speed_slowing, range_slowing, kCostSlowingTower, 120) {}
 
+void Slowing_tower::Upgrade() {
+  if (level_ == 1) {
+    level_++;
+    upgrade_cost_ = 140;
+  } else if (level_ == 2) {
+    level_++;
+    attack_speed_ *= 0.8;
+    upgrade_cost_ = 160;
+  } else if (level_ == 3) {
+    level_++;
+    range_ += 10;
+  }
+}
+
 std::list<Projectile> Slowing_tower::shoot(
     std::list<Projectile> projectiles,
     std::vector<Enemy> enemies) {

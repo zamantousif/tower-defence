@@ -9,6 +9,7 @@
 #include "types.hpp"
 #include "constants.hpp"
 #include "enemy.hpp"
+#include <iostream>
 
 namespace td {
 float hitbox_basic_tower = 30.0f;
@@ -26,13 +27,16 @@ void Basic_tower::Upgrade() {
   if (level_ == 1) {
     level_++;
     upgrade_cost_ = 140;
+    std::cout << "level 2 up" << std::endl;
   } else if (level_ == 2) {
     level_++;
-    range_ += 10;
+    range_ += 30;
     upgrade_cost_ = 200;
+    std::cout << "level 3 up" << std::endl;
   } else if (level_ == 3) {
     level_++;
     range_ += 10;
+    std::cout << "level 4 up" << std::endl;
   }
 }
 

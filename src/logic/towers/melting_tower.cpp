@@ -11,12 +11,24 @@ unsigned int attack_speed_melting = 10;  // can adjust these later
 
 float range_melting = 100.0f;
 
-std::vector<unsigned int> upgrade_costs_melting = {100, 120, 150};
-
 Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_melting, texture, nullptr, rotation_angle,
             attack_speed_melting, range_melting, kCostMeltingTower, 100) {}
+
+void Melting_tower::Upgrade() {
+  if (level_ == 1) {
+    level_++;
+    upgrade_cost_ = 120;
+  } else if (level_ == 2) {
+    level_++;
+    attack_speed_ *= 0.8;
+    upgrade_cost_ = 170;
+  } else if (level_ == 3) {
+    level_++;
+    range_ += 10;
+  }
+}
 
 std::list<Projectile> Melting_tower::shoot(
     std::list<Projectile> projectiles,

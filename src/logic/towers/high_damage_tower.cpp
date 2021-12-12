@@ -22,6 +22,19 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
     : Tower(position, hitbox_high, texture, texture_projectile, rotation_angle,
             attack_speed_high, range_high, kCostHighDamageTower, 300, 1, targeting_high) {}
 
+void High_damage_tower::Upgrade() {
+  if (level_ == 1) {
+    level_++;
+    upgrade_cost_ = 350;
+  } else if (level_ == 2) {
+    level_++;
+    attack_speed_ *= 0.8;
+    upgrade_cost_ = 500;
+  } else if (level_ == 3) {
+    level_++;
+  }
+}
+
 std::list<Projectile> High_damage_tower::shoot(
     std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
   int damage_high = 0;
