@@ -7,7 +7,15 @@
 #include "projectile.hpp"
 
 namespace td {
-class Game;
+class Map {
+      public:
+      const std::vector<types::Position>& getEnemyPath() const;
+};
+class Game {
+      public:
+      const Map* getMap() const;
+};
+
 ///  \brief Enemy class represents the blueprint of a basic enemy in the game.
 ///  The base enemy class can be derived further to create towers with special
 ///  powers.
