@@ -18,6 +18,8 @@ class Object {
          float hitboxRadius = 0.0f, sf::Texture* texture = nullptr,
          float rotation_angle = 0.0f);
 
+  Object(const Object& obj);
+
   /// \brief Update the state of the object
   /// \param dt Delta time, time elapsed since last update
   virtual void Update(types::Time dt, const td::Game&) = 0;

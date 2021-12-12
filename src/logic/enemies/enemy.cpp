@@ -18,6 +18,15 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
 void Enemy::Update(types::Time dt, const td::Game& game) {
   //Move position of enemy
 }
+Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
+  health_ = enemy.max_health_;
+  max_health_ = enemy.max_health_;
+  move_speed_ = enemy.move_speed_;
+  bounty_ = enemy.bounty_;
+  armored_ = enemy.armored_;
+  distance_moved_ = enemy.distance_moved_;
+  slowed_level_ = enemy.slowed_level_;
+}
 
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
                                   sf::Texture* texture) {

@@ -9,6 +9,14 @@ Object::Object(types::Position position, float hitboxRadius,
       rotation_angle_(rotation_angle),
       preserve_(true) {}
 
+Object::Object(const Object& obj) {
+  position_ = obj.position_;
+  hitboxRadius_ = obj.hitboxRadius_;
+  texture_ = obj.texture_;
+  rotation_angle_ = obj.rotation_angle_;
+  preserve_ = true;
+}
+
 void Update(types::Time dt, const td::Game& game) {}
 
 types::Position Object::getPosition() const { return position_; }

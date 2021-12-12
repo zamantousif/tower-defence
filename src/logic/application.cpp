@@ -213,6 +213,22 @@ void Application::LoadTextures() {
   sf::Texture* bomb_tower_explosion = new sf::Texture();
   bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
   textures_["bomb_tower_explosion"] = bomb_tower_explosion;
+  
+  sf::Texture* cockroach = new sf::Texture();
+  cockroach->loadFromFile("../assets/enemies/cockroach.png");
+  textures_["cockroach"] = cockroach;
+
+  sf::Texture* fly = new sf::Texture();
+  fly->loadFromFile("../assets/enemies/fly.png");
+  textures_["fly"] = fly;
+
+  sf::Texture* beetle = new sf::Texture();
+  beetle->loadFromFile("../assets/enemies/beetle.png");
+  textures_["beetle"] = beetle;
+  
+  sf::Texture* dragonfly = new sf::Texture();
+  dragonfly->loadFromFile("../assets/enemies/dragonfly.png");
+  textures_["dragonfly"] = dragonfly;
 }
 
 void Application::LaunchMainMenuGui() {
@@ -336,7 +352,7 @@ void Application::LaunchGame(std::string map_name) {
 
   Map* map = Map::LoadFromFile("../assets/maps/" + map_name + ".json");
 
-  game_ = Game(map);
+  game_ = Game(map, textures_);
   game_.value().setAutoStart(auto_start_);  
 }
 

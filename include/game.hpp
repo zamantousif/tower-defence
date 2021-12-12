@@ -7,6 +7,7 @@
 
 #include "basic_tower.hpp"
 #include "bomb_tower.hpp"
+#include "collision.hpp"
 #include "enemy.hpp"
 #include "high_damage_tower.hpp"
 #include "map.hpp"
@@ -20,13 +21,16 @@ class Game {
  public:
   /// \brief Constructs a game with 2000 money and 100 lives.
   /// \param map A pointer to the Map the game is played on.
-  Game(Map* map);
+  /// \param textures The texture map provided by Application
+  Game(Map* map, const std::map<std::string, sf::Texture*>& textures);
 
   /// \brief Constructs a game.
   /// \param map A pointer to the Map the game is played on.
   /// \param starting_money The amount of money the player has at the start
   /// \param starting_lives The amount of lives the player has at the start
-  Game(Map* map, int starting_money, int starting_lives);
+  /// \param textures The texture map provided by Application
+  Game(Map* map, int starting_money, int starting_lives,
+       const std::map<std::string, sf::Texture*>& textures);
 
   /// \return Amount of money the player has
   int getMoney() const;
@@ -129,17 +133,20 @@ class Game {
   };
 
   /// \brief Upgrades the tower given as the parameter if the player has enough
-  /// money \param tower The tower being upgraded
+  /// money
+  /// \param tower The tower being upgraded
   void UpgradeTower(Tower* tower);
 
   /// \brief Sells the tower given as a parameter, deleting it and adding money
-  /// to the player's balance \param tower The tower being sold
+  /// to the player's balance
+  /// \param tower The tower being sold
   void SellTower(Tower* tower);
 
   /// \brief Begins the buying process by returning the appropriate tower to
-  /// application if the player has enough money \param name Identifier used to
-  /// map to a tower object \param tower_texture Pointer to the texture of the
-  /// tower \param projectile_texture Pointer to the texture of the projectile
+  /// application if the player has enough money
+  /// \param name Identifier used to map to a tower object
+  /// \param tower_texture Pointer to the texture of the tower
+  /// \param projectile_texture Pointer to the texture of the projectile
   Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
                          sf::Texture* projectile_texture);
 
@@ -154,7 +161,15 @@ class Game {
   /// { "enemyIdentifier": "asd", "spacing": 500, "offset": 0, "count": 5}
   void LoadRounds(const std::string& file_path);
 
+  /// \brief Check for collisions with blocked regions when placing a tower
+  /// \param tower Tower that is being bought to be checked for collisions
+  /// \return True if there is a collision with a blocked region, false
+  /// otherwise
+  bool CheckTowerPlacementCollision(const Tower& tower);
+
  private:
+  void LoadEnemies(const std::map<std::string, sf::Texture*>& textures);
+
   unsigned int money_;
   int lives_;
   std::list<Enemy> enemies_;
