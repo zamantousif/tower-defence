@@ -135,6 +135,20 @@ void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
                              textures.at("dragonfly"), 4000, 10, 400, true, 0));
 }
 
+bool Game::CheckTowerPlacementCollision(const Tower& tower) {
+  std::vector<td::types::Position> polygon_points;
+  // Check collision with blocked regions
+  for (auto& region : map_->getBlockedRegions()) {
+    for (size_t index = 0; index != region.getPointCount(); index++) {
+      polygon_points.emplace_back(region.getPoint(index));
+    }
+    if (IsCircleCollidingWithPolygon(tower.getPosition(),
+                                     tower.getHitboxRadius(), polygon_points))
+      return true;
+  }
+  return false;
+}
+
 const Map* Game::getMap() const { return map_; }
 
 Map* Game::getMap() { return map_; }
