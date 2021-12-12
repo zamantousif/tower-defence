@@ -133,7 +133,23 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
             existing_tower.getPosition(), existing_tower.getHitboxRadius()))
       return true;
   }
+  // Check collision with boundary of the map
+  std::vector<std::pair<td::types::Position, td::types::Position>> window_edges;
+  sf::Vector2f corner1 = sf::Vector2f(0.0f, 0.0f);
+  sf::Vector2f corner2 = sf::Vector2f(1520.0f, 0.0f);
+  sf::Vector2f corner3 = sf::Vector2f(1520.0f, 1080.0f);
+  sf::Vector2f corner4 = sf::Vector2f(0.0f, 1080.0f);
+  window_edges.emplace_back(corner1, corner2);
+  window_edges.emplace_back(corner2, corner3);
+  window_edges.emplace_back(corner3, corner4);
+  window_edges.emplace_back(corner4, corner1);
+  for (auto& edge : window_edges) {
+    if (IsCircleIntersectingPolygonEdge(tower.getPosition(),
+                                        tower.getHitboxRadius(), edge))
+      return true;
+  }
 
+  // Otherwise return false, if no collisions
   return false;
 }
 

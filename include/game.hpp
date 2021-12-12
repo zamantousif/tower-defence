@@ -152,10 +152,10 @@ class Game {
   /// { "enemyIdentifier": "asd", "spacing": 500, "offset": 0, "count": 5}
   void LoadRounds(const std::string& file_path);
 
-  /// \brief Check for collisions with blocked regions when placing a tower
+  /// \brief Check for collisions with blocked regions, existing towers and
+  /// window walls when placing a tower
   /// \param tower Tower that is being bought to be checked for collisions
-  /// \return True if there is a collision with a blocked region, false
-  /// otherwise
+  /// \return True if there is any collision, false otherwise
   bool CheckTowerPlacementCollision(const Tower& tower);
 
  private:
