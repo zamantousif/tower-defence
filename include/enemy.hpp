@@ -29,7 +29,7 @@ class Enemy : public Object {
         bool armored = false, float distance_moved = 0.0f,
         unsigned int slowed_level = 0);
 
-  Enemy::Enemy(const Enemy& enemy);
+  Enemy(const Enemy& enemy);
 
   virtual void Update(types::Time dt, const td::Game&);
 
