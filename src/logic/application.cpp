@@ -194,6 +194,22 @@ void Application::LoadTextures() {
   sf::Texture* thorn_eruptor = new sf::Texture();
   thorn_eruptor->loadFromFile("../assets/towers/thorn_eruptor.png");
   textures_["thorn_eruptor"] = thorn_eruptor;
+
+  sf::Texture* cockroach = new sf::Texture();
+  cockroach->loadFromFile("../assets/enemies/cockroach.png");
+  textures_["cockroach"] = cockroach;
+
+  sf::Texture* fly = new sf::Texture();
+  fly->loadFromFile("../assets/enemies/fly.png");
+  textures_["fly"] = fly;
+
+  sf::Texture* beetle = new sf::Texture();
+  beetle->loadFromFile("../assets/enemies/beetle.png");
+  textures_["beetle"] = beetle;
+  
+  sf::Texture* dragonfly = new sf::Texture();
+  dragonfly->loadFromFile("../assets/enemies/dragonfly.png");
+  textures_["dragonfly"] = dragonfly;
 }
 
 void Application::LaunchMainMenuGui() {
