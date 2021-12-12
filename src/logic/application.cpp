@@ -598,7 +598,7 @@ void Application::HandleGameGui() {
   button_tower_sn->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
-          "Slow-shooting high-damage\nwith extreme range. Great\nagainst "
+          "Slow-shooting high-damage\ntower with extreme range.\nGreat against "
           "strong foes.";
   });
   button_tower_ci->onMouseEnter([&] {
