@@ -7,8 +7,10 @@
 
 #include "basic_tower.hpp"
 #include "bomb_tower.hpp"
+#include "collision.hpp"
 #include "enemy.hpp"
 #include "high_damage_tower.hpp"
+#include "map.hpp"
 #include "melting_tower.hpp"
 #include "projectile.hpp"
 #include "slowing_tower.hpp"
@@ -17,8 +19,15 @@
 namespace td {
 class Game {
  public:
-  /// \brief A default constructor.
-  Game();
+  /// \brief Constructs a game with 2000 money and 100 lives.
+  /// \param map A pointer to the Map the game is played on.
+  Game(Map* map);
+
+  /// \brief Constructs a game.
+  /// \param map A pointer to the Map the game is played on.
+  /// \param starting_money The amount of money the player has at the start
+  /// \param starting_lives The amount of lives the player has at the start
+  Game(Map* map, int starting_money, int starting_lives);
 
   /// \return Amount of money the player has
   int getMoney() const;
@@ -83,6 +92,11 @@ class Game {
   const std::map<Projectile*, Enemy*>& getProjectileCollisions(
       bool previous_update = false);
 
+  /// \return A const pointer to the map
+  const Map* getMap() const;
+  /// \return A pointer to the map
+  Map* getMap();
+
   /// \brief A struct for storing the state of an enemy wave. A round consists
   /// of these waves.
   struct Wave {
@@ -110,17 +124,20 @@ class Game {
   };
 
   /// \brief Upgrades the tower given as the parameter if the player has enough
-  /// money \param tower The tower being upgraded
+  /// money
+  /// \param tower The tower being upgraded
   void UpgradeTower(Tower* tower);
 
   /// \brief Sells the tower given as a parameter, deleting it and adding money
-  /// to the player's balance \param tower The tower being sold
+  /// to the player's balance
+  /// \param tower The tower being sold
   void SellTower(Tower* tower);
 
   /// \brief Begins the buying process by returning the appropriate tower to
-  /// application if the player has enough money \param name Identifier used to
-  /// map to a tower object \param tower_texture Pointer to the texture of the
-  /// tower \param projectile_texture Pointer to the texture of the projectile
+  /// application if the player has enough money
+  /// \param name Identifier used to map to a tower object
+  /// \param tower_texture Pointer to the texture of the tower
+  /// \param projectile_texture Pointer to the texture of the projectile
   Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
                          sf::Texture* projectile_texture);
 
@@ -135,9 +152,15 @@ class Game {
   /// { "enemyIdentifier": "asd", "spacing": 500, "offset": 0, "count": 5}
   void LoadRounds(const std::string& file_path);
 
+  /// \brief Check for collisions with blocked regions when placing a tower
+  /// \param tower Tower that is being bought to be checked for collisions
+  /// \return True if there is a collision with a blocked region, false
+  /// otherwise
+  bool CheckTowerPlacementCollision(const Tower& tower);
+
  private:
-  int money_ = 2000;
-  int lives_ = 100;
+  int money_;
+  int lives_;
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;
@@ -147,5 +170,6 @@ class Game {
   std::map<Projectile*, Enemy*> previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
+  Map* map_;
 };
 }  // namespace td
