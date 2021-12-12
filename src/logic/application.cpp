@@ -66,8 +66,6 @@ int Application::run() {
       }
     }
 
-    
-
     window_.clear();
     switch (state_) {
       case types::kGame:
@@ -199,6 +197,22 @@ void Application::LoadTextures() {
   sf::Texture* sniper_tower = new sf::Texture();
   sniper_tower->loadFromFile("../assets/towers/sniper_tower.png");
   textures_["sniper_tower"] = sniper_tower;
+
+  sf::Texture* basic_projectile = new sf::Texture();
+  basic_projectile->loadFromFile("../assets/projectiles/basic_projectile.png");
+  textures_["basic_projectile"] = basic_projectile;
+
+  sf::Texture* bomb_tower_projectile = new sf::Texture();
+  bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_projectile.png");
+  textures_["bomb_tower_projectile"] = bomb_tower_projectile;
+
+  sf::Texture* thorn_eruptor_projectile = new sf::Texture();
+  thorn_eruptor_projectile->loadFromFile("../assets/projectiles/thorn_eruptor_projectile.png");
+  textures_["thorn_eruptor_projectile"] = thorn_eruptor_projectile;
+
+  sf::Texture* bomb_tower_explosion = new sf::Texture();
+  bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
+  textures_["bomb_tower_explosion"] = bomb_tower_explosion;
 }
 
 void Application::LaunchMainMenuGui() {
@@ -478,14 +492,14 @@ void Application::HandleGameGui() {
   button_tower_ba->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "basic_tower", textures_["basic_tower"], textures_["basic_tower"]);
+          "basic_tower", textures_["basic_tower"], textures_["basic_projectile"]);
     do_once = false;
   });
 
   button_tower_bo->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower"]);
+          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower_projectile"]);
     do_once = false;
   });
 
@@ -500,7 +514,7 @@ void Application::HandleGameGui() {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
           "thorn_eruptor", textures_["thorn_eruptor"],
-          textures_["thorn_eruptor"]);
+          textures_["thorn_eruptor_projectile"]);
     do_once = false;
   });
 
