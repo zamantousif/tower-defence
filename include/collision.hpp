@@ -1,5 +1,10 @@
-#pragma once
+/// \file collision.hpp
+/// \brief This file contains functions to check collision between different
+/// shapes like collision between two circles, circle and a convex
+/// polygon. Call these functions wherever there is a need to check for
+/// collisions between the mentioned shapes.
 
+#pragma once
 #include <cmath>
 
 #include "types.hpp"
@@ -7,10 +12,6 @@
 namespace td {
 /// Constant for PI (in radians)
 constexpr double PI = 3.14;
-///  \brief This file contains functions to check collision between different
-/// shapes like collision between two circles, circle and a convex
-/// polygon. Call these functions wherever there is a need to check for
-/// collisions between the mentioned shapes.
 
 /// \brief Function to calculate the distance between two points 1 and 2
 /// \param p1 Position of point 1
