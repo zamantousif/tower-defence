@@ -115,19 +115,18 @@ void Game::LoadRounds(const std::string& file_path) {
   }
 }
 
-bool CheckTowerPlacementCollision(Tower* tower, Map* map) {
+bool Game::CheckTowerPlacementCollision(const Tower& tower) {
   std::vector<td::types::Position> polygon_points;
   // Check collision with blocked regions
-  for (auto& region : map->getBlockedRegions()) {
+  for (auto& region : map_->getBlockedRegions()) {
     for (size_t index = 0; index != region.getPointCount(); index++) {
       polygon_points.emplace_back(region.getPoint(index));
     }
-    if (IsCircleCollidingWithPolygon(tower->getPosition(),
-                                     tower->getHitboxRadius(), polygon_points))
+    if (IsCircleCollidingWithPolygon(tower.getPosition(),
+                                     tower.getHitboxRadius(), polygon_points))
       return true;
-    else
-      return false;
   }
+  return false;
 }
 
 const Map* Game::getMap() const { return map_; }

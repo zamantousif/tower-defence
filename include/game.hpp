@@ -154,10 +154,9 @@ class Game {
 
   /// \brief Check for collisions with blocked regions when placing a tower
   /// \param tower Tower that is being bought to be checked for collisions
-  /// \param map Map where the tower is being placed
   /// \return True if there is a collision with a blocked region, false
   /// otherwise
-  bool CheckTowerPlacementCollision(Tower* tower, Map* map);
+  bool CheckTowerPlacementCollision(const Tower& tower);
 
  private:
   int money_;
