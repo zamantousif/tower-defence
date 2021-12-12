@@ -20,13 +20,16 @@ class Game {
  public:
   /// \brief Constructs a game with 2000 money and 100 lives.
   /// \param map A pointer to the Map the game is played on.
-  Game(Map* map);
+  /// \param textures The texture map provided by Application
+  Game(Map* map, const std::map<std::string, sf::Texture*>& textures);
 
   /// \brief Constructs a game.
   /// \param map A pointer to the Map the game is played on.
   /// \param starting_money The amount of money the player has at the start
   /// \param starting_lives The amount of lives the player has at the start
-  Game(Map* map, int starting_money, int starting_lives);
+  /// \param textures The texture map provided by Application
+  Game(Map* map, int starting_money, int starting_lives,
+       const std::map<std::string, sf::Texture*>& textures);
 
   /// \return Amount of money the player has
   int getMoney() const;

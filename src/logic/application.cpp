@@ -331,7 +331,7 @@ void Application::LaunchGame(std::string map_name) {
 
   LaunchGameGui();
   LaunchUpgradeGui();  // temporary test
-  game_ = Game();
+  game_ = Game(nullptr, textures_);
 
   // TODO: load corresponding map into game (variable could be file path instead
   // of map name)
