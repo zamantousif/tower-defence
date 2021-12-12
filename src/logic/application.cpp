@@ -195,6 +195,10 @@ void Application::LoadTextures() {
   sf::Texture* thorn_eruptor = new sf::Texture();
   thorn_eruptor->loadFromFile("../assets/towers/thorn_eruptor.png");
   textures_["thorn_eruptor"] = thorn_eruptor;
+
+  sf::Texture* sniper_tower = new sf::Texture();
+  sniper_tower->loadFromFile("../assets/towers/sniper_tower.png");
+  textures_["sniper_tower"] = sniper_tower;
 }
 
 void Application::LaunchMainMenuGui() {
@@ -503,8 +507,8 @@ void Application::HandleGameGui() {
   button_tower_sn->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "sniper_tower", textures_["basic_tower"],
-          nullptr);  // TODO: change to sniper_tower
+          "sniper_tower", textures_["sniper_tower"],
+          nullptr);
     do_once = false;
   });
 
@@ -1354,7 +1358,7 @@ void Application::DrawShopElements() {
 
   sf::Sprite sniper_tower_icon;
   sniper_tower_icon.setTexture(
-      *textures_["bomb_tower"]);  // TODO: change to correct texture
+      *textures_["sniper_tower"]);
   ScaleSprite(sniper_tower_icon);
   sniper_tower_icon.scale(0.08f, 0.08f);
   sniper_tower_icon.setPosition(1680.0f * window_x_ / 1920.0f,
