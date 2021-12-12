@@ -1006,7 +1006,6 @@ void Application::LaunchUpgradeGui() {
   button_sell->getRenderer()->setTextColor(sf::Color(0, 0, 0, 255));
   button_sell->getRenderer()->setTextColorDown(sf::Color(0, 0, 0, 255));
   button_sell->setTextSize(25);
-  button_sell->setText("Sell");
 
   button_background->setPosition("80.6%", "42%");
   button_background->setSize("18%", "43%");
@@ -1090,13 +1089,7 @@ void Application::HandleUpgradeGui() {
     if (do_once) game_.value().UpgradeTower(upgrading_tower_);
     do_once = false;
   });
-  button_sell->onPress([&] {
-    if (do_once) game_.value().SellTower(upgrading_tower_);
-    do_once = false;
-    upgrading_tower_ = nullptr;
-  });
-  do_once = true;
-
+  
   switch (upgrading_tower_->getTargeting()) {  // make text match tower's value
     case types::kFirst:
       button_targeting_text->setText("First");
@@ -1137,6 +1130,16 @@ void Application::HandleUpgradeGui() {
       button_upgrade->setText("Max level");
       break;
   }
+
+  button_sell->setText("Sell\n(+" + std::to_string((upgrading_tower_->getMoneySpent()*3/4)) + ")");
+
+  button_sell->onPress([&] {
+    if (do_once) game_.value().SellTower(upgrading_tower_);
+    do_once = false;
+    upgrading_tower_ = nullptr;
+    LaunchGameGui();
+  });
+  do_once = true;
 }
 
 void Application::TargetingSwitchRight() {

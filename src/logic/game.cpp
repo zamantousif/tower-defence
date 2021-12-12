@@ -78,7 +78,8 @@ void Game::UpgradeTower(Tower* tower) {
 
 void Game::SellTower(Tower* tower) {
   // 0.75 is a factor of how much money you get back when selling
-  money_ += static_cast<int>(tower->getMoneySpent() * 0.75);
+  money_ += static_cast<int>(tower->getMoneySpent()*3/4);
+  std::cout << "hello" << std::endl;
   // TODO: delete tower here
 }
 
