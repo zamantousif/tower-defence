@@ -1041,7 +1041,7 @@ void Application::HandleUpgrade() {
   range_circle.setOrigin(upgrading_tower_->getRange(),
                          upgrading_tower_->getRange());
   ScaleSprite(range_circle);
-  range_circle.setPosition(upgrading_tower_->getPosition().x*1920.f/window_x_, upgrading_tower_->getPosition().y*1080.f/window_y_);
+  range_circle.setPosition(upgrading_tower_->getPosition().x*window_x_/1920.f, upgrading_tower_->getPosition().y*window_y_/1080.f);
   range_circle.setFillColor(sf::Color(100, 100, 100, 120));
   window_.draw(range_circle);
   DrawGameElements();
