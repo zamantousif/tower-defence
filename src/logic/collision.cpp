@@ -58,6 +58,10 @@ bool IsCircleIntersectingPolygonEdge(
   double x1, x2, y1, y2, xR, yR, root1, root2, x_root1, x_root2, y_root1,
       y_root2;
   bool is_root_on_polygon_edge = false;
+  // If center p lies on the edge
+  if (IsPointBetween(edge.first, p, edge.second)) {
+    return true;
+  }
   x1 = edge.first.x;
   y1 = edge.first.y;
   x2 = edge.second.x;
@@ -101,7 +105,7 @@ bool IsCircleIntersectingPolygonEdge(
 bool IsCircleCollidingWithCircle(td::types::Position p1, float r1,
                                  td::types::Position p2, float r2) {
   double d = EuclideanDistance(p1, p2);
-  float result = abs(static_cast<float>(d) - r1 - r2);
+  float result = (static_cast<float>(d) - r1 - r2);
   if (std::islessequal(result, 0.0f)) {
     return true;
   }
