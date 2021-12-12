@@ -315,7 +315,8 @@ void Application::LaunchGame(std::string map_name) {
 
   LaunchGameGui();
   LaunchUpgradeGui();  // temporary test
-//   game_ = Game();
+  Map* map;
+  game_ = Game(map);
 
   // TODO: load corresponding map into game (variable could be file path instead
   // of map name)
