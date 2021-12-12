@@ -35,6 +35,10 @@ bool IsCircleCenterInsidePolygon(
   td::types::Position p1, p2;
   double angle = 0.0;
   for (auto& edge : edges) {
+    // If point p lies on the edge
+    if (IsPointBetween(edge.first, p, edge.second)) {
+      return true;
+    }
     p1.x = edge.first.x - p.x;
     p1.y = edge.first.y - p.y;
     p2.x = edge.second.x - p.x;
@@ -66,7 +70,8 @@ bool IsCircleIntersectingPolygonEdge(
       (2.0 * y2 * yR);
   c = pow(x2 - xR, 2.0) + pow(y2 - yR, 2.0) - pow(r, 2.0);
   D = pow(b, 2.0) - (4.0 * a * c);
-  // find roots of the quadratic equation, given above coefficients & discriminant
+  // find roots of the quadratic equation, given above coefficients &
+  // discriminant
   if (std::isgreaterequal(D, 0.0)) {
     // float-point equality check with epsilon
     if (std::fabs(D - 0.0) < std::numeric_limits<double>::epsilon()) {
