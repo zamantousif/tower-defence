@@ -3,9 +3,15 @@
 #include <fstream>
 
 namespace td {
-Game::Game(Map* map, int starting_money, int starting_lives)
-    : map_(map), money_(starting_money), lives_(starting_lives) {}
-Game::Game(Map* map) : map_(map), money_(2000), lives_(100) {}
+Game::Game(Map* map, int starting_money, int starting_lives,
+           const std::map<std::string, sf::Texture*>& textures)
+    : map_(map), money_(starting_money), lives_(starting_lives) {
+  LoadEnemies(textures);
+}
+Game::Game(Map* map, const std::map<std::string, sf::Texture*>& textures)
+    : map_(map), money_(2000), lives_(100) {
+  LoadEnemies(textures);
+}
 
 int Game::getMoney() const { return money_; }
 
@@ -113,6 +119,20 @@ void Game::LoadRounds(const std::string& file_path) {
     }
     rounds_.push_back(round);
   }
+}
+
+void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
+  enemy_table_.emplace("cockroach",
+                       Enemy(td::types::Position(0, 0), 40.0f,
+                             textures.at("cockroach"), 200, 10, 10, false, 0));
+  enemy_table_.emplace("fly", Enemy(td::types::Position(0, 0), 40.0f,
+                                    textures.at("fly"), 150, 20, 14, false, 0));
+  enemy_table_.emplace(
+      "beetle", Enemy(td::types::Position(0, 0), 60.0f, textures.at("beetle"),
+                      300, 10, 20, true, 0));
+  enemy_table_.emplace("dragonfly",
+                       Enemy(td::types::Position(0, 0), 80.0f,
+                             textures.at("dragonfly"), 4000, 10, 400, true, 0));
 }
 
 bool Game::CheckTowerPlacementCollision(const Tower& tower) {
