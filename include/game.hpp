@@ -118,9 +118,10 @@ class Game {
   void SellTower(Tower* tower);
 
   /// \brief Begins the buying process by returning the appropriate tower to
-  /// application if the player has enough money \param name Identifier used to
-  /// map to a tower object \param tower_texture Pointer to the texture of the
-  /// tower \param projectile_texture Pointer to the texture of the projectile
+  /// application if the player has enough money
+  /// \param name Identifier used to map to a tower object
+  /// \param tower_texture Pointer to the texture of the tower
+  /// \param projectile_texture Pointer to the texture of the projectile
   Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
                          sf::Texture* projectile_texture);
 
