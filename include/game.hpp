@@ -9,6 +9,7 @@
 #include "bomb_tower.hpp"
 #include "enemy.hpp"
 #include "high_damage_tower.hpp"
+#include "map.hpp"
 #include "melting_tower.hpp"
 #include "projectile.hpp"
 #include "slowing_tower.hpp"
@@ -17,8 +18,15 @@
 namespace td {
 class Game {
  public:
-  /// \brief A default constructor.
-  Game();
+  /// \brief Constructs a game with 2000 money and 100 lives.
+  /// \param map A pointer to the Map the game is played on.
+  Game(Map* map);
+
+  /// \brief Constructs a game.
+  /// \param map A pointer to the Map the game is played on.
+  /// \param starting_money The amount of money the player has at the start
+  /// \param starting_lives The amount of lives the player has at the start
+  Game(Map* map, int starting_money, int starting_lives);
 
   /// \return Amount of money the player has
   int getMoney() const;
@@ -89,6 +97,11 @@ class Game {
   const std::map<Projectile*, Enemy*>& getProjectileCollisions(
       bool previous_update = false);
 
+  /// \return A const pointer to the map
+  const Map* getMap() const;
+  /// \return A pointer to the map
+  Map* getMap();
+
   /// \brief A struct for storing the state of an enemy wave. A round consists
   /// of these waves.
   struct Wave {
@@ -142,8 +155,8 @@ class Game {
   void LoadRounds(const std::string& file_path);
 
  private:
-  unsigned int money_ = 2000;
-  int lives_ = 100;
+  unsigned int money_;
+  int lives_;
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;
@@ -153,6 +166,7 @@ class Game {
   std::map<Projectile*, Enemy*> previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
+  Map* map_;
   bool auto_start_;  ///<whether rounds start automatically or not
 };
 }  // namespace td

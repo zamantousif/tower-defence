@@ -325,14 +325,19 @@ void Application::HandleMapSelectGui() {
 }
 
 void Application::LaunchGame(std::string map_name) {
+  if (state_ == types::kGame) {
+    return;
+  }
   LaunchGameGui();
-  game_ = Game();
-  game_.value().setAutoStart(auto_start_);
 
-  // TODO: load corresponding map into game (variable could be file path instead
-  // of map name)
+  sf::Texture* map_texture = new sf::Texture();
+  map_texture->loadFromFile("../assets/" + map_name + ".jpg");
+  textures_["map"] = map_texture;
 
-  // load map texture based on map.getBackgroundImagePath()
+  Map* map = Map::LoadFromFile("../assets/maps/" + map_name + ".json");
+
+  game_ = Game(map);
+  game_.value().setAutoStart(auto_start_);  
 }
 
 void Application::LaunchGameGui() {
@@ -410,7 +415,7 @@ void Application::LaunchGameGui() {
 
 void Application::HandleGame() {
   sf::Sprite map_sprite;
-  map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
+  map_sprite.setTexture(*textures_["map"], true);
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
@@ -910,8 +915,8 @@ void Application::HandlePause() {
   HandlePauseGui();
 
   sf::Sprite map_sprite;
-  map_sprite.setTexture(*textures_["map1"],
-                        true);  // TODO: pull map name from game_.getMap()
+  map_sprite.setTexture(*textures_["map"],
+                        true);
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
@@ -1050,7 +1055,7 @@ void Application::HandleUpgrade() {
   HandleUpgradeGui();
 
   sf::Sprite map_sprite;
-  map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
+  map_sprite.setTexture(*textures_["map"], true);
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 

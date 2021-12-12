@@ -5,7 +5,9 @@
 #include <iostream> //TODO: temporary
 
 namespace td {
-Game::Game() {}
+Game::Game(Map* map, int starting_money, int starting_lives)
+    : map_(map), money_(starting_money), lives_(starting_lives) {}
+Game::Game(Map* map) : map_(map), money_(2000), lives_(100) {}
 
 int Game::getMoney() const { return money_; }
 
@@ -122,5 +124,9 @@ void Game::LoadRounds(const std::string& file_path) {
     rounds_.push_back(round);
   }
 }
+
+const Map* Game::getMap() const { return map_; }
+
+Map* Game::getMap() { return map_; }
 
 }  // namespace td
