@@ -7,8 +7,10 @@
 
 #include "basic_tower.hpp"
 #include "bomb_tower.hpp"
+#include "collision.hpp"
 #include "enemy.hpp"
 #include "high_damage_tower.hpp"
+#include "map.hpp"
 #include "melting_tower.hpp"
 #include "projectile.hpp"
 #include "slowing_tower.hpp"
@@ -110,11 +112,13 @@ class Game {
   };
 
   /// \brief Upgrades the tower given as the parameter if the player has enough
-  /// money \param tower The tower being upgraded
+  /// money
+  /// \param tower The tower being upgraded
   void UpgradeTower(Tower* tower);
 
   /// \brief Sells the tower given as a parameter, deleting it and adding money
-  /// to the player's balance \param tower The tower being sold
+  /// to the player's balance
+  /// \param tower The tower being sold
   void SellTower(Tower* tower);
 
   /// \brief Begins the buying process by returning the appropriate tower to
@@ -135,6 +139,13 @@ class Game {
   /// the form
   /// { "enemyIdentifier": "asd", "spacing": 500, "offset": 0, "count": 5}
   void LoadRounds(const std::string& file_path);
+
+  /// \brief Check for collisions with blocked regions when placing a tower
+  /// \param tower Tower that is being bought to be checked for collisions
+  /// \param map Map where the tower is being placed
+  /// \return True if there is a collision with a blocked region, false
+  /// otherwise
+  bool CheckTowerPlacementCollision(Tower* tower, Map* map);
 
  private:
   int money_ = 2000;
