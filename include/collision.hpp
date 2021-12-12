@@ -18,6 +18,14 @@ constexpr double PI = 3.14;
 /// \return Euclidean distance between point 1 and 2 using distance formula
 double EuclideanDistance(td::types::Position p1, td::types::Position p2);
 
+/// \brief Check if a given point p is between two points a and b
+/// \param a Position of point a (end-point of segment ab)
+/// \param p Position of the test point p
+/// \param b Position of point b (end-point of segment ab)
+/// \return True if point p lies on the segment formed by a & b, false otherwise
+bool IsPointBetween(td::types::Position a, td::types::Position p,
+                    td::types::Position b);
+
 /// \brief Function to find the 2D angle between vectors (x1, y1) & (x2, y2)
 /// \param x1 X coordinate of vector 1
 /// \param y1 Y coordinate of vector 1
