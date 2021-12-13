@@ -6,7 +6,7 @@
 #include "constants.hpp"
 
 namespace td {
-float hitbox_bomb_tower = 40.0f;
+float hitbox_bomb_tower = 32.0f;
 
 unsigned int attack_speed_bomb = 10;  // can adjust these later
 

@@ -481,8 +481,8 @@ void Application::HandleGame() {
           buying_tower_sprite.getLocalBounds().height / 2);
       ScaleSprite(buying_tower_sprite);
       buying_tower_sprite.scale(
-          buying_tower_.value().getHitboxRadius() * 2 / 1000,
-          buying_tower_.value().getHitboxRadius() * 2 / 1000);
+          buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000,
+          buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000);
       window_.draw(buying_tower_sprite);
     }
   }
@@ -1234,8 +1234,8 @@ void Application::DrawGameElements() {
     tower_sprite.setPosition(window_x_ / 1920.f * tower.getPosition().x,
                              window_y_ / 1080.f * tower.getPosition().y);
     ScaleSprite(tower_sprite);
-    tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() / 500.f,
-                                    tower.getHitboxRadius() / 500.f));
+    tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() *1.33f / 500.f,
+                                    tower.getHitboxRadius() *1.33f / 500.f));
     tower_sprite.setRotation(tower.getRotation());
     window_.draw(tower_sprite);
   }

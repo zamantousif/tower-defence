@@ -11,7 +11,7 @@
 #include "enemy.hpp"
 
 namespace td {
-float hitbox_thorn = 38.0f;
+float hitbox_thorn = 32.0f;
 
 unsigned int attack_speed_thorn = 10;  // can adjust these later
 

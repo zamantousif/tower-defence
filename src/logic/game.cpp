@@ -233,13 +233,13 @@ void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
 
 bool Game::CheckTowerPlacementCollision(const Tower& tower) {
   std::cout << "--------------------" << std::endl;
+  std::cout << tower.getPosition().x << ", " << tower.getPosition().y << std::endl;
   std::vector<td::types::Position> polygon_points;
   // Check collision with blocked regions on the map
   for (auto& region : map_->getBlockedRegions()) {
     for (size_t index = 0; index != region.getPointCount(); index++) {
       polygon_points.emplace_back(region.getPoint(index));
     }
-    std::cout << polygon_points.size() << std::endl;
     if (IsCircleCollidingWithPolygon(tower.getPosition(),
                                      tower.getHitboxRadius(), polygon_points))
       return true;
