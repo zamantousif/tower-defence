@@ -65,6 +65,10 @@ class Tower : public Object {
   /// \return Upgrade cost of the tower
   unsigned int getUpgradeCost() const;
 
+  /// \brief Get the name of the tower
+  /// \return Name of the tower
+  const std::string& getName() const;
+
   /// \brief Get the target type of the tower
   /// \return Target type of the tower
   types::Targeting getTargeting() const;
@@ -98,6 +102,7 @@ class Tower : public Object {
   types::Position GetProjectStartPos();
 
  protected:
+  std::string name_;                   ///< Name that is used as an identifier
   unsigned int attack_speed_;          ///< Attack speed of the tower
   float range_;                        ///< Attack range of the tower
   unsigned int level_;                 ///< Level of the tower

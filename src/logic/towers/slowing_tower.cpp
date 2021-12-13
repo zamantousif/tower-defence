@@ -16,7 +16,9 @@ std::vector<unsigned int> upgrade_costs_slowing = {120, 140, 160};
 Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_slowing, texture, nullptr, rotation_angle,
-            attack_speed_slowing, range_slowing, kCostSlowingTower, 120) {}
+            attack_speed_slowing, range_slowing, kCostSlowingTower, 120) {
+              name_ = "slowing_tower";
+            }
 
 void Slowing_tower::Upgrade() {
   if (level_ == 1) {

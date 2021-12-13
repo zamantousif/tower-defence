@@ -79,28 +79,22 @@ void Game::UpgradeTower(Tower* tower) {
   if (tower->getLevel() < 4 && tower->getUpgradeCost() <= money_) {
     money_ -= tower->getUpgradeCost();
     tower->setMoneySpent(tower->getUpgradeCost() + tower->getMoneySpent());
-    
-    Basic_tower* casted_tower = dynamic_cast<Basic_tower*>(tower);
-    Bomb_tower* casted_tower2 = dynamic_cast<Bomb_tower*>(tower);
-    High_damage_tower* casted_tower3 = dynamic_cast<High_damage_tower*>(tower);
-    Melting_tower* casted_tower4 = dynamic_cast<Melting_tower*>(tower);
-    Slowing_tower* casted_tower5 = dynamic_cast<Slowing_tower*>(tower);
-    std::cout << "checking cast" << std::endl;
-    if (casted_tower) {
-      std::cout << "yippee1" << std::endl;
+
+    if (tower->getName() == "basic_tower") {
+      Basic_tower* casted_tower = static_cast<Basic_tower*>(tower);
       casted_tower->Basic_tower::Upgrade();
-    } else if (casted_tower2) {
-      std::cout << "yippee2" << std::endl;
-      casted_tower2->Upgrade();
-    } else if (casted_tower3) {
-      std::cout << "yippee3" << std::endl;
-      casted_tower3->Upgrade();
-    } else if (casted_tower4) {
-      std::cout << "yippee4" << std::endl;
-      casted_tower4->Upgrade();
-    } else if (casted_tower5) {
-      std::cout << "yippee5" << std::endl;
-      casted_tower5->Upgrade();
+    } else if (tower->getName() == "bomb_tower") {
+      Bomb_tower* casted_tower = static_cast<Bomb_tower*>(tower);
+      casted_tower->Bomb_tower::Upgrade();
+    } else if (tower->getName() == "sniper_tower") {
+      High_damage_tower* casted_tower = static_cast<High_damage_tower*>(tower);
+      casted_tower->High_damage_tower::Upgrade();
+    } else if (tower->getName() == "melting_tower") {
+      Melting_tower* casted_tower = static_cast<Melting_tower*>(tower);
+      casted_tower->Melting_tower::Upgrade();
+    } else if (tower->getName() == "slowing_tower") {
+      Slowing_tower* casted_tower = static_cast<Slowing_tower*>(tower);
+      casted_tower->Slowing_tower::Upgrade();
     } else {
       tower->Upgrade();
     }
@@ -115,7 +109,7 @@ void Game::SellTower(Tower* tower) {
 
 Tower Game::StartBuyingTower(
     std::string name, sf::Texture* tower_texture,
-    sf::Texture* projectile_texture) {  // TODO: check money
+    sf::Texture* projectile_texture) {
   if (name == "basic_tower" && money_ >= kCostBasicTower) {
     return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
                        projectile_texture);

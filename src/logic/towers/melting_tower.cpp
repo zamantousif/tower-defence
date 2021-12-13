@@ -14,7 +14,9 @@ float range_melting = 100.0f;
 Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_melting, texture, nullptr, rotation_angle,
-            attack_speed_melting, range_melting, kCostMeltingTower, 100) {}
+            attack_speed_melting, range_melting, kCostMeltingTower, 100) {
+              name_ = "melting_tower";
+            }
 
 void Melting_tower::Upgrade() {
   if (level_ == 1) {

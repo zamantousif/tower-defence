@@ -20,7 +20,9 @@ High_damage_tower::High_damage_tower(sf::Vector2<float> position,
                                      float rotation_angle, sf::Texture* texture,
                                      sf::Texture* texture_projectile)
     : Tower(position, hitbox_high, texture, texture_projectile, rotation_angle,
-            attack_speed_high, range_high, kCostHighDamageTower, 300, 1, targeting_high) {}
+            attack_speed_high, range_high, kCostHighDamageTower, 300, 1, targeting_high) {
+              name_ = "sniper_tower";
+            }
 
 void High_damage_tower::Upgrade() {
   if (level_ == 1) {

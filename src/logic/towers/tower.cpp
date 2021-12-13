@@ -41,6 +41,8 @@ unsigned int Tower::getUpgradeCost() const { return upgrade_cost_; }
 
 void Tower::setMoneySpent(unsigned int value) { money_spent_on_tower_ = value; }
 
+const std::string& Tower::getName() const { return name_; }
+
 types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }

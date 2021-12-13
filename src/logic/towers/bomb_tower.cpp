@@ -15,7 +15,9 @@ float range_bomb = 150.0f;
 Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
                        sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_bomb_tower, texture, texture_projectile, rotation_angle,
-            attack_speed_bomb, range_bomb, kCostBombTower, 140) {}
+            attack_speed_bomb, range_bomb, kCostBombTower, 140) {
+              name_ = "bomb_tower";
+            }
 
 void Bomb_tower::Upgrade() {
   if (level_ == 1) {
