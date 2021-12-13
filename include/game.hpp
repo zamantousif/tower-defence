@@ -38,7 +38,7 @@ class Game {
   /// \return Amount of lives left
   int getLives() const;
 
-  void Update(types::Time dt);
+  void Update();
 
   /// \return All the enemies currently on the map
   std::list<Enemy>& getEnemies();
@@ -178,5 +178,7 @@ class Game {
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
   Map* map_;
+  sf::Clock update_clock_;
+  sf::Clock round_clock_;
 };
 }  // namespace td

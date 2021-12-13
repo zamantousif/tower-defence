@@ -419,7 +419,7 @@ void Application::HandleGame() {
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
-  // game_.value().update();
+  game_.value().Update();
 
   DrawGameElements();
 

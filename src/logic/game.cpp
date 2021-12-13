@@ -19,7 +19,10 @@ int Game::getMoney() const { return money_; }
 
 int Game::getLives() const { return lives_; }
 
-void Game::Update(types::Time dt) {
+void Game::Update() {
+  sf::Time dt = update_clock_.getElapsedTime();
+  update_clock_.restart();
+
   // Iterate through all the enemies, calling their Update method and updating
   // the collision tables
   for (Enemy& enemy : enemies_) {
