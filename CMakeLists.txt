@@ -4,13 +4,12 @@ project(TowerDefense5)
 # Set the language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
+# Output directory for executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
-
 # Define a grouping for source files in IDE project generation
 # (for example Visual Studio solution filters)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
-
+# ------------------------------Compiler Flags----------------------------------
 # Set the compiler flags
 if(MSVC)
 	message("Using MSVC!")
@@ -20,11 +19,10 @@ else()
 	add_compile_options("-Wall" "-Wextra" "-Wpedantic" "-O3")
 endif()
 
-# Build
+# ----------------------------------Build---------------------------------------
 # Include the directories for compilation
 include_directories(include)
 include_directories(src)
-
 # Set the name of the executable to be produced
 set(EXECUTABLE_NAME ${PROJECT_NAME})
 set(SOURCES 
@@ -67,9 +65,11 @@ set(SOURCES
     include/constants.hpp
 )
 
+# ---------------------------------Targets--------------------------------------
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
+# ----------------------------External Libraries--------------------------------
 # Include and link the SFML library
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/libs/SFML")
 add_subdirectory(${SFML_DIR})
@@ -102,7 +102,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# Testing
+# ---------------------------------Testing--------------------------------------
 enable_testing()
 set(TESTS_EXE_NAME ${PROJECT_NAME}_tests)
 add_executable(
@@ -123,3 +123,29 @@ target_link_libraries(
 
 include(GoogleTest)
 gtest_discover_tests(${TESTS_EXE_NAME})
+
+# ------------------------------Documentation-----------------------------------
+option(BUILD_DOC "Build documentation" ON)
+# check if Doxygen is installed
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    # set input and output files
+    set(DOXYGEN_EXCLUDE_PATTERNS
+        *test.cpp
+    )
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile)
+
+    # request to configure the file
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+
+    # note the option ALL which allows to build the docs together with the application
+    add_custom_target( doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+else (DOXYGEN_FOUND)
+  message("Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)

@@ -42,7 +42,7 @@ Tested on Ubuntu 18.04.
 6. `cd build` - enter the build directory.
 7. `cmake ..` - run CMake and generate a makefile inside `build`.
 8. `make` - use the makefile to build the project.
-9. `./TowerDefense5` - finally, run the executable generated inside `build`.
+9. `./TowerDefense5` - finally, run the executable generated inside `bin`.
 
 # Note on Code Formatting
 We use [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) with Google C++ style guide.
@@ -50,32 +50,40 @@ There are shortcuts to invoke the formatter on the project source depending on t
 - In Visual Studio, open a source file and hit `Ctrl+K, Ctrl+D` to apply the formatting.
 - Refer [this](https://code.visualstudio.com/docs/cpp/cpp-ide) to set up clang-format for VSCode. Open a source file and hit `Ctrl+Shift+I` to apply the formatting. 
 
+# Source code documentation
+Our project uses [Doxygen](https://github.com/doxygen/doxygen) to document source code. To be able to generate the 
+documentation from this repository, you need to [install Doxygen](https://www.doxygen.nl/download.html). The compilation
+takes care of generating the documentation as well. The documented output is present inside [**doc**](https://version.aalto.fi/gitlab/cpp-autumun-2021/tower-defense/tower-defense-5/-/tree/master/doc) as a HTML file.
+
 # Unit Tests
 We use [GoogleTest](https://github.com/google/googletest/blob/main/googletest/README.md) to write unit tests. The `CMakeLists.txt`
 takes care of installing the necessary dependencies and generates an executable for all unit test sources present inside `tests` directory. Run this executable 
 to see the status of unit tests (passed/failed).
 ```bash
-cd tower-defense-5      # enter project root directory
-mkdir build && cd build # make a build directory
-cmake ..                # run CMake
-make                    # make tests along with sources
-cd build/bin            # go to executables directory
-./TowerDefense5_tests   # run tests executable
+cd tower-defense-5          # enter project root directory
+mkdir build && cd build     # make a build directory
+cmake ..                    # run CMake
+make                        # make tests along with sources
+../bin/TowerDefense5_tests  # run tests executable from executables directory
 ```
 # Repository organization
 
-The project repository is organised as the following tree:
+The project repository at the top-level is organised as the following tree:
 
 | \
+|__assets/ \
+|__bin/ \
+|__build/ \
 |__doc/ \
 |__include/ \
 |__libs/ \
 |__plan/ \
 |__src/ \
 |__tests/ \
+|__.clang-format \
 |__CMakeLists.txt \
+|__Meeting-notes.md \
 |__README.md \
-|__Meeting-notes.md
 
 # Project Implementation 
 You must use git repository for the work on the project, making frequent enough commits so 
@@ -110,9 +118,5 @@ preferably at a regular weekly time. In the meeting the group updates:
 
 > Everyone may not be able to participate to all meetings, but at least a couple of members should be present in each meeting. 
 > Regular absence from meetings will affect in individual evaluation.
-
-# Source code documentation
-It is strongly recommended to use Doxygen to document your source code.
-Please go over the *Project Guidelines* for details.
 
 # TODOs (05-Dec-2021)
