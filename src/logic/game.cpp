@@ -4,6 +4,8 @@
 #include "constants.hpp"
 #include <iostream> //TODO: temporary
 
+#include "collision.hpp"
+
 namespace td {
 Game::Game(Map* map, int starting_money, int starting_lives,
            const std::map<std::string, sf::Texture*>& textures)
@@ -18,6 +20,68 @@ Game::Game(Map* map, const std::map<std::string, sf::Texture*>& textures)
 int Game::getMoney() const { return money_; }
 
 int Game::getLives() const { return lives_; }
+
+void Game::Update(types::Time dt) {
+  // Iterate through all the enemies, calling their Update method and updating
+  // the collision tables
+  for (Enemy& enemy : enemies_) {
+    // Call the Update method for every enemy
+    enemy.Update(dt, *this);
+
+    // Projectiles that the enemy collided with in the previous frame
+    auto enemy_collided_with = enemy_collisions_.find(&enemy);
+    if (enemy_collided_with != enemy_collisions_.end()) {
+      previous_enemy_collisions_[&enemy] = enemy_collided_with->second;
+    }
+
+    std::map<const Enemy*, std::vector<const Projectile*>> new_enemy_collisions;
+
+    for (const Projectile& projectile : projectiles_) {
+      // Check if Projectile collides with the Enemy
+      if (IsCircleCollidingWithCircle(
+              projectile.getPosition(), projectile.getHitboxRadius(),
+              enemy.getPosition(), enemy.getHitboxRadius())) {
+        auto collisions = new_enemy_collisions.find(&enemy);
+        if (collisions != new_enemy_collisions.end()) {
+          collisions->second.push_back(&projectile);
+        } else {
+          new_enemy_collisions[&enemy] = {&projectile};
+        }
+      }
+    }
+  }
+
+  // Iterate through all the projectiles, calling their Update method and
+  // updating the collision tables
+  for (Projectile& projectile : projectiles_) {
+    // Call the Update method for every projectile
+    projectile.Update(dt, *this);
+
+    // Enemies that the projectile collided with in the previous frame
+    auto projectile_collided_with = projectile_collisions_.find(&projectile);
+    if (projectile_collided_with != projectile_collisions_.end()) {
+      previous_projectile_collisions_[&projectile] =
+          projectile_collided_with->second;
+    }
+
+    std::map<const Projectile*, std::vector<const Enemy*>>
+        new_projectile_collisions;
+
+    for (const Enemy& enemy : enemies_) {
+      // Check if Enemy collides with the Projectile
+      if (IsCircleCollidingWithCircle(
+              projectile.getPosition(), projectile.getHitboxRadius(),
+              enemy.getPosition(), enemy.getHitboxRadius())) {
+        auto collisions = new_projectile_collisions.find(&projectile);
+        if (collisions != new_projectile_collisions.end()) {
+          collisions->second.push_back(&enemy);
+        } else {
+          new_projectile_collisions[&projectile] = {&enemy};
+        }
+      }
+    }
+  }
+}
 
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }
 std::list<Enemy>& Game::getEnemies() { return enemies_; }
@@ -50,8 +114,8 @@ bool Game::AddEnemy(const std::string& enemy_identifier, Enemy enemy) {
   return enemy_table_.emplace(enemy_identifier, enemy).second;
 }
 
-const std::map<Enemy*, Projectile*>& Game::getEnemyCollisions(
-    bool previous_update) {
+const std::map<const Enemy*, std::vector<const Projectile*>>&
+Game::getEnemyCollisions(bool previous_update) {
   if (previous_update) {
     return previous_enemy_collisions_;
   } else {
@@ -66,7 +130,7 @@ void Game::AddTower(td::Tower& tower) {
   towers_.push_back(tower);
 }
 
-const std::map<Projectile*, Enemy*>& Game::getProjectileCollisions(
+const std::map<const Projectile*, std::vector<const Enemy*>>& Game::getProjectileCollisions(
     bool previous_update) {
   if (previous_update) {
     return previous_projectile_collisions_;
@@ -166,7 +230,7 @@ void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
 
 bool Game::CheckTowerPlacementCollision(const Tower& tower) {
   std::vector<td::types::Position> polygon_points;
-  // Check collision with blocked regions
+  // Check collision with blocked regions on the map
   for (auto& region : map_->getBlockedRegions()) {
     for (size_t index = 0; index != region.getPointCount(); index++) {
       polygon_points.emplace_back(region.getPoint(index));
@@ -175,6 +239,30 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
                                      tower.getHitboxRadius(), polygon_points))
       return true;
   }
+  // Check collision with existing towers on the map
+  for (auto& existing_tower : towers_) {
+    if (IsCircleCollidingWithCircle(
+            tower.getPosition(), tower.getHitboxRadius(),
+            existing_tower.getPosition(), existing_tower.getHitboxRadius()))
+      return true;
+  }
+  // Check collision with boundary of the map
+  std::vector<std::pair<td::types::Position, td::types::Position>> window_edges;
+  sf::Vector2f corner1 = sf::Vector2f(0.0f, 0.0f);
+  sf::Vector2f corner2 = sf::Vector2f(1520.0f, 0.0f);
+  sf::Vector2f corner3 = sf::Vector2f(1520.0f, 1080.0f);
+  sf::Vector2f corner4 = sf::Vector2f(0.0f, 1080.0f);
+  window_edges.emplace_back(corner1, corner2);
+  window_edges.emplace_back(corner2, corner3);
+  window_edges.emplace_back(corner3, corner4);
+  window_edges.emplace_back(corner4, corner1);
+  for (auto& edge : window_edges) {
+    if (IsCircleIntersectingPolygonEdge(tower.getPosition(),
+                                        tower.getHitboxRadius(), edge))
+      return true;
+  }
+
+  // Otherwise return false, if no collisions
   return false;
 }
 

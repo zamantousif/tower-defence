@@ -38,6 +38,8 @@ class Game {
   /// \return Amount of lives left
   int getLives() const;
 
+  void Update(types::Time dt);
+
   /// \return All the enemies currently on the map
   std::list<Enemy>& getEnemies();
   /// \return All the enemies currently on the (const)
@@ -91,14 +93,14 @@ class Game {
   /// previous update
   ///
   /// \return A map mapping enemies to projectiles that they collide with
-  const std::map<Enemy*, Projectile*>& getEnemyCollisions(
+  const std::map<const Enemy*, std::vector<const Projectile*>>& getEnemyCollisions(
       bool previous_update = false);
   /// \param previous_update If set to true, returns collisions from the
   /// previous update
   ///
   /// \return A map mapping projectiles enemies that they
   /// collide with
-  const std::map<Projectile*, Enemy*>& getProjectileCollisions(
+  const std::map<const Projectile*, std::vector<const Enemy*>>& getProjectileCollisions(
       bool previous_update = false);
 
   /// \return A const pointer to the map
@@ -161,10 +163,10 @@ class Game {
   /// { "enemyIdentifier": "asd", "spacing": 500, "offset": 0, "count": 5}
   void LoadRounds(const std::string& file_path);
 
-  /// \brief Check for collisions with blocked regions when placing a tower
+  /// \brief Check for collisions with blocked regions, existing towers and
+  /// window walls when placing a tower
   /// \param tower Tower that is being bought to be checked for collisions
-  /// \return True if there is a collision with a blocked region, false
-  /// otherwise
+  /// \return True if there is any collision, false otherwise
   bool CheckTowerPlacementCollision(const Tower& tower);
 
  private:
@@ -175,10 +177,10 @@ class Game {
   std::list<Enemy> enemies_;
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;
-  std::map<Enemy*, Projectile*> enemy_collisions_;
-  std::map<Enemy*, Projectile*> previous_enemy_collisions_;
-  std::map<Projectile*, Enemy*> projectile_collisions_;
-  std::map<Projectile*, Enemy*> previous_projectile_collisions_;
+  std::map<const Enemy*, std::vector<const Projectile*>> enemy_collisions_;
+  std::map<const Enemy*, std::vector<const Projectile*>> previous_enemy_collisions_;
+  std::map<const Projectile*, std::vector<const Enemy*>> projectile_collisions_;
+  std::map<const Projectile*, std::vector<const Enemy*>> previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
   Map* map_;
