@@ -34,6 +34,7 @@ int Application::run() {
           event.type == sf::Event::MouseButtonPressed) {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
+
         for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
@@ -681,6 +682,9 @@ void Application::HandleGameGui() {
 
 void Application::CloseGame() {
   // TODO: make sure that memory management is fine
+  if (state_ != types::kPause) {
+    return;
+  }
   delete(game_.value().getMap());
   textures_.erase("map");
   game_ = {};
