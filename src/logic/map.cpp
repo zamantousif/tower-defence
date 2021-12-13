@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
+
 namespace td {
 Map::Map(const std::string& background_image_path,
          std::vector<td::types::Position> enemy_path,

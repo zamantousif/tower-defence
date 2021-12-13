@@ -1,6 +1,8 @@
 #include "enemy.hpp"
 
 #include <list>
+#include "collision.hpp"
+//#include "game.hpp"
 
 namespace td {
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
@@ -15,6 +17,25 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       distance_moved_(distance_moved),
       slowed_level_(slowed_level) {}
 
+void Enemy::Update(types::Time dt, const td::Game& game) {
+  const std::vector<types::Position>& path = std::vector<types::Position>{types::Position(0,0), types::Position(500,500), types::Position(1000,200)};//game.getMap()->getEnemyPath();
+  distance_moved_ += move_speed_*dt.asMilliseconds()/1000.f;
+  unsigned int i = 0;  //iterating index
+  float distance_counter = 0;
+  while (i < path.size()-2) {
+    distance_counter += EuclideanDistance(path[i], path[i+1]);
+    if (distance_counter > distance_moved_) {
+      distance_counter -= EuclideanDistance(path[i], path[i+1]);
+      float move_in_x = (path[i+1].x - path[i].x) * (dt.asMilliseconds()/1000.f - distance_counter + distance_moved_)/EuclideanDistance(path[i], path[i+1]);
+      float move_in_y = (path[i+1].y - path[i].y) * (dt.asMilliseconds()/1000.f - distance_counter + distance_moved_)/EuclideanDistance(path[i], path[i+1]);
+      position_.x += move_in_x;
+      position_.y += move_in_y;
+      rotation_angle_ = Angle2D(0, 1, move_in_x, move_in_y);
+    }
+  i++;
+  }
+}
+
 Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   health_ = enemy.max_health_;
   max_health_ = enemy.max_health_;
@@ -24,8 +45,6 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   distance_moved_ = enemy.distance_moved_;
   slowed_level_ = enemy.slowed_level_;
 }
-
-void Enemy::Update(types::Time dt, const td::Game& game) {}
 
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
                                   sf::Texture* texture) {

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <list>
 
@@ -13,12 +15,11 @@ class Slowing_tower : public Tower {
   /// \param rotation_angle  Orientation, in radians of the tower
   Slowing_tower(sf::Vector2<float> position, float rotation_angle = 0.0f, sf::Texture* texture = nullptr);
 
+  /// \brief Upgrades the tower once
+  void Upgrade();
+
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
   std::list<Projectile> shoot(std::list<Projectile>, std::vector<Enemy> enemies);
-
-   /// \brief Get the upgrade cost of the tower at current level
-  /// \return Upgrade cost of the tower
-   unsigned int getUpgradeCost();
 };
 }  // namespace td
