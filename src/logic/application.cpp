@@ -680,13 +680,9 @@ void Application::HandleGameGui() {
 }
 
 void Application::CloseGame() {
-<<<<<<< HEAD
   // TODO: make sure that memory management is fine
-  delete(game_.getMap());
+  delete(game_.value().getMap());
   textures_.erase("map");
-=======
-  // TODO: delete game, make sure that memory management is fine
->>>>>>> master
   game_ = {};
   LaunchMainMenuGui();
 }

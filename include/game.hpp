@@ -14,6 +14,7 @@
 #include "melting_tower.hpp"
 #include "projectile.hpp"
 #include "slowing_tower.hpp"
+#include "thorn_eruptor.hpp"
 #include "tower.hpp"
 
 namespace td {

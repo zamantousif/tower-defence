@@ -159,6 +159,9 @@ void Game::UpgradeTower(Tower* tower) {
     } else if (tower->getName() == "slowing_tower") {
       Slowing_tower* casted_tower = static_cast<Slowing_tower*>(tower);
       casted_tower->Slowing_tower::Upgrade();
+    } else if (tower->getName() == "thorn_eruptor") {
+      ThornEruptor* casted_tower = static_cast<ThornEruptor*>(tower);
+      casted_tower->ThornEruptor::Upgrade();
     } else {
       tower->Upgrade();
     }
@@ -183,7 +186,7 @@ Tower Game::StartBuyingTower(
   } else if (name == "slowing_tower" && money_ >= kCostSlowingTower) {
     return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
   } else if (name == "thorn_eruptor" && money_ >= kCostThornEruptor) {
-    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return ThornEruptor(types::Position(0, 0), 0.0f, tower_texture,
                        projectile_texture);
   } else if (name == "sniper_tower" && money_ >= kCostHighDamageTower) {
     return High_damage_tower(types::Position(0, 0), 0.0f, tower_texture,
