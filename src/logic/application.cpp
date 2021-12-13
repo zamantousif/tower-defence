@@ -56,7 +56,7 @@ int Application::run() {
           buying_tower_ = {};
         } else {
           // position on the map was clicked while buying a tower
-          if (true) {  // TODO: change to !game_.value().CheckCollision()
+          if (!game_.value().CheckTowerPlacementCollision(buying_tower_.value())) {
             game_.value().AddTower(buying_tower_.value());
             buying_tower_ = {};
           } else { /*
@@ -461,13 +461,11 @@ void Application::HandleGame() {
       ScaleSprite(range_circle);
       range_circle.setPosition(static_cast<float>(mouse_x),
                                static_cast<float>(mouse_y));
-      // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
-      // mouse_y*1080/window_y_), buying_tower_.value().getRange())) { //TODO:
-      // add proper collision detection
-      range_circle.setFillColor(sf::Color(100, 100, 100, 120));
-      //} else {
-      //    range_circle.setFillColor(sf::Color(150,0,0,120));
-      //}
+      if (!game_.value().CheckTowerPlacementCollision(buying_tower_.value())) {
+        range_circle.setFillColor(sf::Color(100, 100, 100, 120));
+      } else {
+        range_circle.setFillColor(sf::Color(150,0,0,120));
+      }
       window_.draw(range_circle);
 
       buying_tower_.value().setPosition(types::Position(

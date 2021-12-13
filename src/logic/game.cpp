@@ -232,16 +232,20 @@ void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
 }
 
 bool Game::CheckTowerPlacementCollision(const Tower& tower) {
+  std::cout << "--------------------" << std::endl;
   std::vector<td::types::Position> polygon_points;
   // Check collision with blocked regions on the map
   for (auto& region : map_->getBlockedRegions()) {
     for (size_t index = 0; index != region.getPointCount(); index++) {
       polygon_points.emplace_back(region.getPoint(index));
     }
+    std::cout << polygon_points.size() << std::endl;
     if (IsCircleCollidingWithPolygon(tower.getPosition(),
                                      tower.getHitboxRadius(), polygon_points))
       return true;
+    polygon_points.clear();
   }
+  std::cout << "no blocked region collisions" << std::endl;
   // Check collision with existing towers on the map
   for (auto& existing_tower : towers_) {
     if (IsCircleCollidingWithCircle(
@@ -249,6 +253,7 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
             existing_tower.getPosition(), existing_tower.getHitboxRadius()))
       return true;
   }
+  std::cout << "no tower collisions" << std::endl;
   // Check collision with boundary of the map
   std::vector<std::pair<td::types::Position, td::types::Position>> window_edges;
   sf::Vector2f corner1 = sf::Vector2f(0.0f, 0.0f);
@@ -264,6 +269,7 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
                                         tower.getHitboxRadius(), edge))
       return true;
   }
+  std::cout << "no collision with the boundary" << std::endl;
 
   // Otherwise return false, if no collisions
   return false;
