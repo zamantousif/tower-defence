@@ -22,6 +22,8 @@ int Application::run() {
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;
+
+    //Handle all sfml window events
     while (window_.pollEvent(event)) {
       gui_.handleEvent(event);
 
@@ -67,6 +69,9 @@ int Application::run() {
     }
 
     window_.clear();
+
+    //Handle game logic and rendering of bottom-layer
+    //things based on which state the application is in
     switch (state_) {
       case types::kGame:
         HandleGame();
@@ -90,7 +95,8 @@ int Application::run() {
 
     gui_.draw();
 
-    switch (state_) {  // draw things that need to be drawn on top of the gui
+    // draw things that need to be drawn on top of the gui
+    switch (state_) {
       case types::kGame:
         DrawShopElements();
         break;
@@ -655,6 +661,8 @@ void Application::HandleGameGui() {
 
 void Application::CloseGame() {
   // TODO: make sure that memory management is fine
+  delete(game_.getMap());
+  textures_.erase("map");
   game_ = {};
   LaunchMainMenuGui();
 }
