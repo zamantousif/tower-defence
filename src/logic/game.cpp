@@ -79,7 +79,32 @@ void Game::UpgradeTower(Tower* tower) {
   if (tower->getLevel() < 4 && tower->getUpgradeCost() <= money_) {
     money_ -= tower->getUpgradeCost();
     tower->setMoneySpent(tower->getUpgradeCost() + tower->getMoneySpent());
-    tower->Upgrade();
+    
+    Basic_tower* casted_tower = dynamic_cast<Basic_tower*>(tower);
+    Bomb_tower* casted_tower2 = dynamic_cast<Bomb_tower*>(tower);
+    High_damage_tower* casted_tower3 = dynamic_cast<High_damage_tower*>(tower);
+    Melting_tower* casted_tower4 = dynamic_cast<Melting_tower*>(tower);
+    Slowing_tower* casted_tower5 = dynamic_cast<Slowing_tower*>(tower);
+    std::cout << "checking cast" << std::endl;
+    if (casted_tower) {
+      std::cout << "yippee1" << std::endl;
+      casted_tower->Basic_tower::Upgrade();
+    } else if (casted_tower2) {
+      std::cout << "yippee2" << std::endl;
+      casted_tower2->Upgrade();
+    } else if (casted_tower3) {
+      std::cout << "yippee3" << std::endl;
+      casted_tower3->Upgrade();
+    } else if (casted_tower4) {
+      std::cout << "yippee4" << std::endl;
+      casted_tower4->Upgrade();
+    } else if (casted_tower5) {
+      std::cout << "yippee5" << std::endl;
+      casted_tower5->Upgrade();
+    } else {
+      tower->Upgrade();
+    }
+    
   }
 }
 

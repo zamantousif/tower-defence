@@ -18,7 +18,7 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       slowed_level_(slowed_level) {}
 
 void Enemy::Update(types::Time dt, const td::Game& game) {
-  const std::vector<types::Position>& path = game.getMap()->getEnemyPath();
+  const std::vector<types::Position>& path = std::vector<types::Position>{types::Position(0,0), types::Position(500,500), types::Position(1000,200)};//game.getMap()->getEnemyPath();
   distance_moved_ += move_speed_*dt.asMilliseconds()/1000.f;
   unsigned int i = 0;  //iterating index
   float distance_counter = 0;
