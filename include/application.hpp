@@ -14,6 +14,12 @@
 #include "projectile.hpp"
 #include "tower.hpp"
 #include "types.hpp"
+#include "basic_tower.hpp"
+#include "bomb_tower.hpp"
+#include "high_damage_tower.hpp"
+#include "melting_tower.hpp"
+#include "slowing_tower.hpp"
+
 
 namespace td {
 /// \brief Application class represents the app that runs the game. It takes
@@ -128,11 +134,13 @@ class Application {
                           // sound effects
   float music_volume_ = 70.0f;  // value between 0 and 100 that affects the
                                 // volume of background music
+  bool auto_start_ = false;  ///<whether rounds start automatically or not
   Tower* upgrading_tower_ =
       nullptr;  // Tower that currently has its upgrade menu open,
                 // nullptr if no tower is being upgraded
   std::optional<Tower> buying_tower_ =
       {};  // Tower that currently has its upgrade menu
            // open, nullptr if no tower is being upgraded
+
 };
 }  // namespace td

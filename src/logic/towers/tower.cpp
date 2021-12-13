@@ -6,11 +6,13 @@
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
              sf::Texture* texture_projectile, float rotation_angle,
-             unsigned int attack_speed, float range, unsigned int level,
+             unsigned int attack_speed, float range, unsigned int cost, unsigned int upgrade_cost, unsigned int level,
              types::Targeting targeting)
     : Object(position, hitbox, texture, rotation_angle),
       attack_speed_(attack_speed),
       range_(range),
+      cost_(cost),
+      upgrade_cost_(upgrade_cost),
       level_(level),
       targeting_(targeting),
       texture_projectile_(texture_projectile) {}
@@ -29,17 +31,23 @@ float Tower::getRange() const { return range_; }
 
 unsigned int Tower::getLevel() const { return level_; }
 
-const unsigned int Tower::getMoneySpent() const {
+unsigned int Tower::getMoneySpent() const {
   return money_spent_on_tower_;
 }
 
+unsigned int Tower::getCost() const { return cost_; }
+
+unsigned int Tower::getUpgradeCost() const { return upgrade_cost_; }
+
 void Tower::setMoneySpent(unsigned int value) { money_spent_on_tower_ = value; }
+
+const std::string& Tower::getName() const { return name_; }
 
 types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<const Enemy*> Tower::getTarget(
+std::optional<const Enemy*> Tower::GetTarget(
     const std::vector<Enemy>& enemies) {
   std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
@@ -126,8 +134,8 @@ std::optional<const Enemy*> Tower::getTarget(
 types::Position Tower::GetProjectStartPos() {
   types::Position result;
   result.x =
-      position_.x + hitboxRadius_ * cos(rotation_angle_);  // angle in radians
-  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_);
+      position_.x + hitboxRadius_ * cos(rotation_angle_-PI/2);  // angle in radians
+  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_-PI/2);
   return result;
 }
 }  // namespace td
