@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include "constants.hpp"
 
 namespace td {
 float hitbox_slowing = 30.0f;  // parameters radius and pointCount
@@ -10,16 +11,28 @@ unsigned int attack_speed_slowing = 10;  // can adjust these later
 
 float range_slowing = 100.0f;
 
-std::vector<unsigned int> upgrade_costs_slowing = {120, 120, 120};
-
-unsigned int Slowing_tower::getUpgradeCost() {
-  return upgrade_costs_slowing.at(level_ - 1);
-}
+std::vector<unsigned int> upgrade_costs_slowing = {120, 140, 160};
 
 Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_slowing, texture, nullptr, rotation_angle,
-            attack_speed_slowing, range_slowing) {}
+            attack_speed_slowing, range_slowing, kCostSlowingTower, 120) {
+              name_ = "slowing_tower";
+            }
+
+void Slowing_tower::Upgrade() {
+  if (level_ == 1) {
+    level_++;
+    upgrade_cost_ = 140;
+  } else if (level_ == 2) {
+    level_++;
+    attack_speed_ *= 0.8;
+    upgrade_cost_ = 160;
+  } else if (level_ == 3) {
+    level_++;
+    range_ += 10;
+  }
+}
 
 std::list<Projectile> Slowing_tower::shoot(
     std::list<Projectile> projectiles,

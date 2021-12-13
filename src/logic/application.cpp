@@ -2,7 +2,7 @@
 #include "application.hpp"
 
 #include <stdio.h>
-
+#include "constants.hpp"
 #include <string>
 
 namespace td {
@@ -32,12 +32,12 @@ int Application::run() {
           event.type == sf::Event::MouseButtonPressed) {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
-        for (auto tower : game_.value().getTowers()) {
-          if (tower.getHitboxRadius() <=
+        for (Tower& tower : game_.value().getTowers()) {
+          if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
                                 types::Position(mouse_x, mouse_y))) {
             upgrading_tower_ = &tower;
-            // LaunchUpgradeGui();
+            LaunchUpgradeGui();
             break;
           }
         }
@@ -87,7 +87,6 @@ int Application::run() {
         HandleUpgrade();
         break;
     }
-
     gui_.draw();
 
     switch (state_) {  // draw things that need to be drawn on top of the gui
@@ -195,6 +194,26 @@ void Application::LoadTextures() {
   thorn_eruptor->loadFromFile("../assets/towers/thorn_eruptor.png");
   textures_["thorn_eruptor"] = thorn_eruptor;
 
+  sf::Texture* sniper_tower = new sf::Texture();
+  sniper_tower->loadFromFile("../assets/towers/sniper_tower.png");
+  textures_["sniper_tower"] = sniper_tower;
+
+  sf::Texture* basic_projectile = new sf::Texture();
+  basic_projectile->loadFromFile("../assets/projectiles/basic_projectile.png");
+  textures_["basic_projectile"] = basic_projectile;
+
+  sf::Texture* bomb_tower_projectile = new sf::Texture();
+  bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_projectile.png");
+  textures_["bomb_tower_projectile"] = bomb_tower_projectile;
+
+  sf::Texture* thorn_eruptor_projectile = new sf::Texture();
+  thorn_eruptor_projectile->loadFromFile("../assets/projectiles/thorn_eruptor_projectile.png");
+  textures_["thorn_eruptor_projectile"] = thorn_eruptor_projectile;
+
+  sf::Texture* bomb_tower_explosion = new sf::Texture();
+  bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
+  textures_["bomb_tower_explosion"] = bomb_tower_explosion;
+  
   sf::Texture* cockroach = new sf::Texture();
   cockroach->loadFromFile("../assets/enemies/cockroach.png");
   textures_["cockroach"] = cockroach;
@@ -322,22 +341,19 @@ void Application::HandleMapSelectGui() {
 }
 
 void Application::LaunchGame(std::string map_name) {
-  if (state_ == types::kGame || state_ == types::kUpgrade) {  // temporary
+  if (state_ == types::kGame) {
     return;
   }
-  upgrading_tower_ =
-      new Tower(types::Position(200, 200), 30.f, textures_["basic_tower"],
-                textures_["basic_tower"], 0.f, 1U, 100.f);
-
   LaunchGameGui();
-  LaunchUpgradeGui();  // temporary test
-  
-  game_ = Game(nullptr, textures_);
 
-  // TODO: load corresponding map into game (variable could be file path instead
-  // of map name)
+  sf::Texture* map_texture = new sf::Texture();
+  map_texture->loadFromFile("../assets/" + map_name + ".jpg");
+  textures_["map"] = map_texture;
 
-  // load map texture based on map.getBackgroundImagePath()
+  Map* map = Map::LoadFromFile("../assets/maps/" + map_name + ".json");
+
+  game_ = Game(map, textures_);
+  game_.value().setAutoStart(auto_start_);  
 }
 
 void Application::LaunchGameGui() {
@@ -415,7 +431,7 @@ void Application::LaunchGameGui() {
 
 void Application::HandleGame() {
   sf::Sprite map_sprite;
-  map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
+  map_sprite.setTexture(*textures_["map"], true);
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
@@ -497,14 +513,14 @@ void Application::HandleGameGui() {
   button_tower_ba->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "basic_tower", textures_["basic_tower"], textures_["basic_tower"]);
+          "basic_tower", textures_["basic_tower"], textures_["basic_projectile"]);
     do_once = false;
   });
 
   button_tower_bo->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower"]);
+          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower_projectile"]);
     do_once = false;
   });
 
@@ -519,15 +535,15 @@ void Application::HandleGameGui() {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
           "thorn_eruptor", textures_["thorn_eruptor"],
-          textures_["thorn_eruptor"]);
+          textures_["thorn_eruptor_projectile"]);
     do_once = false;
   });
 
   button_tower_sn->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "sniper_tower", textures_["basic_tower"],
-          nullptr);  // TODO: change to sniper_tower
+          "sniper_tower", textures_["sniper_tower"],
+          nullptr);
     do_once = false;
   });
 
@@ -537,6 +553,10 @@ void Application::HandleGameGui() {
           "melting_tower", textures_["melting_tower"], nullptr);
     do_once = false;
   });
+
+  if (buying_tower_ && buying_tower_.value().getTexture() == nullptr) { //if tower button was pressed without enough money
+    buying_tower_ = {};
+  }
 
   do_once = true;
 
@@ -599,7 +619,7 @@ void Application::HandleGameGui() {
   button_tower_sn->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
-          "Slow-shooting high-damage\nwith extreme range. Great\nagainst "
+          "Slow-shooting high-damage\ntower with extreme range.\nGreat against "
           "strong foes.";
   });
   button_tower_ci->onMouseEnter([&] {
@@ -654,7 +674,7 @@ void Application::HandleGameGui() {
 }
 
 void Application::CloseGame() {
-  // TODO: make sure that memory management is fine
+  // TODO: delete game, make sure that memory management is fine
   game_ = {};
   LaunchMainMenuGui();
 }
@@ -755,9 +775,9 @@ void Application::LaunchOptionsGui() {
   slider_music_volume->setMaximum(100.f);
   slider_music_volume->setValue(music_volume_);
 
-  // if (game_.value().getAutoStart()) {
-  //    button_auto_start->setDown(true);
-  //}
+   if (auto_start_) {
+      button_auto_start->setDown(true);
+  }
 }
 
 void Application::HandleOptions() {
@@ -779,10 +799,10 @@ void Application::HandleOptionsGui() {
   button_return->onPress(&Application::LaunchMainMenuGui, this);
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
-  if (button_auto_start->isDown()) {  // TODO: remove comments
-    // game_.value().setAutoStart(true);
+  if (button_auto_start->isDown()) {
+    auto_start_ = true;
   } else {
-    // game_.value().setAutoStart(false);
+    auto_start_ = false;
   }
 }
 
@@ -902,17 +922,17 @@ void Application::LaunchPauseGui() {
   slider_music_volume->setMaximum(100.f);
   slider_music_volume->setValue(music_volume_);
 
-  // if (game_.value().getAutoStart()) {
-  //    button_auto_start->setDown(true);
-  //}
+  if (auto_start_) {
+      button_auto_start->setDown(true);
+  }
 }
 
 void Application::HandlePause() {
   HandlePauseGui();
 
   sf::Sprite map_sprite;
-  map_sprite.setTexture(*textures_["map1"],
-                        true);  // TODO: pull map name from game_.getMap()
+  map_sprite.setTexture(*textures_["map"],
+                        true);
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
@@ -941,10 +961,12 @@ void Application::HandlePauseGui() {
   button_off_menu->onPress(&Application::LaunchGameGui, this);
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
-  if (button_auto_start->isDown()) {  // TODO: remove comments
-    // game_.value().setAutoStart(true);
+  if (button_auto_start->isDown()) {
+    game_.value().setAutoStart(true);
+    auto_start_ = true;
   } else {
-    // game_.value().setAutoStart(false);
+    game_.value().setAutoStart(false);
+    auto_start_ = false;
   }
 }
 
@@ -1023,7 +1045,6 @@ void Application::LaunchUpgradeGui() {
   button_sell->getRenderer()->setTextColor(sf::Color(0, 0, 0, 255));
   button_sell->getRenderer()->setTextColorDown(sf::Color(0, 0, 0, 255));
   button_sell->setTextSize(25);
-  button_sell->setText("Sell");
 
   button_background->setPosition("80.6%", "42%");
   button_background->setSize("18%", "43%");
@@ -1050,7 +1071,7 @@ void Application::HandleUpgrade() {
   HandleUpgradeGui();
 
   sf::Sprite map_sprite;
-  map_sprite.setTexture(*textures_["map1"], true);  // TODO: change map1 to map
+  map_sprite.setTexture(*textures_["map"], true);
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
@@ -1059,10 +1080,9 @@ void Application::HandleUpgrade() {
   range_circle.setOrigin(upgrading_tower_->getRange(),
                          upgrading_tower_->getRange());
   ScaleSprite(range_circle);
-  range_circle.setPosition(upgrading_tower_->getPosition());
+  range_circle.setPosition(upgrading_tower_->getPosition().x*window_x_/1920.f, upgrading_tower_->getPosition().y*window_y_/1080.f);
   range_circle.setFillColor(sf::Color(100, 100, 100, 120));
   window_.draw(range_circle);
-
   DrawGameElements();
 
   sf::Sprite shop_bg;
@@ -1070,6 +1090,7 @@ void Application::HandleUpgrade() {
   shop_bg.setPosition(sf::Vector2f(window_x_ * 1520.f / 1920.f, 0.f));
   ScaleSprite(shop_bg);
   window_.draw(shop_bg);
+
 }
 
 void Application::HandleUpgradeGui() {
@@ -1085,6 +1106,8 @@ void Application::HandleUpgradeGui() {
 
   static bool do_once = false;  // tgui buttons have a bad habit of triggering
                                 // multiple times, this fixes that
+
+
 
   button_off_menu->onPress([&] {
     LaunchGameGui();
@@ -1105,13 +1128,7 @@ void Application::HandleUpgradeGui() {
     if (do_once) game_.value().UpgradeTower(upgrading_tower_);
     do_once = false;
   });
-  button_sell->onPress([&] {
-    if (do_once) game_.value().SellTower(upgrading_tower_);
-    do_once = false;
-    upgrading_tower_ = nullptr;
-  });
-  do_once = true;
-
+  
   switch (upgrading_tower_->getTargeting()) {  // make text match tower's value
     case types::kFirst:
       button_targeting_text->setText("First");
@@ -1132,7 +1149,7 @@ void Application::HandleUpgradeGui() {
     case 1:
       button_upgrade->getRenderer()->setTexture(*textures_["upgrade_1"]);
       button_upgrade->setText(
-          "Upgrade\n(" + std::to_string(upgrading_tower_->getUpgradeCost()) +
+          "Upgrade\n(" + std::to_string(upgrading_tower_->getUpgradeCost()) + 
           ")");
       break;
     case 2:
@@ -1152,6 +1169,16 @@ void Application::HandleUpgradeGui() {
       button_upgrade->setText("Max level");
       break;
   }
+
+  button_sell->setText("Sell\n(+" + std::to_string((upgrading_tower_->getMoneySpent()*3/4)) + ")");
+
+  button_sell->onPress([&] {
+    if (do_once) game_.value().SellTower(upgrading_tower_);
+    do_once = false;
+    upgrading_tower_ = nullptr;
+    LaunchGameGui();
+  });
+  do_once = true;
 }
 
 void Application::TargetingSwitchRight() {
@@ -1292,8 +1319,8 @@ void Application::DrawShopElements() {
   window_.draw(lives_text);
 
   sf::Text price_text1(
-      std::to_string(200), font_,
-      23);  // price of basic tower //TODO: change to correct value
+      std::to_string(kCostBasicTower), font_,
+      23);  // price of basic tower
   price_text1.setFillColor(sf::Color(0, 150, 0, 255));
   price_text1.setOutlineColor(sf::Color(0, 100, 0, 255));
   price_text1.setOutlineThickness(1);
@@ -1302,32 +1329,32 @@ void Application::DrawShopElements() {
   price_text1.setOrigin(round_text.getGlobalBounds().width / 2, 0);
   window_.draw(price_text1);
 
-  sf::Text price_text2 = price_text1;
-  price_text2.setString("300");  // TODO: change to correct value
+  sf::Text price_text2 = price_text1;  //price of bomb tower
+  price_text2.setString(std::to_string(kCostBombTower));
   price_text2.setPosition(sf::Vector2f(window_x_ / (1920.f / 1737.f),
                                        window_y_ / (1080.f / 230.f)));
   window_.draw(price_text2);
 
-  sf::Text price_text3 = price_text1;
-  price_text3.setString("400");  // TODO: change to correct value
+  sf::Text price_text3 = price_text1;  //price of slowing_tower
+  price_text3.setString(std::to_string(kCostSlowingTower));
   price_text3.setPosition(sf::Vector2f(window_x_ / (1920.f / 1862.f),
                                        window_y_ / (1080.f / 230.f)));
   window_.draw(price_text3);
 
   sf::Text price_text4 = price_text1;
-  price_text4.setString("500");  // TODO: change to correct value
+  price_text4.setString(std::to_string(kCostThornEruptor));
   price_text4.setPosition(sf::Vector2f(window_x_ / (1920.f / 1611.f),
                                        window_y_ / (1080.f / 381.f)));
   window_.draw(price_text4);
 
   sf::Text price_text5 = price_text1;
-  price_text5.setString("600");  // TODO: change to correct value
+  price_text5.setString(std::to_string(kCostHighDamageTower));
   price_text5.setPosition(sf::Vector2f(window_x_ / (1920.f / 1737.f),
                                        window_y_ / (1080.f / 381.f)));
   window_.draw(price_text5);
 
   sf::Text price_text6 = price_text1;
-  price_text5.setString("700");  // TODO: change to correct value
+  price_text5.setString(std::to_string(kCostMeltingTower));
   price_text5.setPosition(sf::Vector2f(window_x_ / (1920.f / 1862.f),
                                        window_y_ / (1080.f / 381.f)));
   window_.draw(price_text5);
@@ -1366,7 +1393,7 @@ void Application::DrawShopElements() {
 
   sf::Sprite sniper_tower_icon;
   sniper_tower_icon.setTexture(
-      *textures_["bomb_tower"]);  // TODO: change to correct texture
+      *textures_["sniper_tower"]);
   ScaleSprite(sniper_tower_icon);
   sniper_tower_icon.scale(0.08f, 0.08f);
   sniper_tower_icon.setPosition(1680.0f * window_x_ / 1920.0f,
