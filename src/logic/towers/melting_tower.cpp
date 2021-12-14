@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "constants.hpp"
+#include "collision.hpp"
 
 namespace td {
 float hitbox_melting = 30.0f;  // parameters radius and pointCount
@@ -32,20 +33,20 @@ void Melting_tower::Upgrade() {
   }
 }
 
-std::list<Projectile> Melting_tower::shoot(
+bool Melting_tower::shoot(
     std::list<Projectile> projectiles,
     std::vector<Enemy> enemies) {
-  float towerxpos = position_.x;
-  float towerypos = position_.y;
+      bool melting_armor_piercing = false;
+      if (level_ == 4) {
+        melting_armor_piercing = true;
+      }
   for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    float enemyxpos = (*it).getPosition().x;
-    float enemyypos = (*it).getPosition().y;
-    if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it).getHitboxRadius()) {  // if enemy is in tower range
-      (*it).setHealth(0.01 * level_);  //decrease 0.01*tower_level every frame
-    }}
-    return projectiles;
+    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius())) {  // if enemy is in tower range
+      it->TakeDamage(3.f * level_, melting_armor_piercing);
+    }
   }
+  return true;
+}
 
 }  // namespace td

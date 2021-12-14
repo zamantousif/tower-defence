@@ -23,6 +23,6 @@ class High_damage_tower : public Tower {
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
-  std::list<Projectile> shoot(std::list<Projectile>, std::vector<Enemy> enemies);
+  bool shoot(std::list<Projectile>, std::vector<Enemy> enemies);
 };
 }  // namespace td

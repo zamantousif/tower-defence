@@ -109,6 +109,12 @@ class Enemy : public Object {
   /// \return slowed_level of the enemy
   unsigned int getSlowedLevel() const;
 
+  /// \brief called when a tower or projectile wants to do damage to the enemy
+  /// \param damage how much damage is dealt
+  /// \param is_armor_piercing whether the damage dealt pierces armor
+  /// \return true if the enemy took damage
+  bool TakeDamage(float damage, bool is_armor_piercing);
+
  protected:
   float health_;          ///< Remaining health of the enemy
   float max_health_;      ///< Maximum health of the enemy

@@ -38,7 +38,7 @@ void Basic_tower::Upgrade() {
   }
 }
 
-std::list<Projectile> Basic_tower::shoot(
+bool Basic_tower::shoot(
     std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
   int damage_basic = 10;
   unsigned int enemy_pierced_count_basic = 1;
@@ -53,16 +53,29 @@ std::list<Projectile> Basic_tower::shoot(
     damage_basic = 30;
   }
 
-  std::optional<const Enemy*> target = GetTarget(enemies);
+  std::optional<Enemy*> target = GetTarget(enemies);
   if (target) {
     rotation_angle_ = Angle2D(0, 1, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
-    Basic_projectile newProjectile = Basic_projectile(
-    GetProjectStartPos(), rotation_angle_, damage_basic,
-    enemy_pierced_count_basic,
-    texture_projectile_);  /// Projectile starts from the edge of the tower
-    projectiles.push_back(newProjectile);
+    Projectile new_projectile = Projectile(
+    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_, damage_basic,
+    false, enemy_pierced_count_basic);
+    projectiles.push_back(new_projectile);
+
+    if (level_ >= 4) {
+    Projectile new_projectile_left = Projectile(
+    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_+0.5f, damage_basic,
+    false, enemy_pierced_count_basic);
+    Projectile new_projectile_right = Projectile(
+    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_-0.5f, damage_basic,
+    false, enemy_pierced_count_basic);
+    projectiles.push_back(new_projectile_left);
+    projectiles.push_back(new_projectile_right);
+    }
+
+    return true;
+  } else {
+    return false;
   }
-  return projectiles;
 }
 
 }  // namespace td

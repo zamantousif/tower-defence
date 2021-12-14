@@ -24,7 +24,7 @@ Tower::Tower(types::Position position, float rotation_angle,
       range_(1.0) {}
 
 void Tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
-  
+
 }
 
 void Tower::Update(types::Time dt, const td::Game&) {}
@@ -51,7 +51,7 @@ types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<const Enemy*> Tower::GetTarget(
+std::optional<Enemy*> Tower::GetTarget(
     const std::vector<Enemy>& enemies) {
   std::vector<Enemy> enemiesInRange;
   float towerxpos = position_.x;
@@ -131,6 +131,8 @@ std::optional<const Enemy*> Tower::GetTarget(
       }
       return &lastEnemy;
     }
+    case types::kArea:
+    return {};
   }
   throw "Target type not recognized";
 }

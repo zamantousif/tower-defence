@@ -633,7 +633,7 @@ void Application::HandleGameGui() {
     if (desc_string == "")
       desc_string =
           "Slow-shooting high-damage\ntower with extreme range.\nGreat against "
-          "strong foes.";
+          "strong foes.\nDeals extra damage to armored enemies";
   });
   button_tower_ci->onMouseEnter([&] {
     if (desc_string == "")

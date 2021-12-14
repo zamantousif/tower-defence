@@ -80,11 +80,11 @@ class Tower : public Object {
   void setTargeting(types::Targeting targeting);
 
   /// \brief Get the shooting type of the tower
-  /// \return Projectiles shoot by the tower
+  /// \return bool that tells if the tower shot
   /// \param vector vector of the projectiles in current game
-  virtual std::vector<Projectile> shoot(std::vector<Projectile> vector,
+  virtual bool shoot(std::vector<Projectile> vector,
                                         std::vector<Enemy> enemies) {
-    return std::vector<Projectile>{};
+    return false;
   };
 
   /// \brief Upgrades the tower once
@@ -93,7 +93,7 @@ class Tower : public Object {
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
-  virtual std::optional<const Enemy*> GetTarget(
+  virtual std::optional<Enemy*> GetTarget(
       const std::vector<Enemy>& enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by

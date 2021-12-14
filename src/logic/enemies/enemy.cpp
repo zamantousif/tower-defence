@@ -74,11 +74,25 @@ void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
   
 }
 
+bool Enemy::TakeDamage(float damage, bool is_armor_piercing) {
+  if (health_ <= 0) {
+    return false;
+  }
+  health_ -= damage;
+  if (armored_ && is_armor_piercing) {  //armored enemies take double damage from armor_piercing damage sources
+    health_ -= damage;
+  }
+  if (health_ <= 0) {
+    this->Delete();
+  }
+  return true;
+}
+
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
                                   sf::Texture* texture) {
-  Enemy basicCockroach =
+  Enemy basic_cockroach =
       Enemy(startOfTheMap, 1.0f, texture, 200, 10, 10, false, 0);
-  return basicCockroach;
+  return basic_cockroach;
 }
 
 Enemy Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
@@ -87,7 +101,7 @@ Enemy Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
 }
 
 Enemy Enemy::createBeetle(types::Position startOfTheMap, sf::Texture* texture) {
-  Enemy beetle = Enemy(startOfTheMap, 1.5f, texture, 300, 10, 20, true, 0);
+  Enemy beetle = Enemy(startOfTheMap, 1.5f, texture, 500, 10, 20, true, 0);
   return beetle;
 }
 

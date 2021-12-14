@@ -33,22 +33,32 @@ void Bomb_tower::Upgrade() {
   }
 }
 
-std::list<Projectile> Bomb_tower::shoot(
+bool Bomb_tower::shoot(
     std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
   int damage_bomb = 0;
+  float explosion_radius = 40;
   if (level_ == 1)
     damage_bomb = 20;
   else if (level_ == 2)
     damage_bomb = 30;
   else if (level_ == 3)
     damage_bomb = 45;
-  else
+  else {
     damage_bomb = 60;
-  Bomb_projectile newProjectile = Bomb_projectile(
-      GetProjectStartPos(), rotation_angle_, damage_bomb,
-      texture_projectile_);  /// Projectile starts from the edge of the tower
-  projectiles.push_back(newProjectile);
-  return projectiles;
+    explosion_radius = 80;
+  }
+    
+  std::optional<Enemy*> target = GetTarget(enemies);
+  if (target) {
+    rotation_angle_ = Angle2D(0, 1, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
+    Bomb_projectile new_projectile = Bomb_projectile(
+    GetProjectStartPos(), rotation_angle_, damage_bomb,
+      texture_projectile_);
+    projectiles.push_back(new_projectile);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 }  // namespace td

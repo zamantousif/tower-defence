@@ -3,11 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "constants.hpp"
+#include "collision.hpp"
 
 namespace td {
 float hitbox_slowing = 30.0f;  // parameters radius and pointCount
 
-unsigned int attack_speed_slowing = 10;  // can adjust these later
+unsigned int attack_speed_slowing = 0;  // can adjust these later
 
 float range_slowing = 120.0f;
 
@@ -34,27 +35,23 @@ void Slowing_tower::Upgrade() {
   }
 }
 
-std::list<Projectile> Slowing_tower::shoot(
+bool Slowing_tower::shoot(
     std::list<Projectile> projectiles,
     std::vector<Enemy> enemies) {
   /// NOTE! Before starting each frame or time segment the slowed_level_
   /// parameters of all enemies should be set to 0!
-  float towerxpos = position_.x;
-  float towerypos = position_.y;
   for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    float enemyxpos = (*it).getPosition().x;
-    float enemyypos = (*it).getPosition().y;
-    if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it).getHitboxRadius()) {  // if enemy in tower range
-      if ((*it).getSlowedLevel() < level_ && (*it).getBounty() != 400)
-        (*it).setSlowedLevel(level_);
+    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius())) {  // if enemy in tower range
       /// if enemy is not in range of another slowing tower that has bigger
       /// level, set slowing_level to be same as level of this tower.
-      /// (*it)->getBounty() != 400 makes dragonfly immune to slowring tower
+      /// it->getBounty() != 400 makes dragonfly immune to slowring tower
+      if (it->getSlowedLevel() < level_ && it->getBounty() != 400) {
+        it->setSlowedLevel(level_);
+      }
     }
   }
-  return projectiles;
+  return true;
 }
 
 }  // namespace td
