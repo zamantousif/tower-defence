@@ -32,46 +32,26 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
 }
 
 void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
-  // std::cout << position_.x << std::endl;
-  distance_moved_ += move_speed_ * dt.asMilliseconds() / 1000.f;
+  float move_by = move_speed_ * dt.asMilliseconds() / 1000.f;
   size_t i = 0;  // iterating index
   float distance_counter = 0;
-  // position_.x += 1;
+
   while (i < path.size() - 2) {
     distance_counter += EuclideanDistance(path[i], path[i + 1]);
     if (distance_counter > distance_moved_) {
-      float displacement_x = (path[i + 1].x - path[i].x) /
-                             EuclideanDistance(path[i], path[i + 1]) *
-                             (distance_moved_ - distance_counter);
-      float displacement_y = (path[i + 1].y - path[i].y) /
-                             EuclideanDistance(path[i], path[i + 1]) *
-                             (distance_moved_ - distance_counter);
-      position_.x = path[i].x + displacement_x;
-      position_.y = path[i].y + displacement_y;
-      rotation_angle_ = Angle2D(0, 1, displacement_x, displacement_y);
-      std::cout << displacement_x << std::endl;
-      break;
-    }
-    i++;
-  }
-
-  /* while (i < path.size() - 2) {
-    distance_counter += EuclideanDistance(path[i], path[i + 1]);
-    if (distance_counter > distance_moved_) {
+      float leftover_distance = distance_moved_ - (distance_counter - EuclideanDistance(path[i], path[i + 1]));
       sf::Vector2f direction = (path[i + 1] - path[i]);
       double direction_magnitude = EuclideanDistance(path[i], path[i + 1]);
       direction.x /= direction_magnitude;
       direction.y /= direction_magnitude;
 
-      position_ = path[i] + direction * distance_moved_;
+      position_ = path[i] + (direction * leftover_distance);
       
+      distance_moved_ += move_by;
       break;
     }
-  }*/
-
-  //position_.x += 0.2;
-  //position_.y = 780;
-  
+    i++;
+  }
 }
 
 bool Enemy::TakeDamage(float damage, bool is_armor_piercing) {

@@ -448,7 +448,7 @@ void Application::HandleGame() {
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
-  //game_.value().Update();
+  game_.value().Update();
 
   DrawGameElements();
 
@@ -568,8 +568,8 @@ void Application::HandleGameGui() {
 
   do_once = true;
 
-  // if (game_.round_active) {
-  //    button_start_wave->setEnabled(false);
+  // if (game_.round_active) {   //TODO
+  //    button_start_wave->setEnabled(false); 
   //} else {
   //    button_start_wave->setEnabled(true);
   //}
@@ -1298,14 +1298,6 @@ void Application::DrawGameElements() {
         sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
     health_bar_.scale((float)enemy.getHealth() / enemy.getMaxHealth(), 1);
     window_.draw(health_bar_);
-  }
-
-  for (const auto& pos : game_.value().getMap()->getEnemyPath()) {
-    sf::Sprite rect;
-    rect.setTexture(*textures_["white_rectangle"]);
-    ScaleSprite(rect);
-    rect.setPosition(pos.x*window_x_/1920.f, pos.y*window_y_/1080.f);
-    window_.draw(rect);
   }
 }
 
