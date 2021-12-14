@@ -83,45 +83,45 @@ std::optional<Enemy*> Tower::GetTarget(
     }
     case types::kStrong: {
       if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy strongestEnemy = enemiesInRange.at(0);
-      float strongestHP = 0;
+      std::optional<Enemy*> strongest_enemy = {};
+      float strongest_hp = 0;
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float currentHealth = (*it).getHealth();
-        if (currentHealth >= strongestHP) {
-          strongestHP = currentHealth;
-          strongestEnemy = *it;
+        float current_health = it->getHealth();
+        if (current_health >= strongest_hp) {
+          strongest_hp = current_health;
+          strongest_enemy = &(*it);
         }
       }
-      return &strongestEnemy;
+      return strongest_enemy;
     }
     case types::kFirst: {
       if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy furthestEnemy = enemiesInRange.at(0);
-      float furthestDistance = 0;
+      std::optional<Enemy*> first_enemy = {};
+      float furthest_distance = 0;
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float currentDistance = (*it).getDistanceMoved();
-        if (currentDistance >= furthestDistance) {
-          furthestDistance = currentDistance;
-          furthestEnemy = *it;
+        float current_distance = it->getDistanceMoved();
+        if (current_distance >= furthest_distance) {
+          furthest_distance = current_distance;
+          first_enemy = &(*it);
         }
       }
-      return &furthestEnemy;
+      return first_enemy;
     }
     case types::kLast: {
       if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy lastEnemy = enemiesInRange.at(0);
-      float lastDistance = -1;
+      std::optional<Enemy*> last_enemy = {};
+      float last_distance = std::numeric_limits<float>::max();
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float currentDistance = (*it).getDistanceMoved();
-        if (currentDistance <= lastDistance || lastDistance == -1) {
-          lastDistance = currentDistance;
-          lastEnemy = *it;
+        float current_distance = it->getDistanceMoved();
+        if (current_distance <= last_distance) {
+          last_distance = current_distance;
+          last_enemy = &(*it);
         }
       }
-      return &lastEnemy;
+      return last_enemy;
     }
     case types::kArea:
     return {};
