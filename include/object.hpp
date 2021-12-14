@@ -20,10 +20,6 @@ class Object {
 
   Object(const Object& obj);
 
-  /// \brief Update the state of the object
-  /// \param dt Delta time, time elapsed since last update
-  virtual void Update(types::Time dt, const td::Game&) = 0;
-
   /// \brief Get the position of the object
   /// \return Position of the object
   virtual types::Position getPosition() const;
