@@ -20,6 +20,12 @@ int Application::run() {
   LoadTextures();
   LaunchMainMenuGui();
 
+  sf::Music music;
+  music.openFromFile("../assets/sounds/space_jazz.wav");
+  music.setLoop(true);
+  music.setVolume(music_volume_);
+  //music.play();
+
   while (window_.isOpen()) {  // main loop
     sf::Event event;
 
@@ -34,6 +40,8 @@ int Application::run() {
           event.type == sf::Event::MouseButtonPressed) {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
+
+        std::cout << "[ " << mouse_x << ", " << mouse_y << " ]" << std::endl;
 
         for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
@@ -452,7 +460,7 @@ void Application::HandleGame() {
     float mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y) *
                     (float)window_y_ / window_.getSize().y;
 
-    if (mouse_x < 1520.f * window_x_ / 1920) {
+    if (mouse_x < 1520.f * window_x_ / 1920 && mouse_x > 0 && mouse_y < window_y_ && mouse_y > 0) {
       // draws range circle of buying_tower_
       sf::CircleShape range_circle =
           sf::CircleShape(buying_tower_.value().getRange(), 40);
@@ -1240,7 +1248,7 @@ void Application::DrawGameElements() {
     window_.draw(tower_sprite);
   }
 
-  for (auto projectile : game_.value().getEnemies()) {
+  for (auto projectile : game_.value().getProjectiles()) {
     sf::Sprite projectile_sprite;
     projectile_sprite.setTexture(*projectile.getTexture());
     ScaleSprite(projectile_sprite);

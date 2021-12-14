@@ -26,11 +26,11 @@ void Enemy::Update(types::Time dt, const td::Game& game) {
     distance_counter += EuclideanDistance(path[i], path[i+1]);
     if (distance_counter > distance_moved_) {
       distance_counter -= EuclideanDistance(path[i], path[i+1]);
-      float move_in_x = (path[i+1].x - path[i].x) * (dt.asMilliseconds()/1000.f - distance_counter + distance_moved_)/EuclideanDistance(path[i], path[i+1]);
-      float move_in_y = (path[i+1].y - path[i].y) * (dt.asMilliseconds()/1000.f - distance_counter + distance_moved_)/EuclideanDistance(path[i], path[i+1]);
-      position_.x += move_in_x;
-      position_.y += move_in_y;
-      rotation_angle_ = Angle2D(0, 1, move_in_x, move_in_y);
+      float displacement_x = (path[i+1].x - path[i].x)/EuclideanDistance(path[i], path[i+1]) * (distance_moved_ - distance_counter);
+      float displacement_y = (path[i+1].y - path[i].y)/EuclideanDistance(path[i], path[i+1]) * (distance_moved_ - distance_counter);
+      position_.x = path[i].x + displacement_x;
+      position_.y = path[i].y + displacement_y;
+      rotation_angle_ = Angle2D(0, 1, displacement_x, displacement_y);
     }
   i++;
   }
