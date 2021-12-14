@@ -123,7 +123,7 @@ class Game {
     unsigned int offset = 0;
     unsigned int count = 1;
     unsigned int enemies_spawned = 0;
-    sf::Time last_spawn_time;
+    unsigned int last_spawn_time;
 
     /// \param enemy_identifier The unique identifier for the enemy that gets
     /// spawned during the wave
@@ -193,6 +193,9 @@ class Game {
   /// \return The zero-indexed index of the current round
   size_t getCurrentRoundIndex();
 
+  /// \brief Resets the clock that calculates dt
+  void Unpause();
+
  private:
   void LoadEnemies(const std::map<std::string, sf::Texture*>& textures);
 
@@ -211,7 +214,7 @@ class Game {
   std::vector<std::vector<Wave>> rounds_;
   Map* map_;
   sf::Clock update_clock_;
-  sf::Clock round_clock_;
+  unsigned int round_time_;
   size_t current_round_index_;
   bool round_in_progress_;
   bool auto_start_;  ///<whether rounds start automatically or not
