@@ -29,6 +29,18 @@ double Angle2D(double x1, double y1, double x2, double y2) {
   return d_angle;
 }
 
+double DotProduct2D(td::types::Position a, td::types::Position b,
+                    td::types::Position c) {
+  // ab.bc = (b1-a1)*(c1-b1) + (b2-a2)*(c2-b2)
+  return (double)((b.x - a.x) * (c.x - b.x) + (b.y - a.y) * (c.y - b.y));
+}
+
+double CrossProduct2D(td::types::Position a, td::types::Position b,
+                      td::types::Position c) {
+  // ab x bc = (b1-a1)*(c2-b2) - (b2-a2)*(c1-b1)
+  return (double)(((b.x - a.x) * (c.y - b.y)) - ((b.y - a.y) * (c.x - b.x)));
+}
+
 bool IsCircleCenterInsidePolygon(
     td::types::Position p,
     std::vector<std::pair<td::types::Position, td::types::Position>> edges) {
@@ -49,6 +61,31 @@ bool IsCircleCenterInsidePolygon(
     return false;
   else
     return true;
+}
+
+bool IsCircleIntersectingLineSegment(
+    td::types::Position p, float r,
+    std::pair<td::types::Position, td::types::Position> line_segment) {
+  // If center p lies on the line segment
+  if (IsPointBetween(line_segment.first, p, line_segment.second)) {
+    return true;
+  }
+  // DotProduct2D(p, AB) > 0 => p is closest to A
+  if (DotProduct2D(p, line_segment.first, line_segment.second) > 0.0) {
+    // Check if distance to A <= hitbox of circle(p, r)
+    return std::islessequal(EuclideanDistance(p, line_segment.first),
+                            (double)r);
+  }
+  // DotProduct2D(AB, p) > 0 => p is closest to B
+  if (DotProduct2D(line_segment.first, line_segment.second, p) > 0.0) {
+    // Check if distance to B <= hitbox of circle(p, r)
+    return std::islessequal(EuclideanDistance(p, line_segment.second),
+                            (double)r);
+  }
+  // p is nearest to a point ON segment AB, distance = (p x AB)/|AB|
+  double dist = (CrossProduct2D(line_segment.first, line_segment.second, p) /
+                 EuclideanDistance(line_segment.first, line_segment.second));
+  return std::islessequal(dist, (double)r);
 }
 
 bool IsCircleIntersectingPolygonEdge(
@@ -92,9 +129,13 @@ bool IsCircleIntersectingPolygonEdge(
     y_root1 = root1 * y1 + (1.0 - root1) * y2;
     y_root2 = root2 * y1 + (1.0 - root2) * y2;
     is_root_on_polygon_edge =
-        IsPointBetween(edge.first, td::types::Position(static_cast<float>(x_root1), static_cast<float>(y_root1)),
+        IsPointBetween(edge.first,
+                       td::types::Position(static_cast<float>(x_root1),
+                                           static_cast<float>(y_root1)),
                        edge.second) ||
-        IsPointBetween(edge.first, td::types::Position(static_cast<float>(x_root2), static_cast<float>(y_root2)),
+        IsPointBetween(edge.first,
+                       td::types::Position(static_cast<float>(x_root2),
+                                           static_cast<float>(y_root2)),
                        edge.second);
     return is_root_on_polygon_edge;
   }
@@ -120,6 +161,7 @@ bool IsCircleCollidingWithPolygon(
   std::vector<std::pair<td::types::Position, td::types::Position>> edges;
 
   if (!polygon_points.empty()) {
+    edges.clear();
     for (auto it = polygon_points.begin(); it != polygon_points.end(); ++it) {
       edges.emplace_back(std::make_pair(*it, *(it + 1)));
     }
@@ -129,7 +171,7 @@ bool IsCircleCollidingWithPolygon(
   }
 
   for (auto& edge : edges) {
-    if (IsCircleIntersectingPolygonEdge(p, r, edge)) return true;
+    if (IsCircleIntersectingLineSegment(p, r, edge)) return true;
   }
   is_circle_center_inside_polygon = IsCircleCenterInsidePolygon(p, edges);
   return is_circle_center_inside_polygon;

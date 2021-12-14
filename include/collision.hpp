@@ -36,6 +36,16 @@ bool IsPointBetween(td::types::Position a, td::types::Position p,
 /// positive anticlockwise and between -PI to +PI.
 double Angle2D(double x1, double y1, double x2, double y2);
 
+double DotProduct2D(td::types::Position a, td::types::Position b,
+                    td::types::Position c);
+
+double CrossProduct2D(td::types::Position a, td::types::Position b,
+                      td::types::Position c);
+
+bool IsCircleIntersectingLineSegment(
+    td::types::Position p, float r,
+    std::pair<td::types::Position, td::types::Position> line_segment);
+
 /// \brief Function to check if the circle center is inside a polygon or not
 /// \param p Position of the center of circle
 /// \param edges Vector of all edges that make up the polygon
