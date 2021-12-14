@@ -19,6 +19,9 @@
 # Build and Binaries directory
 build/
 bin/
+doc/Doxyfile
+doc/doc_doxygen/
+
 # Libraries
 
 

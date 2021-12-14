@@ -134,7 +134,7 @@ TEST_F(CollisionTest, IsCircleCenterInsidePolygon) {
   EXPECT_FALSE(is_circle5_inside);
 }
 
-TEST_F(CollisionTest, IsCircleIntersectingPolygonEdge) {
+TEST_F(CollisionTest, IsCircleIntersectingLineSegment) {
   // Arrange
   // Circle (p, r)
   td::types::Position p1 = sf::Vector2f(0.0f, 0.0f);
@@ -154,26 +154,26 @@ TEST_F(CollisionTest, IsCircleIntersectingPolygonEdge) {
   edge_EA = std::make_pair(E, A);
   // Act
   bool is_circle_intersecting_AB =
-      td::IsCircleIntersectingPolygonEdge(p1, r, edge_AB);
+      td::IsCircleIntersectingLineSegment(p1, r, edge_AB);
   bool is_circle_intersecting_BC =
-      td::IsCircleIntersectingPolygonEdge(p1, r, edge_BC);
+      td::IsCircleIntersectingLineSegment(p1, r, edge_BC);
   bool is_circle_intersecting_CD =
-      td::IsCircleIntersectingPolygonEdge(p1, r, edge_CD);
+      td::IsCircleIntersectingLineSegment(p1, r, edge_CD);
   bool is_circle_intersecting_DE =
-      td::IsCircleIntersectingPolygonEdge(p1, r, edge_DE);
+      td::IsCircleIntersectingLineSegment(p1, r, edge_DE);
   bool is_circle_intersecting_EA =
-      td::IsCircleIntersectingPolygonEdge(p1, r, edge_EA);
+      td::IsCircleIntersectingLineSegment(p1, r, edge_EA);
   // Assert
   EXPECT_TRUE(is_circle_intersecting_AB);
   EXPECT_FALSE(is_circle_intersecting_BC);
   EXPECT_FALSE(is_circle_intersecting_CD);
   EXPECT_FALSE(is_circle_intersecting_DE);
   EXPECT_TRUE(is_circle_intersecting_EA);
-  EXPECT_TRUE(td::IsCircleIntersectingPolygonEdge(p1, 5.0f, edge_AB));
-  EXPECT_TRUE(td::IsCircleIntersectingPolygonEdge(p1, 5.0f, edge_BC));
-  EXPECT_FALSE(td::IsCircleIntersectingPolygonEdge(p1, 5.0f, edge_CD));
-  EXPECT_FALSE(td::IsCircleIntersectingPolygonEdge(p1, 5.0f, edge_DE));
-  EXPECT_TRUE(td::IsCircleIntersectingPolygonEdge(p1, 5.0f, edge_EA));
+  EXPECT_TRUE(td::IsCircleIntersectingLineSegment(p1, 5.0f, edge_AB));
+  EXPECT_TRUE(td::IsCircleIntersectingLineSegment(p1, 5.0f, edge_BC));
+  EXPECT_FALSE(td::IsCircleIntersectingLineSegment(p1, 5.0f, edge_CD));
+  EXPECT_FALSE(td::IsCircleIntersectingLineSegment(p1, 5.0f, edge_DE));
+  EXPECT_TRUE(td::IsCircleIntersectingLineSegment(p1, 5.0f, edge_EA));
 }
 
 TEST_F(CollisionTest, IsCircleCollidingWithCircle) {
@@ -228,13 +228,13 @@ TEST_F(CollisionTest, IsCircleCollidingWithPolygon) {
   edges.emplace_back(edge_DA);
   // Act
   bool is_circle_intersecting_AB =
-      td::IsCircleIntersectingPolygonEdge(p, r, edge_AB);
+      td::IsCircleIntersectingLineSegment(p, r, edge_AB);
   bool is_circle_intersecting_BC =
-      td::IsCircleIntersectingPolygonEdge(p, r, edge_BC);
+      td::IsCircleIntersectingLineSegment(p, r, edge_BC);
   bool is_circle_intersecting_CD =
-      td::IsCircleIntersectingPolygonEdge(p, r, edge_CD);
+      td::IsCircleIntersectingLineSegment(p, r, edge_CD);
   bool is_circle_intersecting_DA =
-      td::IsCircleIntersectingPolygonEdge(p, r, edge_DA);
+      td::IsCircleIntersectingLineSegment(p, r, edge_DA);
   bool is_circle_inside_polygon = td::IsCircleCenterInsidePolygon(p, edges);
   bool is_circle_colliding_with_polygon =
       td::IsCircleCollidingWithPolygon(p, r, polygon);

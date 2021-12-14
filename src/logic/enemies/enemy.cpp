@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <list>
+#include "collision.hpp"
+//#include "game.hpp"
 
 #include "collision.hpp"
 

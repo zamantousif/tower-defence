@@ -6,6 +6,7 @@
 #include "object.hpp"
 #include "projectile.hpp"
 #include "types.hpp"
+#include "collision.hpp"
 
 namespace td {
 class Game;
@@ -25,7 +26,7 @@ class Tower : public Object {
   /// closest, s = strongest or f = furthest travelled
   Tower(types::Position position, float hitbox, sf::Texture* texture,
         sf::Texture* texture_projectile, float rotation_angle = 0.0f,
-        unsigned int attack_speed = 1U, float range = 1.0f,
+        unsigned int attack_speed = 1U, float range = 1.0f, unsigned int cost = 0, unsigned int upgrade_cost = 0,
         unsigned int level = 1, types::Targeting targetTo = types::kFirst);
 
   void Update(types::Time dt, const td::Game&);
@@ -48,9 +49,13 @@ class Tower : public Object {
   /// \return Level of the tower
   unsigned int getLevel() const;
 
+  /// \brief Get the price of the tower
+  /// \return Cost of the tower
+  unsigned int getCost() const;
+
   /// \brief Get the total amount of money spent on the tower
   /// \return The total amount of money spent on the tower
-  const unsigned int getMoneySpent() const;
+  unsigned int getMoneySpent() const;
 
   /// \brief Set the total amount of money spent on the tower
   /// \param value new value for money_spent_on_tower_
@@ -58,7 +63,11 @@ class Tower : public Object {
 
   /// \brief Get the upgrade cost of the tower at current level
   /// \return Upgrade cost of the tower
-  virtual unsigned int getUpgradeCost() const { return 0; };
+  unsigned int getUpgradeCost() const;
+
+  /// \brief Get the name of the tower
+  /// \return Name of the tower
+  const std::string& getName() const;
 
   /// \brief Get the target type of the tower
   /// \return Target type of the tower
@@ -82,7 +91,7 @@ class Tower : public Object {
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
-  virtual std::optional<const Enemy*> getTarget(
+  virtual std::optional<const Enemy*> GetTarget(
       const std::vector<Enemy>& enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by
@@ -93,12 +102,15 @@ class Tower : public Object {
   types::Position GetProjectStartPos();
 
  protected:
+  std::string name_;                   ///< Name that is used as an identifier
   unsigned int attack_speed_;          ///< Attack speed of the tower
   float range_;                        ///< Attack range of the tower
   unsigned int level_;                 ///< Level of the tower
   types::Targeting targeting_;         ///< Target mode of the tower
   sf::Texture* texture_projectile_;    ///< Pointer to texture of the projectile
                                        ///< the tower shoots
+  unsigned int cost_;                  ///< cost of the tower
+  unsigned int upgrade_cost_;          ///< upgrade cost of the tower
   unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
                                        ///< used when selling tower
 };
