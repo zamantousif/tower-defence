@@ -1248,7 +1248,7 @@ void Application::DrawGameElements() {
     ScaleSprite(tower_sprite);
     tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() *1.33f / 500.f,
                                     tower.getHitboxRadius() *1.33f / 500.f));
-    tower_sprite.setRotation(tower.getRotation());
+    tower_sprite.setRotation(tower.getRotation()*360/2/PI+90);
     window_.draw(tower_sprite);
   }
 
@@ -1263,7 +1263,7 @@ void Application::DrawGameElements() {
     projectile_sprite.setPosition(
         1920 / window_x_ * projectile.getPosition().x,
         1080 / window_y_ * projectile.getPosition().y);
-    projectile_sprite.setRotation(projectile.getRotation());
+    projectile_sprite.setRotation(projectile.getRotation()*360/2/PI+90);
     window_.draw(projectile_sprite);
   }
 
@@ -1283,9 +1283,12 @@ void Application::DrawGameElements() {
     sf::Sprite health_bar_base;
     health_bar_base.setTexture(*textures_["white_rectangle"]);
     ScaleSprite(health_bar_base);
+    health_bar_base.scale(0.6, 0.2);
+    health_bar_base.setOrigin(health_bar_base.getLocalBounds().width / 2,
+                           health_bar_base.getLocalBounds().height / 2);
     health_bar_base.setPosition(
         enemy_sprite.getPosition() -
-        sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
+        sf::Vector2f(0, 0.9f * 1080 / window_y_ * enemy.getHitboxRadius()));
     window_.draw(health_bar_base);
 
     sf::Sprite health_bar_;
@@ -1295,9 +1298,12 @@ void Application::DrawGameElements() {
       health_bar_.setTexture(*textures_["red_rectangle"]);
     }
     ScaleSprite(health_bar_);
+    health_bar_.scale(0.6, 0.2);
     health_bar_.setPosition(
-        enemy_sprite.getPosition() -
-        sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
+        health_bar_base.getPosition()
+        - types::Position(
+        0.6*window_x_ / 1920.f*health_bar_base.getLocalBounds().width / 2, 
+        0.2*window_y_ / 1080.f*health_bar_base.getLocalBounds().height / 2));
     health_bar_.scale((float)enemy.getHealth() / enemy.getMaxHealth(), 1);
     window_.draw(health_bar_);
   }
