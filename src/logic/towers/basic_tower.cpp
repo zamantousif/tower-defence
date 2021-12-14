@@ -11,7 +11,7 @@
 #include "enemy.hpp"
 
 namespace td {
-float hitbox_basic_tower = 30.0f;
+float hitbox_basic_tower = 27.0f;
 
 unsigned int attack_speed_basic = 10;  // can adjust these later
 

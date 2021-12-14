@@ -28,7 +28,7 @@ Game::Game(Map* map, const std::string& round_file_path,
       round_in_progress_(false),
       current_round_index_(0) {
   LoadEnemies(textures);
-  LoadRounds(round_file_path);
+  //LoadRounds(round_file_path);
 }
 
 int Game::getMoney() const { return money_; }

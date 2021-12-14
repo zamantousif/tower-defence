@@ -11,7 +11,7 @@
 #include "enemy.hpp"
 
 namespace td {
-float hitbox_thorn = 32.0f;
+float hitbox_thorn = 28.0f;
 
 unsigned int attack_speed_thorn = 10;  // can adjust these later
 
@@ -20,7 +20,7 @@ float range_thorn = 130.0f;
 ThornEruptor::ThornEruptor(types::Position position, float rotation_angle,
                          sf::Texture* texture, sf::Texture* texture_projectile)
     : Tower(position, hitbox_thorn, texture, texture_projectile, rotation_angle,
-            attack_speed_thorn, range_thorn, kCostThornEruptor, 160) {
+            attack_speed_thorn, range_thorn, kCostThornEruptor, 160, 1, types::kArea) {
               name_ = "thorn_eruptor";
             }
 

@@ -41,8 +41,6 @@ int Application::run() {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
 
-        std::cout << "[ " << mouse_x << ", " << mouse_y << " ]" << std::endl;
-
         for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
@@ -450,7 +448,7 @@ void Application::HandleGame() {
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
-  game_.value().Update();
+  //game_.value().Update();
 
   DrawGameElements();
 
@@ -1162,6 +1160,9 @@ void Application::HandleUpgradeGui() {
     case types::kStrong:
       button_targeting_text->setText("Strong");
       break;
+    case types::kArea:
+      button_targeting_text->setText("Area");
+      break;
   }
 
   switch (upgrading_tower_->getLevel()) {  // make upgrade price and button
@@ -1215,6 +1216,8 @@ void Application::TargetingSwitchRight() {
     case types::kStrong:
       upgrading_tower_->setTargeting(types::kFirst);
       break;
+    case types::kArea:
+      break;
   }
 }
 
@@ -1231,6 +1234,8 @@ void Application::TargetingSwitchLeft() {
       break;
     case types::kStrong:
       upgrading_tower_->setTargeting(types::kClose);
+      break;
+    case types::kArea:
       break;
   }
 }

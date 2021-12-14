@@ -9,12 +9,12 @@ float hitbox_melting = 30.0f;  // parameters radius and pointCount
 
 unsigned int attack_speed_melting = 10;  // can adjust these later
 
-float range_melting = 100.0f;
+float range_melting = 120.0f;
 
 Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_melting, texture, nullptr, rotation_angle,
-            attack_speed_melting, range_melting, kCostMeltingTower, 100) {
+            attack_speed_melting, range_melting, kCostMeltingTower, 100, 1, types::kArea) {
               name_ = "melting_tower";
             }
 

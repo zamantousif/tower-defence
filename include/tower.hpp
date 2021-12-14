@@ -31,6 +31,8 @@ class Tower : public Object {
 
   void Update(types::Time dt, const td::Game&);
 
+  void Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles);
+
   /// \brief Tower constructor
   /// \param position     Position of the tower
   /// \param attack_speed  Attack speed of the tower
@@ -112,6 +114,6 @@ class Tower : public Object {
   unsigned int cost_;                  ///< cost of the tower
   unsigned int upgrade_cost_;          ///< upgrade cost of the tower
   unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
-                                       ///< used when selling tower
+                                       ///< used when selling tower             
 };
 }  // namespace td

@@ -9,14 +9,14 @@ float hitbox_slowing = 30.0f;  // parameters radius and pointCount
 
 unsigned int attack_speed_slowing = 10;  // can adjust these later
 
-float range_slowing = 100.0f;
+float range_slowing = 120.0f;
 
 std::vector<unsigned int> upgrade_costs_slowing = {120, 140, 160};
 
 Slowing_tower::Slowing_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_slowing, texture, nullptr, rotation_angle,
-            attack_speed_slowing, range_slowing, kCostSlowingTower, 120) {
+            attack_speed_slowing, range_slowing, kCostSlowingTower, 120, 1, types::kArea) {
               name_ = "slowing_tower";
             }
 
