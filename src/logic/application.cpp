@@ -41,6 +41,8 @@ int Application::run() {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
 
+        std::cout << "[ " << mouse_x << ", " << mouse_y << " ]" << std::endl;
+
         for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
