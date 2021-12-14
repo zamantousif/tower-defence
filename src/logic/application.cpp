@@ -20,6 +20,12 @@ int Application::run() {
   LoadTextures();
   LaunchMainMenuGui();
 
+  sf::Music music;
+  music.openFromFile("../assets/sounds/space_jazz.wav");
+  music.setLoop(true);
+  music.setVolume(music_volume_);
+  //music.play();
+
   while (window_.isOpen()) {  // main loop
     sf::Event event;
 
