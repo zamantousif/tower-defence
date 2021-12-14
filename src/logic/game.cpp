@@ -57,9 +57,14 @@ void Game::Update() {
 
   // Iterate through all the enemies, calling their Update method and updating
   // the collision tables
-  for (Enemy& enemy : enemies_) {
+  for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
+    Enemy& enemy = *it;
     // Call the Update method for every enemy
     enemy.Update(dt, map_->getEnemyPath());
+    
+    if (enemy.IsDeleted()) {
+      enemies_.erase(it);
+    }
 
     // Projectiles that the enemy collided with in the previous frame
     auto enemy_collided_with = enemy_collisions_.find(&enemy);
@@ -90,9 +95,14 @@ void Game::Update() {
 
   // Iterate through all the projectiles, calling their Update method and
   // updating the collision tables
-  for (Projectile& projectile : projectiles_) {
+  for (auto it = projectiles_.begin(); it != projectiles_.end(); it++) {
+    Projectile& projectile = *it;
     // Call the Update method for every projectile
-    projectile.Update(dt, *this);
+    projectile.Update(dt, enemies_, projectiles_);
+
+    if (projectile.IsDeleted()) {
+      projectiles_.erase(it);
+    }
 
     // Enemies that the projectile collided with in the previous frame
     auto projectile_collided_with = projectile_collisions_.find(&projectile);
