@@ -54,7 +54,7 @@ void Game::Update() {
   // the collision tables
   for (Enemy& enemy : enemies_) {
     // Call the Update method for every enemy
-    enemy.Update(dt, *this);
+    enemy.Update(dt, map_->getEnemyPath());
 
     // Projectiles that the enemy collided with in the previous frame
     auto enemy_collided_with = enemy_collisions_.find(&enemy);

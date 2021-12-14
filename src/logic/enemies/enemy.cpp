@@ -4,8 +4,6 @@
 #include <list>
 
 #include "collision.hpp"
-#include "game.hpp"
-#include "map.hpp"
 
 namespace td {
 class Game;
@@ -31,14 +29,13 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   slowed_level_ = enemy.slowed_level_;
 }
 
-void Enemy::Update(types::Time dt, const td::Game& game) {
-  const std::vector<types::Position>& path = game.getMap()->getEnemyPath();
+void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
   // std::cout << position_.x << std::endl;
   distance_moved_ += move_speed_ * dt.asMilliseconds() / 1000.f;
   size_t i = 0;  // iterating index
   float distance_counter = 0;
   // position_.x += 1;
-  /* while (i < path.size() - 2) {
+  while (i < path.size() - 2) {
     distance_counter += EuclideanDistance(path[i], path[i + 1]);
     if (distance_counter > distance_moved_) {
       float displacement_x = (path[i + 1].x - path[i].x) /
@@ -50,9 +47,11 @@ void Enemy::Update(types::Time dt, const td::Game& game) {
       position_.x = path[i].x + displacement_x;
       position_.y = path[i].y + displacement_y;
       rotation_angle_ = Angle2D(0, 1, displacement_x, displacement_y);
+      std::cout << displacement_x << std::endl;
+      break;
     }
     i++;
-  }*/
+  }
 
   /* while (i < path.size() - 2) {
     distance_counter += EuclideanDistance(path[i], path[i + 1]);
@@ -68,9 +67,9 @@ void Enemy::Update(types::Time dt, const td::Game& game) {
     }
   }*/
 
-  position_.x += 0.2;
-  position_.y = 780;
-  std::cout << position_.x << std::endl;
+  //position_.x += 0.2;
+  //position_.y = 780;
+  
 }
 
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
