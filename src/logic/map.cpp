@@ -68,4 +68,7 @@ Map* Map::LoadFromFile(const std::string& file_path) {
 
   return new Map(path_to_image, enemy_path, blocked_regions);
 }
+
+td::types::Position Map::GetStartingPosition() { return enemy_path_.front(); }
+
 }  // namespace td

@@ -21,17 +21,23 @@ namespace td {
 class Game {
  public:
   /// \brief Constructs a game with 2000 money and 100 lives.
+  ///
   /// \param map A pointer to the Map the game is played on.
+  ///
+  /// \param round_file_path File path to a JSON file that defines the game
+  /// rounds
+  ///
   /// \param textures The texture map provided by Application
-  Game(Map* map, const std::map<std::string, sf::Texture*>& textures);
+  Game(Map* map, const std::string& round_file_path,
+       const std::map<std::string, sf::Texture*>& textures);
 
   /// \brief Constructs a game.
   /// \param map A pointer to the Map the game is played on.
   /// \param starting_money The amount of money the player has at the start
   /// \param starting_lives The amount of lives the player has at the start
   /// \param textures The texture map provided by Application
-  Game(Map* map, int starting_money, int starting_lives,
-       const std::map<std::string, sf::Texture*>& textures);
+  Game(Map* map, const std::string& round_file_path, int starting_money,
+       int starting_lives, const std::map<std::string, sf::Texture*>& textures);
 
   /// \return Amount of money the player has
   int getMoney() const;
@@ -39,7 +45,7 @@ class Game {
   /// \return Amount of lives left
   int getLives() const;
 
-  void Update(types::Time dt);
+  void Update();
 
   /// \return All the enemies currently on the map
   std::list<Enemy>& getEnemies();
@@ -94,15 +100,15 @@ class Game {
   /// previous update
   ///
   /// \return A map mapping enemies to projectiles that they collide with
-  const std::map<const Enemy*, std::vector<const Projectile*>>& getEnemyCollisions(
-      bool previous_update = false);
+  const std::map<const Enemy*, std::vector<const Projectile*>>&
+  getEnemyCollisions(bool previous_update = false);
   /// \param previous_update If set to true, returns collisions from the
   /// previous update
   ///
   /// \return A map mapping projectiles enemies that they
   /// collide with
-  const std::map<const Projectile*, std::vector<const Enemy*>>& getProjectileCollisions(
-      bool previous_update = false);
+  const std::map<const Projectile*, std::vector<const Enemy*>>&
+  getProjectileCollisions(bool previous_update = false);
 
   /// \return A const pointer to the map
   const Map* getMap() const;
@@ -116,6 +122,8 @@ class Game {
     unsigned int spacing = 500;
     unsigned int offset = 0;
     unsigned int count = 1;
+    unsigned int enemies_spawned = 0;
+    sf::Time last_spawn_time;
 
     /// \param enemy_identifier The unique identifier for the enemy that gets
     /// spawned during the wave
@@ -170,6 +178,21 @@ class Game {
   /// \return True if there is any collision, false otherwise
   bool CheckTowerPlacementCollision(const Tower& tower);
 
+  /// \brief Gives Game permission to start spawning in the enemies of a given
+  /// round
+  ///
+  /// \param round_index A zero-indexed index
+  void StartRound(size_t round_index);
+
+  /// \return True if a round is in progress, false otherwise
+  bool IsRoundInProgress();
+
+  /// \brief Note that the index changes after a round has been completed, not
+  /// right as it begins.
+  ///
+  /// \return The zero-indexed index of the current round
+  size_t getCurrentRoundIndex();
+
  private:
   void LoadEnemies(const std::map<std::string, sf::Texture*>& textures);
 
@@ -179,12 +202,18 @@ class Game {
   std::list<Tower> towers_;
   std::list<Projectile> projectiles_;
   std::map<const Enemy*, std::vector<const Projectile*>> enemy_collisions_;
-  std::map<const Enemy*, std::vector<const Projectile*>> previous_enemy_collisions_;
+  std::map<const Enemy*, std::vector<const Projectile*>>
+      previous_enemy_collisions_;
   std::map<const Projectile*, std::vector<const Enemy*>> projectile_collisions_;
-  std::map<const Projectile*, std::vector<const Enemy*>> previous_projectile_collisions_;
+  std::map<const Projectile*, std::vector<const Enemy*>>
+      previous_projectile_collisions_;
   std::map<std::string, Enemy> enemy_table_;
   std::vector<std::vector<Wave>> rounds_;
   Map* map_;
+  sf::Clock update_clock_;
+  sf::Clock round_clock_;
+  size_t current_round_index_;
+  bool round_in_progress_;
   bool auto_start_;  ///<whether rounds start automatically or not
 };
 }  // namespace td
