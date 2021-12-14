@@ -23,6 +23,8 @@ class Projectile : public Object {
 
   virtual void Update(types::Time dt, const td::Game&); 
 
+  void Update(types::Time dt);
+
   /// \brief Get the damage value of the projectile
   /// \return Damage value of the projectile
   float getDamage() const;
@@ -49,4 +51,4 @@ class Projectile : public Object {
   bool exhausted_;  ///< Projectile is exhausted if it should not make it to the
                     ///< next frame
 };
-}  // namespace td::projectiles
+}  // namespace td

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <limits>
 
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
@@ -64,30 +65,21 @@ std::optional<Enemy*> Tower::GetTarget(
       enemiesInRange.push_back(*it);
     }
   }
-  types::Position zeroPosition;
-  zeroPosition.x = 0;
-  zeroPosition.y = 0;
-  sf::Texture* texture;
-  Enemy noEnemiesFound =
-      Enemy(zeroPosition, 0.0f, texture, 0, 0, 0, false, 0, 0);
-  // return this noEnemiesFound enemy if no enemies in tower range
+  types::Position zeroPosition = types::Position(0,0);
   switch (targeting_) {
     case types::kClose: {
       if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy closestEnemy = enemiesInRange.at(0);
-      float closestPos = range_;
+      std::optional<Enemy*> closestEnemy = {};
+      float closest_distance = std::numeric_limits<float>::max();
       for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
            it != enemiesInRange.end(); it++) {
-        float enemyxpos = (*it).getPosition().x;
-        float enemyypos = (*it).getPosition().y;
-        float currentPos = static_cast<float>(sqrt(
-            pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)));
-        if (currentPos <= closestPos) {
-          closestPos = currentPos;
-          closestEnemy = (*it);
+        float distance = EuclideanDistance(it->getPosition(), position_);
+        if (distance <= closest_distance) {
+          closest_distance = distance;
+          closestEnemy = &(*it);
         }
       }
-      return &closestEnemy;
+      return closestEnemy;
     }
     case types::kStrong: {
       if (enemiesInRange.size() == 0) return std::nullopt;
@@ -140,8 +132,8 @@ std::optional<Enemy*> Tower::GetTarget(
 types::Position Tower::GetProjectStartPos() {
   types::Position result;
   result.x =
-      position_.x + hitboxRadius_ * cos(rotation_angle_-PI/2);  // angle in radians
-  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_-PI/2);
+      position_.x + hitboxRadius_ * cos(rotation_angle_)*0.8f;  // angle in radians
+  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_)*0.8f;
   return result;
 }
 }  // namespace td
