@@ -1,8 +1,14 @@
 #include "enemy.hpp"
 
+#include <iostream>
 #include <list>
 
+#include "collision.hpp"
+#include "game.hpp"
+#include "map.hpp"
+
 namespace td {
+class Game;
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
              float health, int move_speed, int bounty, bool armored,
              float distance_moved, unsigned int slowed_level)
@@ -25,7 +31,47 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   slowed_level_ = enemy.slowed_level_;
 }
 
-void Enemy::Update(types::Time dt, const td::Game& game) {}
+void Enemy::Update(types::Time dt, const td::Game& game) {
+  const std::vector<types::Position>& path = game.getMap()->getEnemyPath();
+  // std::cout << position_.x << std::endl;
+  distance_moved_ += move_speed_ * dt.asMilliseconds() / 1000.f;
+  size_t i = 0;  // iterating index
+  float distance_counter = 0;
+  // position_.x += 1;
+  /* while (i < path.size() - 2) {
+    distance_counter += EuclideanDistance(path[i], path[i + 1]);
+    if (distance_counter > distance_moved_) {
+      float displacement_x = (path[i + 1].x - path[i].x) /
+                             EuclideanDistance(path[i], path[i + 1]) *
+                             (distance_moved_ - distance_counter);
+      float displacement_y = (path[i + 1].y - path[i].y) /
+                             EuclideanDistance(path[i], path[i + 1]) *
+                             (distance_moved_ - distance_counter);
+      position_.x = path[i].x + displacement_x;
+      position_.y = path[i].y + displacement_y;
+      rotation_angle_ = Angle2D(0, 1, displacement_x, displacement_y);
+    }
+    i++;
+  }*/
+
+  /* while (i < path.size() - 2) {
+    distance_counter += EuclideanDistance(path[i], path[i + 1]);
+    if (distance_counter > distance_moved_) {
+      sf::Vector2f direction = (path[i + 1] - path[i]);
+      double direction_magnitude = EuclideanDistance(path[i], path[i + 1]);
+      direction.x /= direction_magnitude;
+      direction.y /= direction_magnitude;
+
+      position_ = path[i] + direction * distance_moved_;
+      
+      break;
+    }
+  }*/
+
+  position_.x += 0.2;
+  position_.y = 780;
+  std::cout << position_.x << std::endl;
+}
 
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
                                   sf::Texture* texture) {

@@ -29,6 +29,9 @@ class Map {
   /// \return A const reference to a vector of the blocked regions
   const std::vector<td::types::BlockedRegion>& getBlockedRegions() const;
 
+  /// \return The position where enemies are supposed to spawn
+  td::types::Position GetStartingPosition();
+
   /// \param file_name Path to the JSON file to load the Map from
   /// 
   /// \return A pointer to a Map that was loaded from the given file

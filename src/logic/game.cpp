@@ -4,15 +4,29 @@
 
 #include "collision.hpp"
 
+// TODO: Clean up the smaller constructor
+
 namespace td {
-Game::Game(Map* map, int starting_money, int starting_lives,
+Game::Game(Map* map, const std::string& round_file_path, int starting_money,
+           int starting_lives,
            const std::map<std::string, sf::Texture*>& textures)
-    : map_(map), money_(starting_money), lives_(starting_lives) {
+    : map_(map),
+      money_(starting_money),
+      lives_(starting_lives),
+      round_in_progress_(false),
+      current_round_index_(0) {
   LoadEnemies(textures);
+  LoadRounds(round_file_path);
 }
-Game::Game(Map* map, const std::map<std::string, sf::Texture*>& textures)
-    : map_(map), money_(2000), lives_(100) {
+Game::Game(Map* map, const std::string& round_file_path,
+           const std::map<std::string, sf::Texture*>& textures)
+    : map_(map),
+      money_(2000),
+      lives_(100),
+      round_in_progress_(false),
+      current_round_index_(0) {
   LoadEnemies(textures);
+  LoadRounds(round_file_path);
 }
 
 int Game::getMoney() const { return money_; }
@@ -21,7 +35,20 @@ int Game::getLives() const { return lives_; }
 
 void Game::Update() {
   sf::Time dt = update_clock_.getElapsedTime();
+  sf::Time round_time = round_clock_.getElapsedTime();
   update_clock_.restart();
+
+  // Iterate through the current waves, spawning enemies as necessary
+  for (Wave& wave : rounds_[current_round_index_]) {
+    if (wave.last_spawn_time.asMilliseconds() +
+                static_cast<sf::Int32>(wave.spacing) >=
+            round_time.asMilliseconds() &&
+        wave.enemies_spawned < wave.count) {
+      wave.enemies_spawned++;
+      SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
+      wave.last_spawn_time = round_time;
+    }
+  }
 
   // Iterate through all the enemies, calling their Update method and updating
   // the collision tables
@@ -122,8 +149,8 @@ Game::getEnemyCollisions(bool previous_update) {
 
 void Game::AddTower(const td::Tower& tower) { towers_.push_back(tower); }
 
-const std::map<const Projectile*, std::vector<const Enemy*>>& Game::getProjectileCollisions(
-    bool previous_update) {
+const std::map<const Projectile*, std::vector<const Enemy*>>&
+Game::getProjectileCollisions(bool previous_update) {
   if (previous_update) {
     return previous_projectile_collisions_;
   } else {
@@ -177,9 +204,9 @@ void Game::LoadRounds(const std::string& file_path) {
   nlohmann::json json;
   json_file >> json;
 
-  for (auto round_raw : json) {
+  for (auto& round_raw : json) {
     std::vector<Wave> round;
-    for (auto wave_raw : round_raw) {
+    for (auto& wave_raw : round_raw) {
       round.push_back(Wave(wave_raw.at("enemyIdentifier"),
                            wave_raw.at("spacing"), wave_raw.at("offset"),
                            wave_raw.at("count")));
@@ -191,15 +218,15 @@ void Game::LoadRounds(const std::string& file_path) {
 void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
   enemy_table_.emplace("cockroach",
                        Enemy(td::types::Position(0, 0), 40.0f,
-                             textures.at("cockroach"), 200, 10, 10, false, 0));
+                             textures.at("cockroach"), 200, 100, 10, false, 0));
   enemy_table_.emplace("fly", Enemy(td::types::Position(0, 0), 40.0f,
-                                    textures.at("fly"), 150, 20, 14, false, 0));
+                                    textures.at("fly"), 150, 200, 14, false, 0));
   enemy_table_.emplace(
       "beetle", Enemy(td::types::Position(0, 0), 60.0f, textures.at("beetle"),
                       300, 10, 20, true, 0));
   enemy_table_.emplace("dragonfly",
                        Enemy(td::types::Position(0, 0), 80.0f,
-                             textures.at("dragonfly"), 4000, 10, 400, true, 0));
+                             textures.at("dragonfly"), 4000, 100, 400, true, 0));
 }
 
 bool Game::CheckTowerPlacementCollision(const Tower& tower) {
@@ -240,8 +267,18 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
   return false;
 }
 
+void Game::StartRound(size_t round_index) {
+  round_in_progress_ = true;
+  current_round_index_ = round_index;
+  round_clock_.restart();
+}
+
+bool Game::IsRoundInProgress() { return round_in_progress_; }
+
 const Map* Game::getMap() const { return map_; }
 
 Map* Game::getMap() { return map_; }
+
+size_t Game::getCurrentRoundIndex() { return current_round_index_; }
 
 }  // namespace td

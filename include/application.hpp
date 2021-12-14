@@ -48,7 +48,7 @@ class Application {
   void LaunchUpgradeGui();
 
   /// \brief Creates TGUI widgets for the main menu
-  void LaunchGame(std::string map_name);
+  void LaunchGame(const std::string& map_name);
 
   /// \brief Closes the game and returns to main menu. Takes care of deletion of
   /// objects.
