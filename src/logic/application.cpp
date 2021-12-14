@@ -1240,7 +1240,7 @@ void Application::DrawGameElements() {
     window_.draw(tower_sprite);
   }
 
-  for (auto projectile : game_.value().getEnemies()) {
+  for (auto projectile : game_.value().getProjectiles()) {
     sf::Sprite projectile_sprite;
     projectile_sprite.setTexture(*projectile.getTexture());
     ScaleSprite(projectile_sprite);

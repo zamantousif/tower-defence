@@ -237,6 +237,7 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
   std::vector<td::types::Position> polygon_points;
   // Check collision with blocked regions on the map
   for (auto& region : map_->getBlockedRegions()) {
+    std::cout << "p----------p" << std::endl;
     for (size_t index = 0; index != region.getPointCount(); index++) {
       polygon_points.emplace_back(region.getPoint(index));
     }
@@ -260,13 +261,12 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
   sf::Vector2f corner2 = sf::Vector2f(1520.0f, 0.0f);
   sf::Vector2f corner3 = sf::Vector2f(1520.0f, 1080.0f);
   sf::Vector2f corner4 = sf::Vector2f(0.0f, 1080.0f);
-  std::pair<td::types::Position, td::types::Position> top, bottom, left, right, extra;
+  std::pair<td::types::Position, td::types::Position> top, bottom, left, right;
   top = std::make_pair(corner1, corner2);
   right = std::make_pair(corner2, corner3);
   bottom = std::make_pair(corner3, corner4);
   left = std::make_pair(corner4, corner1);
-  extra = std::make_pair(types::Position(500,500), types::Position(200,200));
-  window_edges = {top, right, bottom, left, extra};
+  window_edges = {top, right, bottom, left};
   for (auto& edge : window_edges) {
     if (IsCircleIntersectingPolygonEdge(tower.getPosition(),
                                         tower.getHitboxRadius(), edge))

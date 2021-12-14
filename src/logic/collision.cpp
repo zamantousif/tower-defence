@@ -54,6 +54,45 @@ bool IsCircleCenterInsidePolygon(
 bool IsCircleIntersectingPolygonEdge(
     td::types::Position p, float r,
     std::pair<td::types::Position, td::types::Position> edge) {
+      double a, b, c, d, x1, x2, y1, y2, xR, yR, a2, b2, c2, c3;
+      
+      x1 = edge.first.x;
+      y1 = edge.first.y;
+      x2 = edge.second.x;
+      y2 = edge.second.y;
+      xR = p.x;
+      yR = p.y;
+      a = y1 - y2;
+      b = x2 - x1;
+      c = -y1*b-x1*a;
+
+      a2 = b;
+      b2 = a;
+      c2 = -y1*a-x1*b;
+      c3 = -y2*a-x2*b;
+
+      if (a == 0 && b == 0) {
+        return false;
+      }
+
+      if (b != 0 && ( xR > std::max(-b2*yR/a2-c2/a2, -b2*yR/a2-c3/a2) || xR < std::min(-b2*yR/a2-c2/a2, -b2*yR/a2-c3/a2))) {
+        return false;
+      }
+
+      if (b == 0 && (yR > std::max(y1,y2) || yR < std::min(y1,y2))) {
+        return false;
+      }
+
+      d = fabs(a*xR + b*yR + c)/sqrt(a*a + b*b);
+      std::cout << d << std::endl;
+      if (d > r) {
+        return false;
+      } else {
+
+        return true;
+      }
+
+      /* Old implementation
   double a = 0.0, b = 0.0, c = 0.0, D = 0.0;
   double x1, x2, y1, y2, xR, yR, root1, root2, x_root1, x_root2, y_root1,
       y_root2;
@@ -99,7 +138,7 @@ bool IsCircleIntersectingPolygonEdge(
     return is_root_on_polygon_edge;
   }
   // D < 0 => Circle is not intersecting given edge of the Polygon
-  return false;
+  return false; */
 }
 
 bool IsCircleCollidingWithCircle(td::types::Position p1, float r1,
@@ -120,12 +159,12 @@ bool IsCircleCollidingWithPolygon(
   std::vector<std::pair<td::types::Position, td::types::Position>> edges;
 
   if (!polygon_points.empty()) {
-    for (auto it = polygon_points.begin(); it != polygon_points.end()-1; ++it) {
+    for (auto it = polygon_points.begin(); it + 1 != polygon_points.end(); ++it) {
       edges.emplace_back(std::make_pair(*it, *(it + 1)));
     }
     // Add the last edge (last corner point to first corner point)
     edges.emplace_back(
-        std::make_pair(*polygon_points.end(), *polygon_points.begin()));
+        std::make_pair(*(polygon_points.end()-1), *polygon_points.begin()));
   }
 
   for (auto& edge : edges) {
