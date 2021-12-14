@@ -40,7 +40,9 @@ class Enemy : public Object {
 
   Enemy(const Enemy& enemy);
 
-  virtual void Update(types::Time dt, const td::Game&);
+  virtual void Update(types::Time dt, const Game& game) {}
+
+  void Update(types::Time dt, const std::vector<types::Position>& path);
 
   /// \brief Create basic cockroach at the start of the map
   /// \param startOfTheMap  Position of the start of the map

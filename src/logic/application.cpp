@@ -240,7 +240,7 @@ void Application::LoadTextures() {
   sf::Texture* beetle = new sf::Texture();
   beetle->loadFromFile("../assets/enemies/beetle.png");
   textures_["beetle"] = beetle;
-  
+
   sf::Texture* dragonfly = new sf::Texture();
   dragonfly->loadFromFile("../assets/enemies/dragonfly.png");
   textures_["dragonfly"] = dragonfly;
@@ -355,7 +355,7 @@ void Application::HandleMapSelectGui() {
   button_exit->onPress([&] { LaunchMainMenuGui(); });
 }
 
-void Application::LaunchGame(std::string map_name) {
+void Application::LaunchGame(const std::string& map_name) {
   if (state_ == types::kGame) {
     return;
   }
@@ -367,7 +367,7 @@ void Application::LaunchGame(std::string map_name) {
 
   Map* map = Map::LoadFromFile("../assets/maps/" + map_name + ".json");
 
-  game_ = Game(map, textures_);
+  game_ = Game(map, "../assets/rounds.json", textures_);
   game_.value().setAutoStart(auto_start_);  
 }
 
@@ -450,7 +450,7 @@ void Application::HandleGame() {
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
-  // game_.value().update();
+  game_.value().Update();
 
   DrawGameElements();
 
@@ -518,10 +518,12 @@ void Application::HandleGameGui() {
   static bool do_once = true;  // tgui buttons have a bad habit of triggering
                                // multiple times, this fixes that
 
-  button_pause->onPress(
-      [&] { LaunchPauseGui(); });  // TODO: remove comments and fix code
-  // button_start_wave->onPress([&]{ if (!game_.value().getRoundOngoing())
-  // game_.value().StartRound(); });
+  button_pause->onPress([&] { LaunchPauseGui(); });
+  button_start_wave->onPress([&] {
+    if (!game_.value().IsRoundInProgress()) {
+      game_.value().StartRound(game_.value().getCurrentRoundIndex());
+    }
+  });
 
   button_tower_ba->onPress([&] {
     if (do_once)
@@ -1269,10 +1271,10 @@ void Application::DrawGameElements() {
     ScaleSprite(enemy_sprite);
     enemy_sprite.scale(sf::Vector2f(enemy.getHitboxRadius() / 100.f,
                                     enemy.getHitboxRadius() / 100.f));
-    enemy_sprite.setOrigin(1920 / window_x_ * enemy.getHitboxRadius(),
-                           1080 / window_y_ * enemy.getHitboxRadius());
-    enemy_sprite.setPosition(1920 / window_x_ * enemy.getPosition().x,
-                             1080 / window_y_ * enemy.getPosition().y);
+    enemy_sprite.setOrigin(window_x_ / 1920.0f * enemy.getHitboxRadius(),
+                           window_y_ / 1080.0f * enemy.getHitboxRadius());
+    enemy_sprite.setPosition(window_x_ / 1920.0f * enemy.getPosition().x,
+                             window_y_ / 1080.0f * enemy.getPosition().y);
     enemy_sprite.setRotation(enemy.getRotation());
     window_.draw(enemy_sprite);
 
@@ -1296,6 +1298,14 @@ void Application::DrawGameElements() {
         sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
     health_bar_.scale((float)enemy.getHealth() / enemy.getMaxHealth(), 1);
     window_.draw(health_bar_);
+  }
+
+  for (const auto& pos : game_.value().getMap()->getEnemyPath()) {
+    sf::Sprite rect;
+    rect.setTexture(*textures_["white_rectangle"]);
+    ScaleSprite(rect);
+    rect.setPosition(pos.x*window_x_/1920.f, pos.y*window_y_/1080.f);
+    window_.draw(rect);
   }
 }
 

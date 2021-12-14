@@ -1,10 +1,14 @@
 #include "enemy.hpp"
 
+#include <iostream>
 #include <list>
 #include "collision.hpp"
 //#include "game.hpp"
 
+#include "collision.hpp"
+
 namespace td {
+class Game;
 Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
              float health, int move_speed, int bounty, bool armored,
              float distance_moved, unsigned int slowed_level)
@@ -17,25 +21,6 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       distance_moved_(distance_moved),
       slowed_level_(slowed_level) {}
 
-void Enemy::Update(types::Time dt, const td::Game& game) {
-  const std::vector<types::Position>& path = std::vector<types::Position>{types::Position(0,0), types::Position(500,500), types::Position(1000,200)};//game.getMap()->getEnemyPath();
-  distance_moved_ += move_speed_*dt.asMilliseconds()/1000.f;
-  unsigned int i = 0;  //iterating index
-  float distance_counter = 0;
-  while (i < path.size()-2) {
-    distance_counter += EuclideanDistance(path[i], path[i+1]);
-    if (distance_counter > distance_moved_) {
-      distance_counter -= EuclideanDistance(path[i], path[i+1]);
-      float displacement_x = (path[i+1].x - path[i].x)/EuclideanDistance(path[i], path[i+1]) * (distance_moved_ - distance_counter);
-      float displacement_y = (path[i+1].y - path[i].y)/EuclideanDistance(path[i], path[i+1]) * (distance_moved_ - distance_counter);
-      position_.x = path[i].x + displacement_x;
-      position_.y = path[i].y + displacement_y;
-      rotation_angle_ = Angle2D(0, 1, displacement_x, displacement_y);
-    }
-  i++;
-  }
-}
-
 Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   health_ = enemy.max_health_;
   max_health_ = enemy.max_health_;
@@ -44,6 +29,29 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   armored_ = enemy.armored_;
   distance_moved_ = enemy.distance_moved_;
   slowed_level_ = enemy.slowed_level_;
+}
+
+void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
+  float move_by = move_speed_ * dt.asMilliseconds() / 1000.f;
+  size_t i = 0;  // iterating index
+  float distance_counter = 0;
+
+  while (i < path.size() - 2) {
+    distance_counter += EuclideanDistance(path[i], path[i + 1]);
+    if (distance_counter > distance_moved_) {
+      float leftover_distance = distance_moved_ - (distance_counter - EuclideanDistance(path[i], path[i + 1]));
+      sf::Vector2f direction = (path[i + 1] - path[i]);
+      double direction_magnitude = EuclideanDistance(path[i], path[i + 1]);
+      direction.x /= direction_magnitude;
+      direction.y /= direction_magnitude;
+
+      position_ = path[i] + (direction * leftover_distance);
+      
+      distance_moved_ += move_by;
+      break;
+    }
+    i++;
+  }
 }
 
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
