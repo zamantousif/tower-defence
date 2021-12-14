@@ -120,7 +120,7 @@ bool IsCircleCollidingWithPolygon(
   std::vector<std::pair<td::types::Position, td::types::Position>> edges;
 
   if (!polygon_points.empty()) {
-    for (auto it = polygon_points.begin(); it != polygon_points.end(); ++it) {
+    for (auto it = polygon_points.begin(); it != polygon_points.end()-1; ++it) {
       edges.emplace_back(std::make_pair(*it, *(it + 1)));
     }
     // Add the last edge (last corner point to first corner point)
