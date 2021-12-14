@@ -35,6 +35,17 @@ void Slowing_tower::Upgrade() {
   }
 }
 
+void Slowing_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = Slowing_tower::Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
+  }
+}
+
 bool Slowing_tower::Shoot(
     std::list<Projectile>& projectiles,
     std::list<Enemy>& enemies) {

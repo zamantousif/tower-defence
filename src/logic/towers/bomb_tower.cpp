@@ -8,7 +8,7 @@
 namespace td {
 float hitbox_bomb_tower = 32.0f;
 
-unsigned int attack_speed_bomb = 10;  // can adjust these later
+unsigned int attack_speed_bomb = 200;  // can adjust these later
 
 float range_bomb = 150.0f;
 
@@ -35,6 +35,17 @@ void Bomb_tower::Upgrade() {
   }
 }
 
+void Bomb_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = Bomb_tower::Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
+  }
+}
+
 bool Bomb_tower::Shoot(
     std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_bomb = 0;
@@ -52,7 +63,7 @@ bool Bomb_tower::Shoot(
     
   std::optional<Enemy*> target = GetTarget(enemies);
   if (target) {
-    rotation_angle_ = Angle2D(0, 1, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
+    rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
     Bomb_projectile new_projectile = Bomb_projectile(
     GetProjectStartPos(), rotation_angle_, damage_bomb,
       texture_projectile_, texture_explosion_);

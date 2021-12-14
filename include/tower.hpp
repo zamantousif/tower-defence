@@ -84,9 +84,7 @@ class Tower : public Object {
   /// \param projectiles list of the projectiles in current game
   /// \param enemies list of the enemies in current game
   virtual bool Shoot(std::list<Projectile>& projectiles,
-                                        std::list<Enemy>& enemies) {
-    return false;
-  };
+                                        std::list<Enemy>& enemies);
 
   /// \brief Upgrades the tower once
   virtual void Upgrade() { level_++; };

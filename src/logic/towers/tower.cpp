@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <iostream>
 
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
@@ -28,11 +29,11 @@ void Tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projecti
   time_since_last_shoot_ += dt;
   if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
     bool tower_shot = Shoot(projectiles, enemies);
+
     if (tower_shot) {
       time_since_last_shoot_ = sf::seconds(0);
     }
   }
-  
 }
 
 void Tower::Update(types::Time dt, const td::Game&) {}
@@ -131,4 +132,11 @@ types::Position Tower::GetProjectStartPos() {
   result.y = position_.y + hitboxRadius_ * sin(rotation_angle_)*0.8f;
   return result;
 }
+
+bool Tower::Shoot(std::list<Projectile>& projectiles,
+                                        std::list<Enemy>& enemies) {
+                                          std::cout << "nope" << std::endl;
+    return false;
+}
+
 }  // namespace td

@@ -8,7 +8,7 @@
 namespace td {
 float hitbox_high = 30.0f;
 
-unsigned int attack_speed_high = 120;  // can adjust these later
+unsigned int attack_speed_high = 500;  // can adjust these later
 
 float range_high = 500.0f;
 
@@ -35,6 +35,17 @@ void High_damage_tower::Upgrade() {
   } else if (level_ == 3) {
     attack_speed_ *= 0.8;
     level_++;
+  }
+}
+
+void High_damage_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = High_damage_tower::Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
   }
 }
 

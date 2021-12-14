@@ -14,8 +14,8 @@ Projectile::Projectile(types::Position position, float hitbox,
 void Projectile::Update(types::Time dt, const td::Game&) {}
 
 void Projectile::Update(types::Time dt) {
-  position_.x += dt.asMilliseconds()/10.f * cos(rotation_angle_);
-  position_.y += dt.asMilliseconds()/10.f * sin(rotation_angle_);
+  position_.x += dt.asMilliseconds()/2.f * cos(rotation_angle_);
+  position_.y += dt.asMilliseconds()/2.f * sin(rotation_angle_);
 }
 
 float Projectile::getDamage() const { return damage_; }

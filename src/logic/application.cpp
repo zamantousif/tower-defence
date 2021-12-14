@@ -1261,8 +1261,8 @@ void Application::DrawGameElements() {
     projectile_sprite.setOrigin(projectile_sprite.getLocalBounds().width / 2,
                            projectile_sprite.getLocalBounds().height / 2);
     projectile_sprite.setPosition(
-        1920 / window_x_ * projectile.getPosition().x,
-        1080 / window_y_ * projectile.getPosition().y);
+         window_x_ / 1920.f * projectile.getPosition().x,
+         window_y_ / 1080.f * projectile.getPosition().y);
     projectile_sprite.setRotation(projectile.getRotation()*360/2/PI+90);
     window_.draw(projectile_sprite);
   }

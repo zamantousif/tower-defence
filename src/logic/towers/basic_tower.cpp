@@ -13,7 +13,7 @@
 namespace td {
 float hitbox_basic_tower = 27.0f;
 
-unsigned int attack_speed_basic = 10;  // can adjust these later
+unsigned int attack_speed_basic = 100;  // can adjust these later
 
 float range_basic = 150.0f;
 
@@ -38,6 +38,17 @@ void Basic_tower::Upgrade() {
   }
 }
 
+void Basic_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = Basic_tower::Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
+  }
+}
+
 bool Basic_tower::Shoot(
     std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_basic = 10;
@@ -55,7 +66,7 @@ bool Basic_tower::Shoot(
 
   std::optional<Enemy*> target = GetTarget(enemies);
   if (target) {
-    rotation_angle_ = Angle2D(0, 1, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
+    rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
     Projectile new_projectile = Projectile(
     GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_, damage_basic,
     false, enemy_pierced_count_basic);
@@ -63,10 +74,10 @@ bool Basic_tower::Shoot(
 
     if (level_ >= 4) {
     Projectile new_projectile_left = Projectile(
-    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_+0.5f, damage_basic,
+    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_+0.2f, damage_basic,
     false, enemy_pierced_count_basic);
     Projectile new_projectile_right = Projectile(
-    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_-0.5f, damage_basic,
+    GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_-0.2f, damage_basic,
     false, enemy_pierced_count_basic);
     projectiles.push_back(new_projectile_left);
     projectiles.push_back(new_projectile_right);

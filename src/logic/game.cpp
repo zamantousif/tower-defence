@@ -82,7 +82,27 @@ void Game::Update() {
     }
 
     for (Tower& tower : towers_) {
-      tower.Update(dt, enemies_, projectiles_);
+      if (tower.getName() == "basic_tower") {
+        Basic_tower* casted_tower = static_cast<Basic_tower*>(&tower);
+        casted_tower->Basic_tower::Update(dt, enemies_, projectiles_);
+      } else if (tower.getName() == "bomb_tower") {
+        Bomb_tower* casted_tower = static_cast<Bomb_tower*>(&tower);
+        casted_tower->Bomb_tower::Update(dt, enemies_, projectiles_);
+      } else if (tower.getName() == "sniper_tower") {
+        High_damage_tower* casted_tower = static_cast<High_damage_tower*>(&tower);
+        casted_tower->High_damage_tower::Update(dt, enemies_, projectiles_);
+      } else if (tower.getName() == "melting_tower") {
+        Melting_tower* casted_tower = static_cast<Melting_tower*>(&tower);
+        casted_tower->Melting_tower::Update(dt, enemies_, projectiles_);
+      } else if (tower.getName() == "slowing_tower") {
+        Slowing_tower* casted_tower = static_cast<Slowing_tower*>(&tower);
+        casted_tower->Slowing_tower::Update(dt, enemies_, projectiles_);
+      } else if (tower.getName() == "thorn_eruptor") {
+        ThornEruptor* casted_tower = static_cast<ThornEruptor*>(&tower);
+        casted_tower->ThornEruptor::Update(dt, enemies_, projectiles_);
+      } else {
+        tower.Update(dt, enemies_, projectiles_);
+      }
     }
   }
 
@@ -96,7 +116,7 @@ void Game::Update() {
   // updating the collision tables
   for (Projectile& projectile : projectiles_) {
     // Call the Update method for every projectile
-    projectile.Update(dt, *this);
+    projectile.Update(dt);
 
     // Enemies that the projectile collided with in the previous frame
     auto projectile_collided_with = projectile_collisions_.find(&projectile);
