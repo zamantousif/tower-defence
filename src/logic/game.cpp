@@ -52,6 +52,9 @@ void Game::Update() {
     }
   }
 
+  std::map<const Enemy*, std::vector<const Projectile*>> new_enemy_collisions;
+  previous_enemy_collisions_.clear();
+
   // Iterate through all the enemies, calling their Update method and updating
   // the collision tables
   for (Enemy& enemy : enemies_) {
@@ -63,8 +66,6 @@ void Game::Update() {
     if (enemy_collided_with != enemy_collisions_.end()) {
       previous_enemy_collisions_[&enemy] = enemy_collided_with->second;
     }
-
-    std::map<const Enemy*, std::vector<const Projectile*>> new_enemy_collisions;
 
     for (const Projectile& projectile : projectiles_) {
       // Check if Projectile collides with the Enemy
@@ -81,6 +82,12 @@ void Game::Update() {
     }
   }
 
+  enemy_collisions_ = new_enemy_collisions;
+
+  std::map<const Projectile*, std::vector<const Enemy*>>
+      new_projectile_collisions;
+  previous_projectile_collisions_.clear();
+
   // Iterate through all the projectiles, calling their Update method and
   // updating the collision tables
   for (Projectile& projectile : projectiles_) {
@@ -93,9 +100,6 @@ void Game::Update() {
       previous_projectile_collisions_[&projectile] =
           projectile_collided_with->second;
     }
-
-    std::map<const Projectile*, std::vector<const Enemy*>>
-        new_projectile_collisions;
 
     for (const Enemy& enemy : enemies_) {
       // Check if Enemy collides with the Projectile
@@ -111,6 +115,8 @@ void Game::Update() {
       }
     }
   }
+
+  projectile_collisions_ = new_projectile_collisions;
 }
 
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }
@@ -251,14 +257,15 @@ void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
   enemy_table_.emplace("cockroach",
                        Enemy(td::types::Position(0, 0), 40.0f,
                              textures.at("cockroach"), 200, 100, 10, false, 0));
-  enemy_table_.emplace("fly", Enemy(td::types::Position(0, 0), 40.0f,
-                                    textures.at("fly"), 150, 200, 14, false, 0));
+  enemy_table_.emplace(
+      "fly", Enemy(td::types::Position(0, 0), 40.0f, textures.at("fly"), 150,
+                   200, 14, false, 0));
   enemy_table_.emplace(
       "beetle", Enemy(td::types::Position(0, 0), 60.0f, textures.at("beetle"),
                       300, 10, 20, true, 0));
-  enemy_table_.emplace("dragonfly",
-                       Enemy(td::types::Position(0, 0), 80.0f,
-                             textures.at("dragonfly"), 4000, 100, 400, true, 0));
+  enemy_table_.emplace(
+      "dragonfly", Enemy(td::types::Position(0, 0), 80.0f,
+                         textures.at("dragonfly"), 4000, 100, 400, true, 0));
 }
 
 bool Game::CheckTowerPlacementCollision(const Tower& tower) {
