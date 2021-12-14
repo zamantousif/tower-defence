@@ -458,7 +458,7 @@ void Application::HandleGame() {
     float mouse_y = (sf::Mouse::getPosition().y - window_.getPosition().y) *
                     (float)window_y_ / window_.getSize().y;
 
-    if (mouse_x < 1520.f * window_x_ / 1920) {
+    if (mouse_x < 1520.f * window_x_ / 1920 && mouse_x > 0 && mouse_y < window_y_ && mouse_y > 0) {
       // draws range circle of buying_tower_
       sf::CircleShape range_circle =
           sf::CircleShape(buying_tower_.value().getRange(), 40);

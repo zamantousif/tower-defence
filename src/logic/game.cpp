@@ -271,7 +271,6 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
     }
   }
   // Otherwise return false, if no collisions
-  std::cout << "no collisions" << std::endl;
   return false;
 }
 
