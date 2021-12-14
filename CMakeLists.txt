@@ -38,12 +38,14 @@ set(SOURCES
     include/massive_projectile.hpp
     include/melting_tower.hpp
     include/slowing_tower.hpp
+    include/thorn_eruptor.hpp
     src/logic/towers/tower.cpp
     src/logic/towers/basic_tower.cpp
     src/logic/towers/slowing_tower.cpp
     src/logic/towers/high_damage_tower.cpp
     src/logic/towers/melting_tower.cpp
     src/logic/towers/bomb_tower.cpp
+    src/logic/towers/thorn_eruptor.cpp
     include/tower.hpp
     src/logic/enemies/enemy.cpp
     include/enemy.hpp

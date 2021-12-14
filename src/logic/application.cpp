@@ -22,6 +22,8 @@ int Application::run() {
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;
+
+    //Handle all sfml window events
     while (window_.pollEvent(event)) {
       gui_.handleEvent(event);
 
@@ -32,6 +34,7 @@ int Application::run() {
           event.type == sf::Event::MouseButtonPressed) {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
+
         for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
               EuclideanDistance(tower.getPosition(),
@@ -53,7 +56,7 @@ int Application::run() {
           buying_tower_ = {};
         } else {
           // position on the map was clicked while buying a tower
-          if (true) {  // TODO: change to !game_.value().CheckCollision()
+          if (!game_.value().CheckTowerPlacementCollision(buying_tower_.value())) {
             game_.value().AddTower(buying_tower_.value());
             buying_tower_ = {};
           } else { /*
@@ -67,6 +70,9 @@ int Application::run() {
     }
 
     window_.clear();
+
+    //Handle game logic and rendering of bottom-layer
+    //things based on which state the application is in
     switch (state_) {
       case types::kGame:
         HandleGame();
@@ -89,7 +95,8 @@ int Application::run() {
     }
     gui_.draw();
 
-    switch (state_) {  // draw things that need to be drawn on top of the gui
+    // draw things that need to be drawn on top of the gui
+    switch (state_) {
       case types::kGame:
         DrawShopElements();
         break;
@@ -454,13 +461,11 @@ void Application::HandleGame() {
       ScaleSprite(range_circle);
       range_circle.setPosition(static_cast<float>(mouse_x),
                                static_cast<float>(mouse_y));
-      // if (game_.value().CheckCollision(sf::Vector2f(mouse_x*1920/window_x_,
-      // mouse_y*1080/window_y_), buying_tower_.value().getRange())) { //TODO:
-      // add proper collision detection
-      range_circle.setFillColor(sf::Color(100, 100, 100, 120));
-      //} else {
-      //    range_circle.setFillColor(sf::Color(150,0,0,120));
-      //}
+      if (!game_.value().CheckTowerPlacementCollision(buying_tower_.value())) {
+        range_circle.setFillColor(sf::Color(100, 100, 100, 120));
+      } else {
+        range_circle.setFillColor(sf::Color(150,0,0,120));
+      }
       window_.draw(range_circle);
 
       buying_tower_.value().setPosition(types::Position(
@@ -476,8 +481,8 @@ void Application::HandleGame() {
           buying_tower_sprite.getLocalBounds().height / 2);
       ScaleSprite(buying_tower_sprite);
       buying_tower_sprite.scale(
-          buying_tower_.value().getHitboxRadius() * 2 / 1000,
-          buying_tower_.value().getHitboxRadius() * 2 / 1000);
+          buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000,
+          buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000);
       window_.draw(buying_tower_sprite);
     }
   }
@@ -674,7 +679,12 @@ void Application::HandleGameGui() {
 }
 
 void Application::CloseGame() {
-  // TODO: delete game, make sure that memory management is fine
+  // TODO: make sure that memory management is fine
+  if (state_ != types::kPause) {
+    return;
+  }
+  delete(game_.value().getMap());
+  textures_.erase("map");
   game_ = {};
   LaunchMainMenuGui();
 }
@@ -1224,8 +1234,8 @@ void Application::DrawGameElements() {
     tower_sprite.setPosition(window_x_ / 1920.f * tower.getPosition().x,
                              window_y_ / 1080.f * tower.getPosition().y);
     ScaleSprite(tower_sprite);
-    tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() / 500.f,
-                                    tower.getHitboxRadius() / 500.f));
+    tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() *1.33f / 500.f,
+                                    tower.getHitboxRadius() *1.33f / 500.f));
     tower_sprite.setRotation(tower.getRotation());
     window_.draw(tower_sprite);
   }

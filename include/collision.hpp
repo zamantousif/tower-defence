@@ -36,6 +36,41 @@ bool IsPointBetween(td::types::Position a, td::types::Position p,
 /// positive anticlockwise and between -PI to +PI.
 double Angle2D(double x1, double y1, double x2, double y2);
 
+/// \brief Find the 2D dot product of 2 line segments made by points a, b & c
+/// \param a Position of point a
+/// \param b Position of point b
+/// \param c Position of point c
+/// \return 2D dot product of line segments ab to bc as given by the formula
+/// ab.bc = (b1-a1)*(c1-b1) + (b2-a2)*(c2-b2)
+double DotProduct2D(td::types::Position a, td::types::Position b,
+                    td::types::Position c);
+
+/// \brief Find the 2D cross product of 2 line segments made by points a, b & c
+/// \param a Position of point a
+/// \param b Position of point b
+/// \param c Position of point c
+/// \return 2D cross product of line segments ab and bc as given by the formula
+/// ab x bc = (b1-a1)*(c2-b2) - (b2-a2)*(c1-b1)
+double CrossProduct2D(td::types::Position a, td::types::Position b,
+                      td::types::Position c);
+
+/// \brief Check if a given circle intersects a given line segment or not
+/// \param p Position of the center of circle
+/// \param r Radius of the circle
+/// \param line_segment Line segment containing two end points
+/// \return True if the circle intersects the line segment, false otherwise
+/// \details Given a line segment and a circle, there are 3 cases:
+/// 1. The circle center is closer to one end point of line segment
+/// 2. The circle center is closer to the other end point of line segment
+/// 3. The circle center is closer to another point that lies on line segment
+/// The cases 1, 2 occur when the dot product of the respective line segment
+/// (starting with the respective end point) to the circle center is > 0. Case 3
+/// occurs otherwise. In each case, the closest distance is computed and checked
+/// if it is less than or equal to the circle radius.
+bool IsCircleIntersectingLineSegment(
+    td::types::Position p, float r,
+    std::pair<td::types::Position, td::types::Position> line_segment);
+
 /// \brief Function to check if the circle center is inside a polygon or not
 /// \param p Position of the center of circle
 /// \param edges Vector of all edges that make up the polygon
@@ -43,15 +78,6 @@ double Angle2D(double x1, double y1, double x2, double y2);
 bool IsCircleCenterInsidePolygon(
     td::types::Position p,
     std::vector<std::pair<td::types::Position, td::types::Position>> edges);
-
-/// \brief Function to check if the circle intersects a polygon edge or not
-/// \param p Position of the center of circle
-/// \param r Radius of the circle
-/// \param edge A given edge of the polygon
-/// \return True if the circle intersects with the given edge, false otherwise
-bool IsCircleIntersectingPolygonEdge(
-    td::types::Position p, float r,
-    std::pair<td::types::Position, td::types::Position> edge);
 
 /// \brief Function to check if a circle is colliding with another circle or not
 /// \param p1 Position of the center of circle 1
