@@ -36,7 +36,7 @@ void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
   size_t i = 0;  // iterating index
   float distance_counter = 0;
 
-  while (i < path.size() - 2) {
+  while (i < path.size() - 1) {
     distance_counter += EuclideanDistance(path[i], path[i + 1]);
     if (distance_counter > distance_moved_) {
       float leftover_distance = distance_moved_ - (distance_counter - EuclideanDistance(path[i], path[i + 1]));
@@ -46,7 +46,24 @@ void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
       direction.y /= direction_magnitude;
 
       position_ = path[i] + (direction * leftover_distance);
-      
+      sf::Vector2f rotation_direction = (path[i + 1] - path[i]);
+        std::cout << "-----------" << std::endl;
+        std::cout << path[i].x << ", " << path[i].y << std::endl;
+        std::cout << path[i+1].x << ", " << path[i+1].y << std::endl;
+        std::cout << rotation_direction.x << std::endl;
+        std::cout << rotation_direction.y << std::endl;
+        
+      if (direction.x > 0) {
+        rotation_angle_ = atan(rotation_direction.y/rotation_direction.x);
+      } else if (direction.x < 0) {
+        rotation_angle_ = PI+atan(-rotation_direction.y/rotation_direction.x);
+      } else if (direction.y > 0) {
+        rotation_angle_ = PI/2;
+      } else {
+        rotation_angle_ = 3*PI/2;
+      }
+      std::cout << rotation_angle_ << std::endl;
+
       distance_moved_ += move_by;
       break;
     }

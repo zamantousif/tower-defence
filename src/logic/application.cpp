@@ -568,11 +568,11 @@ void Application::HandleGameGui() {
 
   do_once = true;
 
-  // if (game_.round_active) {   //TODO
-  //    button_start_wave->setEnabled(false); 
-  //} else {
-  //    button_start_wave->setEnabled(true);
-  //}
+   if (game_.value().IsRoundInProgress()) {
+      button_start_wave->setEnabled(false); 
+  } else {
+      button_start_wave->setEnabled(true);
+  }
 
   static std::string title_string = "";
   static std::string desc_string = "";
@@ -1088,6 +1088,8 @@ void Application::HandleUpgrade() {
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
+  game_.value().Update();
+
   // draw range circle of upgrading_tower_
   sf::CircleShape range_circle(upgrading_tower_->getRange(), 40);
   range_circle.setOrigin(upgrading_tower_->getRange(),
@@ -1256,8 +1258,8 @@ void Application::DrawGameElements() {
     ScaleSprite(projectile_sprite);
     projectile_sprite.scale(sf::Vector2f(projectile.getHitboxRadius() / 100.f,
                                          projectile.getHitboxRadius() / 100.f));
-    projectile_sprite.setOrigin(projectile.getHitboxRadius(),
-                                projectile.getHitboxRadius());
+    projectile_sprite.setOrigin(projectile_sprite.getLocalBounds().width / 2,
+                           projectile_sprite.getLocalBounds().height / 2);
     projectile_sprite.setPosition(
         1920 / window_x_ * projectile.getPosition().x,
         1080 / window_y_ * projectile.getPosition().y);
@@ -1271,11 +1273,11 @@ void Application::DrawGameElements() {
     ScaleSprite(enemy_sprite);
     enemy_sprite.scale(sf::Vector2f(enemy.getHitboxRadius() / 100.f,
                                     enemy.getHitboxRadius() / 100.f));
-    enemy_sprite.setOrigin(window_x_ / 1920.0f * enemy.getHitboxRadius(),
-                           window_y_ / 1080.0f * enemy.getHitboxRadius());
+    enemy_sprite.setOrigin(enemy_sprite.getLocalBounds().width / 2,
+                           enemy_sprite.getLocalBounds().height / 2);
     enemy_sprite.setPosition(window_x_ / 1920.0f * enemy.getPosition().x,
                              window_y_ / 1080.0f * enemy.getPosition().y);
-    enemy_sprite.setRotation(enemy.getRotation());
+    enemy_sprite.setRotation(enemy.getRotation()*360/2/PI+90);
     window_.draw(enemy_sprite);
 
     sf::Sprite health_bar_base;
@@ -1313,7 +1315,7 @@ void Application::DrawShopElements() {
 
   sf::Text round_text2 = round_text;
   std::string round_string2 =
-      std::to_string(3) + "/" +
+      std::to_string(game_.value().getCurrentRoundIndex()+1) + "/" +
       std::to_string(
           20);  // TODO: replace numbers with game_.value().getRound() etc
   round_text2.setString(round_string2);

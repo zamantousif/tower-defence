@@ -80,6 +80,10 @@ void Game::Update() {
         }
       }
     }
+
+    for (Tower& tower : towers_) {
+      tower.Update(dt, enemies_, projectiles_);
+    }
   }
 
   enemy_collisions_ = new_enemy_collisions;
@@ -208,7 +212,7 @@ void Game::SellTower(Tower* tower) {
   money_ += static_cast<int>(
       tower->getMoneySpent() * 3 /
       4);  // 3/4 is a factor of how much money you get back when selling
-  // TODO: mark tower for removal here
+  tower->Delete();
 }
 
 std::optional<Tower> Game::StartBuyingTower(std::string name, sf::Texture* tower_texture,
