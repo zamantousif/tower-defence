@@ -4,7 +4,7 @@
 #include <cmath>
 
 namespace td {
-float hitbox_bomb_projectile = 20.0f;
+float hitbox_bomb_projectile = 10.0f;
 
 sf::Texture* texture_bomb = nullptr;  // picture of the projectile to here
 
@@ -14,9 +14,11 @@ unsigned int enemy_pierced_count_bomb = 1;
 
 Bomb_projectile::Bomb_projectile(sf::Vector2<float> position,
                                  float rotation_angle, int damage,
-                                 sf::Texture* texture_projectile)
+                                 sf::Texture* texture_projectile, sf::Texture* texture_explosion)
     : Projectile(position, hitbox_bomb_projectile, texture_projectile, rotation_angle, damage,
-                 is_armor_piercing_bomb, enemy_pierced_count_bomb) {}
+                 is_armor_piercing_bomb, enemy_pierced_count_bomb) {
+                   texture_explosion_ = texture_explosion;
+                 }
 
 // travel function for updating the movement of the projectile
 types::Position travel(types::Position start, float travel_distance,

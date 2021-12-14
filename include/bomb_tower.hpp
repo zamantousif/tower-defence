@@ -15,7 +15,8 @@ class Bomb_tower : public Tower {
   /// \param rotation_angle  Orientation, in radians of the tower
   Bomb_tower(sf::Vector2<float> position, float rotation_angle = 0.0f,
              sf::Texture* texture = nullptr,
-             sf::Texture* texture_projectile = nullptr);
+             sf::Texture* texture_projectile = nullptr,
+             sf::Texture* texture_explosion = nullptr);
 
   /// \brief Upgrades the tower once
   void Upgrade();
@@ -24,5 +25,7 @@ class Bomb_tower : public Tower {
   /// \return List of all projectiles currently in game
   bool shoot(std::list<Projectile>, std::vector<Enemy> enemies);
 
+ private:
+  sf::Texture* texture_explosion_; ///<Texture of the explosion of the projectile
 };
 }  // namespace td

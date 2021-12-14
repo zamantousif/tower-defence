@@ -205,14 +205,14 @@ void Game::SellTower(Tower* tower) {
   // TODO: mark tower for removal here
 }
 
-Tower Game::StartBuyingTower(std::string name, sf::Texture* tower_texture,
-                             sf::Texture* projectile_texture) {
+std::optional<Tower> Game::StartBuyingTower(std::string name, sf::Texture* tower_texture,
+                             sf::Texture* projectile_texture, sf::Texture* extra_texture) {
   if (name == "basic_tower" && money_ >= kCostBasicTower) {
     return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
                        projectile_texture);
   } else if (name == "bomb_tower" && money_ >= kCostBombTower) {
     return Bomb_tower(types::Position(0, 0), 0.0f, tower_texture,
-                      projectile_texture);
+                      projectile_texture, extra_texture);
   } else if (name == "slowing_tower" && money_ >= kCostSlowingTower) {
     return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
   } else if (name == "thorn_eruptor" && money_ >= kCostThornEruptor) {
@@ -224,7 +224,7 @@ Tower Game::StartBuyingTower(std::string name, sf::Texture* tower_texture,
   } else if (name == "melting_tower" && money_ >= kCostMeltingTower) {
     return Melting_tower(types::Position(0, 0), 0.0f, tower_texture);
   }
-  return Basic_tower(types::Position(0, 0), 0, nullptr, nullptr);
+  return {};
 }
 
 const std::vector<std::vector<Game::Wave>>& Game::getRounds() {

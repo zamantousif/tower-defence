@@ -13,10 +13,12 @@ unsigned int attack_speed_bomb = 10;  // can adjust these later
 float range_bomb = 150.0f;
 
 Bomb_tower::Bomb_tower(sf::Vector2<float> position, float rotation_angle,
-                       sf::Texture* texture, sf::Texture* texture_projectile)
+                       sf::Texture* texture, sf::Texture* texture_projectile,
+                       sf::Texture* texture_explosion)
     : Tower(position, hitbox_bomb_tower, texture, texture_projectile, rotation_angle,
             attack_speed_bomb, range_bomb, kCostBombTower, 140) {
               name_ = "bomb_tower";
+              texture_explosion_ = texture_explosion;
             }
 
 void Bomb_tower::Upgrade() {
@@ -53,7 +55,7 @@ bool Bomb_tower::shoot(
     rotation_angle_ = Angle2D(0, 1, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
     Bomb_projectile new_projectile = Bomb_projectile(
     GetProjectStartPos(), rotation_angle_, damage_bomb,
-      texture_projectile_);
+      texture_projectile_, texture_explosion_);
     projectiles.push_back(new_projectile);
     return true;
   } else {

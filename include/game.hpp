@@ -158,8 +158,10 @@ class Game {
   /// \param name Identifier used to map to a tower object
   /// \param tower_texture Pointer to the texture of the tower
   /// \param projectile_texture Pointer to the texture of the projectile
-  Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
-                         sf::Texture* projectile_texture);
+  /// \param extra_texture Pointer to another texture a tower might use (like bomb explosion)
+  std::optional<Tower> StartBuyingTower(std::string name, sf::Texture* tower_texture,
+                         sf::Texture* projectile_texture,
+                         sf::Texture* extra_texture = nullptr);
 
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)

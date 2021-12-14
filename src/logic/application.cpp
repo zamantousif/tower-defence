@@ -533,7 +533,7 @@ void Application::HandleGameGui() {
   button_tower_bo->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower_projectile"]);
+          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower_projectile"], textures_["bomb_tower_explosion"]);
     do_once = false;
   });
 
@@ -555,8 +555,7 @@ void Application::HandleGameGui() {
   button_tower_sn->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "sniper_tower", textures_["sniper_tower"],
-          nullptr);
+          "sniper_tower", textures_["sniper_tower"], nullptr);
     do_once = false;
   });
 
@@ -566,10 +565,6 @@ void Application::HandleGameGui() {
           "melting_tower", textures_["melting_tower"], nullptr);
     do_once = false;
   });
-
-  if (buying_tower_ && buying_tower_.value().getTexture() == nullptr) { //if tower button was pressed without enough money
-    buying_tower_ = {};
-  }
 
   do_once = true;
 
