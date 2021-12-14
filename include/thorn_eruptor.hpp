@@ -21,6 +21,6 @@ class ThornEruptor : public Tower {
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
-  bool shoot(std::list<Projectile> projectiles, std::vector<Enemy> enemies);
+  bool Shoot(std::list<Projectile>& projectiles, std::list<Enemy>& enemies);
 };
 }  // namespace td

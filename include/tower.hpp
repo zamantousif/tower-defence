@@ -81,9 +81,10 @@ class Tower : public Object {
 
   /// \brief Get the shooting type of the tower
   /// \return bool that tells if the tower shot
-  /// \param vector vector of the projectiles in current game
-  virtual bool shoot(std::vector<Projectile> vector,
-                                        std::vector<Enemy> enemies) {
+  /// \param projectiles list of the projectiles in current game
+  /// \param enemies list of the enemies in current game
+  virtual bool Shoot(std::list<Projectile>& projectiles,
+                                        std::list<Enemy>& enemies) {
     return false;
   };
 
@@ -94,7 +95,7 @@ class Tower : public Object {
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
   virtual std::optional<Enemy*> GetTarget(
-          std::vector<Enemy>& enemies);
+          std::list<Enemy>& enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by
   /// the tower
@@ -114,6 +115,7 @@ class Tower : public Object {
   unsigned int cost_;                  ///< cost of the tower
   unsigned int upgrade_cost_;          ///< upgrade cost of the tower
   unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
-                                       ///< used when selling tower             
+                                       ///< used when selling tower 
+  types::Time time_since_last_shoot_;            
 };
 }  // namespace td

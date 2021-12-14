@@ -35,8 +35,8 @@ void Bomb_tower::Upgrade() {
   }
 }
 
-bool Bomb_tower::shoot(
-    std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
+bool Bomb_tower::Shoot(
+    std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_bomb = 0;
   float explosion_radius = 40;
   if (level_ == 1)

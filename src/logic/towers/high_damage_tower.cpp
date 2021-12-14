@@ -38,8 +38,8 @@ void High_damage_tower::Upgrade() {
   }
 }
 
-bool High_damage_tower::shoot(
-    std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
+bool High_damage_tower::Shoot(
+    std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_high = 0;
   if (level_ == 1)
     damage_high = 200;

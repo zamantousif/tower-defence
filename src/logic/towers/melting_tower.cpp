@@ -33,14 +33,14 @@ void Melting_tower::Upgrade() {
   }
 }
 
-bool Melting_tower::shoot(
-    std::list<Projectile> projectiles,
-    std::vector<Enemy> enemies) {
+bool Melting_tower::Shoot(
+    std::list<Projectile>& projectiles,
+    std::list<Enemy>& enemies) {
       bool melting_armor_piercing = false;
       if (level_ == 4) {
         melting_armor_piercing = true;
       }
-  for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
+  for (std::list<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
     if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius())) {  // if enemy is in tower range
       it->TakeDamage(3.f * level_, melting_armor_piercing);

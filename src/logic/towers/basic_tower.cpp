@@ -38,8 +38,8 @@ void Basic_tower::Upgrade() {
   }
 }
 
-bool Basic_tower::shoot(
-    std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
+bool Basic_tower::Shoot(
+    std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_basic = 10;
   unsigned int enemy_pierced_count_basic = 1;
 

@@ -23,7 +23,7 @@ class Bomb_tower : public Tower {
 
   /// \brief Add projectiles shoot by the tower to the list of all projectiles
   /// \return List of all projectiles currently in game
-  bool shoot(std::list<Projectile>, std::vector<Enemy> enemies);
+  bool Shoot(std::list<Projectile>&, std::list<Enemy>& enemies);
 
  private:
   sf::Texture* texture_explosion_; ///<Texture of the explosion of the projectile

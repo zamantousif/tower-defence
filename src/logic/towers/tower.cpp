@@ -25,7 +25,14 @@ Tower::Tower(types::Position position, float rotation_angle,
       range_(1.0) {}
 
 void Tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
-
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = Shoot(projectiles, enemies);
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
+  }
+  
 }
 
 void Tower::Update(types::Time dt, const td::Game&) {}
@@ -52,8 +59,8 @@ types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<Enemy*> Tower::GetTarget(std::vector<Enemy>& enemies) {
-  std::vector<Enemy*> enemies_in_range;
+std::optional<Enemy*> Tower::GetTarget(std::list<Enemy>& enemies) {
+  std::list<Enemy*> enemies_in_range;
   for (Enemy& enemy : enemies) {
     if (IsCircleCollidingWithCircle(position_, range_, enemy.getPosition(), enemy.getHitboxRadius())) {
       enemies_in_range.push_back(&enemy);

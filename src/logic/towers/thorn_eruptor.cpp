@@ -37,8 +37,8 @@ void ThornEruptor::Upgrade() {
   }
 }
 
-bool ThornEruptor::shoot(
-    std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
+bool ThornEruptor::Shoot(
+    std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_thorn = 14;
   unsigned int enemy_pierced_count_thorn = 1;
 

@@ -35,12 +35,12 @@ void Slowing_tower::Upgrade() {
   }
 }
 
-bool Slowing_tower::shoot(
-    std::list<Projectile> projectiles,
-    std::vector<Enemy> enemies) {
+bool Slowing_tower::Shoot(
+    std::list<Projectile>& projectiles,
+    std::list<Enemy>& enemies) {
   /// NOTE! Before starting each frame or time segment the slowed_level_
   /// parameters of all enemies should be set to 0!
-  for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
+  for (std::list<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
     if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius())) {  // if enemy in tower range
       /// if enemy is not in range of another slowing tower that has bigger
