@@ -1226,10 +1226,10 @@ void Application::DrawGameElements() {
     ScaleSprite(enemy_sprite);
     enemy_sprite.scale(sf::Vector2f(enemy.getHitboxRadius() / 100.f,
                                     enemy.getHitboxRadius() / 100.f));
-    enemy_sprite.setOrigin(1920.0f / window_x_ * enemy.getHitboxRadius(),
-                           1080.0f / window_y_ * enemy.getHitboxRadius());
-    enemy_sprite.setPosition(1920.0f / window_x_ * enemy.getPosition().x,
-                             1080.0f / window_y_ * enemy.getPosition().y);
+    enemy_sprite.setOrigin(window_x_ / 1920.0f * enemy.getHitboxRadius(),
+                           window_y_ / 1080.0f * enemy.getHitboxRadius());
+    enemy_sprite.setPosition(window_x_ / 1920.0f * enemy.getPosition().x,
+                             window_y_ / 1080.0f * enemy.getPosition().y);
     enemy_sprite.setRotation(enemy.getRotation());
     window_.draw(enemy_sprite);
 
