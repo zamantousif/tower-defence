@@ -94,7 +94,7 @@ class Tower : public Object {
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
   virtual std::optional<Enemy*> GetTarget(
-      const std::vector<Enemy>& enemies);
+          std::vector<Enemy>& enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by
   /// the tower

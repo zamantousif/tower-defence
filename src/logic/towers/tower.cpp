@@ -52,73 +52,61 @@ types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<Enemy*> Tower::GetTarget(
-    const std::vector<Enemy>& enemies) {
-  std::vector<Enemy> enemiesInRange;
-  float towerxpos = position_.x;
-  float towerypos = position_.y;
-  for (auto it = enemies.cbegin(); it != enemies.cend(); it++) {
-    float enemyxpos = (*it).getPosition().x;
-    float enemyypos = (*it).getPosition().y;
-    if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it).getHitboxRadius()) {
-      enemiesInRange.push_back(*it);
+std::optional<Enemy*> Tower::GetTarget(std::vector<Enemy>& enemies) {
+  std::vector<Enemy*> enemies_in_range;
+  for (Enemy& enemy : enemies) {
+    if (IsCircleCollidingWithCircle(position_, range_, enemy.getPosition(), enemy.getHitboxRadius())) {
+      enemies_in_range.push_back(&enemy);
     }
   }
-  types::Position zeroPosition = types::Position(0,0);
+  if (enemies_in_range.size() == 0) return std::nullopt;
+
+  //return pointer to correct enemy based on targeting_
   switch (targeting_) {
     case types::kClose: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
       std::optional<Enemy*> closestEnemy = {};
       float closest_distance = std::numeric_limits<float>::max();
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float distance = EuclideanDistance(it->getPosition(), position_);
+      for (Enemy* enemy : enemies_in_range) {
+        float distance = EuclideanDistance(enemy->getPosition(), position_);
         if (distance <= closest_distance) {
           closest_distance = distance;
-          closestEnemy = &(*it);
+          closestEnemy = enemy;
         }
       }
       return closestEnemy;
     }
     case types::kStrong: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
       std::optional<Enemy*> strongest_enemy = {};
       float strongest_hp = 0;
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float current_health = it->getHealth();
+      for (Enemy* enemy : enemies_in_range) {
+        float current_health = enemy->getHealth();
         if (current_health >= strongest_hp) {
           strongest_hp = current_health;
-          strongest_enemy = &(*it);
+          strongest_enemy = enemy;
         }
       }
       return strongest_enemy;
     }
     case types::kFirst: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
       std::optional<Enemy*> first_enemy = {};
       float furthest_distance = 0;
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float current_distance = it->getDistanceMoved();
+      for (Enemy* enemy : enemies_in_range) {
+        float current_distance = enemy->getDistanceMoved();
         if (current_distance >= furthest_distance) {
           furthest_distance = current_distance;
-          first_enemy = &(*it);
+          first_enemy = enemy;
         }
       }
       return first_enemy;
     }
     case types::kLast: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
       std::optional<Enemy*> last_enemy = {};
       float last_distance = std::numeric_limits<float>::max();
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float current_distance = it->getDistanceMoved();
+      for (Enemy* enemy : enemies_in_range) {
+        float current_distance = enemy->getDistanceMoved();
         if (current_distance <= last_distance) {
           last_distance = current_distance;
-          last_enemy = &(*it);
+          last_enemy = enemy;
         }
       }
       return last_enemy;
