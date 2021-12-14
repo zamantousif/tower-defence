@@ -10,7 +10,8 @@ Projectile::Projectile(types::Position position, float hitbox,
       enemy_pierced_count_(enemy_pierced_count),
       exhausted_(false) {}
 
-void Projectile::Update(types::Time dt, const td::Game&) {}
+void Projectile::Update(types::Time dt, std::list<Enemy>& enemies,
+                        std::list<Projectile>& projectiles) {}
 
 float Projectile::getDamage() const { return damage_; }
 
@@ -25,4 +26,4 @@ unsigned int Projectile::getEnemyPiercedCount() const {
 }
 
 bool Projectile::isExhausted() const { return exhausted_; }
-}  // namespace td::projectiles
+}  // namespace td

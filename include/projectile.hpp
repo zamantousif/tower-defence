@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
+#include "enemy.hpp"
 #include "object.hpp"
 
 namespace td {
@@ -21,7 +23,8 @@ class Projectile : public Object {
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count);
 
-  virtual void Update(types::Time dt, const td::Game&); 
+  virtual void Update(types::Time dt, std::list<Enemy>& enemies,
+                      std::list<Projectile>& projectiles);
 
   /// \brief Get the damage value of the projectile
   /// \return Damage value of the projectile
@@ -49,4 +52,4 @@ class Projectile : public Object {
   bool exhausted_;  ///< Projectile is exhausted if it should not make it to the
                     ///< next frame
 };
-}  // namespace td::projectiles
+}  // namespace td
