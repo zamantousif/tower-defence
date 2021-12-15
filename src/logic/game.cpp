@@ -22,14 +22,7 @@ Game::Game(Map* map, const std::string& round_file_path, int starting_money,
 }
 Game::Game(Map* map, const std::string& round_file_path,
            const std::map<std::string, sf::Texture*>& textures)
-    : map_(map),
-      money_(2000),
-      lives_(100),
-      round_in_progress_(false),
-      current_round_index_(0) {
-  LoadEnemies(textures);
-  LoadRounds(round_file_path);
-}
+    : Game(map, round_file_path, 2000, 100, textures) {}
 
 int Game::getMoney() const { return money_; }
 
@@ -37,18 +30,17 @@ int Game::getLives() const { return lives_; }
 
 void Game::Update() {
   sf::Time dt = update_clock_.getElapsedTime();
-  sf::Time round_time = round_clock_.getElapsedTime();
   update_clock_.restart();
+  round_time_ += dt.asMilliseconds();
 
   // Iterate through the current waves, spawning enemies as necessary
   for (Wave& wave : rounds_[current_round_index_]) {
-    if (wave.last_spawn_time.asMilliseconds() +
-                static_cast<sf::Int32>(wave.spacing) >=
-            round_time.asMilliseconds() &&
+    if (wave.last_spawn_time + static_cast<sf::Int32>(wave.spacing) >=
+            round_time_ &&
         wave.enemies_spawned < wave.count) {
       wave.enemies_spawned++;
       SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
-      wave.last_spawn_time = round_time;
+      wave.last_spawn_time = round_time_;
     }
   }
 
@@ -348,7 +340,7 @@ bool Game::CheckTowerPlacementCollision(const Tower& tower) {
 void Game::StartRound(size_t round_index) {
   round_in_progress_ = true;
   current_round_index_ = round_index;
-  round_clock_.restart();
+  round_time_ = 0;
 }
 
 bool Game::IsRoundInProgress() { return round_in_progress_; }
@@ -358,5 +350,7 @@ const Map* Game::getMap() const { return map_; }
 Map* Game::getMap() { return map_; }
 
 size_t Game::getCurrentRoundIndex() { return current_round_index_; }
+
+void Game::Unpause() { update_clock_.restart(); }
 
 }  // namespace td
