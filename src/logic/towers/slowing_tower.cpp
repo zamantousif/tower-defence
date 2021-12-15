@@ -53,7 +53,7 @@ bool Slowing_tower::Shoot(
   /// parameters of all enemies should be set to 0!
   for (std::list<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius())) {  // if enemy in tower range
+    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius()/2)) {  // if enemy in tower range
       /// if enemy is not in range of another slowing tower that has bigger
       /// level, set slowing_level to be same as level of this tower.
       /// it->getBounty() != 400 makes dragonfly immune to slowring tower

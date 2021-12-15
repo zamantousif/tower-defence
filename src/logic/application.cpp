@@ -1238,7 +1238,7 @@ void Application::TargetingSwitchLeft() {
 }
 
 void Application::DrawGameElements() {
-  for (auto tower : game_.value().getTowers()) {
+  for (Tower& tower : game_.value().getTowers()) {
     sf::Sprite tower_sprite;
     tower_sprite.setTexture(*tower.getTexture());
     tower_sprite.setOrigin(tower_sprite.getLocalBounds().width / 2,
@@ -1252,7 +1252,7 @@ void Application::DrawGameElements() {
     window_.draw(tower_sprite);
   }
 
-  for (auto projectile : game_.value().getProjectiles()) {
+  for (Projectile& projectile : game_.value().getProjectiles()) {
     sf::Sprite projectile_sprite;
     projectile_sprite.setTexture(*projectile.getTexture());
     ScaleSprite(projectile_sprite);
@@ -1267,7 +1267,7 @@ void Application::DrawGameElements() {
     window_.draw(projectile_sprite);
   }
 
-  for (auto enemy : game_.value().getEnemies()) {
+  for (Enemy& enemy : game_.value().getEnemies()) {
     sf::Sprite enemy_sprite;
     enemy_sprite.setTexture(*enemy.getTexture());
     ScaleSprite(enemy_sprite);

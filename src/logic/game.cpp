@@ -81,6 +81,10 @@ void Game::Update() {
       }
     }
 
+    if (enemies_.size() > 0) {
+      std::cout << &(*(enemies_.begin())) << "  Health: " << enemies_.begin()->getHealth() << std::endl;
+    }
+
     for (Tower& tower : towers_) {
       if (tower.getName() == "basic_tower") {
         Basic_tower* casted_tower = static_cast<Basic_tower*>(&tower);

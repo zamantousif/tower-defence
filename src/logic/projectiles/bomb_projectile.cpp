@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace td {
-float hitbox_bomb_projectile = 10.0f;
+float hitbox_bomb_projectile = 11.0f;
 
 bool is_armor_piercing_bomb = true;
 

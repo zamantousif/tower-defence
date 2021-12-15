@@ -2,13 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <iostream>
 #include "constants.hpp"
 #include "collision.hpp"
 
 namespace td {
-float hitbox_melting = 30.0f;  // parameters radius and pointCount
+float hitbox_melting = 30.0f;
 
-unsigned int attack_speed_melting = 10;  // can adjust these later
+unsigned int attack_speed_melting = 20;
 
 float range_melting = 120.0f;
 
@@ -53,8 +54,8 @@ bool Melting_tower::Shoot(
       }
   for (std::list<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
-    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius())) {  // if enemy is in tower range
-      it->TakeDamage(3.f * level_, melting_armor_piercing);
+    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius()/2)) {  // if enemy is in tower range
+      it->TakeDamage(2.f * (1+level_), melting_armor_piercing);
     }
   }
   return true;

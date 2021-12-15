@@ -63,6 +63,7 @@ bool High_damage_tower::Shoot(
 
   std::optional<Enemy*> target = GetTarget(enemies);
   if (target) {
+    rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
     return target.value()->TakeDamage(damage_high, true);
   } else {
     return false;

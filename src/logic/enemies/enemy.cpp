@@ -32,7 +32,12 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
 }
 
 void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
-  float move_by = move_speed_ * dt.asMilliseconds() / 1000.f;
+  float slowing_ratio = 1.0f;
+  if (slowed_level_ > 0) {
+    slowing_ratio = 1.0f - (slowed_level_+2)*0.1f;
+  }
+  float move_by = move_speed_ * slowing_ratio * dt.asMilliseconds() / 1000.f;
+  slowed_level_ = 0;
   size_t i = 0;  // iterating index
   float distance_counter = 0;
 
@@ -74,6 +79,7 @@ bool Enemy::TakeDamage(float damage, bool is_armor_piercing) {
     health_ -= damage;
   }
   if (health_ <= 0) {
+    health_ = 0;
     this->Delete();
   }
   return true;
