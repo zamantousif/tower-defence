@@ -18,7 +18,12 @@ void Projectile::Update(types::Time dt, const td::Game&) {}
 void Projectile::Update(types::Time dt) {
   position_.x += dt.asMilliseconds()/100.f*speed_ * cos(rotation_angle_);
   position_.y += dt.asMilliseconds()/100.f*speed_ * sin(rotation_angle_);
-  lifetime_left_ -= dt.asMilliseconds()/100.f*speed_;
+  if (speed_ > 0) {
+    lifetime_left_ -= dt.asMilliseconds()/100.f*speed_;
+  } else {
+    lifetime_left_ -= dt.asMilliseconds()/100.f;
+  }
+  
   if (lifetime_left_ <= 0) {
     this->Delete();
   }
