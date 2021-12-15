@@ -24,7 +24,7 @@ int Application::run() {
   music.openFromFile("../assets/sounds/space_jazz.wav");
   music.setLoop(true);
   music.setVolume(music_volume_);
-  //music.play();
+  music.play();
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;
