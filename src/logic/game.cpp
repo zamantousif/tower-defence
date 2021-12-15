@@ -152,7 +152,14 @@ void Game::Update() {
   //Delete any objects that should be deleted
   for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
     if (it->IsDeleted()) {
-      money_ += it->getBounty();
+      if (it->isAtEndOfPath()) {
+        lives_ -= it->getBounty();
+        if (lives_ < 0) {
+          lives_ = 0;
+        }
+      } else {
+        money_ += it->getBounty();
+      }
       it = enemies_.erase(it);
     }
   }

@@ -19,7 +19,8 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       bounty_(bounty),
       armored_(armored),
       distance_moved_(distance_moved),
-      slowed_level_(slowed_level) {}
+      slowed_level_(slowed_level),
+      at_end_of_path_(false) {}
 
 Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   health_ = enemy.max_health_;
@@ -64,10 +65,12 @@ void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
       }
 
       distance_moved_ += move_by;
-      break;
+      return;
     }
     i++;
   }
+  at_end_of_path_ = true;
+  this->Delete();
 }
 
 bool Enemy::TakeDamage(float damage, bool is_armor_piercing) {
@@ -121,6 +124,8 @@ int Enemy::getMoveSpeed() const { return move_speed_; }
 int Enemy::getBounty() const { return bounty_; }
 
 bool Enemy::isArmored() const { return armored_; }
+
+bool Enemy::isAtEndOfPath() const { return at_end_of_path_; }
 
 float Enemy::getDistanceMoved() const { return distance_moved_; }
 

@@ -95,6 +95,9 @@ class Enemy : public Object {
   /// \return True if the enemy is armored otherwise false
   bool isArmored() const;
 
+  /// \return True if the enemy is at the end of the path
+  bool isAtEndOfPath() const;
+
   /// \brief Set the total distance moved on the path by the enemy
   void setDistanceMoved(float distance);
 
@@ -123,5 +126,6 @@ class Enemy : public Object {
   bool armored_;          ///< Status of enemy armor
   float distance_moved_;  ///< Total distance moved on the path by the enemy
   unsigned int slowed_level_;  ///< Level by witch the enemy is slowed
+  bool at_end_of_path_;   ///< True if the enemy has reached the end of the path
 };
 }  // namespace td
