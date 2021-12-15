@@ -1321,9 +1321,8 @@ void Application::DrawShopElements() {
 
   sf::Text round_text2 = round_text;
   std::string round_string2 =
-      std::to_string(game_.value().getCurrentRoundIndex()+1) + "/" +
-      std::to_string(
-          20);  // TODO: replace numbers with game_.value().getRound() etc
+      std::to_string(game_.value().getCurrentRoundIndex()) + "/" +
+      std::to_string(game_.value().getMaxRoundIndex());
   round_text2.setString(round_string2);
   round_text2.setOrigin(round_text.getGlobalBounds().width, 0);
   round_text2.setPosition(

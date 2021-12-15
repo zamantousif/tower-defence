@@ -190,11 +190,12 @@ class Game {
   /// \return True if a round is in progress, false otherwise
   bool IsRoundInProgress();
 
-  /// \brief Note that the index changes after a round has been completed, not
-  /// right as it begins.
-  ///
-  /// \return The zero-indexed index of the current round
+  /// \brief Round index increments when a new round starts
+  /// \return The one-indexed index of the current round
   size_t getCurrentRoundIndex();
+
+  /// \return The index of the final round
+  size_t getMaxRoundIndex();
 
   /// \brief Resets the clock that calculates dt
   void Unpause();

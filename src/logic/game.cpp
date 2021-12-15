@@ -385,6 +385,8 @@ Map* Game::getMap() { return map_; }
 
 size_t Game::getCurrentRoundIndex() { return current_round_index_; }
 
+size_t Game::getMaxRoundIndex() { return rounds_.size(); }
+
 void Game::Unpause() { update_clock_.restart(); }
 
 }  // namespace td
