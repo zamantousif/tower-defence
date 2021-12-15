@@ -152,6 +152,7 @@ void Game::Update() {
   //Delete any objects that should be deleted
   for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
     if (it->IsDeleted()) {
+      money_ += it->getBounty();
       it = enemies_.erase(it);
     }
   }
@@ -168,8 +169,9 @@ void Game::Update() {
 
   //check if round_in_progress_ should be set to false
   //and start new round if auto_start_ is true
-  if (enemies_.size() == 0 && all_enemies_spawned) {
+  if (round_in_progress_ && enemies_.size() == 0 && all_enemies_spawned) {
     round_in_progress_ = false;
+    money_ += 100;  //players get 100 money at the end of a round
     if (auto_start_) {
       StartRound(current_round_index_+1);
     }
