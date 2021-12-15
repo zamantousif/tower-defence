@@ -66,7 +66,7 @@ bool Bomb_tower::Shoot(
     rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
     Bomb_projectile new_projectile = Bomb_projectile(
     GetProjectStartPos(), rotation_angle_, damage_bomb,
-      texture_projectile_, texture_explosion_);
+      texture_projectile_, texture_explosion_, 40.f, range_*1.2f);
     projectiles.push_back(new_projectile);
     return true;
   } else {

@@ -4,7 +4,6 @@
 #include <cmath>
 #include <optional>
 
-#include "basic_projectile.hpp"
 #include "projectile.hpp"
 #include "types.hpp"
 #include "constants.hpp"
@@ -69,16 +68,16 @@ bool Basic_tower::Shoot(
     rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
     Projectile new_projectile = Projectile(
     GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_, damage_basic,
-    false, enemy_pierced_count_basic);
+    false, enemy_pierced_count_basic, 50.f, range_*1.2f);
     projectiles.push_back(new_projectile);
 
     if (level_ >= 4) {
     Projectile new_projectile_left = Projectile(
     GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_+0.2f, damage_basic,
-    false, enemy_pierced_count_basic);
+    false, enemy_pierced_count_basic, 50.f, range_*1.2f);
     Projectile new_projectile_right = Projectile(
     GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_-0.2f, damage_basic,
-    false, enemy_pierced_count_basic);
+    false, enemy_pierced_count_basic, 50.f, range_*1.2f);
     projectiles.push_back(new_projectile_left);
     projectiles.push_back(new_projectile_right);
     }

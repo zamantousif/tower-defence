@@ -75,7 +75,7 @@ bool ThornEruptor::Shoot(
   rotation_angle_ = Angle2D(1, 0, target->getPosition().x - position_.x, target->getPosition().y - position_.y );
   Projectile new_projectile = Projectile(
   GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_, damage_thorn,
-  false, enemy_pierced_count_thorn);
+  false, enemy_pierced_count_thorn, 60.f, range_*1.2f);
   projectiles.push_back(new_projectile);
   if (level_ < 4 || enemies_in_range.size() == 1) {
     return true;
@@ -91,7 +91,7 @@ bool ThornEruptor::Shoot(
   rotation_angle_ = Angle2D(1, 0, target2->getPosition().x - position_.x, target2->getPosition().y - position_.y );
   Projectile new_projectile2 = Projectile(
   GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_, damage_thorn,
-  false, enemy_pierced_count_thorn);
+  false, enemy_pierced_count_thorn, 60.f, range_*1.2f);
   projectiles.push_back(new_projectile2);
   return true;
   

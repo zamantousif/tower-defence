@@ -11,9 +11,10 @@ unsigned int enemy_pierced_count_bomb = 1;
 
 Bomb_projectile::Bomb_projectile(sf::Vector2<float> position,
                                  float rotation_angle, int damage,
-                                 sf::Texture* texture_projectile, sf::Texture* texture_explosion)
+                                 sf::Texture* texture_projectile, sf::Texture* texture_explosion,
+                                 float speed, float lifetime)
     : Projectile(position, hitbox_bomb_projectile, texture_projectile, rotation_angle, damage,
-                 is_armor_piercing_bomb, enemy_pierced_count_bomb) {
+                 is_armor_piercing_bomb, enemy_pierced_count_bomb, speed, lifetime) {
                    texture_explosion_ = texture_explosion;
                  }
 

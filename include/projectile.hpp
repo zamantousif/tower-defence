@@ -19,7 +19,7 @@ class Projectile : public Object {
   /// before disappearing
   Projectile(types::Position position, float hitbox, sf::Texture* texture,
              float rotation_angle, float damage, bool is_armor_piercing,
-             unsigned int enemy_pierced_count);
+             unsigned int enemy_pierced_count, float speed, float lifetime);
 
   virtual void Update(types::Time dt, const td::Game&); 
 
@@ -37,18 +37,26 @@ class Projectile : public Object {
   /// \param count    Number of enemies pierced by the projectile
   void setEnemyPiercedCount(unsigned int count);
 
+  /// \brief Get the speed value of the projectile
+  /// \return Speed value of the projectile
+  float getSpeed() const;
+
+  /// \brief Get the lifetime the projectile has left
+  /// \return How far the projectile can still travel
+  float getLifetimeLeft() const;
+
   /// \brief Get the number of enemies pierced by the projectile
   /// \return Number of enemies pierced by the projectile
   unsigned int getEnemyPiercedCount() const;
 
-  bool isExhausted() const;
+
 
  protected:
   float damage_;            ///< Damage value of the projectile
   bool is_armor_piercing_;  ///< Armor piercing status of the projectile
   unsigned int enemy_pierced_count_;  ///< Number of enemies pierced by the
                                       ///< projectile before disappearing
-  bool exhausted_;  ///< Projectile is exhausted if it should not make it to the
-                    ///< next frame
+  float speed_;              ///< Speed of the projectile
+  float lifetime_left_;      ///< How much distance the projectile can still travel before disappearing
 };
 }  // namespace td

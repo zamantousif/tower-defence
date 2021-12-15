@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "massive_projectile.hpp"
 #include "constants.hpp"
 
 namespace td {
