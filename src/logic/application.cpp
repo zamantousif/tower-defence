@@ -519,7 +519,7 @@ void Application::HandleGameGui() {
   button_pause->onPress([&] { LaunchPauseGui(); });
   button_start_wave->onPress([&] {
     if (!game_.value().IsRoundInProgress()) {
-      game_.value().StartRound(game_.value().getCurrentRoundIndex());
+      game_.value().StartRound(game_.value().getCurrentRoundIndex()+1);
     }
   });
 

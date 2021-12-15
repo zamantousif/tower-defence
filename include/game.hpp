@@ -141,7 +141,7 @@ class Game {
           spacing(spacing),
           offset(offset),
           count(count),
-          last_spawn_time(-spacing) {}
+          last_spawn_time(offset-spacing) {}
   };
 
   /// \brief Upgrades the tower given as the parameter if the player has enough

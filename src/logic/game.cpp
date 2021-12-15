@@ -31,7 +31,6 @@ int Game::getLives() const { return lives_; }
 
 
 void Game::Update() {
-  std::cout << "----------" << std::endl;
   sf::Time dt = update_clock_.getElapsedTime();
   update_clock_.restart();
   round_time_ += dt.asMilliseconds();
@@ -92,7 +91,6 @@ void Game::Update() {
       if (IsCircleCollidingWithCircle(
               projectile.getPosition(), projectile.getHitboxRadius(),
               enemy.getPosition(), enemy.getHitboxRadius())) {
-                std::cout << "buubuu" << std::endl;
         auto previous_col_vector = previous_projectile_collisions_.find(&projectile);
         if (previous_col_vector != previous_projectile_collisions_.end()) {
           auto enemy_find = std::find(previous_col_vector->second.begin(), previous_col_vector->second.end(), &enemy);
@@ -122,7 +120,6 @@ void Game::Update() {
         }
       }
       if (projectile.IsDeleted()) {
-        std::cout << "deletedddd" << std::endl;
         auto delete_from_table = new_projectile_collisions.find(&projectile);
         if (delete_from_table != new_projectile_collisions.end()) {
           new_projectile_collisions.erase(delete_from_table);
@@ -132,45 +129,53 @@ void Game::Update() {
     }
 
   } //projectile for loop
-  std::cout << "jaajaa" << std::endl;
+
   projectile_collisions_ = new_projectile_collisions;
 
-    // Iterate through the current waves, spawning enemies as necessary
-  for (Wave& wave : rounds_[current_round_index_]) {
-    if (wave.last_spawn_time + wave.spacing <=
-            round_time_ &&
-        wave.enemies_spawned < wave.count) {
-      wave.enemies_spawned++;
-      SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
-      wave.last_spawn_time += wave.spacing;
+  // Iterate through the current waves, spawning enemies as necessary
+  bool all_enemies_spawned = true;
+  if (round_in_progress_) {
+    for (Wave& wave : rounds_[current_round_index_-1]) {
+      if (wave.last_spawn_time + wave.spacing <=
+              round_time_ &&
+          wave.enemies_spawned < wave.count) {
+        wave.enemies_spawned++;
+        SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
+        wave.last_spawn_time += wave.spacing;
+      }
+      if (wave.enemies_spawned < wave.count) {
+        all_enemies_spawned = false;
+      }
     }
   }
-  std::cout << "jaajaa" << std::endl;
+
   //Delete any objects that should be deleted
   for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
     if (it->IsDeleted()) {
-      std::cout << "hihii" << std::endl;
       it = enemies_.erase(it);
-      std::cout << "hehee" << std::endl;
     }
   }
   for (auto it = projectiles_.begin(); it != projectiles_.end(); it++) {
     if (it->IsDeleted()) {
-      std::cout << "hahaa" << std::endl;
       it = projectiles_.erase(it);
-      std::cout << "hohoo" << std::endl;
     }
   }
   for (auto it = towers_.begin(); it != towers_.end(); it++) {
-    std::cout << "aijaa" << std::endl;
     if (it->IsDeleted()) {
-      std::cout << "popoo" << std::endl;
       it = towers_.erase(it);
-      std::cout << "dadaa" << std::endl;
     }
   }
-  std::cout << "jaajaa" << std::endl;
+
+  //check if round_in_progress_ should be set to false
+  //and start new round if auto_start_ is true
+  if (enemies_.size() == 0 && all_enemies_spawned) {
+    round_in_progress_ = false;
+    if (auto_start_) {
+      StartRound(current_round_index_+1);
+    }
+  }
 }
+
 
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }
 std::list<Enemy>& Game::getEnemies() { return enemies_; }
