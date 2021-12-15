@@ -30,12 +30,10 @@ set(SOURCES
     include/types.hpp
     src/logic/object.cpp
     include/object.hpp
-    #include/basic_projectile.hpp
     include/basic_tower.hpp
     include/bomb_projectile.hpp
     include/bomb_tower.hpp
     include/high_damage_tower.hpp
-    #include/massive_projectile.hpp
     include/melting_tower.hpp
     include/slowing_tower.hpp
     include/thorn_eruptor.hpp
@@ -50,8 +48,6 @@ set(SOURCES
     src/logic/enemies/enemy.cpp
     include/enemy.hpp
     src/logic/projectiles/projectile.cpp
-    #src/logic/projectiles/basic_projectile.cpp
-    #src/logic/projectiles/massive_projectile.cpp
     src/logic/projectiles/bomb_projectile.cpp
     include/projectile.hpp
     src/logic/enemies/splitworm.cpp

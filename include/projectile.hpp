@@ -1,11 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
+#include "enemy.hpp"
 #include "object.hpp"
 
 namespace td {
 class Game;
+class Enemy;
 class Projectile : public Object {
  public:
   /// \brief Projectile constructor
@@ -21,7 +24,8 @@ class Projectile : public Object {
              float rotation_angle, float damage, bool is_armor_piercing,
              unsigned int enemy_pierced_count, float speed, float lifetime);
 
-  virtual void Update(types::Time dt, const td::Game&); 
+  virtual void Update(types::Time dt, std::list<Enemy>& enemies,
+                      std::list<Projectile>& projectiles);
 
   void Update(types::Time dt);
 
@@ -48,8 +52,6 @@ class Projectile : public Object {
   /// \brief Get the number of enemies pierced by the projectile
   /// \return Number of enemies pierced by the projectile
   unsigned int getEnemyPiercedCount() const;
-
-
 
  protected:
   float damage_;            ///< Damage value of the projectile

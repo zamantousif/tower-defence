@@ -4,7 +4,6 @@
 #include <cmath>
 #include <optional>
 
-#include "basic_projectile.hpp"
 #include "projectile.hpp"
 #include "types.hpp"
 #include "constants.hpp"

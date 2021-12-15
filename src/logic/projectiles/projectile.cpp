@@ -13,9 +13,8 @@ Projectile::Projectile(types::Position position, float hitbox,
       speed_(speed),
       lifetime_left_(lifetime) {}
 
-void Projectile::Update(types::Time dt, const td::Game&) {}
-
-void Projectile::Update(types::Time dt) {
+void Projectile::Update(types::Time dt, std::list<Enemy>& enemies,
+                        std::list<Projectile>& projectiles) {
   position_.x += dt.asMilliseconds()/100.f*speed_ * cos(rotation_angle_);
   position_.y += dt.asMilliseconds()/100.f*speed_ * sin(rotation_angle_);
   if (speed_ > 0) {
@@ -27,6 +26,10 @@ void Projectile::Update(types::Time dt) {
   if (lifetime_left_ <= 0) {
     this->Delete();
   }
+}
+
+void Projectile::Update(types::Time dt) {
+
 }
 
 float Projectile::getDamage() const { return damage_; }
@@ -44,7 +47,6 @@ unsigned int Projectile::getEnemyPiercedCount() const {
 float Projectile::getSpeed() const {
   return speed_;
 }
-
 
 float Projectile::getLifetimeLeft() const {
   return lifetime_left_;
