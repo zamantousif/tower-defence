@@ -224,7 +224,7 @@ void Application::LoadTextures() {
   textures_["thorn_eruptor_projectile"] = thorn_eruptor_projectile;
 
   sf::Texture* bomb_tower_explosion = new sf::Texture();
-  bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
+  bomb_tower_explosion->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
   textures_["bomb_tower_explosion"] = bomb_tower_explosion;
   
   sf::Texture* cockroach = new sf::Texture();
