@@ -4,12 +4,12 @@
 namespace td {
 Projectile::Projectile(types::Position position, float hitbox,
                        sf::Texture* texture, float rotation_angle, float damage,
-                       bool is_armor_piercing, unsigned int enemy_pierced_count,
+                       bool is_armor_piercing, unsigned int piercing,
                        float speed, float lifetime)
     : Object(position, hitbox, texture, rotation_angle),
       damage_(damage),
       is_armor_piercing_(is_armor_piercing),
-      enemy_pierced_count_(enemy_pierced_count),
+      piercing_left_(piercing),
       speed_(speed),
       lifetime_left_(lifetime) {}
 
@@ -36,12 +36,12 @@ float Projectile::getDamage() const { return damage_; }
 
 bool Projectile::isArmorPiercing() const { return is_armor_piercing_; }
 
-void Projectile::setEnemyPiercedCount(unsigned int count) {
-  enemy_pierced_count_ = count;
+void Projectile::setPiercingLeft(unsigned int count) {
+  piercing_left_ = count;
 }
 
-unsigned int Projectile::getEnemyPiercedCount() const {
-  return enemy_pierced_count_;
+unsigned int Projectile::getPiercingLeft() const {
+  return piercing_left_;
 }
 
 float Projectile::getSpeed() const {

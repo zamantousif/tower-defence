@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>  //TODO: temporary
+#include <algorithm>
 
 #include "collision.hpp"
 #include "constants.hpp"
@@ -28,82 +29,45 @@ int Game::getMoney() const { return money_; }
 
 int Game::getLives() const { return lives_; }
 
+
 void Game::Update() {
+  std::cout << "----------" << std::endl;
   sf::Time dt = update_clock_.getElapsedTime();
   update_clock_.restart();
   round_time_ += dt.asMilliseconds();
 
-  // Iterate through the current waves, spawning enemies as necessary
-  for (Wave& wave : rounds_[current_round_index_]) {
-    if (wave.last_spawn_time + static_cast<sf::Int32>(wave.spacing) >=
-            round_time_ &&
-        wave.enemies_spawned < wave.count) {
-      wave.enemies_spawned++;
-      SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
-      wave.last_spawn_time = round_time_;
-    }
-  }
-
   std::map<const Enemy*, std::vector<const Projectile*>> new_enemy_collisions;
   previous_enemy_collisions_.clear();
 
-  // Iterate through all the enemies, calling their Update method and updating
-  // the collision tables
-  for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
-    Enemy& enemy = *it;
-    // Call the Update method for every enemy
-    enemy.Update(dt, map_->getEnemyPath());
-    
-    if (enemy.IsDeleted()) {
-      enemies_.erase(it);
-    }
-
-    // Projectiles that the enemy collided with in the previous frame
-    auto enemy_collided_with = enemy_collisions_.find(&enemy);
-    if (enemy_collided_with != enemy_collisions_.end()) {
-      previous_enemy_collisions_[&enemy] = enemy_collided_with->second;
-    }
-
-    for (const Projectile& projectile : projectiles_) {
-      // Check if Projectile collides with the Enemy
-      if (IsCircleCollidingWithCircle(
-              projectile.getPosition(), projectile.getHitboxRadius(),
-              enemy.getPosition(), enemy.getHitboxRadius())) {
-        auto collisions = new_enemy_collisions.find(&enemy);
-        if (collisions != new_enemy_collisions.end()) {
-          collisions->second.push_back(&projectile);
-        } else {
-          new_enemy_collisions[&enemy] = {&projectile};
-        }
-      }
-    }
-
-    for (Tower& tower : towers_) {
-      if (tower.getName() == "basic_tower") {
-        Basic_tower* casted_tower = static_cast<Basic_tower*>(&tower);
-        casted_tower->Basic_tower::Update(dt, enemies_, projectiles_);
-      } else if (tower.getName() == "bomb_tower") {
-        Bomb_tower* casted_tower = static_cast<Bomb_tower*>(&tower);
-        casted_tower->Bomb_tower::Update(dt, enemies_, projectiles_);
-      } else if (tower.getName() == "sniper_tower") {
-        High_damage_tower* casted_tower = static_cast<High_damage_tower*>(&tower);
-        casted_tower->High_damage_tower::Update(dt, enemies_, projectiles_);
-      } else if (tower.getName() == "melting_tower") {
-        Melting_tower* casted_tower = static_cast<Melting_tower*>(&tower);
-        casted_tower->Melting_tower::Update(dt, enemies_, projectiles_);
-      } else if (tower.getName() == "slowing_tower") {
-        Slowing_tower* casted_tower = static_cast<Slowing_tower*>(&tower);
-        casted_tower->Slowing_tower::Update(dt, enemies_, projectiles_);
-      } else if (tower.getName() == "thorn_eruptor") {
-        ThornEruptor* casted_tower = static_cast<ThornEruptor*>(&tower);
-        casted_tower->ThornEruptor::Update(dt, enemies_, projectiles_);
-      } else {
-        tower.Update(dt, enemies_, projectiles_);
-      }
+  //Run the update method of every tower
+  for (Tower& tower : towers_) {
+    if (tower.getName() == "basic_tower") {
+      Basic_tower* casted_tower = static_cast<Basic_tower*>(&tower);
+      casted_tower->Basic_tower::Update(dt, enemies_, projectiles_);
+    } else if (tower.getName() == "bomb_tower") {
+      Bomb_tower* casted_tower = static_cast<Bomb_tower*>(&tower);
+      casted_tower->Bomb_tower::Update(dt, enemies_, projectiles_);
+    } else if (tower.getName() == "sniper_tower") {
+      High_damage_tower* casted_tower = static_cast<High_damage_tower*>(&tower);
+      casted_tower->High_damage_tower::Update(dt, enemies_, projectiles_);
+    } else if (tower.getName() == "melting_tower") {
+      Melting_tower* casted_tower = static_cast<Melting_tower*>(&tower);
+      casted_tower->Melting_tower::Update(dt, enemies_, projectiles_);
+    } else if (tower.getName() == "slowing_tower") {
+      Slowing_tower* casted_tower = static_cast<Slowing_tower*>(&tower);
+      casted_tower->Slowing_tower::Update(dt, enemies_, projectiles_);
+    } else if (tower.getName() == "thorn_eruptor") {
+      ThornEruptor* casted_tower = static_cast<ThornEruptor*>(&tower);
+      casted_tower->ThornEruptor::Update(dt, enemies_, projectiles_);
+    } else {
+      tower.Update(dt, enemies_, projectiles_);
     }
   }
 
-  enemy_collisions_ = new_enemy_collisions;
+  // Iterate through all the enemies, calling their Update method
+  for (Enemy& enemy : enemies_) {
+    enemy.Update(dt, map_->getEnemyPath());
+  }
 
   std::map<const Projectile*, std::vector<const Enemy*>>
       new_projectile_collisions;
@@ -116,10 +80,6 @@ void Game::Update() {
     // Call the Update method for every projectile
     projectile.Update(dt, enemies_, projectiles_);
 
-    if (projectile.IsDeleted()) {
-      projectiles_.erase(it);
-    }
-
     // Enemies that the projectile collided with in the previous frame
     auto projectile_collided_with = projectile_collisions_.find(&projectile);
     if (projectile_collided_with != projectile_collisions_.end()) {
@@ -127,11 +87,33 @@ void Game::Update() {
           projectile_collided_with->second;
     }
 
-    for (const Enemy& enemy : enemies_) {
+    for (Enemy& enemy : enemies_) {
       // Check if Enemy collides with the Projectile
       if (IsCircleCollidingWithCircle(
               projectile.getPosition(), projectile.getHitboxRadius(),
               enemy.getPosition(), enemy.getHitboxRadius())) {
+                std::cout << "buubuu" << std::endl;
+        auto previous_col_vector = previous_projectile_collisions_.find(&projectile);
+        if (previous_col_vector != previous_projectile_collisions_.end()) {
+          auto enemy_find = std::find(previous_col_vector->second.begin(), previous_col_vector->second.end(), &enemy);
+          if (enemy_find == previous_col_vector->second.end()) {
+            if (enemy.TakeDamage(projectile.getDamage(), projectile.isArmorPiercing())) {
+              projectile.setPiercingLeft(projectile.getPiercingLeft()-1);
+              if (projectile.getPiercingLeft() == 0) {
+                projectile.Delete();
+              }
+            }
+          }
+        } else {
+          if (enemy.TakeDamage(projectile.getDamage(), projectile.isArmorPiercing())) {
+              projectile.setPiercingLeft(projectile.getPiercingLeft()-1);
+              if (projectile.getPiercingLeft() == 0) {
+                projectile.Delete();
+              }
+          }
+        }
+        
+        //add enemy to collisions
         auto collisions = new_projectile_collisions.find(&projectile);
         if (collisions != new_projectile_collisions.end()) {
           collisions->second.push_back(&enemy);
@@ -139,10 +121,55 @@ void Game::Update() {
           new_projectile_collisions[&projectile] = {&enemy};
         }
       }
+      if (projectile.IsDeleted()) {
+        std::cout << "deletedddd" << std::endl;
+        auto delete_from_table = new_projectile_collisions.find(&projectile);
+        if (delete_from_table != new_projectile_collisions.end()) {
+          new_projectile_collisions.erase(delete_from_table);
+        }
+        break;
+      }
+    }
+
+  } //projectile for loop
+  std::cout << "jaajaa" << std::endl;
+  projectile_collisions_ = new_projectile_collisions;
+
+    // Iterate through the current waves, spawning enemies as necessary
+  for (Wave& wave : rounds_[current_round_index_]) {
+    if (wave.last_spawn_time + wave.spacing <=
+            round_time_ &&
+        wave.enemies_spawned < wave.count) {
+      wave.enemies_spawned++;
+      SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
+      wave.last_spawn_time += wave.spacing;
     }
   }
-
-  projectile_collisions_ = new_projectile_collisions;
+  std::cout << "jaajaa" << std::endl;
+  //Delete any objects that should be deleted
+  for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
+    if (it->IsDeleted()) {
+      std::cout << "hihii" << std::endl;
+      it = enemies_.erase(it);
+      std::cout << "hehee" << std::endl;
+    }
+  }
+  for (auto it = projectiles_.begin(); it != projectiles_.end(); it++) {
+    if (it->IsDeleted()) {
+      std::cout << "hahaa" << std::endl;
+      it = projectiles_.erase(it);
+      std::cout << "hohoo" << std::endl;
+    }
+  }
+  for (auto it = towers_.begin(); it != towers_.end(); it++) {
+    std::cout << "aijaa" << std::endl;
+    if (it->IsDeleted()) {
+      std::cout << "popoo" << std::endl;
+      it = towers_.erase(it);
+      std::cout << "dadaa" << std::endl;
+    }
+  }
+  std::cout << "jaajaa" << std::endl;
 }
 
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }

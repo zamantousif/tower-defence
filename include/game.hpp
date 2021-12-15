@@ -123,7 +123,7 @@ class Game {
     unsigned int offset = 0;
     unsigned int count = 1;
     unsigned int enemies_spawned = 0;
-    unsigned int last_spawn_time;
+    int last_spawn_time = 0;
 
     /// \param enemy_identifier The unique identifier for the enemy that gets
     /// spawned during the wave
@@ -140,7 +140,8 @@ class Game {
         : enemy_identifier(enemy_identifier),
           spacing(spacing),
           offset(offset),
-          count(count) {}
+          count(count),
+          last_spawn_time(-spacing) {}
   };
 
   /// \brief Upgrades the tower given as the parameter if the player has enough

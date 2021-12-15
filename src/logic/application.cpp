@@ -969,9 +969,9 @@ void Application::HandlePauseGui() {
   tgui::Slider::Ptr slider_music_volume =
       gui_.get<tgui::Slider>("slider_music_volume");
 
-  button_return->onPress(&Application::LaunchGameGui, this);
   button_main_menu->onPress(&Application::CloseGame, this);
-  button_off_menu->onPress(&Application::LaunchGameGui, this);
+  button_return->onPress([&] {LaunchGameGui(); game_.value().Unpause();} );
+  button_off_menu->onPress([&] {LaunchGameGui(); game_.value().Unpause();} );
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
   if (button_auto_start->isDown()) {

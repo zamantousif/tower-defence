@@ -2,9 +2,9 @@
   [
     {
       "enemyIdentifier": "cockroach",
-      "spacing": 1000,
+      "spacing": 2000,
       "offset": 0,
-      "count": 1
+      "count": 5
     }
   ],
   [

@@ -50,7 +50,7 @@ void Basic_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Pr
 
 bool Basic_tower::Shoot(
     std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
-  int damage_basic = 10;
+  int damage_basic = 100;
   unsigned int enemy_pierced_count_basic = 1;
 
   if (level_ == 2) {
@@ -78,6 +78,7 @@ bool Basic_tower::Shoot(
     Projectile new_projectile_right = Projectile(
     GetProjectStartPos(), 8.f, texture_projectile_, rotation_angle_-0.2f, damage_basic,
     false, enemy_pierced_count_basic, 50.f, range_*1.2f);
+
     projectiles.push_back(new_projectile_left);
     projectiles.push_back(new_projectile_right);
     }
