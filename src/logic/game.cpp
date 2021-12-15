@@ -17,7 +17,9 @@ Game::Game(Map* map, const std::string& round_file_path, int starting_money,
       money_(starting_money),
       lives_(starting_lives),
       round_in_progress_(false),
-      current_round_index_(0) {
+      current_round_index_(0),
+      out_of_lives_(false),
+      game_won_(false) {
   LoadEnemies(textures);
   LoadRounds(round_file_path);
 }
@@ -154,8 +156,9 @@ void Game::Update() {
     if (it->IsDeleted()) {
       if (it->isAtEndOfPath()) {
         lives_ -= it->getBounty();
-        if (lives_ < 0) {
+        if (lives_ <= 0) {
           lives_ = 0;
+          out_of_lives_ = true;
         }
       } else {
         money_ += it->getBounty();
@@ -176,9 +179,13 @@ void Game::Update() {
 
   //check if round_in_progress_ should be set to false
   //and start new round if auto_start_ is true
-  if (round_in_progress_ && enemies_.size() == 0 && all_enemies_spawned) {
+  if (round_in_progress_ && enemies_.size() == 0 && all_enemies_spawned && !game_won_) {
     round_in_progress_ = false;
     money_ += 100;  //players get 100 money at the end of a round
+    if (current_round_index_ == rounds_.size()) {
+      game_won_ = true;
+      return;
+    }
     if (auto_start_) {
       StartRound(current_round_index_+1);
     }
@@ -385,6 +392,10 @@ void Game::StartRound(size_t round_index) {
 }
 
 bool Game::IsRoundInProgress() { return round_in_progress_; }
+
+bool Game::IsOutOfLives() { return out_of_lives_; }
+
+bool Game::IsGameWon() { return game_won_; }
 
 const Map* Game::getMap() const { return map_; }
 

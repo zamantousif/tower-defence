@@ -500,6 +500,25 @@ void Application::HandleGame() {
   window_.draw(shop_bg);
 
   HandleGameGui();
+
+  if (game_.value().IsGameWon() || game_.value().IsOutOfLives()) {
+    static sf::Clock end_timer;
+    sf::Text end_text("GAME OVER", font_, 80);
+    end_text.setFillColor(sf::Color(180,0,0,255));
+    if (game_.value().IsGameWon()) {
+      end_text.setString("YOU WIN");
+      end_text.setFillColor(sf::Color(224,224,255));
+    }
+    end_text.setOrigin(end_text.getLocalBounds().width / 2,
+                          end_text.getLocalBounds().height / 2);
+    end_text.setPosition(sf::Vector2f(window_x_ / 2.0f, window_y_ / 2.0f));
+    end_text.setOutlineThickness(2);
+    window_.draw(end_text);
+    std::cout << end_timer.getElapsedTime().asMilliseconds() << std::endl;
+    if (end_timer.getElapsedTime().asMilliseconds() > 5000) {
+      CloseGame();
+    }
+  }
 }
 
 void Application::HandleGameGui() {
@@ -683,7 +702,7 @@ void Application::HandleGameGui() {
 
 void Application::CloseGame() {
   // TODO: make sure that memory management is fine
-  if (state_ != types::kPause) {
+  if (state_ == types::kMainMenu) {
     return;
   }
   delete(game_.value().getMap());
@@ -1081,6 +1100,7 @@ void Application::LaunchUpgradeGui() {
 }
 
 void Application::HandleUpgrade() {
+
   HandleUpgradeGui();
 
   sf::Sprite map_sprite;
@@ -1197,6 +1217,12 @@ void Application::HandleUpgradeGui() {
     LaunchGameGui();
   });
   do_once = true;
+
+  //if game should end
+  if (game_.value().IsGameWon() || game_.value().IsOutOfLives()) {
+    upgrading_tower_ = nullptr;
+    LaunchGameGui();
+  }
 }
 
 void Application::TargetingSwitchRight() {

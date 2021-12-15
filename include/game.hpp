@@ -190,6 +190,12 @@ class Game {
   /// \return True if a round is in progress, false otherwise
   bool IsRoundInProgress();
 
+  /// \return True if the player is out of lives
+  bool IsOutOfLives();
+
+  /// \return True if last round has been beaten
+  bool IsGameWon();
+
   /// \brief Round index increments when a new round starts
   /// \return The one-indexed index of the current round
   size_t getCurrentRoundIndex();
@@ -222,5 +228,7 @@ class Game {
   size_t current_round_index_;
   bool round_in_progress_;
   bool auto_start_;  ///<whether rounds start automatically or not
+  bool out_of_lives_;
+  bool game_won_;
 };
 }  // namespace td
