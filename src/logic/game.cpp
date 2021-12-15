@@ -1,13 +1,12 @@
 #include "game.hpp"
 
 #include <fstream>
-#include <iostream>  //TODO: temporary
+#include <iostream>
 #include <algorithm>
 
 #include "collision.hpp"
 #include "constants.hpp"
 
-// TODO: Clean up the smaller constructor
 
 namespace td {
 Game::Game(Map* map, const std::string& round_file_path, int starting_money,
@@ -25,7 +24,7 @@ Game::Game(Map* map, const std::string& round_file_path, int starting_money,
 }
 Game::Game(Map* map, const std::string& round_file_path,
            const std::map<std::string, sf::Texture*>& textures)
-    : Game(map, round_file_path, 2000, 100, textures) {}
+    : Game(map, round_file_path, 800, 100, textures) {}
 
 int Game::getMoney() const { return money_; }
 
@@ -329,16 +328,16 @@ void Game::LoadRounds(const std::string& file_path) {
 
 void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
   enemy_table_.emplace("cockroach",
-                       Enemy(td::types::Position(0, 0), 40.0f,
-                             textures.at("cockroach"), 200, 100, 10, false, 0));
+                       Enemy(td::types::Position(0, 0), 35.0f,
+                             textures.at("cockroach"), 130, 120, 10, false, 0));
   enemy_table_.emplace(
-      "fly", Enemy(td::types::Position(0, 0), 40.0f, textures.at("fly"), 150,
+      "fly", Enemy(td::types::Position(0, 0), 35.0f, textures.at("fly"), 100,
                    200, 14, false, 0));
   enemy_table_.emplace(
-      "beetle", Enemy(td::types::Position(0, 0), 60.0f, textures.at("beetle"),
-                      300, 10, 20, true, 0));
+      "beetle", Enemy(td::types::Position(0, 0), 30.0f, textures.at("beetle"),
+                      300, 120, 18, true, 0));
   enemy_table_.emplace(
-      "dragonfly", Enemy(td::types::Position(0, 0), 80.0f,
+      "dragonfly", Enemy(td::types::Position(0, 0), 65.0f,
                          textures.at("dragonfly"), 4000, 100, 400, true, 0));
 }
 

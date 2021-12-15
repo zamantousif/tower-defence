@@ -10,33 +10,41 @@
   [
     {
       "enemyIdentifier": "cockroach",
+      "spacing": 600,
+      "offset": 0,
+      "count": 4
+    },
+    {
+      "enemyIdentifier": "cockroach",
+      "spacing": 600,
+      "offset": 5000,
+      "count": 4
+    },
+    {
+      "enemyIdentifier": "cockroach",
+      "spacing": 600,
+      "offset": 10000,
+      "count": 4
+    }
+  ],
+  [
+    {
+      "enemyIdentifier": "fly",
       "spacing": 1000,
       "offset": 0,
-      "count": 15
-    }
-  ],
-  [
+      "count": 3
+    },
     {
       "enemyIdentifier": "cockroach",
-      "spacing": 500,
-      "offset": 0,
-      "count": 10
-    }
-  ],
-  [
+      "spacing": 1000,
+      "offset": 4000,
+      "count": 3
+    },
     {
-      "enemyIdentifier": "cockroach",
-      "spacing": 750,
-      "offset": 0,
-      "count": 30
-    }
-  ],
-  [
-    {
-      "enemyIdentifier": "cockroach",
-      "spacing": 750,
-      "offset": 0,
-      "count": 50
+      "enemyIdentifier": "fly",
+      "spacing": 1000,
+      "offset": 9000,
+      "count": 3
     }
   ],
   [
@@ -44,45 +52,103 @@
       "enemyIdentifier": "cockroach",
       "spacing": 750,
       "offset": 0,
-      "count": 75
+      "count": 20
     }
   ],
   [
     {
-      "enemyIdentifier": "cockroach",
-      "spacing": 200,
+      "enemyIdentifier": "beetle",
+      "spacing": 1000,
       "offset": 0,
-      "count": 100
-    }
-  ],
-  [
-    {
-      "enemyIdentifier": "cockroach",
-      "spacing": 200,
-      "offset": 0,
-      "count": 200
-    }
-  ],
-  [
-    {
-      "enemyIdentifier": "cockroach",
-      "spacing": 200,
-      "offset": 0,
-      "count": 200
+      "count": 8
     },
     {
       "enemyIdentifier": "beetle",
-      "spacing": 500,
+      "spacing": 1000,
+      "offset": 15000,
+      "count": 8
+    }
+  ],
+  [
+    {
+      "enemyIdentifier": "cockroach",
+      "spacing": 2000,
       "offset": 0,
+      "count": 5
+    },
+    {
+      "enemyIdentifier": "beetle",
+      "spacing": 2000,
+      "offset": 1000,
+      "count": 5
+    },
+    {
+      "enemyIdentifier": "cockroach",
+      "spacing": 400,
+      "offset": 14000,
+      "count": 10
+    },
+    {
+      "enemyIdentifier": "cockroach",
+      "spacing": 2000,
+      "offset": 20000,
+      "count": 5
+    },
+    {
+      "enemyIdentifier": "beetle",
+      "spacing": 2000,
+      "offset": 21000,
       "count": 5
     }
   ],
   [
     {
+      "enemyIdentifier": "dragonfly",
+      "spacing": 100,
+      "offset": 0,
+      "count": 1
+    }
+  ],
+  [
+    {
       "enemyIdentifier": "beetle",
-      "spacing": 200,
+      "spacing": 800,
+      "offset": 0,
+      "count": 5
+    },
+    {
+      "enemyIdentifier": "beetle",
+      "spacing": 800,
+      "offset": 5000,
+      "count": 5
+    },
+    {
+      "enemyIdentifier": "beetle",
+      "spacing": 800,
+      "offset": 10000,
+      "count": 10
+    }
+  ],
+  [
+    {
+      "enemyIdentifier": "fly",
+      "spacing": 400,
       "offset": 0,
       "count": 20
+    },
+    {
+      "enemyIdentifier": "beetle",
+      "spacing": 1200,
+      "offset": 2500,
+      "count": 10
+    }
+  ],
+  [
+    {
+      "enemyIdentifier": "dragonfly",
+      "spacing": 3000,
+      "offset": 0,
+      "count": 4
     }
   ]
 ]
