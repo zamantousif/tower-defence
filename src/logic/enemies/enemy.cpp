@@ -19,7 +19,8 @@ Enemy::Enemy(types::Position position, float hitbox, sf::Texture* texture,
       bounty_(bounty),
       armored_(armored),
       distance_moved_(distance_moved),
-      slowed_level_(slowed_level) {}
+      slowed_level_(slowed_level),
+      at_end_of_path_(false) {}
 
 Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   health_ = enemy.max_health_;
@@ -32,11 +33,16 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
 }
 
 void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
-  float move_by = move_speed_ * dt.asMilliseconds() / 1000.f;
+  float slowing_ratio = 1.0f;
+  if (slowed_level_ > 0) {
+    slowing_ratio = 1.0f - (slowed_level_+2)*0.1f;
+  }
+  float move_by = move_speed_ * slowing_ratio * dt.asMilliseconds() / 1000.f;
+  slowed_level_ = 0;
   size_t i = 0;  // iterating index
   float distance_counter = 0;
 
-  while (i < path.size() - 2) {
+  while (i < path.size() - 1) {
     distance_counter += EuclideanDistance(path[i], path[i + 1]);
     if (distance_counter > distance_moved_) {
       float leftover_distance = distance_moved_ - (distance_counter - EuclideanDistance(path[i], path[i + 1]));
@@ -46,19 +52,47 @@ void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {
       direction.y /= direction_magnitude;
 
       position_ = path[i] + (direction * leftover_distance);
-      
+      sf::Vector2f rotation_direction = (path[i + 1] - path[i]);
+ 
+      if (direction.x > 0) {
+        rotation_angle_ = atan(direction.y/direction.x);
+      } else if (direction.x < 0) {
+        rotation_angle_ = PI+atan(-direction.y/direction.x);
+      } else if (direction.y > 0) {
+        rotation_angle_ = PI/2;
+      } else {
+        rotation_angle_ = 3*PI/2;
+      }
+
       distance_moved_ += move_by;
-      break;
+      return;
     }
     i++;
   }
+  at_end_of_path_ = true;
+  this->Delete();
+}
+
+bool Enemy::TakeDamage(float damage, bool is_armor_piercing) {
+  if (health_ <= 0) {
+    return false;
+  }
+  health_ -= damage;
+  if (armored_ && is_armor_piercing) {  //armored enemies take double damage from armor_piercing damage sources
+    health_ -= damage;
+  }
+  if (health_ <= 0) {
+    health_ = 0;
+    this->Delete();
+  }
+  return true;
 }
 
 Enemy Enemy::createBasicCockroach(types::Position startOfTheMap,
                                   sf::Texture* texture) {
-  Enemy basicCockroach =
+  Enemy basic_cockroach =
       Enemy(startOfTheMap, 1.0f, texture, 200, 10, 10, false, 0);
-  return basicCockroach;
+  return basic_cockroach;
 }
 
 Enemy Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
@@ -67,7 +101,7 @@ Enemy Enemy::createFly(types::Position startOfTheMap, sf::Texture* texture) {
 }
 
 Enemy Enemy::createBeetle(types::Position startOfTheMap, sf::Texture* texture) {
-  Enemy beetle = Enemy(startOfTheMap, 1.5f, texture, 300, 10, 20, true, 0);
+  Enemy beetle = Enemy(startOfTheMap, 1.5f, texture, 500, 10, 20, true, 0);
   return beetle;
 }
 
@@ -90,6 +124,8 @@ int Enemy::getMoveSpeed() const { return move_speed_; }
 int Enemy::getBounty() const { return bounty_; }
 
 bool Enemy::isArmored() const { return armored_; }
+
+bool Enemy::isAtEndOfPath() const { return at_end_of_path_; }
 
 float Enemy::getDistanceMoved() const { return distance_moved_; }
 

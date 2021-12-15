@@ -31,6 +31,8 @@ class Tower : public Object {
 
   void Update(types::Time dt, const td::Game&);
 
+  void Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles);
+
   /// \brief Tower constructor
   /// \param position     Position of the tower
   /// \param attack_speed  Attack speed of the tower
@@ -78,12 +80,11 @@ class Tower : public Object {
   void setTargeting(types::Targeting targeting);
 
   /// \brief Get the shooting type of the tower
-  /// \return Projectiles shoot by the tower
-  /// \param vector vector of the projectiles in current game
-  virtual std::vector<Projectile> shoot(std::vector<Projectile> vector,
-                                        std::vector<Enemy> enemies) {
-    return std::vector<Projectile>{};
-  };
+  /// \return bool that tells if the tower shot
+  /// \param projectiles list of the projectiles in current game
+  /// \param enemies list of the enemies in current game
+  virtual bool Shoot(std::list<Projectile>& projectiles,
+                                        std::list<Enemy>& enemies);
 
   /// \brief Upgrades the tower once
   virtual void Upgrade() { level_++; };
@@ -91,8 +92,8 @@ class Tower : public Object {
   /// \brief Get the enemy tower is targeting
   /// \return Pointer to the targeted enemy
   /// \param enemies vector of the enemies in current game
-  virtual std::optional<const Enemy*> GetTarget(
-      const std::vector<Enemy>& enemies);
+  virtual std::optional<Enemy*> GetTarget(
+          std::list<Enemy>& enemies);
 
   /// \brief         Calculate the starting position of the projectiles shoot by
   /// the tower
@@ -112,6 +113,7 @@ class Tower : public Object {
   unsigned int cost_;                  ///< cost of the tower
   unsigned int upgrade_cost_;          ///< upgrade cost of the tower
   unsigned int money_spent_on_tower_;  ///< Total money spent on this tower,
-                                       ///< used when selling tower
+                                       ///< used when selling tower 
+  types::Time time_since_last_shoot_;            
 };
 }  // namespace td

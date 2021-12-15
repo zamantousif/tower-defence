@@ -24,7 +24,7 @@ int Application::run() {
   music.openFromFile("../assets/sounds/space_jazz.wav");
   music.setLoop(true);
   music.setVolume(music_volume_);
-  //music.play();
+  music.play();
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;
@@ -40,8 +40,6 @@ int Application::run() {
           event.type == sf::Event::MouseButtonPressed) {
         float mouse_x = event.mouseButton.x * (1920.f / window_.getSize().x);
         float mouse_y = event.mouseButton.y * (1080.f / window_.getSize().y);
-
-        std::cout << "[ " << mouse_x << ", " << mouse_y << " ]" << std::endl;
 
         for (Tower& tower : game_.value().getTowers()) {
           if (tower.getHitboxRadius() >=
@@ -521,7 +519,7 @@ void Application::HandleGameGui() {
   button_pause->onPress([&] { LaunchPauseGui(); });
   button_start_wave->onPress([&] {
     if (!game_.value().IsRoundInProgress()) {
-      game_.value().StartRound(game_.value().getCurrentRoundIndex());
+      game_.value().StartRound(game_.value().getCurrentRoundIndex()+1);
     }
   });
 
@@ -535,7 +533,7 @@ void Application::HandleGameGui() {
   button_tower_bo->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower_projectile"]);
+          "bomb_tower", textures_["bomb_tower"], textures_["bomb_tower_projectile"], textures_["bomb_tower_explosion"]);
     do_once = false;
   });
 
@@ -557,8 +555,7 @@ void Application::HandleGameGui() {
   button_tower_sn->onPress([&] {
     if (do_once)
       buying_tower_ = game_.value().StartBuyingTower(
-          "sniper_tower", textures_["sniper_tower"],
-          nullptr);
+          "sniper_tower", textures_["sniper_tower"], nullptr);
     do_once = false;
   });
 
@@ -569,17 +566,13 @@ void Application::HandleGameGui() {
     do_once = false;
   });
 
-  if (buying_tower_ && buying_tower_.value().getTexture() == nullptr) { //if tower button was pressed without enough money
-    buying_tower_ = {};
-  }
-
   do_once = true;
 
-  // if (game_.round_active) {
-  //    button_start_wave->setEnabled(false);
-  //} else {
-  //    button_start_wave->setEnabled(true);
-  //}
+   if (game_.value().IsRoundInProgress()) {
+      button_start_wave->setEnabled(false); 
+  } else {
+      button_start_wave->setEnabled(true);
+  }
 
   static std::string title_string = "";
   static std::string desc_string = "";
@@ -635,7 +628,7 @@ void Application::HandleGameGui() {
     if (desc_string == "")
       desc_string =
           "Slow-shooting high-damage\ntower with extreme range.\nGreat against "
-          "strong foes.";
+          "strong foes.\nDeals extra damage to armored enemies";
   });
   button_tower_ci->onMouseEnter([&] {
     if (desc_string == "")
@@ -976,9 +969,9 @@ void Application::HandlePauseGui() {
   tgui::Slider::Ptr slider_music_volume =
       gui_.get<tgui::Slider>("slider_music_volume");
 
-  button_return->onPress(&Application::LaunchGameGui, this);
   button_main_menu->onPress(&Application::CloseGame, this);
-  button_off_menu->onPress(&Application::LaunchGameGui, this);
+  button_return->onPress([&] {LaunchGameGui(); game_.value().Unpause();} );
+  button_off_menu->onPress([&] {LaunchGameGui(); game_.value().Unpause();} );
   volume_ = slider_volume->getValue();
   music_volume_ = slider_music_volume->getValue();
   if (button_auto_start->isDown()) {
@@ -1095,6 +1088,8 @@ void Application::HandleUpgrade() {
   ScaleSprite(map_sprite);
   window_.draw(map_sprite);
 
+  game_.value().Update();
+
   // draw range circle of upgrading_tower_
   sf::CircleShape range_circle(upgrading_tower_->getRange(), 40);
   range_circle.setOrigin(upgrading_tower_->getRange(),
@@ -1162,6 +1157,9 @@ void Application::HandleUpgradeGui() {
     case types::kStrong:
       button_targeting_text->setText("Strong");
       break;
+    case types::kArea:
+      button_targeting_text->setText("Area");
+      break;
   }
 
   switch (upgrading_tower_->getLevel()) {  // make upgrade price and button
@@ -1215,6 +1213,8 @@ void Application::TargetingSwitchRight() {
     case types::kStrong:
       upgrading_tower_->setTargeting(types::kFirst);
       break;
+    case types::kArea:
+      break;
   }
 }
 
@@ -1232,11 +1232,13 @@ void Application::TargetingSwitchLeft() {
     case types::kStrong:
       upgrading_tower_->setTargeting(types::kClose);
       break;
+    case types::kArea:
+      break;
   }
 }
 
 void Application::DrawGameElements() {
-  for (auto tower : game_.value().getTowers()) {
+  for (Tower& tower : game_.value().getTowers()) {
     sf::Sprite tower_sprite;
     tower_sprite.setTexture(*tower.getTexture());
     tower_sprite.setOrigin(tower_sprite.getLocalBounds().width / 2,
@@ -1246,44 +1248,47 @@ void Application::DrawGameElements() {
     ScaleSprite(tower_sprite);
     tower_sprite.scale(sf::Vector2f(tower.getHitboxRadius() *1.33f / 500.f,
                                     tower.getHitboxRadius() *1.33f / 500.f));
-    tower_sprite.setRotation(tower.getRotation());
+    tower_sprite.setRotation(tower.getRotation()*360/2/PI+90);
     window_.draw(tower_sprite);
   }
 
-  for (auto projectile : game_.value().getProjectiles()) {
+  for (Projectile& projectile : game_.value().getProjectiles()) {
     sf::Sprite projectile_sprite;
     projectile_sprite.setTexture(*projectile.getTexture());
     ScaleSprite(projectile_sprite);
     projectile_sprite.scale(sf::Vector2f(projectile.getHitboxRadius() / 100.f,
                                          projectile.getHitboxRadius() / 100.f));
-    projectile_sprite.setOrigin(projectile.getHitboxRadius(),
-                                projectile.getHitboxRadius());
+    projectile_sprite.setOrigin(projectile_sprite.getLocalBounds().width / 2,
+                           projectile_sprite.getLocalBounds().height / 2);
     projectile_sprite.setPosition(
-        1920 / window_x_ * projectile.getPosition().x,
-        1080 / window_y_ * projectile.getPosition().y);
-    projectile_sprite.setRotation(projectile.getRotation());
+         window_x_ / 1920.f * projectile.getPosition().x,
+         window_y_ / 1080.f * projectile.getPosition().y);
+    projectile_sprite.setRotation(projectile.getRotation()*360/2/PI+90);
     window_.draw(projectile_sprite);
   }
 
-  for (auto enemy : game_.value().getEnemies()) {
+  for (Enemy& enemy : game_.value().getEnemies()) {
     sf::Sprite enemy_sprite;
     enemy_sprite.setTexture(*enemy.getTexture());
     ScaleSprite(enemy_sprite);
     enemy_sprite.scale(sf::Vector2f(enemy.getHitboxRadius() / 100.f,
                                     enemy.getHitboxRadius() / 100.f));
-    enemy_sprite.setOrigin(window_x_ / 1920.0f * enemy.getHitboxRadius(),
-                           window_y_ / 1080.0f * enemy.getHitboxRadius());
+    enemy_sprite.setOrigin(enemy_sprite.getLocalBounds().width / 2,
+                           enemy_sprite.getLocalBounds().height / 2);
     enemy_sprite.setPosition(window_x_ / 1920.0f * enemy.getPosition().x,
                              window_y_ / 1080.0f * enemy.getPosition().y);
-    enemy_sprite.setRotation(enemy.getRotation());
+    enemy_sprite.setRotation(enemy.getRotation()*360/2/PI+90);
     window_.draw(enemy_sprite);
 
     sf::Sprite health_bar_base;
     health_bar_base.setTexture(*textures_["white_rectangle"]);
     ScaleSprite(health_bar_base);
+    health_bar_base.scale(0.6, 0.2);
+    health_bar_base.setOrigin(health_bar_base.getLocalBounds().width / 2,
+                           health_bar_base.getLocalBounds().height / 2);
     health_bar_base.setPosition(
         enemy_sprite.getPosition() -
-        sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
+        sf::Vector2f(0, 0.9f * 1080 / window_y_ * enemy.getHitboxRadius()));
     window_.draw(health_bar_base);
 
     sf::Sprite health_bar_;
@@ -1293,19 +1298,14 @@ void Application::DrawGameElements() {
       health_bar_.setTexture(*textures_["red_rectangle"]);
     }
     ScaleSprite(health_bar_);
+    health_bar_.scale(0.6, 0.2);
     health_bar_.setPosition(
-        enemy_sprite.getPosition() -
-        sf::Vector2f(36.f, 1.3f * 1080 / window_y_ * enemy.getHitboxRadius()));
+        health_bar_base.getPosition()
+        - types::Position(
+        0.6*window_x_ / 1920.f*health_bar_base.getLocalBounds().width / 2, 
+        0.2*window_y_ / 1080.f*health_bar_base.getLocalBounds().height / 2));
     health_bar_.scale((float)enemy.getHealth() / enemy.getMaxHealth(), 1);
     window_.draw(health_bar_);
-  }
-
-  for (const auto& pos : game_.value().getMap()->getEnemyPath()) {
-    sf::Sprite rect;
-    rect.setTexture(*textures_["white_rectangle"]);
-    ScaleSprite(rect);
-    rect.setPosition(pos.x*window_x_/1920.f, pos.y*window_y_/1080.f);
-    window_.draw(rect);
   }
 }
 
@@ -1321,9 +1321,8 @@ void Application::DrawShopElements() {
 
   sf::Text round_text2 = round_text;
   std::string round_string2 =
-      std::to_string(3) + "/" +
-      std::to_string(
-          20);  // TODO: replace numbers with game_.value().getRound() etc
+      std::to_string(game_.value().getCurrentRoundIndex()) + "/" +
+      std::to_string(game_.value().getMaxRoundIndex());
   round_text2.setString(round_string2);
   round_text2.setOrigin(round_text.getGlobalBounds().width, 0);
   round_text2.setPosition(

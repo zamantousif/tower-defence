@@ -2,15 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "massive_projectile.hpp"
 #include "constants.hpp"
 
 namespace td {
 float hitbox_high = 30.0f;
 
-unsigned int attack_speed_high = 120;  // can adjust these later
+unsigned int attack_speed_high = 500;  // can adjust these later
 
-float range_high = 450.0f;
+float range_high = 500.0f;
 
 types::Targeting targeting_high = types::kStrong;  // target strongest enemy
 
@@ -33,12 +32,24 @@ void High_damage_tower::Upgrade() {
     attack_speed_ *= 0.8;
     upgrade_cost_ = 500;
   } else if (level_ == 3) {
+    attack_speed_ *= 0.8;
     level_++;
   }
 }
 
-std::list<Projectile> High_damage_tower::shoot(
-    std::list<Projectile> projectiles, std::vector<Enemy> enemies) {
+void High_damage_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = High_damage_tower::Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
+  }
+}
+
+bool High_damage_tower::Shoot(
+    std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
   int damage_high = 0;
   if (level_ == 1)
     damage_high = 200;
@@ -48,16 +59,14 @@ std::list<Projectile> High_damage_tower::shoot(
     damage_high = 800;
   else
     damage_high = 1300;
-  //    derived_projectile newProjectile =
-  //    derived_projectile(this->getTarget(/*vector of enemies
-  //    here*/)->getPosition(), this->getRotation(), damage_high); /// will
-  //    create projectile straight on top of targeted enemy
-  Massive_projectile newProjectile =
-      Massive_projectile(GetProjectStartPos(), rotation_angle_, damage_high,
-                         texture_projectile_);  /// Projectile starts from the
-                                                /// edge of the tower
-  projectiles.push_back(newProjectile);
-  return projectiles;
+
+  std::optional<Enemy*> target = GetTarget(enemies);
+  if (target) {
+    rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
+    return target.value()->TakeDamage(damage_high, true);
+  } else {
+    return false;
+  }
 }
 
 }  // namespace td

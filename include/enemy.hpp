@@ -95,6 +95,9 @@ class Enemy : public Object {
   /// \return True if the enemy is armored otherwise false
   bool isArmored() const;
 
+  /// \return True if the enemy is at the end of the path
+  bool isAtEndOfPath() const;
+
   /// \brief Set the total distance moved on the path by the enemy
   void setDistanceMoved(float distance);
 
@@ -109,6 +112,12 @@ class Enemy : public Object {
   /// \return slowed_level of the enemy
   unsigned int getSlowedLevel() const;
 
+  /// \brief called when a tower or projectile wants to do damage to the enemy
+  /// \param damage how much damage is dealt
+  /// \param is_armor_piercing whether the damage dealt pierces armor
+  /// \return true if the enemy took damage
+  bool TakeDamage(float damage, bool is_armor_piercing);
+
  protected:
   float health_;          ///< Remaining health of the enemy
   float max_health_;      ///< Maximum health of the enemy
@@ -117,5 +126,6 @@ class Enemy : public Object {
   bool armored_;          ///< Status of enemy armor
   float distance_moved_;  ///< Total distance moved on the path by the enemy
   unsigned int slowed_level_;  ///< Level by witch the enemy is slowed
+  bool at_end_of_path_;   ///< True if the enemy has reached the end of the path
 };
 }  // namespace td

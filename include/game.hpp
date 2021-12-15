@@ -123,7 +123,7 @@ class Game {
     unsigned int offset = 0;
     unsigned int count = 1;
     unsigned int enemies_spawned = 0;
-    sf::Time last_spawn_time;
+    int last_spawn_time = 0;
 
     /// \param enemy_identifier The unique identifier for the enemy that gets
     /// spawned during the wave
@@ -140,7 +140,8 @@ class Game {
         : enemy_identifier(enemy_identifier),
           spacing(spacing),
           offset(offset),
-          count(count) {}
+          count(count),
+          last_spawn_time(offset-spacing) {}
   };
 
   /// \brief Upgrades the tower given as the parameter if the player has enough
@@ -158,8 +159,10 @@ class Game {
   /// \param name Identifier used to map to a tower object
   /// \param tower_texture Pointer to the texture of the tower
   /// \param projectile_texture Pointer to the texture of the projectile
-  Tower StartBuyingTower(std::string name, sf::Texture* tower_texture,
-                         sf::Texture* projectile_texture);
+  /// \param extra_texture Pointer to another texture a tower might use (like bomb explosion)
+  std::optional<Tower> StartBuyingTower(std::string name, sf::Texture* tower_texture,
+                         sf::Texture* projectile_texture,
+                         sf::Texture* extra_texture = nullptr);
 
   /// \return A vector of rounds, with each round being a vector consisting of
   /// Game::Wave elements (waves)
@@ -187,11 +190,15 @@ class Game {
   /// \return True if a round is in progress, false otherwise
   bool IsRoundInProgress();
 
-  /// \brief Note that the index changes after a round has been completed, not
-  /// right as it begins.
-  ///
-  /// \return The zero-indexed index of the current round
+  /// \brief Round index increments when a new round starts
+  /// \return The one-indexed index of the current round
   size_t getCurrentRoundIndex();
+
+  /// \return The index of the final round
+  size_t getMaxRoundIndex();
+
+  /// \brief Resets the clock that calculates dt
+  void Unpause();
 
  private:
   void LoadEnemies(const std::map<std::string, sf::Texture*>& textures);
@@ -211,7 +218,7 @@ class Game {
   std::vector<std::vector<Wave>> rounds_;
   Map* map_;
   sf::Clock update_clock_;
-  sf::Clock round_clock_;
+  unsigned int round_time_;
   size_t current_round_index_;
   bool round_in_progress_;
   bool auto_start_;  ///<whether rounds start automatically or not

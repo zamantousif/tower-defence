@@ -2,6 +2,8 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <limits>
+#include <iostream>
 
 namespace td {
 Tower::Tower(types::Position position, float hitbox, sf::Texture* texture,
@@ -22,6 +24,17 @@ Tower::Tower(types::Position position, float rotation_angle,
     : Object(position, 1.0f, nullptr, rotation_angle),
       attack_speed_(attack_speed),
       range_(1.0) {}
+
+void Tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
+  }
+}
 
 void Tower::Update(types::Time dt, const td::Game&) {}
 
@@ -47,86 +60,67 @@ types::Targeting Tower::getTargeting() const { return targeting_; }
 
 void Tower::setTargeting(types::Targeting targeting) { targeting_ = targeting; }
 
-std::optional<const Enemy*> Tower::GetTarget(
-    const std::vector<Enemy>& enemies) {
-  std::vector<Enemy> enemiesInRange;
-  float towerxpos = position_.x;
-  float towerypos = position_.y;
-  for (auto it = enemies.cbegin(); it != enemies.cend(); it++) {
-    float enemyxpos = (*it).getPosition().x;
-    float enemyypos = (*it).getPosition().y;
-    if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it).getHitboxRadius()) {
-      enemiesInRange.push_back(*it);
+std::optional<Enemy*> Tower::GetTarget(std::list<Enemy>& enemies) {
+  std::list<Enemy*> enemies_in_range;
+  for (Enemy& enemy : enemies) {
+    if (IsCircleCollidingWithCircle(position_, range_, enemy.getPosition(), enemy.getHitboxRadius())) {
+      enemies_in_range.push_back(&enemy);
     }
   }
-  types::Position zeroPosition;
-  zeroPosition.x = 0;
-  zeroPosition.y = 0;
-  sf::Texture* texture;
-  Enemy noEnemiesFound =
-      Enemy(zeroPosition, 0.0f, texture, 0, 0, 0, false, 0, 0);
-  // return this noEnemiesFound enemy if no enemies in tower range
+  if (enemies_in_range.size() == 0) return std::nullopt;
+
+  //return pointer to correct enemy based on targeting_
   switch (targeting_) {
     case types::kClose: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy closestEnemy = enemiesInRange.at(0);
-      float closestPos = range_;
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float enemyxpos = (*it).getPosition().x;
-        float enemyypos = (*it).getPosition().y;
-        float currentPos = static_cast<float>(sqrt(
-            pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)));
-        if (currentPos <= closestPos) {
-          closestPos = currentPos;
-          closestEnemy = (*it);
+      std::optional<Enemy*> closestEnemy = {};
+      float closest_distance = std::numeric_limits<float>::max();
+      for (Enemy* enemy : enemies_in_range) {
+        float distance = EuclideanDistance(enemy->getPosition(), position_);
+        if (distance <= closest_distance) {
+          closest_distance = distance;
+          closestEnemy = enemy;
         }
       }
-      return &closestEnemy;
+      return closestEnemy;
     }
     case types::kStrong: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy strongestEnemy = enemiesInRange.at(0);
-      float strongestHP = 0;
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float currentHealth = (*it).getHealth();
-        if (currentHealth >= strongestHP) {
-          strongestHP = currentHealth;
-          strongestEnemy = *it;
+      std::optional<Enemy*> strongest_enemy = {};
+      float strongest_hp = 0;
+      for (Enemy* enemy : enemies_in_range) {
+        float current_health = enemy->getHealth();
+        if (current_health >= strongest_hp) {
+          strongest_hp = current_health;
+          strongest_enemy = enemy;
         }
       }
-      return &strongestEnemy;
+      return strongest_enemy;
     }
     case types::kFirst: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy furthestEnemy = enemiesInRange.at(0);
-      float furthestDistance = 0;
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float currentDistance = (*it).getDistanceMoved();
-        if (currentDistance >= furthestDistance) {
-          furthestDistance = currentDistance;
-          furthestEnemy = *it;
+      std::optional<Enemy*> first_enemy = {};
+      float furthest_distance = 0;
+      for (Enemy* enemy : enemies_in_range) {
+        float current_distance = enemy->getDistanceMoved();
+        if (current_distance >= furthest_distance) {
+          furthest_distance = current_distance;
+          first_enemy = enemy;
         }
       }
-      return &furthestEnemy;
+      return first_enemy;
     }
     case types::kLast: {
-      if (enemiesInRange.size() == 0) return std::nullopt;
-      Enemy lastEnemy = enemiesInRange.at(0);
-      float lastDistance = -1;
-      for (std::vector<Enemy>::iterator it = enemiesInRange.begin();
-           it != enemiesInRange.end(); it++) {
-        float currentDistance = (*it).getDistanceMoved();
-        if (currentDistance <= lastDistance || lastDistance == -1) {
-          lastDistance = currentDistance;
-          lastEnemy = *it;
+      std::optional<Enemy*> last_enemy = {};
+      float last_distance = std::numeric_limits<float>::max();
+      for (Enemy* enemy : enemies_in_range) {
+        float current_distance = enemy->getDistanceMoved();
+        if (current_distance <= last_distance) {
+          last_distance = current_distance;
+          last_enemy = enemy;
         }
       }
-      return &lastEnemy;
+      return last_enemy;
     }
+    case types::kArea:
+    return {};
   }
   throw "Target type not recognized";
 }
@@ -134,8 +128,15 @@ std::optional<const Enemy*> Tower::GetTarget(
 types::Position Tower::GetProjectStartPos() {
   types::Position result;
   result.x =
-      position_.x + hitboxRadius_ * cos(rotation_angle_-PI/2);  // angle in radians
-  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_-PI/2);
+      position_.x + hitboxRadius_ * cos(rotation_angle_)*0.8f;  // angle in radians
+  result.y = position_.y + hitboxRadius_ * sin(rotation_angle_)*0.8f;
   return result;
 }
+
+bool Tower::Shoot(std::list<Projectile>& projectiles,
+                                        std::list<Enemy>& enemies) {
+                                          std::cout << "nope" << std::endl;
+    return false;
+}
+
 }  // namespace td

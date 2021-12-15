@@ -2,19 +2,21 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <iostream>
 #include "constants.hpp"
+#include "collision.hpp"
 
 namespace td {
-float hitbox_melting = 30.0f;  // parameters radius and pointCount
+float hitbox_melting = 30.0f;
 
-unsigned int attack_speed_melting = 10;  // can adjust these later
+unsigned int attack_speed_melting = 20;
 
-float range_melting = 100.0f;
+float range_melting = 120.0f;
 
 Melting_tower::Melting_tower(sf::Vector2<float> position, float rotation_angle,
                              sf::Texture* texture)
     : Tower(position, hitbox_melting, texture, nullptr, rotation_angle,
-            attack_speed_melting, range_melting, kCostMeltingTower, 100) {
+            attack_speed_melting, range_melting, kCostMeltingTower, 100, 1, types::kArea) {
               name_ = "melting_tower";
             }
 
@@ -32,20 +34,31 @@ void Melting_tower::Upgrade() {
   }
 }
 
-std::list<Projectile> Melting_tower::shoot(
-    std::list<Projectile> projectiles,
-    std::vector<Enemy> enemies) {
-  float towerxpos = position_.x;
-  float towerypos = position_.y;
-  for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end();
-       it++) {
-    float enemyxpos = (*it).getPosition().x;
-    float enemyypos = (*it).getPosition().y;
-    if (sqrt(pow(enemyxpos - towerxpos, 2) + pow(enemyypos - towerypos, 2)) <=
-        range_ + (*it).getHitboxRadius()) {  // if enemy is in tower range
-      (*it).setHealth(0.01 * level_);  //decrease 0.01*tower_level every frame
-    }}
-    return projectiles;
+void Melting_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Projectile>& projectiles) {
+  time_since_last_shoot_ += dt;
+  if (time_since_last_shoot_.asMilliseconds() >= attack_speed_*10) {
+    bool tower_shot = Melting_tower::Shoot(projectiles, enemies);
+
+    if (tower_shot) {
+      time_since_last_shoot_ = sf::seconds(0);
+    }
   }
+}
+
+bool Melting_tower::Shoot(
+    std::list<Projectile>& projectiles,
+    std::list<Enemy>& enemies) {
+      bool melting_armor_piercing = false;
+      if (level_ == 4) {
+        melting_armor_piercing = true;
+      }
+  for (std::list<Enemy>::iterator it = enemies.begin(); it != enemies.end();
+       it++) {
+    if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius()/2)) {  // if enemy is in tower range
+      it->TakeDamage(2.f * (1+level_), melting_armor_piercing);
+    }
+  }
+  return true;
+}
 
 }  // namespace td
