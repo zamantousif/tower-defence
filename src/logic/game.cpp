@@ -287,21 +287,21 @@ void Game::SellTower(Tower* tower) {
 std::optional<Tower> Game::StartBuyingTower(std::string name, sf::Texture* tower_texture,
                              sf::Texture* projectile_texture, sf::Texture* extra_texture) {
   if (name == "basic_tower" && money_ >= kCostBasicTower) {
-    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return Basic_tower(types::Position(0, 0), -PI/2, tower_texture,
                        projectile_texture);
   } else if (name == "bomb_tower" && money_ >= kCostBombTower) {
-    return Bomb_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return Bomb_tower(types::Position(0, 0), -PI/2, tower_texture,
                       projectile_texture, extra_texture);
   } else if (name == "slowing_tower" && money_ >= kCostSlowingTower) {
-    return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
+    return Slowing_tower(types::Position(0, 0), -PI/2, tower_texture);
   } else if (name == "thorn_eruptor" && money_ >= kCostThornEruptor) {
-    return ThornEruptor(types::Position(0, 0), 0.0f, tower_texture,
+    return ThornEruptor(types::Position(0, 0), -PI/2, tower_texture,
                         projectile_texture);
   } else if (name == "sniper_tower" && money_ >= kCostHighDamageTower) {
-    return High_damage_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return High_damage_tower(types::Position(0, 0), -PI/2, tower_texture,
                              projectile_texture);
   } else if (name == "melting_tower" && money_ >= kCostMeltingTower) {
-    return Melting_tower(types::Position(0, 0), 0.0f, tower_texture);
+    return Melting_tower(types::Position(0, 0), -PI/2, tower_texture);
   }
   return {};
 }

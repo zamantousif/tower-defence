@@ -23,7 +23,7 @@ int Application::run() {
   sf::Music music;
   music.openFromFile("../assets/sounds/space_jazz.wav");
   music.setLoop(true);
-  //music.play();
+  music.play();
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;
@@ -487,6 +487,7 @@ void Application::HandleGame() {
           buying_tower_sprite.getLocalBounds().width / 2,
           buying_tower_sprite.getLocalBounds().height / 2);
       ScaleSprite(buying_tower_sprite);
+      buying_tower_sprite.setRotation(buying_tower_.value().getRotation()*180.f/PI+90);
       buying_tower_sprite.scale(
           buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000,
           buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000);
@@ -625,30 +626,29 @@ void Application::HandleGameGui() {
   button_tower_bo->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
-          "Shoots explosive coconuts\nthat deal damage in an\narea. Effective "
-          "against\narmored enemies.\nTier 4 upgrade greatly\nincreases the "
-          "size of\nthe explosion.";
+          "Shoots massive coconuts\nthat hurl through enemies.\nEffective "
+          "against\narmored enemies.\nTier 4 upgrade doubles\nthe "
+          "size of the\ncoconut.";
   });
   button_tower_fr->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
           "The magic crystal atop this\nstump slows down foes in\nan area "
           "around the tower.\nUpgrading the tower\nfurther increases\nslowing "
-          "amount.\nTier 4 variant also\nmakes enemies in range\nmore "
-          "vulnerable to\ndamage from your other\ntowers.";
+          "amount.";
   });
   button_tower_th->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
           "Shoots a barrage of thorns\nat all enemies within it's\nrange. "
-          "Effective against\ngroups of enemies.\nUpgrading improves\ndamage "
-          "and range.\nTier 4 variant shoots\neach enemy twice.";
+          "Faster fire rate\nthe more enemies there\nare in the tower's range.\nUpgrading improves\ndamage "
+          "and range.\nTier 4 variant shoots\ntwice each time.";
   });
   button_tower_sn->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
           "Slow-shooting high-damage\ntower with extreme range.\nGreat against "
-          "strong foes.\nDeals extra damage to armored enemies";
+          "strong foes.\nDeals extra damage to\narmored enemies.";
   });
   button_tower_ci->onMouseEnter([&] {
     if (desc_string == "")
