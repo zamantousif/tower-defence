@@ -1,3 +1,10 @@
+PROJECT_NAME           = "Druidic Defence"
 OUTPUT_DIRECTORY       = @CMAKE_CURRENT_SOURCE_DIR@/doc/doc_doxygen/
 INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/include/ @CMAKE_CURRENT_SOURCE_DIR@/src/ @CMAKE_CURRENT_SOURCE_DIR@/doc
+IMAGE_PATH             = @CMAKE_CURRENT_SOURCE_DIR@/doc/images
+GENERATE_LATEX         = YES
+USE_PDFLATEX           = YES
+PDF_HYPERLINKS         = YES
 RECURSIVE              = YES
+FULL_PATH_NAMES        = YES
+STRIP_FROM_PATH        = ../..

@@ -1,9 +1,26 @@
-# Tower Defense
+# Druidic Defense
+Druidic Defense is a conventional [Tower Defense](https://en.wikipedia.org/wiki/Tower_defense) game with different towers,
+enemies, maps and enemy waves. 
 
-TODO: \<Add a brief high level description of the Game\>
+## Game Features and highlights
+The game currently supports the below features:
+* 10 rounds of play
+* 6 types of towers
+* 4 types of enemies
+* 2 different maps
+* Towers can be bought, sold and upgraded during/in-between rounds
+* For certain towers, player can decide which enemy will be shot (first/last/close/strong)
+* Some enemies are armored and take more damage from certain towers
+* Maps have obstacles (trees, rocks, water, path) where towers cannot be placed
+* Collisions are visible by change in color of a tower's target range
+* An options menu with game settings
+* Rounds can be set to start automatically in the options and pause menus
+* Maps and rounds are not hardcoded but allow for easy customization
+* Gameplay can be paused and then resumed again
+* Groovy background music
+* Colorful artwork
 
 # Group
-
 - Julius Järvilinna
 - Tousif Zaman
 - Tomi Mikkola
@@ -52,8 +69,16 @@ There are shortcuts to invoke the formatter on the project source depending on t
 
 # Source code documentation
 Our project uses [Doxygen](https://github.com/doxygen/doxygen) to document source code. To be able to generate the 
-documentation from this repository, you need to [install Doxygen](https://www.doxygen.nl/download.html). The compilation
-takes care of generating the documentation as well. The documented output is present inside [**doc**](https://version.aalto.fi/gitlab/cpp-autumun-2021/tower-defense/tower-defense-5/-/tree/master/doc) as a HTML file.
+documentation from this repository, you need to [install Doxygen](https://www.doxygen.nl/download.html). The compilation steps mentioned earlier take care of generating the documentation as well. The documented output is generated inside [**doc**](https://version.aalto.fi/gitlab/cpp-autumun-2021/tower-defense/tower-defense-5/-/tree/master/doc) in a dedicated folder as an HTML file. It is also possible to generate a PDF of the entire project, start by first installing [PDFLatex](https://tug.org/texlive/) for your OS and then following the below steps. 
+
+```bash
+cd tower-defense-5          # enter project root directory
+mkdir build && cd build     # make a build directory
+cmake ..                    # run CMake
+make                        # make Doxyfile along with sources
+cd doc/doc_doxygen/latex    # enter the directory with latex (.tex) sources 
+make                        # build .tex files to get .pdf using pdflatex
+```
 
 # Unit Tests
 We use [GoogleTest](https://github.com/google/googletest/blob/main/googletest/README.md) to write unit tests. The `CMakeLists.txt`
@@ -70,7 +95,6 @@ make                        # make tests along with sources
 
 The project repository at the top-level is organised as the following tree:
 
-| \
 |__assets/ \
 |__bin/ \
 |__build/ \
@@ -80,43 +104,21 @@ The project repository at the top-level is organised as the following tree:
 |__plan/ \
 |__src/ \
 |__tests/ \
-|__.clang-format \
 |__CMakeLists.txt \
 |__Meeting-notes.md \
 |__README.md \
 
 # Project Implementation 
-You must use git repository for the work on the project, making frequent enough commits so 
-that the project group (and course staff) can follow the progress.
-
-The completed project work will be demonstrated to the group's advisor at a demo session. 
-The final demonstrations are arranged on week 50. After the final demonstrations project group 
-evaluates another project, and self-evaluates own project. In addition, project members will 
-give a confidential individual assessment of each group member
-
-The course staff should be able to easily compile the project work using makefile and related 
-instructions provided in the git repository. The final output should be in the **master branch** of the git repository.
+Group members used the git repository to push work on the project, making commits to different feature branches
+which would then be merged to a **master** branch through a merge request (MR). The MRs added by an author were reviewed 
+by other members and merged by the author after correcting any comments/feedback received. We followed a clean progress 
+by adding descriptive commit messages and details wherever necessary. Project related communications were handled over a Telegram group. 
 
 # Working practices
 
-Each project group is assigned an advisor from the project teaching personnel. 
-There will be a dedicated Teams channel for each project topic to facilitate discussion between 
-the groups in the same topic and the advisor. 
-
-**The group should meet weekly.** The weekly meeting does not need to be long if there are no special issues 
-to discuss, and can be taken remotely as voice/video chat on the group Teams channel (or Zoom or other similar tool), 
-preferably at a regular weekly time. In the meeting the group updates:
-
+Our project group met weekly (Tueday evenings at 6pm) to discuss the below points:
 - What each member has done during the week
 - Are there challenges or problems? Discuss the possible solutions
 - Plan for the next week for everyone
 - Deviations and changes to the project plan, if any
-- After the meetings, the meeting notes will be committed to the project repository in the `Meeting-notes.md` file. 
-    * The commits within the week should have some commit messages referring to the meeting notes so 
-      that the project advisor can follow the progress.  
-    * **The meeting notes should be in English.**
-
-> Everyone may not be able to participate to all meetings, but at least a couple of members should be present in each meeting. 
-> Regular absence from meetings will affect in individual evaluation.
-
-# TODOs (05-Dec-2021)
+- After each meeting, the meeting notes were committed to the project repository in the `Meeting-notes.md` file. 
