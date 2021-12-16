@@ -69,7 +69,16 @@ There are shortcuts to invoke the formatter on the project source depending on t
 
 # Source code documentation
 Our project uses [Doxygen](https://github.com/doxygen/doxygen) to document source code. To be able to generate the 
-documentation from this repository, you need to [install Doxygen](https://www.doxygen.nl/download.html). The compilation steps mentioned earlier take care of generating the documentation as well. The documented output is generated inside [**doc**](https://version.aalto.fi/gitlab/cpp-autumun-2021/tower-defense/tower-defense-5/-/tree/master/doc) in a dedicated folder as an HTML file. 
+documentation from this repository, you need to [install Doxygen](https://www.doxygen.nl/download.html). The compilation steps mentioned earlier take care of generating the documentation as well. The documented output is generated inside [**doc**](https://version.aalto.fi/gitlab/cpp-autumun-2021/tower-defense/tower-defense-5/-/tree/master/doc) in a dedicated folder as an HTML file. It is also possible to generate a PDF of the entire project, start by first installing [PDFLatex](https://tug.org/texlive/) for your OS and then following the below steps. 
+
+```bash
+cd tower-defense-5          # enter project root directory
+mkdir build && cd build     # make a build directory
+cmake ..                    # run CMake
+make                        # make Doxyfile along with sources
+cd doc/doc_doxygen/latex    # enter the directory with latex (.tex) sources 
+make                        # build .tex files to get .pdf using pdflatex
+```
 
 # Unit Tests
 We use [GoogleTest](https://github.com/google/googletest/blob/main/googletest/README.md) to write unit tests. The `CMakeLists.txt`

@@ -1,19 +1,9 @@
 # LIBS directory
-In this directory, you are required to place all the external libraries your project depends on. 
-Although, in principle, you can use git submodules (and place them under this directory), 
-for the sake of easily compiling your application, placing the source code of the 
-open source libraries is also fine. However, this approach is not applicable to
-large dependencies, such as QT.
-
-
+In this directory, we placed all the external libraries the project depends on. 
+We used git submodules to add the source code of the open source libraries.
 
 # List of External Libs
 
-1. [Project1](https://someproject.com/download)
-2. [Project2](https://anotherproject.com/download)
-
-
-> If you are using already compiled library, place it in this folder, and set the linker options appropriately.
-> The include files of the dependent library should also be placed in this folder.
-
-
+1. [JSON](https://github.com/nlohmann/json)
+2. [SFML](https://github.com/SFML/SFML/tree/2.5.1)
+3. [TGUI](https://github.com/texus/TGUI/tree/0.10)
