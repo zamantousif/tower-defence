@@ -29,7 +29,7 @@ int Application::run() {
   sf::Music music;
   music.openFromFile("../assets/sounds/space_jazz.wav");
   music.setLoop(true);
-  //music.play();
+  music.play();
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;
