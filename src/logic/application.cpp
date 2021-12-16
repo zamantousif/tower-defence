@@ -516,7 +516,6 @@ void Application::HandleGame() {
     end_text.setPosition(sf::Vector2f(window_x_ / 2.0f, window_y_ / 2.0f));
     end_text.setOutlineThickness(2);
     window_.draw(end_text);
-    std::cout << end_timer.getElapsedTime().asMilliseconds() << std::endl;
     if (end_timer.getElapsedTime().asMilliseconds() > 5000) {
       CloseGame();
     }
