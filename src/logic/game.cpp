@@ -1,13 +1,11 @@
 #include "game.hpp"
 
-#include <fstream>
-#include <iostream>  //TODO: temporary
 #include <algorithm>
+#include <fstream>
+#include <iostream>
 
 #include "collision.hpp"
 #include "constants.hpp"
-
-// TODO: Clean up the smaller constructor
 
 namespace td {
 Game::Game(Map* map, const std::string& round_file_path, int starting_money,
@@ -17,18 +15,19 @@ Game::Game(Map* map, const std::string& round_file_path, int starting_money,
       money_(starting_money),
       lives_(starting_lives),
       round_in_progress_(false),
-      current_round_index_(0) {
+      current_round_index_(0),
+      out_of_lives_(false),
+      game_won_(false) {
   LoadEnemies(textures);
   LoadRounds(round_file_path);
 }
 Game::Game(Map* map, const std::string& round_file_path,
            const std::map<std::string, sf::Texture*>& textures)
-    : Game(map, round_file_path, 2000, 100, textures) {}
+    : Game(map, round_file_path, 800, 100, textures) {}
 
 int Game::getMoney() const { return money_; }
 
 int Game::getLives() const { return lives_; }
-
 
 void Game::Update() {
   sf::Time dt = update_clock_.getElapsedTime();
@@ -38,7 +37,7 @@ void Game::Update() {
   std::map<const Enemy*, std::vector<const Projectile*>> new_enemy_collisions;
   previous_enemy_collisions_.clear();
 
-  //Run the update method of every tower
+  // Run the update method of every tower
   for (Tower& tower : towers_) {
     if (tower.getName() == "basic_tower") {
       Basic_tower* casted_tower = static_cast<Basic_tower*>(&tower);
@@ -91,27 +90,32 @@ void Game::Update() {
       if (IsCircleCollidingWithCircle(
               projectile.getPosition(), projectile.getHitboxRadius(),
               enemy.getPosition(), enemy.getHitboxRadius())) {
-        auto previous_col_vector = previous_projectile_collisions_.find(&projectile);
+        auto previous_col_vector =
+            previous_projectile_collisions_.find(&projectile);
         if (previous_col_vector != previous_projectile_collisions_.end()) {
-          auto enemy_find = std::find(previous_col_vector->second.begin(), previous_col_vector->second.end(), &enemy);
+          auto enemy_find =
+              std::find(previous_col_vector->second.begin(),
+                        previous_col_vector->second.end(), &enemy);
           if (enemy_find == previous_col_vector->second.end()) {
-            if (enemy.TakeDamage(projectile.getDamage(), projectile.isArmorPiercing())) {
-              projectile.setPiercingLeft(projectile.getPiercingLeft()-1);
+            if (enemy.TakeDamage(projectile.getDamage(),
+                                 projectile.isArmorPiercing())) {
+              projectile.setPiercingLeft(projectile.getPiercingLeft() - 1);
               if (projectile.getPiercingLeft() == 0) {
                 projectile.Delete();
               }
             }
           }
         } else {
-          if (enemy.TakeDamage(projectile.getDamage(), projectile.isArmorPiercing())) {
-              projectile.setPiercingLeft(projectile.getPiercingLeft()-1);
-              if (projectile.getPiercingLeft() == 0) {
-                projectile.Delete();
-              }
+          if (enemy.TakeDamage(projectile.getDamage(),
+                               projectile.isArmorPiercing())) {
+            projectile.setPiercingLeft(projectile.getPiercingLeft() - 1);
+            if (projectile.getPiercingLeft() == 0) {
+              projectile.Delete();
+            }
           }
         }
-        
-        //add enemy to collisions
+
+        // add enemy to collisions
         auto collisions = new_projectile_collisions.find(&projectile);
         if (collisions != new_projectile_collisions.end()) {
           collisions->second.push_back(&enemy);
@@ -128,16 +132,15 @@ void Game::Update() {
       }
     }
 
-  } //projectile for loop
+  }  // projectile for loop
 
   projectile_collisions_ = new_projectile_collisions;
 
   // Iterate through the current waves, spawning enemies as necessary
   bool all_enemies_spawned = true;
   if (round_in_progress_) {
-    for (Wave& wave : rounds_[current_round_index_-1]) {
-      if (wave.last_spawn_time + wave.spacing <=
-              round_time_ &&
+    for (Wave& wave : rounds_[current_round_index_ - 1]) {
+      if (wave.last_spawn_time + wave.spacing <= round_time_ &&
           wave.enemies_spawned < wave.count) {
         wave.enemies_spawned++;
         SpawnEnemy(wave.enemy_identifier, map_->GetStartingPosition());
@@ -149,42 +152,50 @@ void Game::Update() {
     }
   }
 
-  //Delete any objects that should be deleted
+  // Delete any objects that should be deleted
   for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
     if (it->IsDeleted()) {
       if (it->isAtEndOfPath()) {
         lives_ -= it->getBounty();
-        if (lives_ < 0) {
+        if (lives_ <= 0) {
           lives_ = 0;
+          out_of_lives_ = true;
         }
       } else {
         money_ += it->getBounty();
       }
       it = enemies_.erase(it);
+      if (it == enemies_.end()) break;
     }
   }
   for (auto it = projectiles_.begin(); it != projectiles_.end(); it++) {
     if (it->IsDeleted()) {
       it = projectiles_.erase(it);
+      if (it == projectiles_.end()) break;
     }
   }
   for (auto it = towers_.begin(); it != towers_.end(); it++) {
     if (it->IsDeleted()) {
       it = towers_.erase(it);
+      if (it == towers_.end()) break;
     }
   }
 
-  //check if round_in_progress_ should be set to false
-  //and start new round if auto_start_ is true
-  if (round_in_progress_ && enemies_.size() == 0 && all_enemies_spawned) {
+  // check if round_in_progress_ should be set to false
+  // and start new round if auto_start_ is true
+  if (round_in_progress_ && enemies_.size() == 0 && all_enemies_spawned &&
+      !game_won_) {
     round_in_progress_ = false;
-    money_ += 100;  //players get 100 money at the end of a round
+    money_ += 100;  // players get 100 money at the end of a round
+    if (current_round_index_ == rounds_.size()) {
+      game_won_ = true;
+      return;
+    }
     if (auto_start_) {
-      StartRound(current_round_index_+1);
+      StartRound(current_round_index_ + 1);
     }
   }
 }
-
 
 const std::list<Enemy>& Game::getEnemies() const { return enemies_; }
 std::list<Enemy>& Game::getEnemies() { return enemies_; }
@@ -278,24 +289,26 @@ void Game::SellTower(Tower* tower) {
   tower->Delete();
 }
 
-std::optional<Tower> Game::StartBuyingTower(std::string name, sf::Texture* tower_texture,
-                             sf::Texture* projectile_texture, sf::Texture* extra_texture) {
+std::optional<Tower> Game::StartBuyingTower(std::string name,
+                                            sf::Texture* tower_texture,
+                                            sf::Texture* projectile_texture,
+                                            sf::Texture* extra_texture) {
   if (name == "basic_tower" && money_ >= kCostBasicTower) {
-    return Basic_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return Basic_tower(types::Position(0, 0), -PI / 2, tower_texture,
                        projectile_texture);
   } else if (name == "bomb_tower" && money_ >= kCostBombTower) {
-    return Bomb_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return Bomb_tower(types::Position(0, 0), -PI / 2, tower_texture,
                       projectile_texture, extra_texture);
   } else if (name == "slowing_tower" && money_ >= kCostSlowingTower) {
-    return Slowing_tower(types::Position(0, 0), 0.0f, tower_texture);
+    return Slowing_tower(types::Position(0, 0), -PI / 2, tower_texture);
   } else if (name == "thorn_eruptor" && money_ >= kCostThornEruptor) {
-    return ThornEruptor(types::Position(0, 0), 0.0f, tower_texture,
+    return ThornEruptor(types::Position(0, 0), -PI / 2, tower_texture,
                         projectile_texture);
   } else if (name == "sniper_tower" && money_ >= kCostHighDamageTower) {
-    return High_damage_tower(types::Position(0, 0), 0.0f, tower_texture,
+    return High_damage_tower(types::Position(0, 0), -PI / 2, tower_texture,
                              projectile_texture);
   } else if (name == "melting_tower" && money_ >= kCostMeltingTower) {
-    return Melting_tower(types::Position(0, 0), 0.0f, tower_texture);
+    return Melting_tower(types::Position(0, 0), -PI / 2, tower_texture);
   }
   return {};
 }
@@ -322,16 +335,16 @@ void Game::LoadRounds(const std::string& file_path) {
 
 void Game::LoadEnemies(const std::map<std::string, sf::Texture*>& textures) {
   enemy_table_.emplace("cockroach",
-                       Enemy(td::types::Position(0, 0), 40.0f,
-                             textures.at("cockroach"), 200, 100, 10, false, 0));
+                       Enemy(td::types::Position(0, 0), 35.0f,
+                             textures.at("cockroach"), 130, 120, 10, false, 0));
   enemy_table_.emplace(
-      "fly", Enemy(td::types::Position(0, 0), 40.0f, textures.at("fly"), 150,
+      "fly", Enemy(td::types::Position(0, 0), 35.0f, textures.at("fly"), 100,
                    200, 14, false, 0));
   enemy_table_.emplace(
-      "beetle", Enemy(td::types::Position(0, 0), 60.0f, textures.at("beetle"),
-                      300, 10, 20, true, 0));
+      "beetle", Enemy(td::types::Position(0, 0), 30.0f, textures.at("beetle"),
+                      300, 120, 18, true, 0));
   enemy_table_.emplace(
-      "dragonfly", Enemy(td::types::Position(0, 0), 80.0f,
+      "dragonfly", Enemy(td::types::Position(0, 0), 65.0f,
                          textures.at("dragonfly"), 4000, 100, 400, true, 0));
 }
 
@@ -385,6 +398,10 @@ void Game::StartRound(size_t round_index) {
 }
 
 bool Game::IsRoundInProgress() { return round_in_progress_; }
+
+bool Game::IsOutOfLives() { return out_of_lives_; }
+
+bool Game::IsGameWon() { return game_won_; }
 
 const Map* Game::getMap() const { return map_; }
 

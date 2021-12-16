@@ -16,6 +16,12 @@ Application::Application() {
   font_.loadFromFile("../assets/arial.TTF");
 }
 
+Application::~Application() {
+  if (game_) {
+    delete(game_.value().getMap());
+  }
+}
+
 int Application::run() {
   LoadTextures();
   LaunchMainMenuGui();
@@ -23,7 +29,6 @@ int Application::run() {
   sf::Music music;
   music.openFromFile("../assets/sounds/space_jazz.wav");
   music.setLoop(true);
-  music.setVolume(music_volume_);
   music.play();
 
   while (window_.isOpen()) {  // main loop
@@ -115,6 +120,8 @@ int Application::run() {
       default:
         break;
     }
+
+    music.setVolume(music_volume_);
 
     window_.display();
 
@@ -224,7 +231,7 @@ void Application::LoadTextures() {
   textures_["thorn_eruptor_projectile"] = thorn_eruptor_projectile;
 
   sf::Texture* bomb_tower_explosion = new sf::Texture();
-  bomb_tower_projectile->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
+  bomb_tower_explosion->loadFromFile("../assets/projectiles/bomb_tower_explosion.png");
   textures_["bomb_tower_explosion"] = bomb_tower_explosion;
   
   sf::Texture* cockroach = new sf::Texture();
@@ -486,6 +493,7 @@ void Application::HandleGame() {
           buying_tower_sprite.getLocalBounds().width / 2,
           buying_tower_sprite.getLocalBounds().height / 2);
       ScaleSprite(buying_tower_sprite);
+      buying_tower_sprite.setRotation(buying_tower_.value().getRotation()*180.f/PI+90);
       buying_tower_sprite.scale(
           buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000,
           buying_tower_.value().getHitboxRadius()*1.33f * 2 / 1000);
@@ -500,6 +508,24 @@ void Application::HandleGame() {
   window_.draw(shop_bg);
 
   HandleGameGui();
+
+  if (game_.value().IsGameWon() || game_.value().IsOutOfLives()) {
+    static sf::Clock end_timer;
+    sf::Text end_text("GAME OVER", font_, 80);
+    end_text.setFillColor(sf::Color(180,0,0,255));
+    if (game_.value().IsGameWon()) {
+      end_text.setString("YOU WIN");
+      end_text.setFillColor(sf::Color(224,224,255));
+    }
+    end_text.setOrigin(end_text.getLocalBounds().width / 2,
+                          end_text.getLocalBounds().height / 2);
+    end_text.setPosition(sf::Vector2f(window_x_ / 2.0f, window_y_ / 2.0f));
+    end_text.setOutlineThickness(2);
+    window_.draw(end_text);
+    if (end_timer.getElapsedTime().asMilliseconds() > 5000) {
+      CloseGame();
+    }
+  }
 }
 
 void Application::HandleGameGui() {
@@ -605,30 +631,29 @@ void Application::HandleGameGui() {
   button_tower_bo->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
-          "Shoots explosive coconuts\nthat deal damage in an\narea. Effective "
-          "against\narmored enemies.\nTier 4 upgrade greatly\nincreases the "
-          "size of\nthe explosion.";
+          "Shoots massive coconuts\nthat hurl through enemies.\nEffective "
+          "against\narmored enemies.\nTier 4 upgrade doubles\nthe "
+          "size of the\ncoconut.";
   });
   button_tower_fr->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
           "The magic crystal atop this\nstump slows down foes in\nan area "
           "around the tower.\nUpgrading the tower\nfurther increases\nslowing "
-          "amount.\nTier 4 variant also\nmakes enemies in range\nmore "
-          "vulnerable to\ndamage from your other\ntowers.";
+          "amount.";
   });
   button_tower_th->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
           "Shoots a barrage of thorns\nat all enemies within it's\nrange. "
-          "Effective against\ngroups of enemies.\nUpgrading improves\ndamage "
-          "and range.\nTier 4 variant shoots\neach enemy twice.";
+          "Faster fire rate\nthe more enemies there\nare in the tower's range.\nUpgrading improves\ndamage "
+          "and range.\nTier 4 variant shoots\ntwice each time.";
   });
   button_tower_sn->onMouseEnter([&] {
     if (desc_string == "")
       desc_string =
           "Slow-shooting high-damage\ntower with extreme range.\nGreat against "
-          "strong foes.\nDeals extra damage to armored enemies";
+          "strong foes.\nDeals extra damage to\narmored enemies.";
   });
   button_tower_ci->onMouseEnter([&] {
     if (desc_string == "")
@@ -683,7 +708,7 @@ void Application::HandleGameGui() {
 
 void Application::CloseGame() {
   // TODO: make sure that memory management is fine
-  if (state_ != types::kPause) {
+  if (state_ == types::kMainMenu) {
     return;
   }
   delete(game_.value().getMap());
@@ -1081,6 +1106,7 @@ void Application::LaunchUpgradeGui() {
 }
 
 void Application::HandleUpgrade() {
+
   HandleUpgradeGui();
 
   sf::Sprite map_sprite;
@@ -1197,6 +1223,12 @@ void Application::HandleUpgradeGui() {
     LaunchGameGui();
   });
   do_once = true;
+
+  //if game should end
+  if (game_.value().IsGameWon() || game_.value().IsOutOfLives()) {
+    upgrading_tower_ = nullptr;
+    LaunchGameGui();
+  }
 }
 
 void Application::TargetingSwitchRight() {
