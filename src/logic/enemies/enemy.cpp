@@ -30,6 +30,7 @@ Enemy::Enemy(const Enemy& enemy) : Object(enemy) {
   armored_ = enemy.armored_;
   distance_moved_ = enemy.distance_moved_;
   slowed_level_ = enemy.slowed_level_;
+  at_end_of_path_ = enemy.at_end_of_path_;
 }
 
 void Enemy::Update(types::Time dt, const std::vector<types::Position>& path) {

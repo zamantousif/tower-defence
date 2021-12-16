@@ -51,22 +51,22 @@ bool Bomb_tower::Shoot(
   int damage_bomb = 0;
   float explosion_radius = 40;
   if (level_ == 1)
-    damage_bomb = 20;
+    damage_bomb = 15;
   else if (level_ == 2)
-    damage_bomb = 30;
+    damage_bomb = 25;
   else if (level_ == 3)
-    damage_bomb = 45;
+    damage_bomb = 40;
   else {
-    damage_bomb = 60;
+    damage_bomb = 50;
     explosion_radius = 80;
   }
     
   std::optional<Enemy*> target = GetTarget(enemies);
   if (target) {
     rotation_angle_ = Angle2D(1, 0, target.value()->getPosition().x - position_.x, target.value()->getPosition().y - position_.y );
-    Bomb_projectile new_projectile = Bomb_projectile(
-    GetProjectStartPos(), rotation_angle_, damage_bomb,
-      texture_projectile_, texture_explosion_, 40.f, range_*1.2f);
+    Projectile new_projectile = Projectile(
+    GetProjectStartPos(), explosion_radius, texture_projectile_, rotation_angle_, damage_bomb,
+    true, 50, 30.f, range_*2.f);
     projectiles.push_back(new_projectile);
     return true;
   } else {

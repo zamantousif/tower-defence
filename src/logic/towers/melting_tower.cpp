@@ -55,7 +55,7 @@ bool Melting_tower::Shoot(
   for (std::list<Enemy>::iterator it = enemies.begin(); it != enemies.end();
        it++) {
     if (IsCircleCollidingWithCircle(position_, range_, it->getPosition(), it->getHitboxRadius()/2)) {  // if enemy is in tower range
-      it->TakeDamage(2.f * (1+level_), melting_armor_piercing);
+      it->TakeDamage(2+level_, melting_armor_piercing);
     }
   }
   return true;

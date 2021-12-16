@@ -30,6 +30,9 @@ class Application {
   /// \brief Application constructor
   Application();
 
+  /// \brief Application destructor
+  ~Application();
+
   /// \brief Runs the application
   int run();
 
@@ -54,7 +57,8 @@ class Application {
   /// \brief Creates TGUI widgets for tower upgrading
   void LaunchUpgradeGui();
 
-  /// \brief Creates TGUI widgets for the main menu
+  /// \brief Creates the Game instance and loads the map to it.
+  /// Also launches the game GUI.
   void LaunchGame(const std::string& map_name);
 
   /// \brief Closes the game and returns to main menu. Takes care of deletion of

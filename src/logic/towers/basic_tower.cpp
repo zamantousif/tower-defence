@@ -50,7 +50,7 @@ void Basic_tower::Update(types::Time dt, std::list<Enemy>& enemies, std::list<Pr
 
 bool Basic_tower::Shoot(
     std::list<Projectile>& projectiles, std::list<Enemy>& enemies) {
-  int damage_basic = 100;
+  int damage_basic = 12;
   unsigned int enemy_pierced_count_basic = 1;
 
   if (level_ == 2) {
