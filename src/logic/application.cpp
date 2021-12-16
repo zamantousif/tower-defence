@@ -16,6 +16,12 @@ Application::Application() {
   font_.loadFromFile("../assets/arial.TTF");
 }
 
+Application::~Application() {
+  if (game_) {
+    delete(game_.value().getMap());
+  }
+}
+
 int Application::run() {
   LoadTextures();
   LaunchMainMenuGui();
@@ -23,7 +29,7 @@ int Application::run() {
   sf::Music music;
   music.openFromFile("../assets/sounds/space_jazz.wav");
   music.setLoop(true);
-  music.play();
+  //music.play();
 
   while (window_.isOpen()) {  // main loop
     sf::Event event;

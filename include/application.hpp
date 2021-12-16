@@ -30,6 +30,9 @@ class Application {
   /// \brief Application constructor
   Application();
 
+  /// \brief Application destructor
+  ~Application();
+
   /// \brief Runs the application
   int run();
 
