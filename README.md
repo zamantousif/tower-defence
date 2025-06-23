@@ -32,6 +32,7 @@ First you need to clone the repository and download all the required dependencie
 
 1. Open your terminal in the directory where you want to download the project.
 2. Run `git clone --recurse-submodules git@version.aalto.fi:cpp-autumun-2021/tower-defense/tower-defense-5.git` in the terminal.
+3. If there are errors specific to `tower-defence/libs/TGUI` then `cd tower-defence/libs/TGUI` and pull the latest code e.g. `git pull origin 1.x` and then retry the compilation as mentioned in the below steps.
 
 The rest is platform-specific. Scroll down to see instructions for your platform.
 
@@ -54,12 +55,16 @@ Tested on Ubuntu 18.04.
 1. Run `sudo apt update` in the terminal.
 2. Install toolchain (GCC, make, etc.) by running `sudo apt install build-essential` in the terminal.
 3. Install CMake by running `sudo apt install cmake` in the terminal.
-4. Open a terminal in the project directory.
-5. `mkdir build` - make a `build` directory inside the project.
-6. `cd build` - enter the build directory.
-7. `cmake ..` - run CMake and generate a makefile inside `build`.
-8. `make` - use the makefile to build the project.
-9. `./TowerDefense5` - finally, run the executable generated inside `bin`.
+4. Install dependencies such as X11 and OpenGL libraries, udev, OpenAL, Vorbis/OGG, FLAC, FreeType. Many of these are needed by SFML.
+```bash
+sudo apt-get install libx11-dev libxrandr-dev libxcursor-dev libgl-dev udev libudev-dev libopenal-dev libvorbis-dev libogg-dev libflac-dev libfreetype-dev
+```
+5. Open a terminal in the project directory.
+6. `mkdir build` - make a `build` directory inside the project.
+7. `cd build` - enter the build directory.
+8. `cmake ..` - run CMake and generate a makefile inside `build`.
+9. `make` - use the makefile to build the project.
+10. `./TowerDefense5` - finally, run the executable generated inside `bin`.
 
 # Note on Code Formatting
 We use [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) with Google C++ style guide.
